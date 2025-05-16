@@ -1,18 +1,15 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
-func Connect(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("postgres", dsn)
+func Connect(dsn string) (*sqlx.DB, error) {
+	db, err := sqlx.Connect("postgres", dsn)
 	if err != nil {
 		return nil, fmt.Errorf("не удалось инициализировать подключение к БД: %w", err)
-	}
-	if err := db.Ping(); err != nil {
-		return nil, fmt.Errorf("не удалось выполнить ping: %w", err)
 	}
 	return db, nil
 }
