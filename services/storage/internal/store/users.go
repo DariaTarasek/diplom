@@ -77,32 +77,30 @@ func (s *Store) GetUserByLogin(ctx context.Context, login string) (model.User, e
 }
 
 // AddUser Добавление нового пользователя
-func (s *Store) AddUser(ctx context.Context, user model.User) error {
+func (s *Store) AddUser(ctx context.Context, user model.User) (model.UserID, error) {
 	fields := map[string]any{
-		"id":       user.ID,
 		"login":    user.Login,
 		"password": user.Password,
 	}
 	query, args, err := s.builder.
 		Insert("users").
 		SetMap(fields).
+		Suffix("RETURNING id").
 		ToSql()
 	if err != nil {
-		return fmt.Errorf("не удалось сформировать запрос для добавления нового пользователя: %w", err)
+		return model.UserID(0), fmt.Errorf("не удалось сформировать запрос для добавления нового пользователя: %w", err)
 	}
 
 	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
 
-	res, err := s.db.ExecContext(dbCtx, query, args...)
+	var userID model.UserID
+	err = s.db.QueryRowxContext(dbCtx, query, args...).Scan(&userID)
 	if err != nil {
-		return fmt.Errorf("не удалось выполнить запрос для добавления нового пользователя: %w", err)
+		return model.UserID(0), fmt.Errorf("не удалось выполнить запрос для добавления нового пользователя: %w", err)
 	}
-	_, err = res.LastInsertId()
-	if err != nil {
-		return fmt.Errorf("не удалось получить id добавленного пользователя: %w", err)
-	}
-	return nil
+
+	return userID, nil
 }
 
 // UpdateUser Изменение данных пользователя
