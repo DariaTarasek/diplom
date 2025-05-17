@@ -26,7 +26,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Миграция не была применена: %s", err.Error())
 	}
-
 	log.Println("Сервис БД запущен.")
 
 }
