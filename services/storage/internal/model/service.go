@@ -9,7 +9,7 @@ type (
 	Service struct {
 		ID       int           `db:"id"`
 		Name     string        `db:"name"`
-		Price    int           `db:"price"`
+		Price    *int          `db:"price"`
 		Category ServiceTypeID `db:"type"`
 	}
 )
