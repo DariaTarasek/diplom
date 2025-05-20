@@ -27,7 +27,6 @@ func main() {
 		log.Fatalf("Миграция не была применена: %s", err.Error())
 	}
 	log.Println("Сервис БД запущен.")
-
 }
 
 func mustGetEnv(key string) string {
