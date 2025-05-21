@@ -53,6 +53,7 @@ func (s *Store) GetPatientByID(ctx context.Context, id model.UserID) (model.Pati
 	return patient, nil
 }
 
+
 // AddPatient Добавление нового пациента
 func (s *Store) AddPatient(ctx context.Context, patient model.Patient) error {
 	fields := map[string]any{
