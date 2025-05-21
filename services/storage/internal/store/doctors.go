@@ -45,7 +45,7 @@ func (s *Store) GetDoctorByID(ctx context.Context, id model.UserID) (model.Docto
 	defer cancel()
 
 	var doctor model.Doctor
-	err = s.db.SelectContext(dbCtx, &doctor, query, args...)
+	err = s.db.GetContext(dbCtx, &doctor, query, args...)
 	if err != nil {
 		return model.Doctor{}, fmt.Errorf("не удалось выполнить запрос для получения врачa: %w", err)
 	}
