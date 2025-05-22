@@ -182,7 +182,7 @@ func (s *Store) GetServices(ctx context.Context) ([]model.Service, error) {
 }
 
 // GetServiceByID Получение услуги по ID
-func (s *Store) GetServiceByID(ctx context.Context, id int) (model.Service, error) {
+func (s *Store) GetServiceByID(ctx context.Context, id model.ServiceID) (model.Service, error) {
 	query, args, err := s.builder.
 		Select("*").
 		From("services").
@@ -205,7 +205,7 @@ func (s *Store) GetServiceByID(ctx context.Context, id int) (model.Service, erro
 }
 
 // AddService Добавление новой услуги
-func (s *Store) AddService(ctx context.Context, service model.Service) (int, error) {
+func (s *Store) AddService(ctx context.Context, service model.Service) (model.ServiceID, error) {
 	fields := map[string]any{
 		"name":  service.Name,
 		"price": service.Price,
@@ -223,7 +223,7 @@ func (s *Store) AddService(ctx context.Context, service model.Service) (int, err
 	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
 
-	var id int
+	var id model.ServiceID
 	err = s.db.QueryRowContext(dbCtx, query, args...).Scan(&id)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось выполнить запрос для добавления новой услуги: %w", err)
@@ -233,7 +233,7 @@ func (s *Store) AddService(ctx context.Context, service model.Service) (int, err
 }
 
 // UpdateService Изменение услуги
-func (s *Store) UpdateService(ctx context.Context, id int, service model.Service) error {
+func (s *Store) UpdateService(ctx context.Context, id model.ServiceID, service model.Service) error {
 	fields := map[string]any{
 		"name":  service.Name,
 		"price": service.Price,
@@ -278,7 +278,7 @@ func (s *Store) UpdateService(ctx context.Context, id int, service model.Service
 }
 
 // DeleteService Удаление услуги по id
-func (s *Store) DeleteService(ctx context.Context, id int) error {
+func (s *Store) DeleteService(ctx context.Context, id model.ServiceID) error {
 	query, args, err := s.builder.
 		Delete("services").
 		Where(squirrel.Eq{"id": id}).
