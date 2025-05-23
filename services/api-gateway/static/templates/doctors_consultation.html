@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="blocks.css">
+        <link href="style.css" rel="stylesheet">
+        <link rel="stylesheet" href="bootstrap_theme/icons.css">
+        <link href="footer_style.css" rel="stylesheet">
+        <title>Design of the Week Template 15 - Pinegrow Web Editor</title>
+        <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; } th, td { text-align: center; vertical-align: middle; }</style>
+        <style>[v-cloak] { display: none !important; }</style>
+    </head>
+    <body class="text-muted">
+        <div id="app" v-cloak>
+            <header class="bg-white"> 
+                <div class="navbar-light"> 
+                    <div class="container"> 
+                        <div class="align-items-center gx-2 py-3 row"> 
+                            <div class="col"> <a class="align-items-center d-inline-flex fw-bold h4 mb-0 navbar-brand text-uppercase" href="doctor_account.html"> <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 100 100" width="2.5em" height="2.5em" class="me-1 text-primary" fill="currentColor">
+                                        <path d="M90 42.301 76.666 19.209l-13.334 7.699V10H36.667v16.908l-13.335-7.699L10 42.301 23.332 50 10 57.698l13.331 23.093 13.335-7.698V90h26.666V73.093l13.334 7.698L90 57.698 76.666 50 90 42.301zm-9.107 17.84-6.666 11.543-17.561-10.138v21.787H43.332V61.546L25.774 71.684l-6.666-11.543L36.667 50 19.108 39.863l6.666-11.549 17.558 10.14V16.667h13.334v21.787l17.561-10.14 6.666 11.549L63.332 50l17.561 10.141z"/>
+                                    </svg><span>НАЗВАНИЕ</span></a> 
+                            </div>                             
+                            <div class="col-auto"> 
+                                <div class="align-items-center d-inline-flex gap-2 gap-lg-3 py-1"> <a class="align-items-center d-inline-flex gap-2 lh-1 text-decoration-none"> <span class="bg-primary lh-1 p-2 rounded text-white"> <svg viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em"> 
+                                                <path d="M21 16.42v3.536a1 1 0 0 1-.93.998c-.437.03-.794.046-1.07.046-8.837 0-16-7.163-16-16 0-.276.015-.633.046-1.07A1 1 0 0 1 4.044 3H7.58a.5.5 0 0 1 .498.45c.023.23.044.413.064.552A13.901 13.901 0 0 0 9.35 8.003c.095.2.033.439-.147.567l-2.158 1.542a13.047 13.047 0 0 0 6.844 6.844l1.54-2.154a.462.462 0 0 1 .573-.149 13.901 13.901 0 0 0 4 1.205c.139.02.322.042.55.064a.5.5 0 0 1 .449.498z"/> 
+                                            </svg> </span> <div class="d-lg-block d-none">
+                                            <div class="mb-1 small text-black-50">Связаться с нами</div>
+                                            <div class="mb-1 small text-black-50"></div>
+                                            <div class="fw-bold">+7(000) 000 00 00</div>
+                                        </div> </a><a class="align-items-center d-inline-flex gap-2 lh-1 text-decoration-none"> <span class="bg-primary lh-1 p-2 rounded text-white"> <svg viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em"> 
+                                                <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/> 
+                                            </svg> </span> <div class="d-lg-block d-none">
+                                            <div class="mb-1 small text-black-50">Адрес</div>
+                                            <div class="fw-bold">Владивосток, ул. ___ д. __</div>
+                                        </div> </a> 
+                                </div>                                 
+                            </div>
+                            <div class="col-auto">
+                                <!-- Имя пользователя
+                                 и поповер управления профилем -->
+                                <div id="doctor-profile" class="position-relative" v-cloak>
+                                    <button @click="isPopoverVisible = !isPopoverVisible" class="btn btn-primary" type="button">
+                                        {{ accountName }}
+</button>
+                                    <div v-if="isPopoverVisible" class="card shadow-sm position-absolute p-3" style="top: 60px; right: 0; z-index: 1050; min-width: 200px;">
+                                        <div class="fw-bold mb-2">{{ accountName }}</div>
+                                        <div>Недоступно во время приема</div>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-outline-primary btn-sm" type="button" disabled="disabled">Управление профилем</button>
+                                            <button class="btn btn-outline-danger btn-sm" type="button" disabled="disabled">Выйти</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                             
+                        </div>                         
+                        <hr class="m-0">
+                    </div>
+                </div>                 
+                <div class="container">
+                    <hr class="m-0"> 
+                </div>                 
+                <nav class="navbar navbar-expand-lg pb-0 pt-0 sticky-top"> 
+                    <div class="container"> 
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler11" aria-controls="" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> 
+                        </button>
+                        <div class="d-flex justify-content-center align-items-center flex-wrap w-100 "><a id="doctor_profile" role="button" class="border-white btn btn-outline-light fs-3 text-primary w-50" href="doctor_account.html">Личный кабинет</a>
+                        </div>                         
+                    </div>                     
+                </nav>                 
+            </header>
+            <main> 
+                <div class="align-items-center flex-wrap w-100 mt-3">
+                    <h3 class="mb-3 text-center">Проведение приема</h3>
+                </div>
+                <div class="container py-4">
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs mb-4">
+                        <li class="nav-item" v-for="tab in tabs" :key="tab.id">
+                            <button class="fs-5 nav-link" :class="{ active: activeTab === tab.id }" @click="activeTab = tab.id">
+                                {{ tab.label }}
+</button>
+                        </li>
+                    </ul>
+                    <!-- Пациент -->
+                    <div v-if="activeTab === 'patient'">
+                        <h4 class="mb-3 text-black">Информация о пациенте</h4>
+                        <p class="fs-5 text-black"><strong>ФИО:</strong> {{ fullName }}</p>
+                        <p class="fs-5 text-black"><strong>Пол:</strong> {{ patient.gender }}</p>
+                        <p class="fs-5 text-black"><strong>Дата рождения:</strong> {{ patient.birthDate }} ({{ patientAge }} лет)</p>
+                        <!-- Аллергии -->
+                        <h6 class="fs-5 text-black">Аллергии</h6>
+                        <div class="d-flex flex-wrap mb-2"><span class="badge fs-6 mb-2 me-2  bg-light text-black" :class="newAllergies.includes(a) ? 'bg-outline-primary text-primary' : 'bg-light text-black'" v-for="(a, i) in combinedAllergies" :key="'a-' + i">
+                            {{ a }} <i v-if="newAllergies.includes(a)" class="bi bi-x ms-1" @click="removeNewAllergyByValue(a)" role="button"></i> </span>
+                        </div>
+                        <div class="input-group w-50 mb-3">
+                            <input v-model="newAllergy" class="form-control text-black" placeholder="Добавить аллергию" @keyup.enter="addNewAllergy"/>
+                            <button class="btn btn-outline-primary" @click="addNewAllergy">Добавить</button>
+                        </div>
+                        <!-- Хронические заболевания -->
+                        <h6 class="fs-5 text-black">Хронические заболевания</h6>
+                        <div class="d-flex flex-wrap mb-2"><span class="badge fs-6 mb-2 me-2 bg-light text-black" :class="newChronics.includes(c) ? 'bg-outline-primary text-primary' : 'bg-light text-black'" v-for="(c, i) in combinedChronics" :key="'c-' + i">
+                        {{ c }} <i v-if="newChronics.includes(c)" class="bi bi-x ms-1" @click="removeNewChronicByValue(c)" role="button"></i> </span>
+                        </div>
+                        <div class="input-group w-50 mb-3">
+                            <input v-model="newChronic" class="form-control text-black" placeholder="Добавить хроническое заболевание" @keyup.enter="addNewChronic"/>
+                            <button class="btn btn-outline-primary" @click="addNewChronic">Добавить</button>
+                        </div>
+                    </div>
+                    <!-- Анамнез -->
+                    <div v-if="activeTab === 'history'">
+                        <h4 class="mb-3 text-black">Анамнез</h4>
+                        <table class="table table-sm table-bordered fs-5">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Дата</th>
+                                    <th>Диагноз</th>
+                                    <th>Лечение</th>
+                                    <th>Врач</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="visit in history" :key="visit.id">
+                                    <td class="text-black">{{ visit.date }}</td>
+                                    <td class="text-black">{{ visit.diagnosis }}</td>
+                                    <td class="text-black">{{ visit.treatment }}</td>
+                                    <td class="text-black">{{ visit.doctor }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Прием -->
+                    <div v-if="activeTab === 'current'">
+                        <h4 class="mb-3 text-black">Текущий прием</h4>
+                        <div class="mb-3">
+                            <label class="form-label fs-5 text-black">Жалобы</label>
+                            <textarea v-model="currentVisit.complaints" class="form-control" rows="2"></textarea>
+                        </div>
+                        <!-- МКБ -->
+                        <div class="mb-3">
+                            <label class="form-label fs-5 text-black">Диагноз</label>
+                            <div>
+                                <button class="btn btn-outline-primary mb-2" @click="showICDModal = true">Добавить диагноз</button>
+                            </div>
+                        </div>
+                        <div style="max-height: 180px; overflow-y: auto;">
+                            <table class="table table-sm table-bordered mt-3 mb-3" v-if="selectedICD.length">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Код</th>
+                                        <th>Описание</th>
+                                        <th>Комментарий</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in selectedICD" :key="item.code">
+                                        <td><strong>{{ item.code }}</strong></td>
+                                        <td class="text-black">{{ item.description }}</td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm text-black" v-model="item.comment" placeholder="Комментарий..."/>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-danger" @click="removeICDCode(item.code)">
+                                                Удалить
+</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fs-5 text-black">Лечение</label>
+                            <textarea v-model="currentVisit.treatment" class="form-control" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <!-- Модалка выбора ДИАГНОЗА -->
+                    <div v-cloak v-if="showICDModal" class="modal d-block" @click.self="showICDModal = false">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Выбор диагноза (МКБ)</h5>
+                                    <button type="button" class="btn-close" @click="showICDModal = false"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" v-model="icdSearch" class="form-control mb-3" placeholder="Поиск по коду или описанию...">
+                                    <div style="max-height: 300px; overflow-y: auto;">
+                                        <ul class="list-group">
+                                            <li v-for="icd in filteredICDCodes" :key="icd.code" class="list-group-item list-group-item-action" @click="addICDCode(icd);" style="cursor: pointer;"><strong>{{ icd.code }}</strong>: {{ icd.description }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" @click="showICDModal = false">Закрыть</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Услуги и материалы -->
+                    <div v-if="activeTab === 'materials'">
+                        <div class="mb-3">
+                            <label class="form-label h4 text-black ">Проведенные услуги и использованные материалы </label>
+                            <!-- Услуги -->
+                            <div class="mb-4">
+                                <h5 class="text-black">Выбранные услуги</h5>
+                                <button class="btn btn-outline-primary mb-2" @click="showServiceModal = true">Добавить услугу</button>
+                                <div style="max-height: 150px; overflow-y: auto;">
+                                    <table v-if="selectedServicesDetails.length" class="table table-sm table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th style="width: 15%">Количество</th>
+                                                <th style="width: 10%">Удалить</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="service in selectedServicesDetails" :key="service.id">
+                                                <td>{{ service.name }}</td>
+                                                <td>
+                                                    <input type="number" min="1" class="form-control form-control-sm" v-model.number="serviceQuantities[service.id]"/>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-danger" @click="removeService(service.id)">Удалить</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Материалы -->
+                            <div class="mb-4">
+                                <h5 class="text-black">Выбранные материалы</h5>
+                                <button class="btn btn-outline-primary mb-2" @click="showMaterialModal = true">Добавить материал</button>
+                                <div style="max-height: 150px; overflow-y: auto;">
+                                    <table v-if="selectedMaterials.length" class="table table-sm table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th style="width: 15%">Количество</th>
+                                                <th style="width: 10%">Удалить</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="mat in selectedMaterials" :key="mat.id">
+                                                <td>{{ mat.name }}</td>
+                                                <td>
+                                                    <input type="number" min="1" class="form-control form-control-sm" v-model.number="materialQuantities[mat.id]"/>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-danger" @click="removeMaterial(mat.id)">Удалить</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-backdrop fade show" v-if="showServiceModal || showMaterialModal"></div>
+                            <!-- Модалка выбора УСЛУГ -->
+                            <div v-cloak v-if="showServiceModal" class="modal d-block" @click.self="showServiceModal = false"> 
+                                <div class="modal-dialog modal-md">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Выбор услуг</h5>
+                                            <button type="button" class="btn-close" @click="showServiceModal = false"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="text" v-model="serviceSearch" class="form-control mb-3" placeholder="Поиск услуги...">
+                                            <div style="max-height: 300px; overflow-y: auto;">
+                                                <ul class="list-group">
+                                                    <li v-for="service in filteredServices" :key="service.id" class="list-group-item list-group-item-action" @click="selectService(service)" style="cursor: pointer;">
+                                                        {{ service.name }}
+</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" @click="showServiceModal = false">Закрыть</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Модалка выбора МАТЕРИАЛОВ -->
+                            <div v-cloak v-if="showMaterialModal" class="modal d-block" @click.self="showMaterialModal = false">
+                                <div class="modal-dialog modal-md">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Выбор материалов</h5>
+                                            <button type="button" class="btn-close" @click="showMaterialModal = false"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="text" v-model="materialSearch" class="form-control mb-3" placeholder="Поиск материала...">
+                                            <div style="max-height: 300px; overflow-y: auto;">
+                                                <ul class="list-group">
+                                                    <li v-for="material in filteredMaterials" :key="material.id" class="list-group-item list-group-item-action" @click="selectMaterial(material)" style="cursor: pointer;">
+                                                        {{ material.name }}
+</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" @click="showMaterialModal = false">Закрыть</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- сохранение -->
+                    <div class="mt-4 text-center">
+                        <button class="btn btn-primary" @click="submitVisit" v-if="activeTab === 'materials'"> Сохранить прием
+</button>
+                    </div>
+                </div>
+                <!-- Vue 3 -->
+                <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+                <script src="js/doctors_consultation.js"></script>
+            </main>
+            <footer class="bg-dark text-white-50"> 
+                <div class="container"> 
+                    <div class="col-md pb-2 pt-2">
+                        <p class="text-white">&copy; 2002 - 2025. Все права защищены - Название</p>
+                    </div>
+                </div>                 
+            </footer>             
+            <script src="assets/js/popper.min.js"></script>
+            <script src="bootstrap/js/bootstrap.min.js"></script>
+        </div>
+    </body>
+</html>

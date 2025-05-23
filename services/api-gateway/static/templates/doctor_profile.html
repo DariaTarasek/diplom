@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <style>[v-cloak] { display: none !important; }</style>
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="blocks.css">
+        <link href="style.css" rel="stylesheet">
+        <link href="footer_style.css" rel="stylesheet">
+        <title>Design of the Week Template 15 - Pinegrow Web Editor</title>
+        <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; }</style>
+        <style>.tooltip.show { opacity: 1 !important; } .tooltip-inner { background-color: #ffffff !important; color: #212529 !important; border: 1px solid #dee2e6 !important; font-size: 0.9rem; padding: 8px 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); } .tooltip .tooltip-arrow::before { background-color: #ffffff !important; border: none !important; content: ""; }</style>
+    </head>
+    <body class="text-muted">
+        <div id="app" v-cloak>
+            <header class="bg-white"> 
+                <div class="navbar-light"> 
+                    <div class="container"> 
+                        <div class="align-items-center gx-2 py-3 row"> 
+                            <div class="col"> <a class="align-items-center d-inline-flex fw-bold h4 mb-0 navbar-brand text-uppercase" href="doctor_account.html"> <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 100 100" width="2.5em" height="2.5em" class="me-1 text-primary" fill="currentColor">
+                                        <path d="M90 42.301 76.666 19.209l-13.334 7.699V10H36.667v16.908l-13.335-7.699L10 42.301 23.332 50 10 57.698l13.331 23.093 13.335-7.698V90h26.666V73.093l13.334 7.698L90 57.698 76.666 50 90 42.301zm-9.107 17.84-6.666 11.543-17.561-10.138v21.787H43.332V61.546L25.774 71.684l-6.666-11.543L36.667 50 19.108 39.863l6.666-11.549 17.558 10.14V16.667h13.334v21.787l17.561-10.14 6.666 11.549L63.332 50l17.561 10.141z"/>
+                                    </svg><span>НАЗВАНИЕ</span></a> 
+                            </div>                             
+                            <div class="col-auto"> 
+                                <div class="align-items-center d-inline-flex gap-2 gap-lg-3 py-1"> <a class="align-items-center d-inline-flex gap-2 lh-1 text-decoration-none"> <span class="bg-primary lh-1 p-2 rounded text-white"> <svg viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em"> 
+                                                <path d="M21 16.42v3.536a1 1 0 0 1-.93.998c-.437.03-.794.046-1.07.046-8.837 0-16-7.163-16-16 0-.276.015-.633.046-1.07A1 1 0 0 1 4.044 3H7.58a.5.5 0 0 1 .498.45c.023.23.044.413.064.552A13.901 13.901 0 0 0 9.35 8.003c.095.2.033.439-.147.567l-2.158 1.542a13.047 13.047 0 0 0 6.844 6.844l1.54-2.154a.462.462 0 0 1 .573-.149 13.901 13.901 0 0 0 4 1.205c.139.02.322.042.55.064a.5.5 0 0 1 .449.498z"/> 
+                                            </svg> </span> <div class="d-lg-block d-none">
+                                            <div class="mb-1 small text-black-50">Связаться с нами</div>
+                                            <div class="mb-1 small text-black-50"></div>
+                                            <div class="fw-bold">+7(000) 000 00 00</div>
+                                        </div> </a><a class="align-items-center d-inline-flex gap-2 lh-1 text-decoration-none"> <span class="bg-primary lh-1 p-2 rounded text-white"> <svg viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em"> 
+                                                <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/> 
+                                            </svg> </span> <div class="d-lg-block d-none">
+                                            <div class="mb-1 small text-black-50">Адрес</div>
+                                            <div class="fw-bold">Владивосток, ул. ___ д. __</div>
+                                        </div> </a> 
+                                </div>                                 
+                            </div>
+                            <div class="col-auto">
+                                <div id="doctor-profile" class="position-relative" v-cloak>
+                                    <button @click="isPopoverVisible = !isPopoverVisible" class="btn btn-primary" type="button">
+                                        {{ fullName }}
+</button>
+                                    <div v-if="isPopoverVisible" class="card shadow-sm position-absolute p-3" style="top: 60px; right: 0; z-index: 1050; min-width: 200px;">
+                                        <div class="fw-bold mb-2">{{ fullName }}</div>
+                                        <div class="d-grid gap-2"><a href="doctor_profile.html" class="btn btn-outline-primary btn-sm">Управление профилем</a><a href="auth_doc.html" class="btn btn-outline-danger btn-sm">Выйти</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                             
+                        </div>                         
+                        <hr class="m-0">
+                    </div>
+                </div>                 
+                <nav class="navbar navbar-expand-lg pb-0 pt-0 sticky-top"> 
+                    <div class="container"> 
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler11" aria-controls="" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> 
+                        </button>
+                        <div class="d-flex justify-content-center align-items-center flex-wrap w-100 ">
+                            <a id="doctor_profile" role="button" class="border-white btn btn-outline-light fs-3 text-primary w-50" href="doctor_account.html">Личный кабинет</a>
+                        </div>                         
+                    </div>                     
+                </nav>                 
+            </header>
+            <main> 
+                <h3 class="mt-3 text-center">Управление профилем</h3>
+                <div class="container py-3">
+                    <div class="row justify-content-center">
+                        <div id="doctor-info" class="row">
+                            <div class="col-md-8 mb-4">
+                                <div class="card p-3 shadow-sm">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <h5 class="mb-0">Личная информация</h5><span class="ms-2 text-primary" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Для изменения личных данных обратитесь к администратору."> <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm0 1a6 6 0 1 0 0 12A6 6 0 0 0 8 2z"/>
+                                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 .877-.252 1.03-.598l.088-.416c.06-.282.105-.506.27-.506.157 0 .272.198.293.42l.007.15c.003.218.002.258.002.258h.432s.002-.04.002-.258c0-.216-.009-.444-.009-.639 0-.448-.164-.602-.58-.656l-.494-.07c-.306-.046-.438-.176-.366-.465l.738-3.468c.194-.897-.105-1.319-.808-1.319-.545 0-.877.252-1.03.598l-.088.416c-.06.282-.105.506-.27.506-.157 0-.272-.198-.293-.42l-.007-.15c-.003-.218-.002-.258-.002-.258h-.432s-.002.04-.002.258c0 .216.009.444.009.639 0 .448.164.602.58.656l.494.07c.306.046.438.176.366.465z"/>
+                                                <circle cx="8" cy="4.5" r="1"/>
+                                            </svg> </span>
+                                    </div>
+                                    <p><strong>Фамилия:</strong> {{ doctor.second_name }}</p>
+                                    <p><strong>Имя:</strong> {{ doctor.first_name }}</p>
+                                    <p><strong>Отчество:</strong> {{ doctor.surname }}</p>
+                                    <p><strong>Дата рождения:</strong> {{ doctor.birthDate }}</p>
+                                    <p><strong>Пол:</strong> {{ doctor.gender }}</p>
+                                    <p><strong>Образование:</strong> {{ doctor.education }}</p>
+                                    <p><strong>Стаж:</strong> {{ doctor.experience }}</p>
+                                    <p><strong>Телефон:</strong> {{ doctor.phone }}</p>
+                                    <p><strong>Электронная почта:</strong> {{ doctor.email }}</p>
+                                </div>
+                            </div>
+                            <!-- Блок для пароля -->
+                            <div class="col-md-6 mb-4">
+                                <div class="card p-3 shadow-sm">
+                                    <h5>Пароль</h5>
+                                    <button @click="showPasswordModal = true" class="btn btn-outline-primary btn-sm">Изменить пароль</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Модальное окно смены пароля -->
+                        <div v-if="showPasswordModal" v-cloak class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+                            <div class="modal-dialog">
+                                <div class="modal-content p-4 position-relative">
+                                    <!-- Кнопка закрытия -->
+                                    <button type="button" class="btn-close position-absolute" style="right: 1rem; top: 1rem;" @click="showPasswordModal = false"></button>
+                                    <h5>Смена пароля</h5>
+                                    <!-- Новый пароль -->
+                                    <div class="mb-3 mt-3">
+                                        <input v-model="newPassword" type="password" class="form-control" :class="{ 'is-invalid': newPasswordError }" placeholder="Новый пароль">
+                                        <div class="invalid-feedback">{{ newPasswordError }}</div>
+                                    </div>
+                                    <!-- Подтверждение пароля -->
+                                    <div class="mb-3">
+                                        <input v-model="confirmPassword" type="password" class="form-control" :class="{ 'is-invalid': confirmPasswordError }" placeholder="Подтвердить пароль">
+                                        <div class="invalid-feedback">{{ confirmPasswordError }}</div>
+                                    </div>
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <button class="btn btn-secondary" @click="showPasswordModal = false">Отмена</button>
+                                        <button class="btn btn-primary" @click="changePassword">Сохранить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="bg-dark text-white-50"> 
+                <div class="container"> 
+                    <div class="col-md pb-2 pt-2">
+                        <p class="text-white">&copy; 2002 - 2025. Все права защищены - Название</p>
+                    </div>
+                </div>                 
+            </footer>
+            <script src="assets/js/popper.min.js"></script>
+            <script src="bootstrap/js/bootstrap.min.js"></script>
+            <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+            <script src="js/doctor_profile.js"></script>
+        </div>
+    </body>
+</html>

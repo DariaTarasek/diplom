@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="blocks.css">
+        <link href="style.css" rel="stylesheet">
+        <link href="footer_style.css" rel="stylesheet">
+        <title>Design of the Week Template 15 - Pinegrow Web Editor</title>
+        <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; }</style>
+    </head>
+    <body class="text-muted">
+        <div id="app">
+            <header class="bg-white"> 
+                <div class="navbar-light"> 
+                    <div class="container"> 
+                        <div class="align-items-center gx-2 py-3 row"> 
+                            <div class="col"> <a class="align-items-center d-inline-flex fw-bold h4 mb-0 navbar-brand text-uppercase" href="doctor_account.html"> <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 100 100" width="2.5em" height="2.5em" class="me-1 text-primary" fill="currentColor">
+                                        <path d="M90 42.301 76.666 19.209l-13.334 7.699V10H36.667v16.908l-13.335-7.699L10 42.301 23.332 50 10 57.698l13.331 23.093 13.335-7.698V90h26.666V73.093l13.334 7.698L90 57.698 76.666 50 90 42.301zm-9.107 17.84-6.666 11.543-17.561-10.138v21.787H43.332V61.546L25.774 71.684l-6.666-11.543L36.667 50 19.108 39.863l6.666-11.549 17.558 10.14V16.667h13.334v21.787l17.561-10.14 6.666 11.549L63.332 50l17.561 10.141z"/>
+                                    </svg><span>НАЗВАНИЕ</span></a> 
+                            </div>                             
+                            <div class="col-auto"> 
+                                <div class="align-items-center d-inline-flex gap-2 gap-lg-3 py-1"> <a class="align-items-center d-inline-flex gap-2 lh-1 text-decoration-none"> <span class="bg-primary lh-1 p-2 rounded text-white"> <svg viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em"> 
+                                                <path d="M21 16.42v3.536a1 1 0 0 1-.93.998c-.437.03-.794.046-1.07.046-8.837 0-16-7.163-16-16 0-.276.015-.633.046-1.07A1 1 0 0 1 4.044 3H7.58a.5.5 0 0 1 .498.45c.023.23.044.413.064.552A13.901 13.901 0 0 0 9.35 8.003c.095.2.033.439-.147.567l-2.158 1.542a13.047 13.047 0 0 0 6.844 6.844l1.54-2.154a.462.462 0 0 1 .573-.149 13.901 13.901 0 0 0 4 1.205c.139.02.322.042.55.064a.5.5 0 0 1 .449.498z"/> 
+                                            </svg> </span> <div class="d-lg-block d-none">
+                                            <div class="mb-1 small text-black-50">Связаться с нами</div>
+                                            <div class="mb-1 small text-black-50"></div>
+                                            <div class="fw-bold">+7(000) 000 00 00</div>
+                                        </div> </a><a class="align-items-center d-inline-flex gap-2 lh-1 text-decoration-none"> <span class="bg-primary lh-1 p-2 rounded text-white"> <svg viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em"> 
+                                                <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/> 
+                                            </svg> </span> <div class="d-lg-block d-none">
+                                            <div class="mb-1 small text-black-50">Адрес</div>
+                                            <div class="fw-bold">Владивосток, ул. ___ д. __</div>
+                                        </div> </a> 
+                                </div>                                 
+                            </div>
+                            <div class="col-auto">
+                                <div id="doctor-profile" class="position-relative" v-cloak>
+                                    <button @click="isPopoverVisible = !isPopoverVisible" class="btn btn-primary" type="button">
+                                        {{ fullName }}
+</button>
+                                    <div v-if="isPopoverVisible" class="card shadow-sm position-absolute p-3" style="top: 60px; right: 0; z-index: 1050; min-width: 200px;">
+                                        <div class="fw-bold mb-2">{{ fullName }}</div>
+                                        <div class="d-grid gap-2"><a href="doctor_profile.html" class="btn btn-outline-primary btn-sm">Упрвление профилем</a><a href="auth_doc.html" class="btn btn-outline-danger btn-sm">Выйти</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                             
+                        </div>                         
+                        <hr class="m-0">
+                    </div>
+                </div>                 
+                <nav class="navbar navbar-expand-lg pb-0 pt-0 sticky-top"> 
+                    <div class="container"> 
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler11" aria-controls="" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> 
+                        </button>
+                        <div class="d-flex justify-content-center align-items-center flex-wrap w-100 ">
+                            <a id="doctor_profile" role="button" class="border-white btn btn-outline-light fs-3 text-primary w-50" href="doctor_account.html">Личный кабинет</a>
+                        </div>                         
+                    </div>                     
+                </nav>                 
+            </header>
+            <main> 
+                <h3 class="mt-3 text-center">Главная</h3>
+                <div class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-10">
+                            <div class="card p-4">
+                                <ul class="nav nav-tabs mb-3 justify-content-center">
+                                    <li class="nav-item" v-for="tab in tabs" :key="tab.id">
+                                        <button class="nav-link" :class="{ active: activeTab === tab.id }" @click="activeTab = tab.id">
+                                            {{ tab.label }}
+</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <!-- Предстоящие записи на сегодня -->
+                                    <div v-show="activeTab === 'today'" class="tab-pane" :class="{ active: activeTab === 'today' }">
+                                        <div class="section-title">Записи на сегодня</div>
+                                        <ul class="list-group">
+                                            <li v-for="(item, index) in todaySorted" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>{{ item.date }} {{ item.time }}</strong><br/>
+                                                    {{ item.patient_name }}
+                                                </div>
+                                                <button class="btn btn-primary btn-sm" @click="startConsultation(item.id)">Начать приём</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Расписание -->
+                                    <div v-show="activeTab === 'upcoming'" class="tab-pane" :class="{ active: activeTab === 'upcoming' }">
+                                        <div class="section-title">Расписание на неделю</div>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered align-middle text-center">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Время / Дата</th>
+                                                        <th v-for="(date, i) in scheduleDates" :key="i">{{ date }}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(time, i) in scheduleTimes" :key="i">
+                                                        <td>{{ time }}</td>
+                                                        <td v-for="(date, j) in scheduleDates" :key="j">
+                                                            <div v-if="getPatientByDateTime(date, time)">
+                                                                {{ getPatientByDateTime(date, time).patient_name }}
+</div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- Завершённые приёмы -->
+                                    <div v-show="activeTab === 'completed'" class="tab-pane" :class="{ active: activeTab === 'completed' }">
+                                        <div class="section-title">Завершенные приемы</div>
+                                        <ul class="list-group">
+                                            <li v-for="(item, index) in data.completed" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>{{ item.date }} {{ item.time }}</strong><br/>
+                                                    {{ item.patient_name }}
+                                                </div>
+                                                <button v-if="isToday(item.date)" class="btn btn-outline-primary btn-sm">Редактировать</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Vue 3 -->
+                <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+                <script src="js/doctor_account.js"></script>
+            </main>
+            <footer class="bg-dark text-white-50"> 
+                <div class="container"> 
+                    <div class="col-md pb-2 pt-2">
+                        <p class="text-white">&copy; 2002 - 2025. Все права защищены - Название</p>
+                    </div>
+                </div>                 
+            </footer>             
+            <script src="assets/js/popper.min.js"></script>
+            <script src="bootstrap/js/bootstrap.min.js"></script>
+        </div>
+    </body>
+</html>

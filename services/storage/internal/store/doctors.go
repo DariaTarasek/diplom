@@ -77,13 +77,9 @@ func (s *Store) AddDoctor(ctx context.Context, doctor model.Doctor) error {
 	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
 
-	res, err := s.db.ExecContext(dbCtx, query, args...)
+	_, err = s.db.ExecContext(dbCtx, query, args...)
 	if err != nil {
 		return fmt.Errorf("не удалось выполнить запрос для добавления нового врача: %w", err)
-	}
-	_, err = res.LastInsertId()
-	if err != nil {
-		return fmt.Errorf("не удалось получить id добавленного врача: %w", err)
 	}
 	return nil
 }

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="blocks.css">
+        <link href="style.css" rel="stylesheet">
+        <link rel="stylesheet" href="bootstrap_theme/icons.css">
+        <link href="footer_style.css" rel="stylesheet">
+        <title>Design of the Week Template 15 - Pinegrow Web Editor</title>
+        <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; } th, td { text-align: center; vertical-align: middle; }</style>
+    </head>
+    <body class="text-muted">
+        <div id="app">
+            <header class="bg-white"> 
+                <div class="navbar-light"> 
+                    <div class="container"> 
+                        <div class="align-items-center gx-2 py-3 row"> 
+                            <div class="col"> <a class="align-items-center d-inline-flex fw-bold h4 mb-0 navbar-brand text-uppercase" href="administrator_account.html"> <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 100 100" width="2.5em" height="2.5em" class="me-1 text-primary" fill="currentColor">
+                                        <path d="M90 42.301 76.666 19.209l-13.334 7.699V10H36.667v16.908l-13.335-7.699L10 42.301 23.332 50 10 57.698l13.331 23.093 13.335-7.698V90h26.666V73.093l13.334 7.698L90 57.698 76.666 50 90 42.301zm-9.107 17.84-6.666 11.543-17.561-10.138v21.787H43.332V61.546L25.774 71.684l-6.666-11.543L36.667 50 19.108 39.863l6.666-11.549 17.558 10.14V16.667h13.334v21.787l17.561-10.14 6.666 11.549L63.332 50l17.561 10.141z"/>
+                                    </svg><span>НАЗВАНИЕ</span></a> 
+                            </div>                             
+                            <div class="col-auto"> 
+                                <div class="align-items-center d-inline-flex gap-2 gap-lg-3 py-1"> <a class="align-items-center d-inline-flex gap-2 lh-1 text-decoration-none"> <span class="bg-primary lh-1 p-2 rounded text-white"> <svg viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em"> 
+                                                <path d="M21 16.42v3.536a1 1 0 0 1-.93.998c-.437.03-.794.046-1.07.046-8.837 0-16-7.163-16-16 0-.276.015-.633.046-1.07A1 1 0 0 1 4.044 3H7.58a.5.5 0 0 1 .498.45c.023.23.044.413.064.552A13.901 13.901 0 0 0 9.35 8.003c.095.2.033.439-.147.567l-2.158 1.542a13.047 13.047 0 0 0 6.844 6.844l1.54-2.154a.462.462 0 0 1 .573-.149 13.901 13.901 0 0 0 4 1.205c.139.02.322.042.55.064a.5.5 0 0 1 .449.498z"/> 
+                                            </svg> </span> <div class="d-lg-block d-none">
+                                            <div class="mb-1 small text-black-50">Связаться с нами</div>
+                                            <div class="mb-1 small text-black-50"></div>
+                                            <div class="fw-bold">+7(000) 000 00 00</div>
+                                        </div> </a>
+                                    <a class="align-items-center d-inline-flex gap-2 lh-1 text-decoration-none"> <span class="bg-primary lh-1 p-2 rounded text-white"> <svg viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em"> 
+                                                <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/> 
+                                            </svg> </span> <div class="d-lg-block d-none">
+                                            <div class="mb-1 small text-black-50">Адрес</div>
+                                            <div class="fw-bold">Владивосток, ул. ___ д. __</div>
+                                        </div> </a> 
+                                </div>                                 
+                            </div>
+                            <div class="col-auto">
+                                <div id="admin-profile" class="position-relative" v-cloak>
+                                    <button @click="isPopoverVisible = !isPopoverVisible" class="btn btn-primary" type="button">
+                                        {{ fullName }}
+</button>
+                                    <div v-if="isPopoverVisible" class="card shadow-sm position-absolute p-3" style="top: 60px; right: 0; z-index: 1050; min-width: 200px;">
+                                        <div class="fw-bold mb-2">{{ fullName }}</div>
+                                        <div class="d-grid gap-2"><a href="administrator_profile.html" class="btn btn-outline-primary btn-sm">Упрвление профилем</a><a href="auth_doc.html" class="btn btn-outline-danger btn-sm">Выйти</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                             
+                        </div>                         
+                        <hr class="m-0">
+                    </div>
+                </div>                 
+                <div class="d-flex justify-content-center align-items-center flex-wrap w-100 "><a id="admin_profile" role="button" class="border-white btn btn-outline-light fs-3 text-primary w-50" href="administrator_account.html">Панель администратора</a>
+                </div>                 
+                <div class="container">
+                    <hr class="m-0"> 
+                </div>                 
+                <nav class="navbar navbar-expand-lg pb-0 pt-0 sticky-top"> 
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler11" aria-controls="" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> 
+                    </button>
+                    <div class="collapse navbar-collapse w-100" id="navbarToggler11">
+                        <div class="container my-2">
+                            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="administrator_account.html"> <i class="bi bi-display"></i> Главная </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_schedule_management.html"> <i class="bi bi-calendar3"></i> Управление расписанием </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_patient_list.html"> <i class="bi bi-person-fill-gear"></i>Список пациентов </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Аналитика </a>
+                            </div>
+                        </div>                         
+                    </div>                     
+                </nav>                 
+            </header>
+            <main> 
+                <div class="container my-4">
+                    <h2 class="mb-3 text-center">Список пациентов</h2>
+                    <div class="mb-3 text-center">
+                        <a class="btn btn-primary bi-plus-lg" href="registration_in_clinic.html"> Зарегистрировать нового пациента</a>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <input v-model="search" @input="loadPatients" class="form-control" placeholder="Поиск по ФИО или телефону">
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>ФИО</th>
+                                <th>Дата рождения</th>
+                                <th>Пол</th>
+                                <th>Телефон</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="p in patients" :key="p.id" @click="onRowClick(p)" :class="{ 'table-active': isSelected(p) }" style="cursor: pointer;">
+                                <td>{{ p.second_name }} {{p.first_name}} {{p.surname}}</td>
+                                <td>{{ formatDate(p.birthDate) }}</td>
+                                <td>{{ p.gender }}</td>
+                                <td>{{ formatPhone(p.phone) }}</td>
+                                <td>{{ p.email }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Модальное окно -->
+                    <div class="modal fade" id="editModal" tabindex="-1" @hidden.bs.modal="onModalHidden">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form @submit.prevent="savePatient">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Редактирование пациента</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" v-model="form.id">
+                                        <div class="mb-3">
+                                            <label class="form-label">Фамилия<span style="color:red;">*</span>
+                                            </label>
+                                            <input v-model="form.second_name" type="text" class="form-control" maxlength="256" :class="{'is-invalid': secondNameError}" required>
+                                            <div class="invalid-feedback">{{ secondNameError }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Имя<span style="color:red;">*</span>
+                                            </label>
+                                            <input v-model="form.first_name" type="text" class="form-control" maxlength="256" :class="{'is-invalid': firstNameError}" required>
+                                            <div class="invalid-feedback">{{ firstNameError }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Отчество</label>
+                                            <input v-model="form.surname" type="text" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Дата рождения<span style="color:red;">*</span>
+                                            </label>
+                                            <input v-model="form.birthDate" type="date" class="form-control" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Пол<span style="color:red;">*</span>
+                                            </label>
+                                            <select v-model="form.gender" name="gender" id="gender" required class="form-control">
+                                                <option value="male">Мужской</option>
+                                                <option value="female">Женский</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input v-model="form.email" type="email" class="form-control" :class="{'is-invalid': emailError}">
+                                            <div class="invalid-feedback">{{ emailError }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Модалка выбора действия -->
+                    <div class="modal fade" id="actionsModal" tabindex="-1" @hidden.bs.modal="onModalHidden">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Выберите действие</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <button class="btn btn-primary w-100 mb-2 bi-pencil" @click="openEdit(selectedPatient)"> Редактировать личные данные</button>
+                                    <button class="btn btn-primary w-100 mb-2 bi-pencil-square" @click="openLoginChange"> Изменить логин (телефон)</button>
+                                    <button v-if="userRole === 'superadmin'" class="btn btn-danger w-100 mb-2 bi-x-circle" @click="deletePatient"> 
+                                        Удалить пользователя
+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Модальное окно для изменения логина -->
+                    <div class="modal fade" id="changeLoginModal" tabindex="-1" @hidden.bs.modal="onModalHidden">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form @submit.prevent="saveLogin">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Изменение логина (телефона)</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" v-model="form.id">
+                                        <div class="mb-3">
+                                            <label class="form-label">Новый номер телефона<span style="color:red;">*</span>
+                                            </label>
+                                            <input v-model="form.phone" id="phoneLogin" type="tel" placeholder="+7 (___) ___-__-__" class="form-control" :class="{'is-invalid': phoneError}" :disabled="phoneSectionDisabled">
+                                            <div class="invalid-feedback">{{ phoneError }}</div>
+                                            <div class="mb-3 mt-3">
+                                                <button type="button" class="btn btn-outline-primary w-100" @click="requestCode" :disabled="requestButtonDisabled">Подтвердить номер телефона</button>
+                                            </div>
+                                            <div v-if="codeSectionVisible" class="mb-3">
+                                                <label for="smsCode" class="form-label text-primary">Код подтверждения</label>
+                                                <input type="text" id="smsCode" class="form-control" v-model="smsCode" placeholder="Введите код">
+                                                <div class="d-flex flex-wrap gap-3">
+                                                    <button type="button" class="btn btn-success mt-2 " @click="verifyCode">Подтвердить</button>
+                                                    <button type="button" class="btn btn-secondary mt-2" :disabled="resendButtonDisabled" @click="requestCode">
+                                                        {{ resendButtonText }}
+</button>
+                                                    <button type="button" class="btn btn-primary" v-if="codeSended" @click="resetPhoneConfirmation">Изменить номер</button>
+                                                </div>
+                                                <div class=" mt-2">{{ codeMessage }}</div>
+                                            </div>
+                                            <div v-if="phoneVerified" class="text-success mt-2">Телефон подтвержден!</div>
+                                        </div>
+                                    </div>
+                                    <script src="https://unpkg.com/imask"></script>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Vue 3 -->
+                <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+                <script src="js/admins_patient_list.js"></script>
+            </main>
+            <footer class="bg-dark text-white-50"> 
+                <div class="container"> 
+                    <div class="col-md pb-2 pt-2">
+                        <p class="text-white">&copy; 2002 - 2025. Все права защищены - Название</p>
+                    </div>
+                </div>                 
+            </footer>             
+            <script src="assets/js/popper.min.js"></script>
+            <script src="bootstrap/js/bootstrap.min.js"></script>
+        </div>
+    </body>
+</html>

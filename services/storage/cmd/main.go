@@ -2,9 +2,14 @@ package main
 
 import (
 	"fmt"
+	grpcserver "github.com/DariaTarasek/diplom/services/storage/grpc"
 	"github.com/DariaTarasek/diplom/services/storage/internal/db"
+	"github.com/DariaTarasek/diplom/services/storage/internal/store"
+	pb "github.com/DariaTarasek/diplom/services/storage/proto"
 	"github.com/joho/godotenv"
+	"google.golang.org/grpc"
 	"log"
+	"net"
 	"os"
 )
 
@@ -25,6 +30,29 @@ func main() {
 	err = db.RunMigrations(migrationDSN)
 	if err != nil {
 		log.Fatalf("Миграция не была применена: %s", err.Error())
+	}
+
+	lis, err := net.Listen("tcp", ":50051")
+	if err != nil {
+		log.Fatalf("не удалось начать слушать: %v", err)
+	}
+
+	s := grpc.NewServer()
+
+	st := store.NewStore(conn) // твоя инициализация хранилища
+	if err != nil {
+		log.Fatalf("не удалось инициализировать store: %v", err)
+	}
+
+	server := &grpcserver.Server{
+		Store: st,
+	}
+
+	pb.RegisterStorageServiceServer(s, server)
+
+	log.Println("Storage gRPC server started on :50051")
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("не удалось запустить сервер: %v", err)
 	}
 	log.Println("Сервис БД запущен.")
 }

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package storage;
+
+option go_package = "storage/proto;storagepb";
+
+message AddUserRequest {
+  string login = 1;
+  string password = 2;
+}
+
+message AddUserResponse {
+  int32 user_id = 1;
+  string error = 2;
+}
+
+message AddDoctorRequest {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string education = 7;
+  int32 experience = 8;
+  string gender = 9;
+}
+
+message AddDoctorResponse {
+  string error = 1;
+}
+
+
+
+service StorageService {
+  rpc AddUser(AddUserRequest) returns (AddUserResponse);
+  rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse);
+}
