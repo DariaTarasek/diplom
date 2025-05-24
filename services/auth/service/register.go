@@ -163,7 +163,7 @@ func (s *AuthService) PatientRegister(ctx context.Context, user model.User, pati
 	}
 	_, err = s.StorageClient.Client.AddUserRole(ctx, reqUserRole)
 	if err != nil {
-		return 0, fmt.Errorf("не удалось добавить роль врачу через gRPC: %w", err)
+		return 0, fmt.Errorf("не удалось добавить роль пациенту через gRPC: %w", err)
 	}
 
 	return int(respUser.UserId), nil

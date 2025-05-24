@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/clients"
-	handler "github.com/DariaTarasek/diplom/services/api-gateway/handlers"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/info"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/register"
 	"github.com/gin-gonic/gin"
@@ -46,7 +45,6 @@ func main() {
 
 	// REST API-группа
 	api := r.Group("/api")
-	api.GET("/register", handler.Register)
 
 	registerHandler := register.NewHandler(authClient)
 	register.RegisterRoutes(api, registerHandler)
