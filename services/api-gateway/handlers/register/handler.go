@@ -8,6 +8,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"net/http"
+	"time"
 )
 
 type Handler struct {
@@ -85,13 +86,18 @@ func (h *Handler) PatientRegister(c *gin.Context) {
 		Password: patientReq.Password,
 	}
 
+	birthDate, err := time.Parse("02.01.2006", patientReq.BirthDate)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
 	gRPCPatient := &authpb.PatientData{
 		FirstName:   patientReq.FirstName,
 		SecondName:  patientReq.SecondName,
 		Surname:     *patientReq.Surname,
 		PhoneNumber: *patientReq.PhoneNumber,
 		Email:       *patientReq.Email,
-		BirthDate:   timestamppb.New(patientReq.BirthDate),
+		BirthDate:   timestamppb.New(birthDate),
 		Gender:      patientReq.Gender,
 	}
 
