@@ -75,3 +75,29 @@ func (s *Server) EmployeeRegister(ctx context.Context, req *pb.EmployeeRegisterR
 		UserId: int32(id),
 	}, nil
 }
+
+func (s *Server) PatientRegister(ctx context.Context, req *pb.PatientRegisterRequest) (*pb.PatientRegisterResponse, error) {
+	modelUser := model.User{
+		Login:    &req.User.Login,
+		Password: &req.User.Password,
+	}
+
+	patient := model.Patient{
+		FirstName:   req.Patient.FirstName,
+		SecondName:  req.Patient.SecondName,
+		Surname:     &req.Patient.Surname,
+		PhoneNumber: &req.Patient.PhoneNumber,
+		Email:       &req.Patient.Email,
+		BirthDate:   req.Patient.BirthDate.AsTime(),
+		Gender:      req.Patient.Gender,
+	}
+
+	id, err := s.Service.PatientRegister(ctx, modelUser, patient)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.PatientRegisterResponse{
+		UserId: int32(id),
+	}, nil
+}

@@ -85,3 +85,21 @@ func (s *Server) AddAdmin(ctx context.Context, req *pb.AddAdminRequest) (*pb.Add
 	}
 	return &pb.AddAdminResponse{}, err
 }
+
+func (s *Server) AddPatient(ctx context.Context, req *pb.AddPatientRequest) (*pb.AddPatientResponse, error) {
+	err := s.Store.AddPatient(ctx, model.Patient{
+		ID:          model.UserID(req.UserId),
+		FirstName:   req.FirstName,
+		SecondName:  req.SecondName,
+		Surname:     &req.Surname,
+		Email:       &req.Email,
+		BirthDate:   req.BirthDate.AsTime(),
+		PhoneNumber: &req.PhoneNumber,
+		Gender:      req.Gender,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	return &pb.AddPatientResponse{}, nil
+}

@@ -5,14 +5,10 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/model"
 	authpb "github.com/DariaTarasek/diplom/services/api-gateway/proto/auth"
 	"github.com/gin-gonic/gin"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"net/http"
 )
-
-type DoctorRegisterRequest struct {
-	User   model.RegisterRequest `json:"user"`
-	Doctor model.Doctor          `json:"doctor"`
-}
 
 type Handler struct {
 	AuthClient *clients.AuthClient
@@ -26,6 +22,7 @@ func NewHandler(authClient *clients.AuthClient) *Handler {
 
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.POST("/employee-register", h.EmployeeRegister)
+	rg.POST("/register", h.PatientRegister)
 	//  сюда остальные
 }
 
@@ -36,11 +33,9 @@ func (h *Handler) EmployeeRegister(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
 		return
 	}
-
-	password := "12345678cum"
 	gRPCUser := &authpb.UserData{
 		Login:    employeeReq.Email,
-		Password: password,
+		Password: "",
 	}
 
 	var exp int32
@@ -75,5 +70,41 @@ func (h *Handler) EmployeeRegister(c *gin.Context) {
 		return
 	}
 
+	c.JSON(http.StatusCreated, gin.H{"user_id": resp.UserId})
+}
+
+func (h *Handler) PatientRegister(c *gin.Context) {
+	var patientReq model.Patient
+	if err := c.ShouldBindJSON(&patientReq); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	gRPCUser := &authpb.UserData{
+		Login:    *patientReq.PhoneNumber,
+		Password: patientReq.Password,
+	}
+
+	gRPCPatient := &authpb.PatientData{
+		FirstName:   patientReq.FirstName,
+		SecondName:  patientReq.SecondName,
+		Surname:     *patientReq.Surname,
+		PhoneNumber: *patientReq.PhoneNumber,
+		Email:       *patientReq.Email,
+		BirthDate:   timestamppb.New(patientReq.BirthDate),
+		Gender:      patientReq.Gender,
+	}
+
+	gRPCPatientRequest := &authpb.PatientRegisterRequest{
+		User:    gRPCUser,
+		Patient: gRPCPatient,
+	}
+
+	resp, err := h.AuthClient.Client.PatientRegister(c.Request.Context(), gRPCPatientRequest)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusCreated, gin.H{"user_id": resp.UserId})
 }

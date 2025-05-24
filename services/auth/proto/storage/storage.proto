@@ -1,6 +1,10 @@
+// proto файл auth-сервиса для генерации grpc для storage-клиента
+
 syntax = "proto3";
 
 package storage;
+
+import "google/protobuf/timestamp.proto";
 
 option go_package = "storage/proto;storagepb";
 
@@ -44,6 +48,21 @@ message AddAdminResponse {
   string error = 1;
 }
 
+message AddPatientRequest {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string email = 5;
+  google.protobuf.Timestamp birth_date = 6;
+  string phone_number = 7;
+  string gender = 8;
+}
+
+message AddPatientResponse {
+  string error = 1;
+}
+
 message EmptyRequest{}
 
 message Specialization {
@@ -71,4 +90,5 @@ service StorageService {
   rpc GetAllSpecs(EmptyRequest) returns (GetAllSpecsResponse); // получение всех специализаций врачей
   rpc AddUserRole(AddUserRoleRequest) returns (AddUserRoleResponse); // добавление роли пользователю
   rpc AddAdmin(AddAdminRequest) returns (AddAdminResponse); // добавление администратора
+  rpc AddPatient(AddPatientRequest) returns (AddPatientResponse); // добавление пациента
 }

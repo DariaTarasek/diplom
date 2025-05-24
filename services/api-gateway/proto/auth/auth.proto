@@ -1,6 +1,10 @@
+// proto файл auth-сервиса для генерации grpc-сервера
+
 syntax = "proto3";
 
 package auth;
+
+import "google/protobuf/timestamp.proto";
 
 option go_package = "auth/proto;authpb";
 
@@ -31,6 +35,28 @@ message EmployeeRegisterRequest {
   EmployeeData employee = 2;
 }
 
+message PatientData {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string email = 5;
+  google.protobuf.Timestamp birth_date = 6;
+  string phone_number = 7;
+  string gender = 8;
+}
+
+message PatientRegisterRequest {
+  UserData user = 1;
+  PatientData patient = 2;
+}
+
+message PatientRegisterResponse {
+  int32 user_id = 1;
+  string error = 2;
+}
+
 service AuthService {
-  rpc EmployeeRegister(EmployeeRegisterRequest) returns (EmployeeRegisterResponse);
+  rpc EmployeeRegister(EmployeeRegisterRequest) returns (EmployeeRegisterResponse); // регистрация персонала
+  rpc PatientRegister(PatientRegisterRequest) returns (PatientRegisterResponse); // регистрация пациента
 }

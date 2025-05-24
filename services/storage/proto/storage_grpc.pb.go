@@ -24,6 +24,7 @@ const (
 	StorageService_GetAllSpecs_FullMethodName = "/storage.StorageService/GetAllSpecs"
 	StorageService_AddUserRole_FullMethodName = "/storage.StorageService/AddUserRole"
 	StorageService_AddAdmin_FullMethodName    = "/storage.StorageService/AddAdmin"
+	StorageService_AddPatient_FullMethodName  = "/storage.StorageService/AddPatient"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -35,6 +36,7 @@ type StorageServiceClient interface {
 	GetAllSpecs(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAllSpecsResponse, error)
 	AddUserRole(ctx context.Context, in *AddUserRoleRequest, opts ...grpc.CallOption) (*AddUserRoleResponse, error)
 	AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*AddAdminResponse, error)
+	AddPatient(ctx context.Context, in *AddPatientRequest, opts ...grpc.CallOption) (*AddPatientResponse, error)
 }
 
 type storageServiceClient struct {
@@ -95,6 +97,16 @@ func (c *storageServiceClient) AddAdmin(ctx context.Context, in *AddAdminRequest
 	return out, nil
 }
 
+func (c *storageServiceClient) AddPatient(ctx context.Context, in *AddPatientRequest, opts ...grpc.CallOption) (*AddPatientResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddPatientResponse)
+	err := c.cc.Invoke(ctx, StorageService_AddPatient_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type StorageServiceServer interface {
 	GetAllSpecs(context.Context, *EmptyRequest) (*GetAllSpecsResponse, error)
 	AddUserRole(context.Context, *AddUserRoleRequest) (*AddUserRoleResponse, error)
 	AddAdmin(context.Context, *AddAdminRequest) (*AddAdminResponse, error)
+	AddPatient(context.Context, *AddPatientRequest) (*AddPatientResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -128,6 +141,9 @@ func (UnimplementedStorageServiceServer) AddUserRole(context.Context, *AddUserRo
 }
 func (UnimplementedStorageServiceServer) AddAdmin(context.Context, *AddAdminRequest) (*AddAdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAdmin not implemented")
+}
+func (UnimplementedStorageServiceServer) AddPatient(context.Context, *AddPatientRequest) (*AddPatientResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPatient not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -240,6 +256,24 @@ func _StorageService_AddAdmin_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_AddPatient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPatientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).AddPatient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_AddPatient_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).AddPatient(ctx, req.(*AddPatientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +300,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddAdmin",
 			Handler:    _StorageService_AddAdmin_Handler,
+		},
+		{
+			MethodName: "AddPatient",
+			Handler:    _StorageService_AddPatient_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
