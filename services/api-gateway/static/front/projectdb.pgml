@@ -1,0 +1,23 @@
+<project>
+    <documents></documents>
+    <dmdesigns>
+        <dmdesign active>
+            <dmdesignskill skill="bs5.colors" harmony="">
+                <dmcolor key="primary" color="#3669f4"/>
+                <dmcolor key="secondary" color="rgb(111,34,21)"/>
+                <dmcolor key="info" color="rgb(209,176,158)"/>
+                <dmcolor key="success" color="#198754"/>
+                <dmcolor key="warning" color="#ffc107"/>
+                <dmcolor key="danger" color="#dc3545"/>
+                <dmcolor key="white" color="white"/>
+                <dmcolor key="light" color="#edf3f9"/>
+                <dmcolor key="dark" color="#21354a"/>
+            </dmdesignskill>
+            <dmdesignskill skill="fonts" text_weight="" text_color="" text_spacing="" text_effect="" text_italic="" text_smallcaps="" text_uppercase="" headings_weight="" headings_color="" headings_spacing="" headings_effect="" headings_italic="" headings_smallcaps="" headings_uppercase="" text_family="Verdana, Geneva, sans-serif" headings_family="Verdana, Geneva, sans-serif" lead_family="Verdana, Geneva, sans-serif"></dmdesignskill>
+            <dmdesignskill skill="headings" h1_weight="bold" h1_color="$dark" h1_effect h1_family="Verdana, Geneva, sans-serif" h2_family="Verdana, Geneva, sans-serif" h3_family="Verdana, Geneva, sans-serif" h4_family="Verdana, Geneva, sans-serif" h5_family="Verdana, Geneva, sans-serif"></dmdesignskill>
+            <dmdesignskill skill="background" image_for_colors keyword="clinic" selector=".poster" image="img/main.jpeg" filter_blur="1" filter_hue-rotate="0" filter_invert="0" filter_sepia="0" filter_brightness="100" filter_contrast="100" filter_grayscale="0" filter_opacity="100" filter_saturate="100" source="folder" color></dmdesignskill>
+            <dmdesignskill skill="bootstrap" gradients responsive_fonts="" roundness="1" buttonRoundness="1" shadows="1" contrast="0" sizer="0"></dmdesignskill>
+        </dmdesign>
+    </dmdesigns>
+    <dmlocked bs5-colors-primary="false" bs5-colors-secondary="false" bs5-colors-info="false" bs5-colors-success="true" bs5-colors-warning="true" bs5-colors-danger="true" bs5-colors-white="true" bs5-colors-light="true" bs5-colors-dark="true" fonts-text_family="false" fonts-headings_family="false" bs5-colors-button-from_image="false" headings-h1_family="false" bootstrap-buttonRoundness="true" bootstrap-shadows="true" bootstrap-roundness="false" bootstrap-gradients="true" background-image="false" background-color="true" bootstrap-sizer="false"></dmlocked>
+</project>
