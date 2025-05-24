@@ -12,31 +12,66 @@ type Server struct {
 	Service *service.AuthService
 }
 
-func (s *Server) DoctorRegister(ctx context.Context, req *pb.DoctorRegisterRequest) (*pb.DoctorRegisterResponse, error) {
+func (s *Server) EmployeeRegister(ctx context.Context, req *pb.EmployeeRegisterRequest) (*pb.EmployeeRegisterResponse, error) {
 	modelUser := model.User{
 		Login:    &req.User.Login,
 		Password: &req.User.Password,
 	}
 
-	exp := int(req.Doctor.Experience)
+	var id int
+	var err error
 
-	modelDoctor := model.Doctor{
-		FirstName:   req.Doctor.FirstName,
-		SecondName:  req.Doctor.SecondName,
-		Surname:     &req.Doctor.Surname,
-		PhoneNumber: &req.Doctor.PhoneNumber,
-		Email:       req.Doctor.Email,
-		Education:   &req.Doctor.Education,
-		Experience:  &exp,
-		Gender:      req.Doctor.Gender,
+	role := req.Employee.Role
+	switch role {
+	case model.DoctorRole:
+		exp := int(req.Employee.Experience)
+
+		modelDoctor := model.Doctor{
+			FirstName:   req.Employee.FirstName,
+			SecondName:  req.Employee.SecondName,
+			Surname:     &req.Employee.Surname,
+			PhoneNumber: &req.Employee.PhoneNumber,
+			Email:       req.Employee.Email,
+			Education:   &req.Employee.Education,
+			Experience:  &exp,
+			Gender:      req.Employee.Gender,
+		}
+
+		id, err = s.Service.DoctorRegister(ctx, modelUser, modelDoctor)
+		if err != nil {
+			return nil, err
+		}
+	case model.AdminRole:
+		modelAdmin := model.Admin{
+			FirstName:   req.Employee.FirstName,
+			SecondName:  req.Employee.SecondName,
+			Surname:     &req.Employee.Surname,
+			PhoneNumber: &req.Employee.PhoneNumber,
+			Email:       req.Employee.Email,
+			Gender:      req.Employee.Gender,
+		}
+
+		id, err = s.Service.AdminRegister(ctx, modelUser, modelAdmin, false)
+		if err != nil {
+			return nil, err
+		}
+	case model.SuperAdminRole:
+		modelAdmin := model.Admin{
+			FirstName:   req.Employee.FirstName,
+			SecondName:  req.Employee.SecondName,
+			Surname:     &req.Employee.Surname,
+			PhoneNumber: &req.Employee.PhoneNumber,
+			Email:       req.Employee.Email,
+			Gender:      req.Employee.Gender,
+		}
+
+		id, err = s.Service.AdminRegister(ctx, modelUser, modelAdmin, true)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	id, err := s.Service.DoctorRegister(ctx, modelUser, modelDoctor)
-	if err != nil {
-		return nil, err
-	}
-
-	return &pb.DoctorRegisterResponse{
+	return &pb.EmployeeRegisterResponse{
 		UserId: int32(id),
 	}, nil
 }

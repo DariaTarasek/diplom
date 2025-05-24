@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.31.0
-// source: proto/storage.proto
+// source: proto/storage/storage.proto
 
 package storagepb
 
@@ -22,8 +22,6 @@ const (
 	StorageService_AddUser_FullMethodName     = "/storage.StorageService/AddUser"
 	StorageService_AddDoctor_FullMethodName   = "/storage.StorageService/AddDoctor"
 	StorageService_GetAllSpecs_FullMethodName = "/storage.StorageService/GetAllSpecs"
-	StorageService_AddUserRole_FullMethodName = "/storage.StorageService/AddUserRole"
-	StorageService_AddAdmin_FullMethodName    = "/storage.StorageService/AddAdmin"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -33,8 +31,6 @@ type StorageServiceClient interface {
 	AddUser(ctx context.Context, in *AddUserRequest, opts ...grpc.CallOption) (*AddUserResponse, error)
 	AddDoctor(ctx context.Context, in *AddDoctorRequest, opts ...grpc.CallOption) (*AddDoctorResponse, error)
 	GetAllSpecs(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAllSpecsResponse, error)
-	AddUserRole(ctx context.Context, in *AddUserRoleRequest, opts ...grpc.CallOption) (*AddUserRoleResponse, error)
-	AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*AddAdminResponse, error)
 }
 
 type storageServiceClient struct {
@@ -75,26 +71,6 @@ func (c *storageServiceClient) GetAllSpecs(ctx context.Context, in *EmptyRequest
 	return out, nil
 }
 
-func (c *storageServiceClient) AddUserRole(ctx context.Context, in *AddUserRoleRequest, opts ...grpc.CallOption) (*AddUserRoleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddUserRoleResponse)
-	err := c.cc.Invoke(ctx, StorageService_AddUserRole_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *storageServiceClient) AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*AddAdminResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddAdminResponse)
-	err := c.cc.Invoke(ctx, StorageService_AddAdmin_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -102,8 +78,6 @@ type StorageServiceServer interface {
 	AddUser(context.Context, *AddUserRequest) (*AddUserResponse, error)
 	AddDoctor(context.Context, *AddDoctorRequest) (*AddDoctorResponse, error)
 	GetAllSpecs(context.Context, *EmptyRequest) (*GetAllSpecsResponse, error)
-	AddUserRole(context.Context, *AddUserRoleRequest) (*AddUserRoleResponse, error)
-	AddAdmin(context.Context, *AddAdminRequest) (*AddAdminResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -122,12 +96,6 @@ func (UnimplementedStorageServiceServer) AddDoctor(context.Context, *AddDoctorRe
 }
 func (UnimplementedStorageServiceServer) GetAllSpecs(context.Context, *EmptyRequest) (*GetAllSpecsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllSpecs not implemented")
-}
-func (UnimplementedStorageServiceServer) AddUserRole(context.Context, *AddUserRoleRequest) (*AddUserRoleResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddUserRole not implemented")
-}
-func (UnimplementedStorageServiceServer) AddAdmin(context.Context, *AddAdminRequest) (*AddAdminResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddAdmin not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -204,42 +172,6 @@ func _StorageService_GetAllSpecs_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StorageService_AddUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddUserRoleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StorageServiceServer).AddUserRole(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StorageService_AddUserRole_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StorageServiceServer).AddUserRole(ctx, req.(*AddUserRoleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _StorageService_AddAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddAdminRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StorageServiceServer).AddAdmin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StorageService_AddAdmin_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StorageServiceServer).AddAdmin(ctx, req.(*AddAdminRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -259,15 +191,7 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetAllSpecs",
 			Handler:    _StorageService_GetAllSpecs_Handler,
 		},
-		{
-			MethodName: "AddUserRole",
-			Handler:    _StorageService_AddUserRole_Handler,
-		},
-		{
-			MethodName: "AddAdmin",
-			Handler:    _StorageService_AddAdmin_Handler,
-		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/storage.proto",
+	Metadata: "proto/storage/storage.proto",
 }

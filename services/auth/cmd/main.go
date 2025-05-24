@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	storageClient, err := clients.NewStorageClient("localhost:50051") // адаптируй адрес
+	storageClient, err := clients.NewStorageClient("localhost:50051")
 	if err != nil {
 		log.Fatalf("Не удалось создать клиент storage: %s", err)
 	}

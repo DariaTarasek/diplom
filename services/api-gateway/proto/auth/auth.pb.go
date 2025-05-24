@@ -73,7 +73,7 @@ func (x *UserData) GetPassword() string {
 	return ""
 }
 
-type DoctorRegisterResponse struct {
+type EmployeeRegisterResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
@@ -81,20 +81,20 @@ type DoctorRegisterResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DoctorRegisterResponse) Reset() {
-	*x = DoctorRegisterResponse{}
+func (x *EmployeeRegisterResponse) Reset() {
+	*x = EmployeeRegisterResponse{}
 	mi := &file_proto_auth_auth_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DoctorRegisterResponse) String() string {
+func (x *EmployeeRegisterResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DoctorRegisterResponse) ProtoMessage() {}
+func (*EmployeeRegisterResponse) ProtoMessage() {}
 
-func (x *DoctorRegisterResponse) ProtoReflect() protoreflect.Message {
+func (x *EmployeeRegisterResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_auth_auth_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -106,53 +106,54 @@ func (x *DoctorRegisterResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DoctorRegisterResponse.ProtoReflect.Descriptor instead.
-func (*DoctorRegisterResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use EmployeeRegisterResponse.ProtoReflect.Descriptor instead.
+func (*EmployeeRegisterResponse) Descriptor() ([]byte, []int) {
 	return file_proto_auth_auth_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *DoctorRegisterResponse) GetUserId() int32 {
+func (x *EmployeeRegisterResponse) GetUserId() int32 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-func (x *DoctorRegisterResponse) GetError() string {
+func (x *EmployeeRegisterResponse) GetError() string {
 	if x != nil {
 		return x.Error
 	}
 	return ""
 }
 
-type DoctorData struct {
+type EmployeeData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	FirstName     string                 `protobuf:"bytes,1,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
 	SecondName    string                 `protobuf:"bytes,2,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
 	Surname       string                 `protobuf:"bytes,3,opt,name=surname,proto3" json:"surname,omitempty"`
 	PhoneNumber   string                 `protobuf:"bytes,4,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
 	Email         string                 `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
-	Education     string                 `protobuf:"bytes,6,opt,name=education,proto3" json:"education,omitempty"`
-	Experience    int32                  `protobuf:"varint,7,opt,name=experience,proto3" json:"experience,omitempty"`
-	Gender        string                 `protobuf:"bytes,8,opt,name=gender,proto3" json:"gender,omitempty"`
+	Gender        string                 `protobuf:"bytes,6,opt,name=gender,proto3" json:"gender,omitempty"`
+	Role          int32                  `protobuf:"varint,7,opt,name=role,proto3" json:"role,omitempty"`
+	Education     string                 `protobuf:"bytes,8,opt,name=education,proto3" json:"education,omitempty"`
+	Experience    int32                  `protobuf:"varint,9,opt,name=experience,proto3" json:"experience,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DoctorData) Reset() {
-	*x = DoctorData{}
+func (x *EmployeeData) Reset() {
+	*x = EmployeeData{}
 	mi := &file_proto_auth_auth_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DoctorData) String() string {
+func (x *EmployeeData) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DoctorData) ProtoMessage() {}
+func (*EmployeeData) ProtoMessage() {}
 
-func (x *DoctorData) ProtoReflect() protoreflect.Message {
+func (x *EmployeeData) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_auth_auth_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -164,89 +165,96 @@ func (x *DoctorData) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DoctorData.ProtoReflect.Descriptor instead.
-func (*DoctorData) Descriptor() ([]byte, []int) {
+// Deprecated: Use EmployeeData.ProtoReflect.Descriptor instead.
+func (*EmployeeData) Descriptor() ([]byte, []int) {
 	return file_proto_auth_auth_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *DoctorData) GetFirstName() string {
+func (x *EmployeeData) GetFirstName() string {
 	if x != nil {
 		return x.FirstName
 	}
 	return ""
 }
 
-func (x *DoctorData) GetSecondName() string {
+func (x *EmployeeData) GetSecondName() string {
 	if x != nil {
 		return x.SecondName
 	}
 	return ""
 }
 
-func (x *DoctorData) GetSurname() string {
+func (x *EmployeeData) GetSurname() string {
 	if x != nil {
 		return x.Surname
 	}
 	return ""
 }
 
-func (x *DoctorData) GetPhoneNumber() string {
+func (x *EmployeeData) GetPhoneNumber() string {
 	if x != nil {
 		return x.PhoneNumber
 	}
 	return ""
 }
 
-func (x *DoctorData) GetEmail() string {
+func (x *EmployeeData) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-func (x *DoctorData) GetEducation() string {
-	if x != nil {
-		return x.Education
-	}
-	return ""
-}
-
-func (x *DoctorData) GetExperience() int32 {
-	if x != nil {
-		return x.Experience
-	}
-	return 0
-}
-
-func (x *DoctorData) GetGender() string {
+func (x *EmployeeData) GetGender() string {
 	if x != nil {
 		return x.Gender
 	}
 	return ""
 }
 
-type DoctorRegisterRequest struct {
+func (x *EmployeeData) GetRole() int32 {
+	if x != nil {
+		return x.Role
+	}
+	return 0
+}
+
+func (x *EmployeeData) GetEducation() string {
+	if x != nil {
+		return x.Education
+	}
+	return ""
+}
+
+func (x *EmployeeData) GetExperience() int32 {
+	if x != nil {
+		return x.Experience
+	}
+	return 0
+}
+
+type EmployeeRegisterRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *UserData              `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	Doctor        *DoctorData            `protobuf:"bytes,2,opt,name=doctor,proto3" json:"doctor,omitempty"`
+	Employee      *EmployeeData          `protobuf:"bytes,2,opt,name=employee,proto3" json:"employee,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DoctorRegisterRequest) Reset() {
-	*x = DoctorRegisterRequest{}
+func (x *EmployeeRegisterRequest) Reset() {
+	*x = EmployeeRegisterRequest{}
 	mi := &file_proto_auth_auth_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DoctorRegisterRequest) String() string {
+func (x *EmployeeRegisterRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DoctorRegisterRequest) ProtoMessage() {}
+func (*EmployeeRegisterRequest) ProtoMessage() {}
 
-func (x *DoctorRegisterRequest) ProtoReflect() protoreflect.Message {
+func (x *EmployeeRegisterRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_auth_auth_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -258,21 +266,21 @@ func (x *DoctorRegisterRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DoctorRegisterRequest.ProtoReflect.Descriptor instead.
-func (*DoctorRegisterRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use EmployeeRegisterRequest.ProtoReflect.Descriptor instead.
+func (*EmployeeRegisterRequest) Descriptor() ([]byte, []int) {
 	return file_proto_auth_auth_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *DoctorRegisterRequest) GetUser() *UserData {
+func (x *EmployeeRegisterRequest) GetUser() *UserData {
 	if x != nil {
 		return x.User
 	}
 	return nil
 }
 
-func (x *DoctorRegisterRequest) GetDoctor() *DoctorData {
+func (x *EmployeeRegisterRequest) GetEmployee() *EmployeeData {
 	if x != nil {
-		return x.Doctor
+		return x.Employee
 	}
 	return nil
 }
@@ -284,29 +292,29 @@ const file_proto_auth_auth_proto_rawDesc = "" +
 	"\x15proto/auth/auth.proto\x12\x04auth\"<\n" +
 	"\bUserData\x12\x14\n" +
 	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"G\n" +
-	"\x16DoctorRegisterResponse\x12\x17\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"I\n" +
+	"\x18EmployeeRegisterResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"\xf5\x01\n" +
-	"\n" +
-	"DoctorData\x12\x1d\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\x8b\x02\n" +
+	"\fEmployeeData\x12\x1d\n" +
 	"\n" +
 	"first_name\x18\x01 \x01(\tR\tfirstName\x12\x1f\n" +
 	"\vsecond_name\x18\x02 \x01(\tR\n" +
 	"secondName\x12\x18\n" +
 	"\asurname\x18\x03 \x01(\tR\asurname\x12!\n" +
 	"\fphone_number\x18\x04 \x01(\tR\vphoneNumber\x12\x14\n" +
-	"\x05email\x18\x05 \x01(\tR\x05email\x12\x1c\n" +
-	"\teducation\x18\x06 \x01(\tR\teducation\x12\x1e\n" +
+	"\x05email\x18\x05 \x01(\tR\x05email\x12\x16\n" +
+	"\x06gender\x18\x06 \x01(\tR\x06gender\x12\x12\n" +
+	"\x04role\x18\a \x01(\x05R\x04role\x12\x1c\n" +
+	"\teducation\x18\b \x01(\tR\teducation\x12\x1e\n" +
 	"\n" +
-	"experience\x18\a \x01(\x05R\n" +
-	"experience\x12\x16\n" +
-	"\x06gender\x18\b \x01(\tR\x06gender\"e\n" +
-	"\x15DoctorRegisterRequest\x12\"\n" +
-	"\x04user\x18\x01 \x01(\v2\x0e.auth.UserDataR\x04user\x12(\n" +
-	"\x06doctor\x18\x02 \x01(\v2\x10.auth.DoctorDataR\x06doctor2Z\n" +
-	"\vAuthService\x12K\n" +
-	"\x0eDoctorRegister\x12\x1b.auth.DoctorRegisterRequest\x1a\x1c.auth.DoctorRegisterResponseB\x13Z\x11auth/proto;authpbb\x06proto3"
+	"experience\x18\t \x01(\x05R\n" +
+	"experience\"m\n" +
+	"\x17EmployeeRegisterRequest\x12\"\n" +
+	"\x04user\x18\x01 \x01(\v2\x0e.auth.UserDataR\x04user\x12.\n" +
+	"\bemployee\x18\x02 \x01(\v2\x12.auth.EmployeeDataR\bemployee2`\n" +
+	"\vAuthService\x12Q\n" +
+	"\x10EmployeeRegister\x12\x1d.auth.EmployeeRegisterRequest\x1a\x1e.auth.EmployeeRegisterResponseB\x13Z\x11auth/proto;authpbb\x06proto3"
 
 var (
 	file_proto_auth_auth_proto_rawDescOnce sync.Once
@@ -322,16 +330,16 @@ func file_proto_auth_auth_proto_rawDescGZIP() []byte {
 
 var file_proto_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_auth_auth_proto_goTypes = []any{
-	(*UserData)(nil),               // 0: auth.UserData
-	(*DoctorRegisterResponse)(nil), // 1: auth.DoctorRegisterResponse
-	(*DoctorData)(nil),             // 2: auth.DoctorData
-	(*DoctorRegisterRequest)(nil),  // 3: auth.DoctorRegisterRequest
+	(*UserData)(nil),                 // 0: auth.UserData
+	(*EmployeeRegisterResponse)(nil), // 1: auth.EmployeeRegisterResponse
+	(*EmployeeData)(nil),             // 2: auth.EmployeeData
+	(*EmployeeRegisterRequest)(nil),  // 3: auth.EmployeeRegisterRequest
 }
 var file_proto_auth_auth_proto_depIdxs = []int32{
-	0, // 0: auth.DoctorRegisterRequest.user:type_name -> auth.UserData
-	2, // 1: auth.DoctorRegisterRequest.doctor:type_name -> auth.DoctorData
-	3, // 2: auth.AuthService.DoctorRegister:input_type -> auth.DoctorRegisterRequest
-	1, // 3: auth.AuthService.DoctorRegister:output_type -> auth.DoctorRegisterResponse
+	0, // 0: auth.EmployeeRegisterRequest.user:type_name -> auth.UserData
+	2, // 1: auth.EmployeeRegisterRequest.employee:type_name -> auth.EmployeeData
+	3, // 2: auth.AuthService.EmployeeRegister:input_type -> auth.EmployeeRegisterRequest
+	1, // 3: auth.AuthService.EmployeeRegister:output_type -> auth.EmployeeRegisterResponse
 	3, // [3:4] is the sub-list for method output_type
 	2, // [2:3] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name

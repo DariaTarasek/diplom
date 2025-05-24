@@ -1,6 +1,6 @@
 package model
 
-type Doctor struct {
+type Employee struct {
 	ID          int     `json:"user_id"`
 	FirstName   string  `json:"firstName"`
 	SecondName  string  `json:"secondName"`
@@ -10,4 +10,5 @@ type Doctor struct {
 	Education   *string `json:"education"`
 	Experience  *int    `json:"experience"`
 	Gender      string  `json:"gender"`
+	Role        int     `json:"role"`
 }

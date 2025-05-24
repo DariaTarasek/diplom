@@ -5,6 +5,7 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/model"
 	authpb "github.com/DariaTarasek/diplom/services/api-gateway/proto/auth"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -24,41 +25,52 @@ func NewHandler(authClient *clients.AuthClient) *Handler {
 }
 
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
-	rg.POST("/employee-register", h.DoctorRegister)
-	// добавляй сюда остальные
+	rg.POST("/employee-register", h.EmployeeRegister)
+	//  сюда остальные
 }
 
-func (h *Handler) DoctorRegister(c *gin.Context) {
-	var req DoctorRegisterRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
+func (h *Handler) EmployeeRegister(c *gin.Context) {
+	var employeeReq model.Employee
+	if err := c.ShouldBindJSON(&employeeReq); err != nil {
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
 		return
 	}
 
+	password := "12345678cum"
 	gRPCUser := &authpb.UserData{
-		Login:    req.User.Login,
-		Password: req.User.Password,
+		Login:    employeeReq.Email,
+		Password: password,
 	}
 
-	exp := int32(*req.Doctor.Experience)
-	gRPCDoctor := &authpb.DoctorData{
-		FirstName:   req.Doctor.FirstName,
-		SecondName:  req.Doctor.SecondName,
-		Surname:     *req.Doctor.Surname,
-		PhoneNumber: *req.Doctor.PhoneNumber,
-		Email:       req.Doctor.Email,
-		Education:   *req.Doctor.Education,
+	var exp int32
+	if employeeReq.Experience != nil {
+		exp = int32(*employeeReq.Experience)
+	}
+	var education string
+	if employeeReq.Education != nil {
+		education = *employeeReq.Education
+	}
+	gRPCEmployee := &authpb.EmployeeData{
+		FirstName:   employeeReq.FirstName,
+		SecondName:  employeeReq.SecondName,
+		Surname:     *employeeReq.Surname,
+		PhoneNumber: *employeeReq.PhoneNumber,
+		Email:       employeeReq.Email,
+		Education:   education,
 		Experience:  exp,
-		Gender:      req.Doctor.Gender,
+		Gender:      employeeReq.Gender,
+		Role:        int32(employeeReq.Role),
 	}
 
-	gRPCDocRequest := &authpb.DoctorRegisterRequest{
-		User:   gRPCUser,
-		Doctor: gRPCDoctor,
+	gRPCEmployeeRequest := &authpb.EmployeeRegisterRequest{
+		User:     gRPCUser,
+		Employee: gRPCEmployee,
 	}
 
-	resp, err := h.AuthClient.Client.DoctorRegister(c.Request.Context(), gRPCDocRequest)
+	resp, err := h.AuthClient.Client.EmployeeRegister(c.Request.Context(), gRPCEmployeeRequest)
 	if err != nil {
+		log.Println(err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

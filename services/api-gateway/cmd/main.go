@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/clients"
 	handler "github.com/DariaTarasek/diplom/services/api-gateway/handlers"
+	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/info"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/register"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -26,10 +27,15 @@ func main() {
 
 	authClient, err := clients.NewAuthClient("localhost:50052")
 	if err != nil {
-		log.Fatalf("Не удалось создать auth клиент: %w", err)
+		log.Fatalf("Не удалось создать auth клиент: %s", err)
 	}
 
-	htmlPages := []string{"index.html", "auth_doc.html", "registration.html", "auth.html"}
+	storageClient, err := clients.NewStorageClient("localhost:50051")
+	if err != nil {
+		log.Fatalf("Не удалось создать storage клиент: %s", err)
+	}
+
+	htmlPages := []string{"index.html", "auth_doc.html", "registration.html", "auth.html", "employee_registration.html"}
 
 	for _, page := range htmlPages {
 		page := page // захват в замыкание
@@ -44,6 +50,9 @@ func main() {
 
 	registerHandler := register.NewHandler(authClient)
 	register.RegisterRoutes(api, registerHandler)
+
+	infoHandler := info.NewInfoHandler(storageClient)
+	info.RegisterRoutes(api, infoHandler)
 
 	log.Println("Api-gateway запущен")
 	if err := r.Run(":8080"); err != nil {

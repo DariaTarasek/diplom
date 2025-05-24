@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AuthService_DoctorRegister_FullMethodName = "/auth.AuthService/DoctorRegister"
+	AuthService_EmployeeRegister_FullMethodName = "/auth.AuthService/EmployeeRegister"
 )
 
 // AuthServiceClient is the client API for AuthService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
-	DoctorRegister(ctx context.Context, in *DoctorRegisterRequest, opts ...grpc.CallOption) (*DoctorRegisterResponse, error)
+	EmployeeRegister(ctx context.Context, in *EmployeeRegisterRequest, opts ...grpc.CallOption) (*EmployeeRegisterResponse, error)
 }
 
 type authServiceClient struct {
@@ -37,10 +37,10 @@ func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient {
 	return &authServiceClient{cc}
 }
 
-func (c *authServiceClient) DoctorRegister(ctx context.Context, in *DoctorRegisterRequest, opts ...grpc.CallOption) (*DoctorRegisterResponse, error) {
+func (c *authServiceClient) EmployeeRegister(ctx context.Context, in *EmployeeRegisterRequest, opts ...grpc.CallOption) (*EmployeeRegisterResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DoctorRegisterResponse)
-	err := c.cc.Invoke(ctx, AuthService_DoctorRegister_FullMethodName, in, out, cOpts...)
+	out := new(EmployeeRegisterResponse)
+	err := c.cc.Invoke(ctx, AuthService_EmployeeRegister_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *authServiceClient) DoctorRegister(ctx context.Context, in *DoctorRegist
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility.
 type AuthServiceServer interface {
-	DoctorRegister(context.Context, *DoctorRegisterRequest) (*DoctorRegisterResponse, error)
+	EmployeeRegister(context.Context, *EmployeeRegisterRequest) (*EmployeeRegisterResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -62,8 +62,8 @@ type AuthServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAuthServiceServer struct{}
 
-func (UnimplementedAuthServiceServer) DoctorRegister(context.Context, *DoctorRegisterRequest) (*DoctorRegisterResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DoctorRegister not implemented")
+func (UnimplementedAuthServiceServer) EmployeeRegister(context.Context, *EmployeeRegisterRequest) (*EmployeeRegisterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EmployeeRegister not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 func (UnimplementedAuthServiceServer) testEmbeddedByValue()                     {}
@@ -86,20 +86,20 @@ func RegisterAuthServiceServer(s grpc.ServiceRegistrar, srv AuthServiceServer) {
 	s.RegisterService(&AuthService_ServiceDesc, srv)
 }
 
-func _AuthService_DoctorRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DoctorRegisterRequest)
+func _AuthService_EmployeeRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmployeeRegisterRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthServiceServer).DoctorRegister(ctx, in)
+		return srv.(AuthServiceServer).EmployeeRegister(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AuthService_DoctorRegister_FullMethodName,
+		FullMethod: AuthService_EmployeeRegister_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).DoctorRegister(ctx, req.(*DoctorRegisterRequest))
+		return srv.(AuthServiceServer).EmployeeRegister(ctx, req.(*EmployeeRegisterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +112,8 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AuthServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "DoctorRegister",
-			Handler:    _AuthService_DoctorRegister_Handler,
+			MethodName: "EmployeeRegister",
+			Handler:    _AuthService_EmployeeRegister_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

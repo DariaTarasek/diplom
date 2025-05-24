@@ -39,7 +39,7 @@ func main() {
 
 	s := grpc.NewServer()
 
-	st := store.NewStore(conn) // твоя инициализация хранилища
+	st := store.NewStore(conn) // инициализация хранилища
 	if err != nil {
 		log.Fatalf("не удалось инициализировать store: %v", err)
 	}

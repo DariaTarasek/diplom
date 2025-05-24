@@ -9,27 +9,28 @@ message UserData {
   string password = 2;
 }
 
-message DoctorRegisterResponse {
+message EmployeeRegisterResponse {
   int32 user_id = 1;
   string error = 2;
 }
 
-message DoctorData {
+message EmployeeData {
   string first_name = 1;
   string second_name = 2;
   string surname = 3;
   string phone_number = 4;
   string email = 5;
-  string education = 6;
-  int32 experience = 7;
-  string gender = 8;
+  string gender = 6;
+  int32 role = 7;
+  string education = 8;
+  int32 experience = 9;
 }
 
-message DoctorRegisterRequest {
+message EmployeeRegisterRequest {
   UserData user = 1;
-  DoctorData doctor = 2;
+  EmployeeData employee = 2;
 }
 
 service AuthService {
-  rpc DoctorRegister(DoctorRegisterRequest) returns (DoctorRegisterResponse);
+  rpc EmployeeRegister(EmployeeRegisterRequest) returns (EmployeeRegisterResponse);
 }

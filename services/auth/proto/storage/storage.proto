@@ -30,9 +30,45 @@ message AddDoctorResponse {
   string error = 1;
 }
 
+message AddAdminRequest {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string gender = 7;
+}
+
+message AddAdminResponse {
+  string error = 1;
+}
+
+message EmptyRequest{}
+
+message Specialization {
+  int32 id = 1;
+  string name = 2;
+}
+
+message GetAllSpecsResponse{
+  repeated Specialization specs = 1;
+}
+
+message AddUserRoleRequest{
+  int32 user_id = 1;
+  int32 role_id = 2;
+}
+
+message AddUserRoleResponse{
+  string error = 1;
+}
 
 
 service StorageService {
-  rpc AddUser(AddUserRequest) returns (AddUserResponse);
-  rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse);
+  rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
+  rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse); // добавление врача
+  rpc GetAllSpecs(EmptyRequest) returns (GetAllSpecsResponse); // получение всех специализаций врачей
+  rpc AddUserRole(AddUserRoleRequest) returns (AddUserRoleResponse); // добавление роли пользователю
+  rpc AddAdmin(AddAdminRequest) returns (AddAdminResponse); // добавление администратора
 }
