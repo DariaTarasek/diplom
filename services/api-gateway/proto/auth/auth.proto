@@ -56,7 +56,31 @@ message PatientRegisterResponse {
   string error = 2;
 }
 
+message PatientRegisterInClinicRequest {
+  UserData user = 1;
+  PatientData patient = 2;
+}
+
+message PatientRegisterInClinicResponse {
+  int32 user_id = 1;
+  string error = 2;
+}
+
+message EmployeePasswordRecoveryRequest {
+  string login = 1;
+}
+
+message PatientPasswordRecoveryRequest {
+  string login = 1;
+}
+message DefaultResponse {
+  string error = 1;
+}
+
 service AuthService {
   rpc EmployeeRegister(EmployeeRegisterRequest) returns (EmployeeRegisterResponse); // регистрация персонала
-  rpc PatientRegister(PatientRegisterRequest) returns (PatientRegisterResponse); // регистрация пациента
+  rpc PatientRegister(PatientRegisterRequest) returns (PatientRegisterResponse); // регистрация пациента онлайн
+  rpc PatientRegisterInClinic(PatientRegisterInClinicRequest) returns (PatientRegisterInClinicResponse); // регистрация пациента в клинике
+  rpc EmployeePasswordRecovery(EmployeePasswordRecoveryRequest) returns (DefaultResponse); // восстановление пароля сотрудника
+  rpc PatientPasswordRecovery(PatientPasswordRecoveryRequest) returns (DefaultResponse); // восстановление пароля пациента
 }

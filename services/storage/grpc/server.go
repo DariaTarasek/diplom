@@ -103,3 +103,26 @@ func (s *Server) AddPatient(ctx context.Context, req *pb.AddPatientRequest) (*pb
 	}
 	return &pb.AddPatientResponse{}, nil
 }
+
+func (s *Server) GetUserByLogin(ctx context.Context, req *pb.GetUserByLoginRequest) (*pb.GetUserByLoginResponse, error) {
+	user, err := s.Store.GetUserByLogin(ctx, req.Login)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetUserByLoginResponse{
+		Login:    *user.Login,
+		Password: *user.Password,
+		Id:       int32(user.ID),
+	}, nil
+}
+
+func (s *Server) UpdateUserPassword(ctx context.Context, req *pb.UpdateUserPasswordRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.UpdateUser(ctx, model.UserID(req.Id), model.User{
+		Login:    &req.Login,
+		Password: &req.Password,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
