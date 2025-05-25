@@ -786,6 +786,198 @@ func (x *AddUserRoleResponse) GetError() string {
 	return ""
 }
 
+type GetUserByLoginRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserByLoginRequest) Reset() {
+	*x = GetUserByLoginRequest{}
+	mi := &file_proto_storage_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserByLoginRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByLoginRequest) ProtoMessage() {}
+
+func (x *GetUserByLoginRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByLoginRequest.ProtoReflect.Descriptor instead.
+func (*GetUserByLoginRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetUserByLoginRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+type GetUserByLoginResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	Id            int32                  `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserByLoginResponse) Reset() {
+	*x = GetUserByLoginResponse{}
+	mi := &file_proto_storage_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserByLoginResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByLoginResponse) ProtoMessage() {}
+
+func (x *GetUserByLoginResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByLoginResponse.ProtoReflect.Descriptor instead.
+func (*GetUserByLoginResponse) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetUserByLoginResponse) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+func (x *GetUserByLoginResponse) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *GetUserByLoginResponse) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetUserRoleRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserRoleRequest) Reset() {
+	*x = GetUserRoleRequest{}
+	mi := &file_proto_storage_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserRoleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRoleRequest) ProtoMessage() {}
+
+func (x *GetUserRoleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRoleRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRoleRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetUserRoleRequest) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+type GetUserRoleResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Role          int32                  `protobuf:"varint,1,opt,name=role,proto3" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserRoleResponse) Reset() {
+	*x = GetUserRoleResponse{}
+	mi := &file_proto_storage_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserRoleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRoleResponse) ProtoMessage() {}
+
+func (x *GetUserRoleResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRoleResponse.ProtoReflect.Descriptor instead.
+func (*GetUserRoleResponse) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetUserRoleResponse) GetRole() int32 {
+	if x != nil {
+		return x.Role
+	}
+	return 0
+}
+
 var File_proto_storage_proto protoreflect.FileDescriptor
 
 const file_proto_storage_proto_rawDesc = "" +
@@ -849,7 +1041,17 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x17\n" +
 	"\arole_id\x18\x02 \x01(\x05R\x06roleId\"+\n" +
 	"\x13AddUserRoleResponse\x12\x14\n" +
-	"\x05error\x18\x01 \x01(\tR\x05error2\xa8\x03\n" +
+	"\x05error\x18\x01 \x01(\tR\x05error\"-\n" +
+	"\x15GetUserByLoginRequest\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\"Z\n" +
+	"\x16GetUserByLoginResponse\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x0e\n" +
+	"\x02id\x18\x03 \x01(\x05R\x02id\"-\n" +
+	"\x12GetUserRoleRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\")\n" +
+	"\x13GetUserRoleResponse\x12\x12\n" +
+	"\x04role\x18\x01 \x01(\x05R\x04role2\xc5\x04\n" +
 	"\x0eStorageService\x12<\n" +
 	"\aAddUser\x12\x17.storage.AddUserRequest\x1a\x18.storage.AddUserResponse\x12B\n" +
 	"\tAddDoctor\x12\x19.storage.AddDoctorRequest\x1a\x1a.storage.AddDoctorResponse\x12B\n" +
@@ -857,7 +1059,9 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\vAddUserRole\x12\x1b.storage.AddUserRoleRequest\x1a\x1c.storage.AddUserRoleResponse\x12?\n" +
 	"\bAddAdmin\x12\x18.storage.AddAdminRequest\x1a\x19.storage.AddAdminResponse\x12E\n" +
 	"\n" +
-	"AddPatient\x12\x1a.storage.AddPatientRequest\x1a\x1b.storage.AddPatientResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
+	"AddPatient\x12\x1a.storage.AddPatientRequest\x1a\x1b.storage.AddPatientResponse\x12Q\n" +
+	"\x0eGetUserByLogin\x12\x1e.storage.GetUserByLoginRequest\x1a\x1f.storage.GetUserByLoginResponse\x12H\n" +
+	"\vGetUserRole\x12\x1b.storage.GetUserRoleRequest\x1a\x1c.storage.GetUserRoleResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
 
 var (
 	file_proto_storage_proto_rawDescOnce sync.Once
@@ -871,25 +1075,29 @@ func file_proto_storage_proto_rawDescGZIP() []byte {
 	return file_proto_storage_proto_rawDescData
 }
 
-var file_proto_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_proto_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_proto_storage_proto_goTypes = []any{
-	(*AddUserRequest)(nil),        // 0: storage.AddUserRequest
-	(*AddUserResponse)(nil),       // 1: storage.AddUserResponse
-	(*AddDoctorRequest)(nil),      // 2: storage.AddDoctorRequest
-	(*AddDoctorResponse)(nil),     // 3: storage.AddDoctorResponse
-	(*AddAdminRequest)(nil),       // 4: storage.AddAdminRequest
-	(*AddAdminResponse)(nil),      // 5: storage.AddAdminResponse
-	(*AddPatientRequest)(nil),     // 6: storage.AddPatientRequest
-	(*AddPatientResponse)(nil),    // 7: storage.AddPatientResponse
-	(*EmptyRequest)(nil),          // 8: storage.EmptyRequest
-	(*Specialization)(nil),        // 9: storage.Specialization
-	(*GetAllSpecsResponse)(nil),   // 10: storage.GetAllSpecsResponse
-	(*AddUserRoleRequest)(nil),    // 11: storage.AddUserRoleRequest
-	(*AddUserRoleResponse)(nil),   // 12: storage.AddUserRoleResponse
-	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
+	(*AddUserRequest)(nil),         // 0: storage.AddUserRequest
+	(*AddUserResponse)(nil),        // 1: storage.AddUserResponse
+	(*AddDoctorRequest)(nil),       // 2: storage.AddDoctorRequest
+	(*AddDoctorResponse)(nil),      // 3: storage.AddDoctorResponse
+	(*AddAdminRequest)(nil),        // 4: storage.AddAdminRequest
+	(*AddAdminResponse)(nil),       // 5: storage.AddAdminResponse
+	(*AddPatientRequest)(nil),      // 6: storage.AddPatientRequest
+	(*AddPatientResponse)(nil),     // 7: storage.AddPatientResponse
+	(*EmptyRequest)(nil),           // 8: storage.EmptyRequest
+	(*Specialization)(nil),         // 9: storage.Specialization
+	(*GetAllSpecsResponse)(nil),    // 10: storage.GetAllSpecsResponse
+	(*AddUserRoleRequest)(nil),     // 11: storage.AddUserRoleRequest
+	(*AddUserRoleResponse)(nil),    // 12: storage.AddUserRoleResponse
+	(*GetUserByLoginRequest)(nil),  // 13: storage.GetUserByLoginRequest
+	(*GetUserByLoginResponse)(nil), // 14: storage.GetUserByLoginResponse
+	(*GetUserRoleRequest)(nil),     // 15: storage.GetUserRoleRequest
+	(*GetUserRoleResponse)(nil),    // 16: storage.GetUserRoleResponse
+	(*timestamppb.Timestamp)(nil),  // 17: google.protobuf.Timestamp
 }
 var file_proto_storage_proto_depIdxs = []int32{
-	13, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
+	17, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
 	9,  // 1: storage.GetAllSpecsResponse.specs:type_name -> storage.Specialization
 	0,  // 2: storage.StorageService.AddUser:input_type -> storage.AddUserRequest
 	2,  // 3: storage.StorageService.AddDoctor:input_type -> storage.AddDoctorRequest
@@ -897,14 +1105,18 @@ var file_proto_storage_proto_depIdxs = []int32{
 	11, // 5: storage.StorageService.AddUserRole:input_type -> storage.AddUserRoleRequest
 	4,  // 6: storage.StorageService.AddAdmin:input_type -> storage.AddAdminRequest
 	6,  // 7: storage.StorageService.AddPatient:input_type -> storage.AddPatientRequest
-	1,  // 8: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
-	3,  // 9: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
-	10, // 10: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
-	12, // 11: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
-	5,  // 12: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
-	7,  // 13: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
-	8,  // [8:14] is the sub-list for method output_type
-	2,  // [2:8] is the sub-list for method input_type
+	13, // 8: storage.StorageService.GetUserByLogin:input_type -> storage.GetUserByLoginRequest
+	15, // 9: storage.StorageService.GetUserRole:input_type -> storage.GetUserRoleRequest
+	1,  // 10: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
+	3,  // 11: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
+	10, // 12: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
+	12, // 13: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
+	5,  // 14: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
+	7,  // 15: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
+	14, // 16: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
+	16, // 17: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
+	10, // [10:18] is the sub-list for method output_type
+	2,  // [2:10] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -921,7 +1133,7 @@ func file_proto_storage_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_storage_proto_rawDesc), len(file_proto_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -113,10 +113,11 @@ func (s *AuthService) AdminRegister(ctx context.Context, user model.User, admin 
 		return 0, fmt.Errorf("не удалось добавить роль админу через gRPC: %w", err)
 	}
 
-	err = utils.SendPassword(admin.Email, password)
-	if err != nil {
-		return 0, fmt.Errorf("не удалось отправить пароль на email: %w", err)
-	}
+	//err = utils.SendPassword(admin.Email, password)
+	//if err != nil {
+	//	return 0, fmt.Errorf("не удалось отправить пароль на email: %w", err)
+	//}
+	fmt.Println(password)
 	return int(respUser.UserId), nil
 }
 

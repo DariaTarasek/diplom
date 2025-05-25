@@ -81,6 +81,24 @@ message AddUserRoleResponse{
   string error = 1;
 }
 
+message GetUserByLoginRequest{
+  string login = 1;
+}
+
+message GetUserByLoginResponse{
+  string login = 1;
+  string password = 2;
+  int32 id = 3;
+}
+
+message GetUserRoleRequest{
+  int32 user_id = 1;
+}
+
+message GetUserRoleResponse{
+  int32 role = 1;
+}
+
 
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
@@ -89,4 +107,6 @@ service StorageService {
   rpc AddUserRole(AddUserRoleRequest) returns (AddUserRoleResponse); // добавление роли пользователю
   rpc AddAdmin(AddAdminRequest) returns (AddAdminResponse); // добавление администратора
   rpc AddPatient(AddPatientRequest) returns (AddPatientResponse); // добавление пациента
+  rpc GetUserByLogin(GetUserByLoginRequest) returns (GetUserByLoginResponse); // получение пользователя по логину
+  rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse);
 }

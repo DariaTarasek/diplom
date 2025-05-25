@@ -3,12 +3,19 @@ module github.com/DariaTarasek/diplom/services/auth
 go 1.23.2
 
 require (
+	github.com/golang-jwt/jwt/v5 v5.2.2
+	github.com/joho/godotenv v1.5.1
+	github.com/redis/go-redis/v9 v9.8.0
+	github.com/smsaero/smsaero_golang v1.3.1
 	golang.org/x/crypto v0.38.0
 	google.golang.org/grpc v1.72.1
 	google.golang.org/protobuf v1.36.5
 )
 
 require (
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/nyaruka/phonenumbers v1.3.6 // indirect
 	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.25.0 // indirect

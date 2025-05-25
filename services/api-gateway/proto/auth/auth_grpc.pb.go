@@ -23,6 +23,9 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	AuthService_EmployeeRegister_FullMethodName = "/auth.AuthService/EmployeeRegister"
 	AuthService_PatientRegister_FullMethodName  = "/auth.AuthService/PatientRegister"
+	AuthService_RequestCode_FullMethodName      = "/auth.AuthService/RequestCode"
+	AuthService_VerifyCode_FullMethodName       = "/auth.AuthService/VerifyCode"
+	AuthService_Auth_FullMethodName             = "/auth.AuthService/Auth"
 )
 
 // AuthServiceClient is the client API for AuthService service.
@@ -31,6 +34,9 @@ const (
 type AuthServiceClient interface {
 	EmployeeRegister(ctx context.Context, in *EmployeeRegisterRequest, opts ...grpc.CallOption) (*EmployeeRegisterResponse, error)
 	PatientRegister(ctx context.Context, in *PatientRegisterRequest, opts ...grpc.CallOption) (*PatientRegisterResponse, error)
+	RequestCode(ctx context.Context, in *GenerateCodeRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	Auth(ctx context.Context, in *AuthRequest, opts ...grpc.CallOption) (*AuthResponse, error)
 }
 
 type authServiceClient struct {
@@ -61,12 +67,45 @@ func (c *authServiceClient) PatientRegister(ctx context.Context, in *PatientRegi
 	return out, nil
 }
 
+func (c *authServiceClient) RequestCode(ctx context.Context, in *GenerateCodeRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AuthService_RequestCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AuthService_VerifyCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) Auth(ctx context.Context, in *AuthRequest, opts ...grpc.CallOption) (*AuthResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AuthResponse)
+	err := c.cc.Invoke(ctx, AuthService_Auth_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServiceServer is the server API for AuthService service.
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility.
 type AuthServiceServer interface {
 	EmployeeRegister(context.Context, *EmployeeRegisterRequest) (*EmployeeRegisterResponse, error)
 	PatientRegister(context.Context, *PatientRegisterRequest) (*PatientRegisterResponse, error)
+	RequestCode(context.Context, *GenerateCodeRequest) (*DefaultResponse, error)
+	VerifyCode(context.Context, *VerifyCodeRequest) (*DefaultResponse, error)
+	Auth(context.Context, *AuthRequest) (*AuthResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -82,6 +121,15 @@ func (UnimplementedAuthServiceServer) EmployeeRegister(context.Context, *Employe
 }
 func (UnimplementedAuthServiceServer) PatientRegister(context.Context, *PatientRegisterRequest) (*PatientRegisterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatientRegister not implemented")
+}
+func (UnimplementedAuthServiceServer) RequestCode(context.Context, *GenerateCodeRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestCode not implemented")
+}
+func (UnimplementedAuthServiceServer) VerifyCode(context.Context, *VerifyCodeRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyCode not implemented")
+}
+func (UnimplementedAuthServiceServer) Auth(context.Context, *AuthRequest) (*AuthResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Auth not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 func (UnimplementedAuthServiceServer) testEmbeddedByValue()                     {}
@@ -140,6 +188,60 @@ func _AuthService_PatientRegister_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthService_RequestCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GenerateCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).RequestCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_RequestCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).RequestCode(ctx, req.(*GenerateCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_VerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).VerifyCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_VerifyCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).VerifyCode(ctx, req.(*VerifyCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_Auth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuthRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).Auth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_Auth_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).Auth(ctx, req.(*AuthRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,6 +256,18 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PatientRegister",
 			Handler:    _AuthService_PatientRegister_Handler,
+		},
+		{
+			MethodName: "RequestCode",
+			Handler:    _AuthService_RequestCode_Handler,
+		},
+		{
+			MethodName: "VerifyCode",
+			Handler:    _AuthService_VerifyCode_Handler,
+		},
+		{
+			MethodName: "Auth",
+			Handler:    _AuthService_Auth_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

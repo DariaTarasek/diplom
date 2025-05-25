@@ -34,7 +34,11 @@ func main() {
 		log.Fatalf("Не удалось создать storage клиент: %s", err)
 	}
 
-	htmlPages := []string{"index.html", "auth_doc.html", "registration.html", "auth.html", "employee_registration.html"}
+	htmlPages := []string{"index.html", "auth_doc.html", "registration.html", "auth.html", "employee_registration.html",
+		"patient_account.html",
+		"doctor_account.html",
+		"administrator_account.html",
+	}
 
 	for _, page := range htmlPages {
 		page := page // захват в замыкание

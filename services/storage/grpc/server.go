@@ -103,3 +103,30 @@ func (s *Server) AddPatient(ctx context.Context, req *pb.AddPatientRequest) (*pb
 	}
 	return &pb.AddPatientResponse{}, nil
 }
+
+func (s *Server) GetUserByLogin(ctx context.Context, req *pb.GetUserByLoginRequest) (*pb.GetUserByLoginResponse, error) {
+	user, err := s.Store.GetUserByLogin(ctx, req.Login)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetUserByLoginResponse{
+		Login:    deref(user.Login),
+		Password: deref(user.Password),
+		Id:       int32(user.ID),
+	}, nil
+}
+
+func (s *Server) GetUserRole(ctx context.Context, req *pb.GetUserRoleRequest) (*pb.GetUserRoleResponse, error) {
+	userRole, err := s.Store.GetRoleByUser(ctx, model.UserID(req.UserId))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetUserRoleResponse{Role: int32(userRole.RoleID)}, nil
+}
+
+func deref(s *string) string {
+	if s == nil {
+		return ""
+	}
+	return *s
+}

@@ -24,6 +24,9 @@ func NewHandler(authClient *clients.AuthClient) *Handler {
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.POST("/employee-register", h.EmployeeRegister)
 	rg.POST("/register", h.PatientRegister)
+	rg.POST("/request-code", h.requestCode)
+	rg.POST("/verify-code", h.verifyCode)
+	rg.POST("/login", h.authorize)
 	//  сюда остальные
 }
 
@@ -86,7 +89,7 @@ func (h *Handler) PatientRegister(c *gin.Context) {
 		Password: patientReq.Password,
 	}
 
-	birthDate, err := time.Parse("02.01.2006", patientReq.BirthDate)
+	birthDate, err := time.Parse("2006-01-02", patientReq.BirthDate)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
 		return
