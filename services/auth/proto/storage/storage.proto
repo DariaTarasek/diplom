@@ -101,6 +101,15 @@ message DefaultResponse {
   string error = 1;
 }
 
+message GetUserRoleRequest{
+  int32 user_id = 1;
+}
+
+message GetUserRoleResponse{
+  int32 role = 1;
+}
+
+
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
   rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse); // добавление врача
@@ -110,4 +119,5 @@ service StorageService {
   rpc AddPatient(AddPatientRequest) returns (AddPatientResponse); // добавление пациента
   rpc GetUserByLogin(GetUserByLoginRequest) returns (GetUserByLoginResponse); // получение пользователя по логину
   rpc UpdateUserPassword(UpdateUserPasswordRequest) returns (DefaultResponse); // обновление пароля пользователя
+  rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse);
 }

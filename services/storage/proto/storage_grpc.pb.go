@@ -29,6 +29,7 @@ const (
 	StorageService_UpdateUserPassword_FullMethodName      = "/storage.StorageService/UpdateUserPassword"
 	StorageService_GetDoctors_FullMethodName              = "/storage.StorageService/GetDoctors"
 	StorageService_GetClinicWeeklySchedule_FullMethodName = "/storage.StorageService/GetClinicWeeklySchedule"
+	StorageService_GetUserRole_FullMethodName             = "/storage.StorageService/GetUserRole"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -45,6 +46,7 @@ type StorageServiceClient interface {
 	UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetDoctors(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error)
 	GetClinicWeeklySchedule(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicWeeklyScheduleResponse, error)
+	GetUserRole(ctx context.Context, in *GetUserRoleRequest, opts ...grpc.CallOption) (*GetUserRoleResponse, error)
 }
 
 type storageServiceClient struct {
@@ -155,6 +157,16 @@ func (c *storageServiceClient) GetClinicWeeklySchedule(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *storageServiceClient) GetUserRole(ctx context.Context, in *GetUserRoleRequest, opts ...grpc.CallOption) (*GetUserRoleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserRoleResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetUserRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -169,6 +181,7 @@ type StorageServiceServer interface {
 	UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*DefaultResponse, error)
 	GetDoctors(context.Context, *EmptyRequest) (*GetDoctorsResponse, error)
 	GetClinicWeeklySchedule(context.Context, *EmptyRequest) (*GetClinicWeeklyScheduleResponse, error)
+	GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -208,6 +221,9 @@ func (UnimplementedStorageServiceServer) GetDoctors(context.Context, *EmptyReque
 }
 func (UnimplementedStorageServiceServer) GetClinicWeeklySchedule(context.Context, *EmptyRequest) (*GetClinicWeeklyScheduleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetClinicWeeklySchedule not implemented")
+}
+func (UnimplementedStorageServiceServer) GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserRole not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -410,6 +426,24 @@ func _StorageService_GetClinicWeeklySchedule_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_GetUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetUserRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetUserRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetUserRole(ctx, req.(*GetUserRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -456,6 +490,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetClinicWeeklySchedule",
 			Handler:    _StorageService_GetClinicWeeklySchedule_Handler,
+		},
+		{
+			MethodName: "GetUserRole",
+			Handler:    _StorageService_GetUserRole_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -27,6 +27,7 @@ const (
 	StorageService_AddPatient_FullMethodName         = "/storage.StorageService/AddPatient"
 	StorageService_GetUserByLogin_FullMethodName     = "/storage.StorageService/GetUserByLogin"
 	StorageService_UpdateUserPassword_FullMethodName = "/storage.StorageService/UpdateUserPassword"
+	StorageService_GetUserRole_FullMethodName        = "/storage.StorageService/GetUserRole"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -41,6 +42,7 @@ type StorageServiceClient interface {
 	AddPatient(ctx context.Context, in *AddPatientRequest, opts ...grpc.CallOption) (*AddPatientResponse, error)
 	GetUserByLogin(ctx context.Context, in *GetUserByLoginRequest, opts ...grpc.CallOption) (*GetUserByLoginResponse, error)
 	UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	GetUserRole(ctx context.Context, in *GetUserRoleRequest, opts ...grpc.CallOption) (*GetUserRoleResponse, error)
 }
 
 type storageServiceClient struct {
@@ -131,6 +133,16 @@ func (c *storageServiceClient) UpdateUserPassword(ctx context.Context, in *Updat
 	return out, nil
 }
 
+func (c *storageServiceClient) GetUserRole(ctx context.Context, in *GetUserRoleRequest, opts ...grpc.CallOption) (*GetUserRoleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserRoleResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetUserRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -143,6 +155,7 @@ type StorageServiceServer interface {
 	AddPatient(context.Context, *AddPatientRequest) (*AddPatientResponse, error)
 	GetUserByLogin(context.Context, *GetUserByLoginRequest) (*GetUserByLoginResponse, error)
 	UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*DefaultResponse, error)
+	GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -176,6 +189,9 @@ func (UnimplementedStorageServiceServer) GetUserByLogin(context.Context, *GetUse
 }
 func (UnimplementedStorageServiceServer) UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserPassword not implemented")
+}
+func (UnimplementedStorageServiceServer) GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserRole not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -342,6 +358,24 @@ func _StorageService_UpdateUserPassword_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_GetUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetUserRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetUserRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetUserRole(ctx, req.(*GetUserRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -380,6 +414,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUserPassword",
 			Handler:    _StorageService_UpdateUserPassword_Handler,
+		},
+		{
+			MethodName: "GetUserRole",
+			Handler:    _StorageService_GetUserRole_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

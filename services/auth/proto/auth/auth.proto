@@ -77,10 +77,32 @@ message DefaultResponse {
   string error = 1;
 }
 
+message GenerateCodeRequest {
+  string phone = 1;
+}
+
+message VerifyCodeRequest {
+  string phone = 1;
+  string code = 2;
+}
+
+message AuthRequest {
+  string login = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  string token = 1;
+  string role = 2;
+}
+
 service AuthService {
   rpc EmployeeRegister(EmployeeRegisterRequest) returns (EmployeeRegisterResponse); // регистрация персонала
   rpc PatientRegister(PatientRegisterRequest) returns (PatientRegisterResponse); // регистрация пациента онлайн
   rpc PatientRegisterInClinic(PatientRegisterInClinicRequest) returns (PatientRegisterInClinicResponse); // регистрация пациента в клинике
   rpc EmployeePasswordRecovery(EmployeePasswordRecoveryRequest) returns (DefaultResponse); // восстановление пароля сотрудника
   rpc PatientPasswordRecovery(PatientPasswordRecoveryRequest) returns (DefaultResponse); // восстановление пароля пациента
+  rpc RequestCode(GenerateCodeRequest) returns (DefaultResponse); // запрос кода подтверждения
+  rpc VerifyCode(VerifyCodeRequest) returns (DefaultResponse); // подтверждение кода
+  rpc Auth(AuthRequest) returns (AuthResponse); // авторизация
 }

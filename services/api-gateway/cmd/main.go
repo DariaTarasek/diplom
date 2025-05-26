@@ -36,7 +36,9 @@ func main() {
 
 	htmlPages := []string{"index.html", "auth_doc.html", "registration.html", "auth.html", "employee_registration.html",
 		"registration_in_clinic.html", "employee_password_recovery.html", "password_recovery.html", "doctors.html",
-		"admins_doctor_list.html", "admins_schedule_management.html"}
+		"admins_doctor_list.html", "admins_schedule_management.html","patient_account.html",
+		"doctor_account.html",
+		"administrator_account.html",}
 
 	for _, page := range htmlPages {
 		page := page // захват в замыкание

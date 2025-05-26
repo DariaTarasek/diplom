@@ -728,6 +728,206 @@ func (x *DefaultResponse) GetError() string {
 	return ""
 }
 
+type GenerateCodeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Phone         string                 `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenerateCodeRequest) Reset() {
+	*x = GenerateCodeRequest{}
+	mi := &file_proto_auth_auth_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateCodeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateCodeRequest) ProtoMessage() {}
+
+func (x *GenerateCodeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateCodeRequest.ProtoReflect.Descriptor instead.
+func (*GenerateCodeRequest) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GenerateCodeRequest) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+type VerifyCodeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Phone         string                 `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
+	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyCodeRequest) Reset() {
+	*x = VerifyCodeRequest{}
+	mi := &file_proto_auth_auth_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyCodeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyCodeRequest) ProtoMessage() {}
+
+func (x *VerifyCodeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyCodeRequest.ProtoReflect.Descriptor instead.
+func (*VerifyCodeRequest) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *VerifyCodeRequest) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *VerifyCodeRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type AuthRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AuthRequest) Reset() {
+	*x = AuthRequest{}
+	mi := &file_proto_auth_auth_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AuthRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuthRequest) ProtoMessage() {}
+
+func (x *AuthRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuthRequest.ProtoReflect.Descriptor instead.
+func (*AuthRequest) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *AuthRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+func (x *AuthRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type AuthResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	Role          string                 `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AuthResponse) Reset() {
+	*x = AuthResponse{}
+	mi := &file_proto_auth_auth_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AuthResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuthResponse) ProtoMessage() {}
+
+func (x *AuthResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuthResponse.ProtoReflect.Descriptor instead.
+func (*AuthResponse) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *AuthResponse) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *AuthResponse) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
 var File_proto_auth_auth_proto protoreflect.FileDescriptor
 
 const file_proto_auth_auth_proto_rawDesc = "" +
@@ -785,13 +985,28 @@ const file_proto_auth_auth_proto_rawDesc = "" +
 	"\x1ePatientPasswordRecoveryRequest\x12\x14\n" +
 	"\x05login\x18\x01 \x01(\tR\x05login\"'\n" +
 	"\x0fDefaultResponse\x12\x14\n" +
-	"\x05error\x18\x01 \x01(\tR\x05error2\xca\x03\n" +
+	"\x05error\x18\x01 \x01(\tR\x05error\"+\n" +
+	"\x13GenerateCodeRequest\x12\x14\n" +
+	"\x05phone\x18\x01 \x01(\tR\x05phone\"=\n" +
+	"\x11VerifyCodeRequest\x12\x14\n" +
+	"\x05phone\x18\x01 \x01(\tR\x05phone\x12\x12\n" +
+	"\x04code\x18\x02 \x01(\tR\x04code\"?\n" +
+	"\vAuthRequest\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"8\n" +
+	"\fAuthResponse\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
+	"\x04role\x18\x02 \x01(\tR\x04role2\xf8\x04\n" +
 	"\vAuthService\x12Q\n" +
 	"\x10EmployeeRegister\x12\x1d.auth.EmployeeRegisterRequest\x1a\x1e.auth.EmployeeRegisterResponse\x12N\n" +
 	"\x0fPatientRegister\x12\x1c.auth.PatientRegisterRequest\x1a\x1d.auth.PatientRegisterResponse\x12f\n" +
 	"\x17PatientRegisterInClinic\x12$.auth.PatientRegisterInClinicRequest\x1a%.auth.PatientRegisterInClinicResponse\x12X\n" +
 	"\x18EmployeePasswordRecovery\x12%.auth.EmployeePasswordRecoveryRequest\x1a\x15.auth.DefaultResponse\x12V\n" +
-	"\x17PatientPasswordRecovery\x12$.auth.PatientPasswordRecoveryRequest\x1a\x15.auth.DefaultResponseB\x13Z\x11auth/proto;authpbb\x06proto3"
+	"\x17PatientPasswordRecovery\x12$.auth.PatientPasswordRecoveryRequest\x1a\x15.auth.DefaultResponse\x12?\n" +
+	"\vRequestCode\x12\x19.auth.GenerateCodeRequest\x1a\x15.auth.DefaultResponse\x12<\n" +
+	"\n" +
+	"VerifyCode\x12\x17.auth.VerifyCodeRequest\x1a\x15.auth.DefaultResponse\x12-\n" +
+	"\x04Auth\x12\x11.auth.AuthRequest\x1a\x12.auth.AuthResponseB\x13Z\x11auth/proto;authpbb\x06proto3"
 
 var (
 	file_proto_auth_auth_proto_rawDescOnce sync.Once
@@ -805,7 +1020,7 @@ func file_proto_auth_auth_proto_rawDescGZIP() []byte {
 	return file_proto_auth_auth_proto_rawDescData
 }
 
-var file_proto_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_proto_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_proto_auth_auth_proto_goTypes = []any{
 	(*UserData)(nil),                        // 0: auth.UserData
 	(*EmployeeRegisterResponse)(nil),        // 1: auth.EmployeeRegisterResponse
@@ -819,12 +1034,16 @@ var file_proto_auth_auth_proto_goTypes = []any{
 	(*EmployeePasswordRecoveryRequest)(nil), // 9: auth.EmployeePasswordRecoveryRequest
 	(*PatientPasswordRecoveryRequest)(nil),  // 10: auth.PatientPasswordRecoveryRequest
 	(*DefaultResponse)(nil),                 // 11: auth.DefaultResponse
-	(*timestamppb.Timestamp)(nil),           // 12: google.protobuf.Timestamp
+	(*GenerateCodeRequest)(nil),             // 12: auth.GenerateCodeRequest
+	(*VerifyCodeRequest)(nil),               // 13: auth.VerifyCodeRequest
+	(*AuthRequest)(nil),                     // 14: auth.AuthRequest
+	(*AuthResponse)(nil),                    // 15: auth.AuthResponse
+	(*timestamppb.Timestamp)(nil),           // 16: google.protobuf.Timestamp
 }
 var file_proto_auth_auth_proto_depIdxs = []int32{
 	0,  // 0: auth.EmployeeRegisterRequest.user:type_name -> auth.UserData
 	2,  // 1: auth.EmployeeRegisterRequest.employee:type_name -> auth.EmployeeData
-	12, // 2: auth.PatientData.birth_date:type_name -> google.protobuf.Timestamp
+	16, // 2: auth.PatientData.birth_date:type_name -> google.protobuf.Timestamp
 	0,  // 3: auth.PatientRegisterRequest.user:type_name -> auth.UserData
 	4,  // 4: auth.PatientRegisterRequest.patient:type_name -> auth.PatientData
 	0,  // 5: auth.PatientRegisterInClinicRequest.user:type_name -> auth.UserData
@@ -834,13 +1053,19 @@ var file_proto_auth_auth_proto_depIdxs = []int32{
 	7,  // 9: auth.AuthService.PatientRegisterInClinic:input_type -> auth.PatientRegisterInClinicRequest
 	9,  // 10: auth.AuthService.EmployeePasswordRecovery:input_type -> auth.EmployeePasswordRecoveryRequest
 	10, // 11: auth.AuthService.PatientPasswordRecovery:input_type -> auth.PatientPasswordRecoveryRequest
-	1,  // 12: auth.AuthService.EmployeeRegister:output_type -> auth.EmployeeRegisterResponse
-	6,  // 13: auth.AuthService.PatientRegister:output_type -> auth.PatientRegisterResponse
-	8,  // 14: auth.AuthService.PatientRegisterInClinic:output_type -> auth.PatientRegisterInClinicResponse
-	11, // 15: auth.AuthService.EmployeePasswordRecovery:output_type -> auth.DefaultResponse
-	11, // 16: auth.AuthService.PatientPasswordRecovery:output_type -> auth.DefaultResponse
-	12, // [12:17] is the sub-list for method output_type
-	7,  // [7:12] is the sub-list for method input_type
+	12, // 12: auth.AuthService.RequestCode:input_type -> auth.GenerateCodeRequest
+	13, // 13: auth.AuthService.VerifyCode:input_type -> auth.VerifyCodeRequest
+	14, // 14: auth.AuthService.Auth:input_type -> auth.AuthRequest
+	1,  // 15: auth.AuthService.EmployeeRegister:output_type -> auth.EmployeeRegisterResponse
+	6,  // 16: auth.AuthService.PatientRegister:output_type -> auth.PatientRegisterResponse
+	8,  // 17: auth.AuthService.PatientRegisterInClinic:output_type -> auth.PatientRegisterInClinicResponse
+	11, // 18: auth.AuthService.EmployeePasswordRecovery:output_type -> auth.DefaultResponse
+	11, // 19: auth.AuthService.PatientPasswordRecovery:output_type -> auth.DefaultResponse
+	11, // 20: auth.AuthService.RequestCode:output_type -> auth.DefaultResponse
+	11, // 21: auth.AuthService.VerifyCode:output_type -> auth.DefaultResponse
+	15, // 22: auth.AuthService.Auth:output_type -> auth.AuthResponse
+	15, // [15:23] is the sub-list for method output_type
+	7,  // [7:15] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -857,7 +1082,7 @@ func file_proto_auth_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_auth_auth_proto_rawDesc), len(file_proto_auth_auth_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

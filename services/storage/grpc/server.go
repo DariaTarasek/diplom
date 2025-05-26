@@ -125,10 +125,18 @@ func (s *Server) GetUserByLogin(ctx context.Context, req *pb.GetUserByLoginReque
 		return nil, err
 	}
 	return &pb.GetUserByLoginResponse{
-		Login:    *user.Login,
-		Password: *user.Password,
+		Login:    deref(user.Login),
+		Password: deref(user.Password),
 		Id:       int32(user.ID),
 	}, nil
+}
+
+func (s *Server) GetUserRole(ctx context.Context, req *pb.GetUserRoleRequest) (*pb.GetUserRoleResponse, error) {
+	userRole, err := s.Store.GetRoleByUser(ctx, model.UserID(req.UserId))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetUserRoleResponse{Role: int32(userRole.RoleID)}, nil
 }
 
 func (s *Server) UpdateUserPassword(ctx context.Context, req *pb.UpdateUserPasswordRequest) (*pb.DefaultResponse, error) {

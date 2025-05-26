@@ -130,6 +130,15 @@ message GetClinicWeeklyScheduleResponse {
   repeated WeeklyClinicSchedule clinic_schedule = 1;
 }
 
+message GetUserRoleRequest{
+  int32 user_id = 1;
+}
+
+message GetUserRoleResponse{
+  int32 role = 1;
+}
+
+
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
   rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse); // добавление врача
@@ -141,4 +150,5 @@ service StorageService {
   rpc UpdateUserPassword(UpdateUserPasswordRequest) returns (DefaultResponse); // обновление пароля пользователя
   rpc GetDoctors(EmptyRequest) returns (GetDoctorsResponse); // получение списка всех врачей
   rpc GetClinicWeeklySchedule(EmptyRequest) returns (GetClinicWeeklyScheduleResponse); // получение постоянного расписания клиники
+  rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse);
 }
