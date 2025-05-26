@@ -181,10 +181,3 @@ func (s *AuthService) PatientRegister(ctx context.Context, user model.User, pati
 func (s *AuthService) PatientRegisterInClinic(ctx context.Context, user model.User, patient model.Patient) (int, error) {
 	return s.PatientRegisterInternal(ctx, user, patient)
 }
-
-func deref(s *string) string {
-	if s == nil {
-		return ""
-	}
-	return *s
-}

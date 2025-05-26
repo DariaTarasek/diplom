@@ -1,4 +1,4 @@
-package register
+package auth
 
 import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/model"

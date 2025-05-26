@@ -1362,6 +1362,102 @@ func (x *GetUserRoleResponse) GetRole() int32 {
 	return 0
 }
 
+type GetRolePermissionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoleId        int32                  `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	PermId        int32                  `protobuf:"varint,2,opt,name=perm_id,json=permId,proto3" json:"perm_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRolePermissionRequest) Reset() {
+	*x = GetRolePermissionRequest{}
+	mi := &file_proto_storage_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRolePermissionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRolePermissionRequest) ProtoMessage() {}
+
+func (x *GetRolePermissionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRolePermissionRequest.ProtoReflect.Descriptor instead.
+func (*GetRolePermissionRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *GetRolePermissionRequest) GetRoleId() int32 {
+	if x != nil {
+		return x.RoleId
+	}
+	return 0
+}
+
+func (x *GetRolePermissionRequest) GetPermId() int32 {
+	if x != nil {
+		return x.PermId
+	}
+	return 0
+}
+
+type GetDoctorBySpecIDRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SpecId        int32                  `protobuf:"varint,1,opt,name=spec_id,json=specId,proto3" json:"spec_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDoctorBySpecIDRequest) Reset() {
+	*x = GetDoctorBySpecIDRequest{}
+	mi := &file_proto_storage_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDoctorBySpecIDRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDoctorBySpecIDRequest) ProtoMessage() {}
+
+func (x *GetDoctorBySpecIDRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDoctorBySpecIDRequest.ProtoReflect.Descriptor instead.
+func (*GetDoctorBySpecIDRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetDoctorBySpecIDRequest) GetSpecId() int32 {
+	if x != nil {
+		return x.SpecId
+	}
+	return 0
+}
+
 var File_proto_storage_proto protoreflect.FileDescriptor
 
 const file_proto_storage_proto_rawDesc = "" +
@@ -1468,7 +1564,12 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\x12GetUserRoleRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\")\n" +
 	"\x13GetUserRoleResponse\x12\x12\n" +
-	"\x04role\x18\x01 \x01(\x05R\x04role2\xb7\x06\n" +
+	"\x04role\x18\x01 \x01(\x05R\x04role\"L\n" +
+	"\x18GetRolePermissionRequest\x12\x17\n" +
+	"\arole_id\x18\x01 \x01(\x05R\x06roleId\x12\x17\n" +
+	"\aperm_id\x18\x02 \x01(\x05R\x06permId\"3\n" +
+	"\x18GetDoctorBySpecIDRequest\x12\x17\n" +
+	"\aspec_id\x18\x01 \x01(\x05R\x06specId2\xdf\a\n" +
 	"\x0eStorageService\x12<\n" +
 	"\aAddUser\x12\x17.storage.AddUserRequest\x1a\x18.storage.AddUserResponse\x12B\n" +
 	"\tAddDoctor\x12\x19.storage.AddDoctorRequest\x1a\x1a.storage.AddDoctorResponse\x12B\n" +
@@ -1482,7 +1583,9 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\n" +
 	"GetDoctors\x12\x15.storage.EmptyRequest\x1a\x1b.storage.GetDoctorsResponse\x12Z\n" +
 	"\x17GetClinicWeeklySchedule\x12\x15.storage.EmptyRequest\x1a(.storage.GetClinicWeeklyScheduleResponse\x12H\n" +
-	"\vGetUserRole\x12\x1b.storage.GetUserRoleRequest\x1a\x1c.storage.GetUserRoleResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
+	"\vGetUserRole\x12\x1b.storage.GetUserRoleRequest\x1a\x1c.storage.GetUserRoleResponse\x12P\n" +
+	"\x11GetRolePermission\x12!.storage.GetRolePermissionRequest\x1a\x18.storage.DefaultResponse\x12T\n" +
+	"\x12GetDoctorsBySpecID\x12!.storage.GetDoctorBySpecIDRequest\x1a\x1b.storage.GetDoctorsResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
 
 var (
 	file_proto_storage_proto_rawDescOnce sync.Once
@@ -1496,7 +1599,7 @@ func file_proto_storage_proto_rawDescGZIP() []byte {
 	return file_proto_storage_proto_rawDescData
 }
 
-var file_proto_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_proto_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_proto_storage_proto_goTypes = []any{
 	(*AddUserRequest)(nil),                  // 0: storage.AddUserRequest
 	(*AddUserResponse)(nil),                 // 1: storage.AddUserResponse
@@ -1521,14 +1624,16 @@ var file_proto_storage_proto_goTypes = []any{
 	(*GetClinicWeeklyScheduleResponse)(nil), // 20: storage.GetClinicWeeklyScheduleResponse
 	(*GetUserRoleRequest)(nil),              // 21: storage.GetUserRoleRequest
 	(*GetUserRoleResponse)(nil),             // 22: storage.GetUserRoleResponse
-	(*timestamppb.Timestamp)(nil),           // 23: google.protobuf.Timestamp
+	(*GetRolePermissionRequest)(nil),        // 23: storage.GetRolePermissionRequest
+	(*GetDoctorBySpecIDRequest)(nil),        // 24: storage.GetDoctorBySpecIDRequest
+	(*timestamppb.Timestamp)(nil),           // 25: google.protobuf.Timestamp
 }
 var file_proto_storage_proto_depIdxs = []int32{
-	23, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
+	25, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
 	9,  // 1: storage.GetAllSpecsResponse.specs:type_name -> storage.Specialization
 	17, // 2: storage.GetDoctorsResponse.doctors:type_name -> storage.Doctor
-	23, // 3: storage.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
-	23, // 4: storage.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
+	25, // 3: storage.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
+	25, // 4: storage.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
 	19, // 5: storage.GetClinicWeeklyScheduleResponse.clinic_schedule:type_name -> storage.WeeklyClinicSchedule
 	0,  // 6: storage.StorageService.AddUser:input_type -> storage.AddUserRequest
 	2,  // 7: storage.StorageService.AddDoctor:input_type -> storage.AddDoctorRequest
@@ -1541,19 +1646,23 @@ var file_proto_storage_proto_depIdxs = []int32{
 	8,  // 14: storage.StorageService.GetDoctors:input_type -> storage.EmptyRequest
 	8,  // 15: storage.StorageService.GetClinicWeeklySchedule:input_type -> storage.EmptyRequest
 	21, // 16: storage.StorageService.GetUserRole:input_type -> storage.GetUserRoleRequest
-	1,  // 17: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
-	3,  // 18: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
-	10, // 19: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
-	12, // 20: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
-	5,  // 21: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
-	7,  // 22: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
-	14, // 23: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
-	16, // 24: storage.StorageService.UpdateUserPassword:output_type -> storage.DefaultResponse
-	18, // 25: storage.StorageService.GetDoctors:output_type -> storage.GetDoctorsResponse
-	20, // 26: storage.StorageService.GetClinicWeeklySchedule:output_type -> storage.GetClinicWeeklyScheduleResponse
-	22, // 27: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
-	17, // [17:28] is the sub-list for method output_type
-	6,  // [6:17] is the sub-list for method input_type
+	23, // 17: storage.StorageService.GetRolePermission:input_type -> storage.GetRolePermissionRequest
+	24, // 18: storage.StorageService.GetDoctorsBySpecID:input_type -> storage.GetDoctorBySpecIDRequest
+	1,  // 19: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
+	3,  // 20: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
+	10, // 21: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
+	12, // 22: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
+	5,  // 23: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
+	7,  // 24: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
+	14, // 25: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
+	16, // 26: storage.StorageService.UpdateUserPassword:output_type -> storage.DefaultResponse
+	18, // 27: storage.StorageService.GetDoctors:output_type -> storage.GetDoctorsResponse
+	20, // 28: storage.StorageService.GetClinicWeeklySchedule:output_type -> storage.GetClinicWeeklyScheduleResponse
+	22, // 29: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
+	16, // 30: storage.StorageService.GetRolePermission:output_type -> storage.DefaultResponse
+	18, // 31: storage.StorageService.GetDoctorsBySpecID:output_type -> storage.GetDoctorsResponse
+	19, // [19:32] is the sub-list for method output_type
+	6,  // [6:19] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
 	6,  // [6:6] is the sub-list for extension extendee
 	0,  // [0:6] is the sub-list for field type_name
@@ -1570,7 +1679,7 @@ func file_proto_storage_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_storage_proto_rawDesc), len(file_proto_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   23,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -4,13 +4,19 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/clients"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/auth"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/info"
+	"github.com/DariaTarasek/diplom/services/api-gateway/middleware"
+	"github.com/DariaTarasek/diplom/services/api-gateway/perm"
 	"github.com/gin-gonic/gin"
 	"log"
 )
 
 func main() {
 	r := gin.Default()
-
+	authClient, err := clients.NewAuthClient("localhost:50052")
+	if err != nil {
+		log.Fatalf("Не удалось создать auth клиент: %s", err)
+	}
+	accessMiddleware := middleware.MakeAccessMiddleware(authClient)
 	// Раздача статики (js/css/images)
 	r.Static("/static", "./static/front")
 
@@ -24,25 +30,59 @@ func main() {
 		c.File("./static/templates/auth_doc.html")
 	})
 
-	authClient, err := clients.NewAuthClient("localhost:50052")
-	if err != nil {
-		log.Fatalf("Не удалось создать auth клиент: %s", err)
-	}
-
 	storageClient, err := clients.NewStorageClient("localhost:50051")
 	if err != nil {
 		log.Fatalf("Не удалось создать storage клиент: %s", err)
 	}
 
-	htmlPages := []string{"index.html", "auth_doc.html", "registration.html", "auth.html", "employee_registration.html",
-		"registration_in_clinic.html", "employee_password_recovery.html", "password_recovery.html", "doctors.html",
-		"admins_doctor_list.html", "admins_schedule_management.html","patient_account.html",
-		"doctor_account.html",
-		"administrator_account.html",}
+	htmlPages := []string{
+		"index.html",
+		"auth_doc.html",
+		"registration.html",
+		"auth.html",
+		"employee_password_recovery.html",
+		"password_recovery.html",
+		"doctors.html",
+		"appointment.html",
+	}
 
 	for _, page := range htmlPages {
 		page := page // захват в замыкание
 		r.GET("/"+page, func(c *gin.Context) {
+			c.File("./static/templates/" + page)
+		})
+	}
+
+	adminPages := []string{
+		"employee_registration.html",
+		"registration_in_clinic.html",
+		"admins_doctor_list.html",
+		"admins_schedule_management.html",
+		"administrator_account.html",
+	}
+	for _, page := range adminPages {
+		page := page // захват в замыкание
+		r.GET("/"+page, accessMiddleware(perm.PermAdminPagesView), func(c *gin.Context) {
+			c.File("./static/templates/" + page)
+		})
+	}
+
+	doctorPages := []string{
+		"doctor_account.html",
+	}
+	for _, page := range doctorPages {
+		page := page // захват в замыкание
+		r.GET("/"+page, accessMiddleware(perm.PermDoctorPagesView), func(c *gin.Context) {
+			c.File("./static/templates/" + page)
+		})
+	}
+
+	patientPages := []string{
+		"patient_account.html",
+	}
+	for _, page := range patientPages {
+		page := page // захват в замыкание
+		r.GET("/"+page, accessMiddleware(perm.PermPatientPagesView), func(c *gin.Context) {
 			c.File("./static/templates/" + page)
 		})
 	}

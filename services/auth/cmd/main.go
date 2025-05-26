@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/DariaTarasek/diplom/services/auth/clients"
 	grpcserver "github.com/DariaTarasek/diplom/services/auth/grpc"
 	pb "github.com/DariaTarasek/diplom/services/auth/proto/auth"
@@ -11,7 +10,6 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
-	"time"
 )
 
 func main() {

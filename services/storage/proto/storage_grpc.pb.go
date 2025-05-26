@@ -30,6 +30,8 @@ const (
 	StorageService_GetDoctors_FullMethodName              = "/storage.StorageService/GetDoctors"
 	StorageService_GetClinicWeeklySchedule_FullMethodName = "/storage.StorageService/GetClinicWeeklySchedule"
 	StorageService_GetUserRole_FullMethodName             = "/storage.StorageService/GetUserRole"
+	StorageService_GetRolePermission_FullMethodName       = "/storage.StorageService/GetRolePermission"
+	StorageService_GetDoctorsBySpecID_FullMethodName      = "/storage.StorageService/GetDoctorsBySpecID"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -47,6 +49,8 @@ type StorageServiceClient interface {
 	GetDoctors(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error)
 	GetClinicWeeklySchedule(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicWeeklyScheduleResponse, error)
 	GetUserRole(ctx context.Context, in *GetUserRoleRequest, opts ...grpc.CallOption) (*GetUserRoleResponse, error)
+	GetRolePermission(ctx context.Context, in *GetRolePermissionRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	GetDoctorsBySpecID(ctx context.Context, in *GetDoctorBySpecIDRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error)
 }
 
 type storageServiceClient struct {
@@ -167,6 +171,26 @@ func (c *storageServiceClient) GetUserRole(ctx context.Context, in *GetUserRoleR
 	return out, nil
 }
 
+func (c *storageServiceClient) GetRolePermission(ctx context.Context, in *GetRolePermissionRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetRolePermission_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetDoctorsBySpecID(ctx context.Context, in *GetDoctorBySpecIDRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDoctorsResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetDoctorsBySpecID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -182,6 +206,8 @@ type StorageServiceServer interface {
 	GetDoctors(context.Context, *EmptyRequest) (*GetDoctorsResponse, error)
 	GetClinicWeeklySchedule(context.Context, *EmptyRequest) (*GetClinicWeeklyScheduleResponse, error)
 	GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error)
+	GetRolePermission(context.Context, *GetRolePermissionRequest) (*DefaultResponse, error)
+	GetDoctorsBySpecID(context.Context, *GetDoctorBySpecIDRequest) (*GetDoctorsResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -224,6 +250,12 @@ func (UnimplementedStorageServiceServer) GetClinicWeeklySchedule(context.Context
 }
 func (UnimplementedStorageServiceServer) GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserRole not implemented")
+}
+func (UnimplementedStorageServiceServer) GetRolePermission(context.Context, *GetRolePermissionRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRolePermission not implemented")
+}
+func (UnimplementedStorageServiceServer) GetDoctorsBySpecID(context.Context, *GetDoctorBySpecIDRequest) (*GetDoctorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDoctorsBySpecID not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -444,6 +476,42 @@ func _StorageService_GetUserRole_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_GetRolePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRolePermissionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetRolePermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetRolePermission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetRolePermission(ctx, req.(*GetRolePermissionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetDoctorsBySpecID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDoctorBySpecIDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetDoctorsBySpecID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetDoctorsBySpecID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetDoctorsBySpecID(ctx, req.(*GetDoctorBySpecIDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -494,6 +562,14 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserRole",
 			Handler:    _StorageService_GetUserRole_Handler,
+		},
+		{
+			MethodName: "GetRolePermission",
+			Handler:    _StorageService_GetRolePermission_Handler,
+		},
+		{
+			MethodName: "GetDoctorsBySpecID",
+			Handler:    _StorageService_GetDoctorsBySpecID_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

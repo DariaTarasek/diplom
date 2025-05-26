@@ -6,23 +6,36 @@ import (
 	"fmt"
 	"github.com/DariaTarasek/diplom/services/storage/internal/model"
 	"github.com/Masterminds/squirrel"
+	"log"
 )
 
 // GetDoctorsBySpecializationID Получение всех врачей выбранной специализации
-func (s *Store) GetDoctorsBySpecializationID(ctx context.Context, id model.SpecID) ([]model.DoctorSpecialization, error) {
+func (s *Store) GetDoctorsBySpecializationID(ctx context.Context, id model.SpecID) ([]model.Doctor, error) {
 	query, args, err := s.builder.
-		Select("*").
-		From("doctor_specializations").
-		Where(squirrel.Eq{"specialization_id": id}).
+		Select(`
+		d.user_id,
+		d.first_name,
+		d.second_name,
+		d.surname,
+		d.phone_number,
+		d.email,
+		d.education,
+		d.experience,
+		d.gender
+	`). // выбираем все поля из таблицы doctors
+		From("doctor_specializations ds").
+		Join("doctors d ON ds.doctor_id = d.user_id").
+		Where(squirrel.Eq{"ds.specialization_id": id}).
 		ToSql()
 	if err != nil {
 		return nil, fmt.Errorf("не удалось сформировать запрос для получения врачей по специализации: %w", err)
 	}
-
+	log.Println("SQL:", query)
+	log.Println("ARGS:", args)
 	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
 
-	var specs []model.DoctorSpecialization
+	var specs []model.Doctor
 	err = s.db.SelectContext(dbCtx, &specs, query, args...)
 	if err != nil {
 		return nil, fmt.Errorf("не удалось выполнить запрос для получения врачей по специализации: %w", err)
