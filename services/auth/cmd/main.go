@@ -33,7 +33,7 @@ func main() {
 
 	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
-		log.Fatalf("не удалось начать слушать: %v", err)
+		log.Fatalf("Не удалось начать слушать: %v", err)
 	}
 
 	s := grpc.NewServer()
@@ -49,26 +49,4 @@ func main() {
 		log.Fatalf("не удалось запустить сервер: %v", err)
 	}
 	log.Println("Сервис авторизации запущен.")
-}
-
-func WaitForTCP(address string, retryInterval time.Duration) {
-	fmt.Printf("⏳ Waiting for %s...\n", address)
-	for {
-		conn, err := net.DialTimeout("tcp", address, 2*time.Second)
-		if err == nil {
-			_ = conn.Close()
-			fmt.Printf("✅ %s is available\n", address)
-			return
-		}
-
-		// Проверка, не завершён ли процесс
-		select {
-		case <-time.After(retryInterval):
-			// продолжаем ждать
-		default:
-			// можно вставить логику выхода, если нужно
-		}
-
-		fmt.Printf("❌ Still waiting for %s (error: %v)\n", address, err)
-	}
 }

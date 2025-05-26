@@ -103,6 +103,48 @@ func (s *Server) PatientRegister(ctx context.Context, req *pb.PatientRegisterReq
 	}, nil
 }
 
+func (s *Server) PatientRegisterInClinic(ctx context.Context, req *pb.PatientRegisterInClinicRequest) (*pb.PatientRegisterInClinicResponse, error) {
+	modelUser := model.User{
+		Login:    &req.User.Login,
+		Password: &req.User.Password,
+	}
+
+	modelPatient := model.Patient{
+		FirstName:   req.Patient.FirstName,
+		SecondName:  req.Patient.SecondName,
+		Surname:     &req.Patient.Surname,
+		PhoneNumber: &req.Patient.PhoneNumber,
+		Email:       &req.Patient.Email,
+		BirthDate:   req.Patient.BirthDate.AsTime(),
+		Gender:      req.Patient.Gender,
+	}
+
+	id, err := s.Service.PatientRegisterInClinic(ctx, modelUser, modelPatient)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.PatientRegisterInClinicResponse{
+		UserId: int32(id),
+	}, nil
+}
+
+func (s *Server) EmployeePasswordRecovery(ctx context.Context, req *pb.EmployeePasswordRecoveryRequest) (*pb.DefaultResponse, error) {
+	err := s.Service.EmployeePasswordRecovery(ctx, req.Login)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) PatientPasswordRecovery(ctx context.Context, req *pb.PatientPasswordRecoveryRequest) (*pb.DefaultResponse, error) {
+	err := s.Service.PatientPasswordRecovery(ctx, req.Login)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
 func (s *Server) RequestCode(ctx context.Context, req *pb.GenerateCodeRequest) (*pb.DefaultResponse, error) {
 	err := s.Service.RequestCode(ctx, req.Phone)
 	if err != nil {

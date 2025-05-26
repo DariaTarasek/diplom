@@ -91,6 +91,16 @@ message GetUserByLoginResponse{
   int32 id = 3;
 }
 
+message UpdateUserPasswordRequest{
+  int32 id = 1;
+  string login = 2;
+  string password = 3;
+}
+
+message DefaultResponse {
+  string error = 1;
+}
+
 message GetUserRoleRequest{
   int32 user_id = 1;
 }
@@ -108,5 +118,6 @@ service StorageService {
   rpc AddAdmin(AddAdminRequest) returns (AddAdminResponse); // добавление администратора
   rpc AddPatient(AddPatientRequest) returns (AddPatientResponse); // добавление пациента
   rpc GetUserByLogin(GetUserByLoginRequest) returns (GetUserByLoginResponse); // получение пользователя по логину
+  rpc UpdateUserPassword(UpdateUserPasswordRequest) returns (DefaultResponse); // обновление пароля пользователя
   rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse);
 }

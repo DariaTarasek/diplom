@@ -1,7 +1,6 @@
-package register
+package auth
 
 import (
-	"github.com/DariaTarasek/diplom/services/api-gateway/clients"
 	"github.com/DariaTarasek/diplom/services/api-gateway/model"
 	authpb "github.com/DariaTarasek/diplom/services/api-gateway/proto/auth"
 	"github.com/gin-gonic/gin"
@@ -10,25 +9,6 @@ import (
 	"net/http"
 	"time"
 )
-
-type Handler struct {
-	AuthClient *clients.AuthClient
-}
-
-func NewHandler(authClient *clients.AuthClient) *Handler {
-	return &Handler{
-		AuthClient: authClient,
-	}
-}
-
-func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
-	rg.POST("/employee-register", h.EmployeeRegister)
-	rg.POST("/register", h.PatientRegister)
-	rg.POST("/request-code", h.requestCode)
-	rg.POST("/verify-code", h.verifyCode)
-	rg.POST("/login", h.authorize)
-	//  сюда остальные
-}
 
 func (h *Handler) EmployeeRegister(c *gin.Context) {
 	var employeeReq model.Employee
@@ -53,8 +33,8 @@ func (h *Handler) EmployeeRegister(c *gin.Context) {
 	gRPCEmployee := &authpb.EmployeeData{
 		FirstName:   employeeReq.FirstName,
 		SecondName:  employeeReq.SecondName,
-		Surname:     *employeeReq.Surname,
-		PhoneNumber: *employeeReq.PhoneNumber,
+		Surname:     deref(employeeReq.Surname),
+		PhoneNumber: deref(employeeReq.PhoneNumber),
 		Email:       employeeReq.Email,
 		Education:   education,
 		Experience:  exp,
@@ -85,7 +65,7 @@ func (h *Handler) PatientRegister(c *gin.Context) {
 		return
 	}
 	gRPCUser := &authpb.UserData{
-		Login:    *patientReq.PhoneNumber,
+		Login:    patientReq.PhoneNumber,
 		Password: patientReq.Password,
 	}
 
@@ -97,9 +77,9 @@ func (h *Handler) PatientRegister(c *gin.Context) {
 	gRPCPatient := &authpb.PatientData{
 		FirstName:   patientReq.FirstName,
 		SecondName:  patientReq.SecondName,
-		Surname:     *patientReq.Surname,
-		PhoneNumber: *patientReq.PhoneNumber,
-		Email:       *patientReq.Email,
+		Surname:     deref(patientReq.Surname),
+		PhoneNumber: patientReq.PhoneNumber,
+		Email:       deref(patientReq.Email),
 		BirthDate:   timestamppb.New(birthDate),
 		Gender:      patientReq.Gender,
 	}
@@ -116,4 +96,52 @@ func (h *Handler) PatientRegister(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusCreated, gin.H{"user_id": resp.UserId})
+}
+
+func (h *Handler) PatientRegisterInClinic(c *gin.Context) {
+	var patientReq model.PatientWithoutPassword
+	if err := c.ShouldBindJSON(&patientReq); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	gRPCUser := &authpb.UserData{
+		Login:    deref(patientReq.PhoneNumber),
+		Password: "",
+	}
+
+	birthDate, err := time.Parse("2006-01-02", patientReq.BirthDate)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	gRPCPatient := &authpb.PatientData{
+		FirstName:   patientReq.FirstName,
+		SecondName:  patientReq.SecondName,
+		Surname:     deref(patientReq.Surname),
+		PhoneNumber: deref(patientReq.PhoneNumber),
+		Email:       deref(patientReq.Email),
+		BirthDate:   timestamppb.New(birthDate),
+		Gender:      patientReq.Gender,
+	}
+
+	gRPCPatientRequest := &authpb.PatientRegisterRequest{
+		User:    gRPCUser,
+		Patient: gRPCPatient,
+	}
+
+	resp, err := h.AuthClient.Client.PatientRegister(c.Request.Context(), gRPCPatientRequest)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusCreated, gin.H{"user_id": resp.UserId})
+}
+
+func deref(s *string) string {
+	if s == nil {
+		return ""
+	}
+	return *s
 }

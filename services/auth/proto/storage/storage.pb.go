@@ -890,27 +890,29 @@ func (x *GetUserByLoginResponse) GetId() int32 {
 	return 0
 }
 
-type GetUserRoleRequest struct {
+type UpdateUserPasswordRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Login         string                 `protobuf:"bytes,2,opt,name=login,proto3" json:"login,omitempty"`
+	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetUserRoleRequest) Reset() {
-	*x = GetUserRoleRequest{}
+func (x *UpdateUserPasswordRequest) Reset() {
+	*x = UpdateUserPasswordRequest{}
 	mi := &file_proto_storage_storage_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetUserRoleRequest) String() string {
+func (x *UpdateUserPasswordRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUserRoleRequest) ProtoMessage() {}
+func (*UpdateUserPasswordRequest) ProtoMessage() {}
 
-func (x *GetUserRoleRequest) ProtoReflect() protoreflect.Message {
+func (x *UpdateUserPasswordRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_storage_storage_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -922,39 +924,53 @@ func (x *GetUserRoleRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUserRoleRequest.ProtoReflect.Descriptor instead.
-func (*GetUserRoleRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpdateUserPasswordRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserPasswordRequest) Descriptor() ([]byte, []int) {
 	return file_proto_storage_storage_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *GetUserRoleRequest) GetUserId() int32 {
+func (x *UpdateUserPasswordRequest) GetId() int32 {
 	if x != nil {
-		return x.UserId
+		return x.Id
 	}
 	return 0
 }
 
-type GetUserRoleResponse struct {
+func (x *UpdateUserPasswordRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+func (x *UpdateUserPasswordRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type DefaultResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Role          int32                  `protobuf:"varint,1,opt,name=role,proto3" json:"role,omitempty"`
+	Error         string                 `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetUserRoleResponse) Reset() {
-	*x = GetUserRoleResponse{}
+func (x *DefaultResponse) Reset() {
+	*x = DefaultResponse{}
 	mi := &file_proto_storage_storage_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetUserRoleResponse) String() string {
+func (x *DefaultResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUserRoleResponse) ProtoMessage() {}
+func (*DefaultResponse) ProtoMessage() {}
 
-func (x *GetUserRoleResponse) ProtoReflect() protoreflect.Message {
+func (x *DefaultResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_storage_storage_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -966,16 +982,16 @@ func (x *GetUserRoleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUserRoleResponse.ProtoReflect.Descriptor instead.
-func (*GetUserRoleResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use DefaultResponse.ProtoReflect.Descriptor instead.
+func (*DefaultResponse) Descriptor() ([]byte, []int) {
 	return file_proto_storage_storage_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *GetUserRoleResponse) GetRole() int32 {
+func (x *DefaultResponse) GetError() string {
 	if x != nil {
-		return x.Role
+		return x.Error
 	}
-	return 0
+	return ""
 }
 
 var File_proto_storage_storage_proto protoreflect.FileDescriptor
@@ -1047,11 +1063,13 @@ const file_proto_storage_storage_proto_rawDesc = "" +
 	"\x16GetUserByLoginResponse\x12\x14\n" +
 	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x0e\n" +
-	"\x02id\x18\x03 \x01(\x05R\x02id\"-\n" +
-	"\x12GetUserRoleRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x05R\x06userId\")\n" +
-	"\x13GetUserRoleResponse\x12\x12\n" +
-	"\x04role\x18\x01 \x01(\x05R\x04role2\xc5\x04\n" +
+	"\x02id\x18\x03 \x01(\x05R\x02id\"]\n" +
+	"\x19UpdateUserPasswordRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x14\n" +
+	"\x05login\x18\x02 \x01(\tR\x05login\x12\x1a\n" +
+	"\bpassword\x18\x03 \x01(\tR\bpassword\"'\n" +
+	"\x0fDefaultResponse\x12\x14\n" +
+	"\x05error\x18\x01 \x01(\tR\x05error2\xcf\x04\n" +
 	"\x0eStorageService\x12<\n" +
 	"\aAddUser\x12\x17.storage.AddUserRequest\x1a\x18.storage.AddUserResponse\x12B\n" +
 	"\tAddDoctor\x12\x19.storage.AddDoctorRequest\x1a\x1a.storage.AddDoctorResponse\x12B\n" +
@@ -1060,8 +1078,8 @@ const file_proto_storage_storage_proto_rawDesc = "" +
 	"\bAddAdmin\x12\x18.storage.AddAdminRequest\x1a\x19.storage.AddAdminResponse\x12E\n" +
 	"\n" +
 	"AddPatient\x12\x1a.storage.AddPatientRequest\x1a\x1b.storage.AddPatientResponse\x12Q\n" +
-	"\x0eGetUserByLogin\x12\x1e.storage.GetUserByLoginRequest\x1a\x1f.storage.GetUserByLoginResponse\x12H\n" +
-	"\vGetUserRole\x12\x1b.storage.GetUserRoleRequest\x1a\x1c.storage.GetUserRoleResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
+	"\x0eGetUserByLogin\x12\x1e.storage.GetUserByLoginRequest\x1a\x1f.storage.GetUserByLoginResponse\x12R\n" +
+	"\x12UpdateUserPassword\x12\".storage.UpdateUserPasswordRequest\x1a\x18.storage.DefaultResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
 
 var (
 	file_proto_storage_storage_proto_rawDescOnce sync.Once
@@ -1077,24 +1095,24 @@ func file_proto_storage_storage_proto_rawDescGZIP() []byte {
 
 var file_proto_storage_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_proto_storage_storage_proto_goTypes = []any{
-	(*AddUserRequest)(nil),         // 0: storage.AddUserRequest
-	(*AddUserResponse)(nil),        // 1: storage.AddUserResponse
-	(*AddDoctorRequest)(nil),       // 2: storage.AddDoctorRequest
-	(*AddDoctorResponse)(nil),      // 3: storage.AddDoctorResponse
-	(*AddAdminRequest)(nil),        // 4: storage.AddAdminRequest
-	(*AddAdminResponse)(nil),       // 5: storage.AddAdminResponse
-	(*AddPatientRequest)(nil),      // 6: storage.AddPatientRequest
-	(*AddPatientResponse)(nil),     // 7: storage.AddPatientResponse
-	(*EmptyRequest)(nil),           // 8: storage.EmptyRequest
-	(*Specialization)(nil),         // 9: storage.Specialization
-	(*GetAllSpecsResponse)(nil),    // 10: storage.GetAllSpecsResponse
-	(*AddUserRoleRequest)(nil),     // 11: storage.AddUserRoleRequest
-	(*AddUserRoleResponse)(nil),    // 12: storage.AddUserRoleResponse
-	(*GetUserByLoginRequest)(nil),  // 13: storage.GetUserByLoginRequest
-	(*GetUserByLoginResponse)(nil), // 14: storage.GetUserByLoginResponse
-	(*GetUserRoleRequest)(nil),     // 15: storage.GetUserRoleRequest
-	(*GetUserRoleResponse)(nil),    // 16: storage.GetUserRoleResponse
-	(*timestamppb.Timestamp)(nil),  // 17: google.protobuf.Timestamp
+	(*AddUserRequest)(nil),            // 0: storage.AddUserRequest
+	(*AddUserResponse)(nil),           // 1: storage.AddUserResponse
+	(*AddDoctorRequest)(nil),          // 2: storage.AddDoctorRequest
+	(*AddDoctorResponse)(nil),         // 3: storage.AddDoctorResponse
+	(*AddAdminRequest)(nil),           // 4: storage.AddAdminRequest
+	(*AddAdminResponse)(nil),          // 5: storage.AddAdminResponse
+	(*AddPatientRequest)(nil),         // 6: storage.AddPatientRequest
+	(*AddPatientResponse)(nil),        // 7: storage.AddPatientResponse
+	(*EmptyRequest)(nil),              // 8: storage.EmptyRequest
+	(*Specialization)(nil),            // 9: storage.Specialization
+	(*GetAllSpecsResponse)(nil),       // 10: storage.GetAllSpecsResponse
+	(*AddUserRoleRequest)(nil),        // 11: storage.AddUserRoleRequest
+	(*AddUserRoleResponse)(nil),       // 12: storage.AddUserRoleResponse
+	(*GetUserByLoginRequest)(nil),     // 13: storage.GetUserByLoginRequest
+	(*GetUserByLoginResponse)(nil),    // 14: storage.GetUserByLoginResponse
+	(*UpdateUserPasswordRequest)(nil), // 15: storage.UpdateUserPasswordRequest
+	(*DefaultResponse)(nil),           // 16: storage.DefaultResponse
+	(*timestamppb.Timestamp)(nil),     // 17: google.protobuf.Timestamp
 }
 var file_proto_storage_storage_proto_depIdxs = []int32{
 	17, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
@@ -1106,7 +1124,7 @@ var file_proto_storage_storage_proto_depIdxs = []int32{
 	4,  // 6: storage.StorageService.AddAdmin:input_type -> storage.AddAdminRequest
 	6,  // 7: storage.StorageService.AddPatient:input_type -> storage.AddPatientRequest
 	13, // 8: storage.StorageService.GetUserByLogin:input_type -> storage.GetUserByLoginRequest
-	15, // 9: storage.StorageService.GetUserRole:input_type -> storage.GetUserRoleRequest
+	15, // 9: storage.StorageService.UpdateUserPassword:input_type -> storage.UpdateUserPasswordRequest
 	1,  // 10: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
 	3,  // 11: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
 	10, // 12: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
@@ -1114,7 +1132,7 @@ var file_proto_storage_storage_proto_depIdxs = []int32{
 	5,  // 14: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
 	7,  // 15: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
 	14, // 16: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
-	16, // 17: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
+	16, // 17: storage.StorageService.UpdateUserPassword:output_type -> storage.DefaultResponse
 	10, // [10:18] is the sub-list for method output_type
 	2,  // [2:10] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
