@@ -13,7 +13,7 @@ import (
 func (s *AuthService) DoctorRegister(ctx context.Context, user model.User, doctor model.Doctor) (int, error) {
 	var hashedPassword string
 	var err error
-	password := utils.GeneratePassword(12)
+	password := utils.GeneratePassword()
 	hashedPassword, err = utils.HashPassword(password)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось захешировать пароль: %w", err)
@@ -56,7 +56,8 @@ func (s *AuthService) DoctorRegister(ctx context.Context, user model.User, docto
 		return 0, fmt.Errorf("не удалось добавить роль врачу через gRPC: %w", err)
 	}
 
-	err = utils.SendPassword(doctor.Email, password)
+	message := fmt.Sprintf("Subject: Регистрация в системе клиники!\r\n\r\nВы зарегистрированы в системе клиники!\nВаш пароль для входа: %s", password)
+	err = utils.SendPassword(doctor.Email, password, message)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось отправить пароль на email: %w", err)
 	}
@@ -67,7 +68,7 @@ func (s *AuthService) DoctorRegister(ctx context.Context, user model.User, docto
 func (s *AuthService) AdminRegister(ctx context.Context, user model.User, admin model.Admin, isSuperAdmin bool) (int, error) {
 	var hashedPassword string
 	var err error
-	password := utils.GeneratePassword(12)
+	password := utils.GeneratePassword()
 	hashedPassword, err = utils.HashPassword(password)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось захешировать пароль: %w", err)
@@ -113,25 +114,29 @@ func (s *AuthService) AdminRegister(ctx context.Context, user model.User, admin 
 		return 0, fmt.Errorf("не удалось добавить роль админу через gRPC: %w", err)
 	}
 
-	err = utils.SendPassword(admin.Email, password)
+	message := fmt.Sprintf("Subject: Регистрация в системе клиники!\r\n\r\nВы зарегистрированы в системе клиники!\nВаш пароль для входа: %s", password)
+	err = utils.SendPassword(admin.Email, password, message)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось отправить пароль на email: %w", err)
 	}
 	return int(respUser.UserId), nil
 }
 
-func (s *AuthService) PatientRegister(ctx context.Context, user model.User, patient model.Patient) (int, error) {
-	var hashedPassword string
-	var err error
-	if user.Password != nil {
-		hashedPassword, err = utils.HashPassword(*user.Password)
-		if err != nil {
-			return 0, fmt.Errorf("не удалось захешировать пароль: %w", err)
-		}
+func (s *AuthService) PatientRegisterInternal(ctx context.Context, user model.User, patient model.Patient) (int, error) {
+	var plainPassword string
+	if user.Password != nil && *user.Password != "" {
+		plainPassword = *user.Password
+	} else {
+		plainPassword = utils.GeneratePassword()
+	}
+
+	hashedPassword, err := utils.HashPassword(plainPassword)
+	if err != nil {
+		return 0, fmt.Errorf("не удалось захешировать пароль: %w", err)
 	}
 
 	reqUser := &storagepb.AddUserRequest{
-		Login:    *user.Login,
+		Login:    deref(user.Login),
 		Password: hashedPassword,
 	}
 
@@ -144,10 +149,10 @@ func (s *AuthService) PatientRegister(ctx context.Context, user model.User, pati
 		UserId:      respUser.UserId,
 		FirstName:   patient.FirstName,
 		SecondName:  patient.SecondName,
-		Surname:     *patient.Surname,
+		Surname:     deref(patient.Surname),
 		BirthDate:   timestamppb.New(patient.BirthDate),
-		PhoneNumber: *patient.PhoneNumber,
-		Email:       *patient.Email,
+		PhoneNumber: deref(patient.PhoneNumber),
+		Email:       deref(patient.Email),
 		Gender:      patient.Gender,
 	}
 
@@ -157,14 +162,29 @@ func (s *AuthService) PatientRegister(ctx context.Context, user model.User, pati
 		return 0, fmt.Errorf("не удалось добавить пациента через gRPC: %w", err)
 	}
 
-	reqUserRole := &storagepb.AddUserRoleRequest{
+	_, err = s.StorageClient.Client.AddUserRole(ctx, &storagepb.AddUserRoleRequest{
 		UserId: respUser.UserId,
 		RoleId: model.PatientRole,
-	}
-	_, err = s.StorageClient.Client.AddUserRole(ctx, reqUserRole)
+	})
 	if err != nil {
 		return 0, fmt.Errorf("не удалось добавить роль пациенту через gRPC: %w", err)
 	}
 
+	// Если нужно — возвращай сгенерированный пароль
 	return int(respUser.UserId), nil
+}
+
+func (s *AuthService) PatientRegister(ctx context.Context, user model.User, patient model.Patient) (int, error) {
+	return s.PatientRegisterInternal(ctx, user, patient)
+}
+
+func (s *AuthService) PatientRegisterInClinic(ctx context.Context, user model.User, patient model.Patient) (int, error) {
+	return s.PatientRegisterInternal(ctx, user, patient)
+}
+
+func deref(s *string) string {
+	if s == nil {
+		return ""
+	}
+	return *s
 }

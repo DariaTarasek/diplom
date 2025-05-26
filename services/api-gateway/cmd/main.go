@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/clients"
+	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/auth"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/info"
-	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/register"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -34,7 +34,9 @@ func main() {
 		log.Fatalf("Не удалось создать storage клиент: %s", err)
 	}
 
-	htmlPages := []string{"index.html", "auth_doc.html", "registration.html", "auth.html", "employee_registration.html"}
+	htmlPages := []string{"index.html", "auth_doc.html", "registration.html", "auth.html", "employee_registration.html",
+		"registration_in_clinic.html", "employee_password_recovery.html", "password_recovery.html", "doctors.html",
+		"admins_doctor_list.html", "admins_schedule_management.html"}
 
 	for _, page := range htmlPages {
 		page := page // захват в замыкание
@@ -46,8 +48,8 @@ func main() {
 	// REST API-группа
 	api := r.Group("/api")
 
-	registerHandler := register.NewHandler(authClient)
-	register.RegisterRoutes(api, registerHandler)
+	registerHandler := auth.NewHandler(authClient)
+	auth.RegisterRoutes(api, registerHandler)
 
 	infoHandler := info.NewInfoHandler(storageClient)
 	info.RegisterRoutes(api, infoHandler)

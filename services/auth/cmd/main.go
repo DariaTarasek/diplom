@@ -5,12 +5,17 @@ import (
 	grpcserver "github.com/DariaTarasek/diplom/services/auth/grpc"
 	pb "github.com/DariaTarasek/diplom/services/auth/proto/auth"
 	"github.com/DariaTarasek/diplom/services/auth/service"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"log"
 	"net"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Не удалось получить переменные среды: %s", err)
+	}
 	storageClient, err := clients.NewStorageClient("localhost:50051")
 	if err != nil {
 		log.Fatalf("Не удалось создать клиент storage: %s", err)
@@ -19,7 +24,7 @@ func main() {
 
 	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
-		log.Fatalf("не удалось начать слушать: %v", err)
+		log.Fatalf("Не удалось начать слушать: %v", err)
 	}
 
 	s := grpc.NewServer()

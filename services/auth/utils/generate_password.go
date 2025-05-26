@@ -2,12 +2,14 @@ package utils
 
 import "math/rand"
 
-func GeneratePassword(length int) string {
+const passwordLength = 12
+
+func GeneratePassword() string {
 	const charset = "abcdefghijklmnopqrstuvwxyz" +
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
 		"0123456789"
 
-	b := make([]byte, length)
+	b := make([]byte, passwordLength)
 	for i := range b {
 		b[i] = charset[rand.Intn(len(charset))]
 	}

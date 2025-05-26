@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package storage;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "storage/proto;storagepb";
 
 message AddUserRequest {
@@ -30,6 +32,35 @@ message AddDoctorResponse {
   string error = 1;
 }
 
+message AddAdminRequest {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string gender = 7;
+}
+
+message AddAdminResponse {
+  string error = 1;
+}
+
+message AddPatientRequest {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string email = 5;
+  google.protobuf.Timestamp birth_date = 6;
+  string phone_number = 7;
+  string gender = 8;
+}
+
+message AddPatientResponse {
+  string error = 1;
+}
+
 message EmptyRequest{}
 
 message Specialization {
@@ -41,9 +72,73 @@ message GetAllSpecsResponse{
   repeated Specialization specs = 1;
 }
 
+message AddUserRoleRequest{
+  int32 user_id = 1;
+  int32 role_id = 2;
+}
+
+message AddUserRoleResponse{
+  string error = 1;
+}
+
+message GetUserByLoginRequest{
+  string login = 1;
+}
+
+message GetUserByLoginResponse{
+  string login = 1;
+  string password = 2;
+  int32 id = 3;
+}
+
+message UpdateUserPasswordRequest{
+  int32 id = 1;
+  string login = 2;
+  string password = 3;
+}
+
+message DefaultResponse {
+  string error = 1;
+}
+
+message Doctor {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string education = 7;
+  int32 experience = 8;
+  string gender = 9;
+}
+
+message GetDoctorsResponse {
+  repeated Doctor doctors = 1;
+}
+
+message WeeklyClinicSchedule {
+  int32 id = 1;
+  int32 weekday = 2;
+  google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Timestamp end_time = 4;
+  int32 slot_duration_minutes = 5;
+  bool is_day_off = 6;
+}
+
+message GetClinicWeeklyScheduleResponse {
+  repeated WeeklyClinicSchedule clinic_schedule = 1;
+}
 
 service StorageService {
-  rpc AddUser(AddUserRequest) returns (AddUserResponse);
-  rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse);
-  rpc GetAllSpecs(EmptyRequest) returns (GetAllSpecsResponse);
+  rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
+  rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse); // добавление врача
+  rpc GetAllSpecs(EmptyRequest) returns (GetAllSpecsResponse); // получение всех специализаций врачей
+  rpc AddUserRole(AddUserRoleRequest) returns (AddUserRoleResponse); // добавление роли пользователю
+  rpc AddAdmin(AddAdminRequest) returns (AddAdminResponse); // добавление администратора
+  rpc AddPatient(AddPatientRequest) returns (AddPatientResponse); // добавление пациента
+  rpc GetUserByLogin(GetUserByLoginRequest) returns (GetUserByLoginResponse); // получение пользователя по логину
+  rpc UpdateUserPassword(UpdateUserPasswordRequest) returns (DefaultResponse); // обновление пароля пользователя
+  rpc GetDoctors(EmptyRequest) returns (GetDoctorsResponse); // получение списка всех врачей
+  rpc GetClinicWeeklySchedule(EmptyRequest) returns (GetClinicWeeklyScheduleResponse); // получение постоянного расписания клиники
 }

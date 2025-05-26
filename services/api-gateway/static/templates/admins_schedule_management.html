@@ -7,12 +7,12 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Bootstrap core CSS -->
-        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="static/bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template -->
-        <link rel="stylesheet" href="blocks.css">
-        <link href="style.css" rel="stylesheet">
-        <link rel="stylesheet" href="bootstrap_theme/icons.css">
-        <link href="footer_style.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/blocks.css">
+        <link href="static/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/bootstrap_theme/icons.css">
+        <link href="static/footer_style.css" rel="stylesheet">
         <title>Design of the Week Template 15 - Pinegrow Web Editor</title>
         <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; } th, td { text-align: center; vertical-align: middle; }</style>
     </head>
@@ -76,7 +76,7 @@
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_patient_list.html"> <i class="bi bi-person-fill-gear"></i>Список пациентов </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a>
-                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="static/img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Аналитика </a>
                             </div>
                         </div>                         
@@ -100,16 +100,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="day in clinicSchedule" :key="day.day">
+                                    <tr v-for="day in clinicScheduleSorted" :key="day.day">
                                         <td>{{ dayLabels[day.day] }}</td>
                                         <td>
-                                            <input type="checkbox" v-model="day.is_open" class="form-check-input" :disabled="!isSuperAdmin"/>
+                                            <input type="checkbox" v-model="day.is_day_off" class="form-check-input" :disabled="!isSuperAdmin"/>
                                         </td>
                                         <td>
-                                            <input type="time" v-model="day.start_time" class="form-control" :disabled="!day.is_open || !isSuperAdmin" :class="{ 'is-invalid': invalidClinicDays.includes(day.day) }">
+                                            <input type="time" v-model="day.start_time" class="form-control" :disabled="day.is_day_off || !isSuperAdmin" :class="{ 'is-invalid': invalidClinicDays.includes(day.day) }">
                                         </td>
                                         <td>
-                                            <input type="time" v-model="day.end_time" class="form-control" :disabled="!day.is_open || !isSuperAdmin" :class="{ 'is-invalid': invalidClinicDays.includes(day.day) }">
+                                            <input type="time" v-model="day.end_time" class="form-control" :disabled="day.is_day_off || !isSuperAdmin" :class="{ 'is-invalid': invalidClinicDays.includes(day.day) }">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -128,7 +128,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Выберите врача</label>
                                 <select v-model="selectedDoctor" class="form-select" @change="fetchDoctorSchedule">
-                                    <option v-for="doc in doctors" :key="doc.id" :value="doc.id">{{ doc.first_name }} {{ doc.second_name }}</option>
+                                    <option v-for="doc in doctors" :key="doc.id" :value="doc.id">{{ doc.firstName }} {{ doc.secondName }}</option>
                                 </select>
                             </div>
                             <table class="table table-bordered align-middle" v-if="doctorSchedule.length">
@@ -141,16 +141,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="day in doctorSchedule" :key="day.day">
+                                    <tr v-for="day in doctorScheduleSorted" :key="day.day">
                                         <td>{{ dayLabels[day.day] }}</td>
                                         <td>
-                                            <input type="checkbox" v-model="day.is_open" class="form-check-input"/>
+                                            <input type="checkbox" v-model="day.is_day_off" class="form-check-input"/>
                                         </td>                                         
                                         <td>
-                                            <input type="time" v-model="day.start_time" class="form-control" :disabled="!day.is_open" :class="{ 'is-invalid': invalidDays.includes(day.day) }">
+                                            <input type="time" v-model="day.start_time" class="form-control" :disabled="day.is_day_off" :class="{ 'is-invalid': invalidDays.includes(day.day) }">
                                         </td>
                                         <td>
-                                            <input type="time" v-model="day.end_time" class="form-control" :disabled="!day.is_open" :class="{ 'is-invalid': invalidDays.includes(day.day) }">
+                                            <input type="time" v-model="day.end_time" class="form-control" :disabled="day.is_day_off" :class="{ 'is-invalid': invalidDays.includes(day.day) }">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -200,7 +200,7 @@
                                 <div class="col-md-4">
                                     <label class="form-label">Врач</label>
                                     <select v-model="overrideForm.doctor_id" class="form-select">
-                                        <option v-for="doc in doctors" :key="doc.id" :value="doc.id">{{ doc.first_name }} {{ doc.second_name }}</option>
+                                        <option v-for="doc in doctors" :key="doc.id" :value="doc.id">{{ doc.firstName }} {{ doc.secondName }}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
@@ -231,7 +231,7 @@
                 </div>
                 <!-- Vue 3 -->
                 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-                <script src="js/admins_schedule_management.js"></script>
+                <script src="static/js/admins_schedule_management.js"></script>
             </main>
             <footer class="bg-dark text-white-50"> 
                 <div class="container"> 
@@ -240,8 +240,8 @@
                     </div>
                 </div>                 
             </footer>             
-            <script src="assets/js/popper.min.js"></script>
-            <script src="bootstrap/js/bootstrap.min.js"></script>
+            <script src="static/assets/js/popper.min.js"></script>
+            <script src="static/bootstrap/js/bootstrap.min.js"></script>
         </div>
     </body>
 </html>

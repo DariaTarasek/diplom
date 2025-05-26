@@ -492,6 +492,242 @@ func (x *PatientRegisterResponse) GetError() string {
 	return ""
 }
 
+type PatientRegisterInClinicRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *UserData              `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Patient       *PatientData           `protobuf:"bytes,2,opt,name=patient,proto3" json:"patient,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PatientRegisterInClinicRequest) Reset() {
+	*x = PatientRegisterInClinicRequest{}
+	mi := &file_proto_auth_auth_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PatientRegisterInClinicRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PatientRegisterInClinicRequest) ProtoMessage() {}
+
+func (x *PatientRegisterInClinicRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PatientRegisterInClinicRequest.ProtoReflect.Descriptor instead.
+func (*PatientRegisterInClinicRequest) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *PatientRegisterInClinicRequest) GetUser() *UserData {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *PatientRegisterInClinicRequest) GetPatient() *PatientData {
+	if x != nil {
+		return x.Patient
+	}
+	return nil
+}
+
+type PatientRegisterInClinicResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PatientRegisterInClinicResponse) Reset() {
+	*x = PatientRegisterInClinicResponse{}
+	mi := &file_proto_auth_auth_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PatientRegisterInClinicResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PatientRegisterInClinicResponse) ProtoMessage() {}
+
+func (x *PatientRegisterInClinicResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PatientRegisterInClinicResponse.ProtoReflect.Descriptor instead.
+func (*PatientRegisterInClinicResponse) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *PatientRegisterInClinicResponse) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *PatientRegisterInClinicResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+type EmployeePasswordRecoveryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EmployeePasswordRecoveryRequest) Reset() {
+	*x = EmployeePasswordRecoveryRequest{}
+	mi := &file_proto_auth_auth_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EmployeePasswordRecoveryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EmployeePasswordRecoveryRequest) ProtoMessage() {}
+
+func (x *EmployeePasswordRecoveryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EmployeePasswordRecoveryRequest.ProtoReflect.Descriptor instead.
+func (*EmployeePasswordRecoveryRequest) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *EmployeePasswordRecoveryRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+type PatientPasswordRecoveryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PatientPasswordRecoveryRequest) Reset() {
+	*x = PatientPasswordRecoveryRequest{}
+	mi := &file_proto_auth_auth_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PatientPasswordRecoveryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PatientPasswordRecoveryRequest) ProtoMessage() {}
+
+func (x *PatientPasswordRecoveryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PatientPasswordRecoveryRequest.ProtoReflect.Descriptor instead.
+func (*PatientPasswordRecoveryRequest) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *PatientPasswordRecoveryRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+type DefaultResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Error         string                 `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DefaultResponse) Reset() {
+	*x = DefaultResponse{}
+	mi := &file_proto_auth_auth_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DefaultResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DefaultResponse) ProtoMessage() {}
+
+func (x *DefaultResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DefaultResponse.ProtoReflect.Descriptor instead.
+func (*DefaultResponse) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DefaultResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
 var File_proto_auth_auth_proto protoreflect.FileDescriptor
 
 const file_proto_auth_auth_proto_rawDesc = "" +
@@ -537,10 +773,25 @@ const file_proto_auth_auth_proto_rawDesc = "" +
 	"\apatient\x18\x02 \x01(\v2\x11.auth.PatientDataR\apatient\"H\n" +
 	"\x17PatientRegisterResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error2\xb0\x01\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"q\n" +
+	"\x1ePatientRegisterInClinicRequest\x12\"\n" +
+	"\x04user\x18\x01 \x01(\v2\x0e.auth.UserDataR\x04user\x12+\n" +
+	"\apatient\x18\x02 \x01(\v2\x11.auth.PatientDataR\apatient\"P\n" +
+	"\x1fPatientRegisterInClinicResponse\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"7\n" +
+	"\x1fEmployeePasswordRecoveryRequest\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\"6\n" +
+	"\x1ePatientPasswordRecoveryRequest\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\"'\n" +
+	"\x0fDefaultResponse\x12\x14\n" +
+	"\x05error\x18\x01 \x01(\tR\x05error2\xca\x03\n" +
 	"\vAuthService\x12Q\n" +
 	"\x10EmployeeRegister\x12\x1d.auth.EmployeeRegisterRequest\x1a\x1e.auth.EmployeeRegisterResponse\x12N\n" +
-	"\x0fPatientRegister\x12\x1c.auth.PatientRegisterRequest\x1a\x1d.auth.PatientRegisterResponseB\x13Z\x11auth/proto;authpbb\x06proto3"
+	"\x0fPatientRegister\x12\x1c.auth.PatientRegisterRequest\x1a\x1d.auth.PatientRegisterResponse\x12f\n" +
+	"\x17PatientRegisterInClinic\x12$.auth.PatientRegisterInClinicRequest\x1a%.auth.PatientRegisterInClinicResponse\x12X\n" +
+	"\x18EmployeePasswordRecovery\x12%.auth.EmployeePasswordRecoveryRequest\x1a\x15.auth.DefaultResponse\x12V\n" +
+	"\x17PatientPasswordRecovery\x12$.auth.PatientPasswordRecoveryRequest\x1a\x15.auth.DefaultResponseB\x13Z\x11auth/proto;authpbb\x06proto3"
 
 var (
 	file_proto_auth_auth_proto_rawDescOnce sync.Once
@@ -554,32 +805,45 @@ func file_proto_auth_auth_proto_rawDescGZIP() []byte {
 	return file_proto_auth_auth_proto_rawDescData
 }
 
-var file_proto_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_proto_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_proto_auth_auth_proto_goTypes = []any{
-	(*UserData)(nil),                 // 0: auth.UserData
-	(*EmployeeRegisterResponse)(nil), // 1: auth.EmployeeRegisterResponse
-	(*EmployeeData)(nil),             // 2: auth.EmployeeData
-	(*EmployeeRegisterRequest)(nil),  // 3: auth.EmployeeRegisterRequest
-	(*PatientData)(nil),              // 4: auth.PatientData
-	(*PatientRegisterRequest)(nil),   // 5: auth.PatientRegisterRequest
-	(*PatientRegisterResponse)(nil),  // 6: auth.PatientRegisterResponse
-	(*timestamppb.Timestamp)(nil),    // 7: google.protobuf.Timestamp
+	(*UserData)(nil),                        // 0: auth.UserData
+	(*EmployeeRegisterResponse)(nil),        // 1: auth.EmployeeRegisterResponse
+	(*EmployeeData)(nil),                    // 2: auth.EmployeeData
+	(*EmployeeRegisterRequest)(nil),         // 3: auth.EmployeeRegisterRequest
+	(*PatientData)(nil),                     // 4: auth.PatientData
+	(*PatientRegisterRequest)(nil),          // 5: auth.PatientRegisterRequest
+	(*PatientRegisterResponse)(nil),         // 6: auth.PatientRegisterResponse
+	(*PatientRegisterInClinicRequest)(nil),  // 7: auth.PatientRegisterInClinicRequest
+	(*PatientRegisterInClinicResponse)(nil), // 8: auth.PatientRegisterInClinicResponse
+	(*EmployeePasswordRecoveryRequest)(nil), // 9: auth.EmployeePasswordRecoveryRequest
+	(*PatientPasswordRecoveryRequest)(nil),  // 10: auth.PatientPasswordRecoveryRequest
+	(*DefaultResponse)(nil),                 // 11: auth.DefaultResponse
+	(*timestamppb.Timestamp)(nil),           // 12: google.protobuf.Timestamp
 }
 var file_proto_auth_auth_proto_depIdxs = []int32{
-	0, // 0: auth.EmployeeRegisterRequest.user:type_name -> auth.UserData
-	2, // 1: auth.EmployeeRegisterRequest.employee:type_name -> auth.EmployeeData
-	7, // 2: auth.PatientData.birth_date:type_name -> google.protobuf.Timestamp
-	0, // 3: auth.PatientRegisterRequest.user:type_name -> auth.UserData
-	4, // 4: auth.PatientRegisterRequest.patient:type_name -> auth.PatientData
-	3, // 5: auth.AuthService.EmployeeRegister:input_type -> auth.EmployeeRegisterRequest
-	5, // 6: auth.AuthService.PatientRegister:input_type -> auth.PatientRegisterRequest
-	1, // 7: auth.AuthService.EmployeeRegister:output_type -> auth.EmployeeRegisterResponse
-	6, // 8: auth.AuthService.PatientRegister:output_type -> auth.PatientRegisterResponse
-	7, // [7:9] is the sub-list for method output_type
-	5, // [5:7] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	0,  // 0: auth.EmployeeRegisterRequest.user:type_name -> auth.UserData
+	2,  // 1: auth.EmployeeRegisterRequest.employee:type_name -> auth.EmployeeData
+	12, // 2: auth.PatientData.birth_date:type_name -> google.protobuf.Timestamp
+	0,  // 3: auth.PatientRegisterRequest.user:type_name -> auth.UserData
+	4,  // 4: auth.PatientRegisterRequest.patient:type_name -> auth.PatientData
+	0,  // 5: auth.PatientRegisterInClinicRequest.user:type_name -> auth.UserData
+	4,  // 6: auth.PatientRegisterInClinicRequest.patient:type_name -> auth.PatientData
+	3,  // 7: auth.AuthService.EmployeeRegister:input_type -> auth.EmployeeRegisterRequest
+	5,  // 8: auth.AuthService.PatientRegister:input_type -> auth.PatientRegisterRequest
+	7,  // 9: auth.AuthService.PatientRegisterInClinic:input_type -> auth.PatientRegisterInClinicRequest
+	9,  // 10: auth.AuthService.EmployeePasswordRecovery:input_type -> auth.EmployeePasswordRecoveryRequest
+	10, // 11: auth.AuthService.PatientPasswordRecovery:input_type -> auth.PatientPasswordRecoveryRequest
+	1,  // 12: auth.AuthService.EmployeeRegister:output_type -> auth.EmployeeRegisterResponse
+	6,  // 13: auth.AuthService.PatientRegister:output_type -> auth.PatientRegisterResponse
+	8,  // 14: auth.AuthService.PatientRegisterInClinic:output_type -> auth.PatientRegisterInClinicResponse
+	11, // 15: auth.AuthService.EmployeePasswordRecovery:output_type -> auth.DefaultResponse
+	11, // 16: auth.AuthService.PatientPasswordRecovery:output_type -> auth.DefaultResponse
+	12, // [12:17] is the sub-list for method output_type
+	7,  // [7:12] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_proto_auth_auth_proto_init() }
@@ -593,7 +857,7 @@ func file_proto_auth_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_auth_auth_proto_rawDesc), len(file_proto_auth_auth_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -7,12 +7,12 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Bootstrap core CSS -->
-        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="static/bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template -->
-        <link rel="stylesheet" href="blocks.css">
-        <link href="style.css" rel="stylesheet">
-        <link href="footer_style.css" rel="stylesheet">
-        <link rel="stylesheet" href="bootstrap_theme/icons.css">
+        <link rel="stylesheet" href="static/blocks.css">
+        <link href="static/style.css" rel="stylesheet">
+        <link href="static/footer_style.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/bootstrap_theme/icons.css">
         <title>Design of the Week Template 15 - Pinegrow Web Editor</title>
     </head>
     <body class="text-muted">
@@ -73,7 +73,7 @@
                             <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_patient_list.html"> <i class="bi bi-person-fill-gear"></i>Список пациентов </a>
                             <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a>
                             <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a>
-                            <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
+                            <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="static/img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
                             <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Аналитика </a>
                         </div>
                     </div>                     
@@ -135,8 +135,8 @@
                                 </label>
                                 <select name="gender" id="gender" required class="form-control">
                                     <option value="">--Выберите--</option>
-                                    <option value="male">Мужской</option>
-                                    <option value="female">Женский</option>
+                                    <option value="м">Мужской</option>
+                                    <option value="ж">Женский</option>
                                 </select>
                             </div>
                             <!-- Дата рождения -->
@@ -147,9 +147,9 @@
                             </div>
                             <!-- Номер телефона -->
                             <div class="mb-3">
-                                <label for="phone" class="form-label text-black">Номер телефона<span style="color:red;">*</span>
+                                <label for="phone" class="form-label text-black">Номер телефона
                                 </label>
-                                <input type="tel" name="phone" id="phone" required class="form-control" placeholder="+7 (___) ___-__-__"> 
+                                <input type="tel" name="phone" id="phone" class="form-control" placeholder="+7 (___) ___-__-__">
                                 <div id="phoneError" class="text-danger error" style="min-height: 1.2em; word-break: break-word; word-wrap: break-word; overflow-wrap: break-word; white-space: normal;"></div>
                                 <script src="https://unpkg.com/imask"></script>
                                 <script>
@@ -159,28 +159,13 @@
                 });
                 </script>
                             </div>
-                            <div class="mb-3" id="changePhone" style="display: none;">
-                                <button type="button" class="btn btn-outline-primary" id="changePhoneBtn">Изменить номер</button>
-                            </div>
-                            <!-- Подтверждение номера телефона -->
-                            <div class="mb-3">
-                                <button type="button" id="requestCodeBtn" class="border-dark btn mb-3 text-black w-100">Подтвердить номер телефона<span style="color:red;">*</span>
-                                </button>
-                            </div>
-                            <div class="mb-3" id="codeSection" style="display: none;">
-                                <label for="smsCode" class="form-label">Код подтверждения</label>
-                                <input type="text" id="smsCode" class="form-control" placeholder="Введите код">
-                                <button type="button" id="verifyCodeBtn" class="btn btn-success mt-2">Подтвердить</button>
-                                <button type="button" class="btn btn-secondary mt-2" id="resendCodeBtn" disabled>Отправить код повторно</button>
-                                <div id="codeMessage" class="text-danger mt-2"></div>
-                            </div>
                             <!-- Email -->
                             <div class="mb-3">
                                 <label for="email" class="form-label text-black">Email</label>
                                 <input type="email" name="email" id="email" class="form-control" max="256">
                                 <div id="emailError" data-email-error class="text-danger error" style="min-height: 1.2em; word-break: break-word; word-wrap: break-word; overflow-wrap: break-word; white-space: normal;"></div>
                             </div>
-                            <!-- Пароль -->
+                            <!-- Кнопка -->
                             <div class="mb-3 text-center">
                                 <button class="btn btn-primary mb-3" type="submit">Создать аккаунт</button>
                             </div>
@@ -189,9 +174,9 @@
                 </div>
             </div>
         </main>
-        <script src="assets/js/popper.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="js/registration_in_clinic.js"></script>
+        <script src="static/assets/js/popper.min.js"></script>
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="static/js/registration_in_clinic.js"></script>
         <footer class="bg-dark text-white-50"> 
             <div class="container"> 
                 <div class="col-md pb-2 pt-2">
