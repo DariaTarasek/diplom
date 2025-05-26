@@ -1,25 +1,39 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"github.com/DariaTarasek/diplom/services/auth/clients"
 	grpcserver "github.com/DariaTarasek/diplom/services/auth/grpc"
 	pb "github.com/DariaTarasek/diplom/services/auth/proto/auth"
 	"github.com/DariaTarasek/diplom/services/auth/service"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"log"
 	"net"
+	"time"
 )
 
 func main() {
+	ctx := context.Background()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Не удалось получить переменные среды: %w", err)
+	}
 	storageClient, err := clients.NewStorageClient("localhost:50051")
 	if err != nil {
 		log.Fatalf("Не удалось создать клиент storage: %s", err)
 	}
-	authService := service.NewAuthService(storageClient)
+	redisClient, err := clients.NewRedisClient(ctx)
+	if err != nil {
+		log.Fatalf("Не удалось создать клиент redis: %s", err.Error())
+	}
+	smsClient := clients.NewSMSClient()
+	authService := service.NewAuthService(storageClient, redisClient, smsClient)
 
 	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
-		log.Fatalf("не удалось начать слушать: %v", err)
+		log.Fatalf("Не удалось начать слушать: %v", err)
 	}
 
 	s := grpc.NewServer()

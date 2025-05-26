@@ -3,6 +3,7 @@ module github.com/DariaTarasek/diplom/services/auth
 go 1.23.2
 
 require (
+	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.38.0
 	google.golang.org/grpc v1.72.1
 	google.golang.org/protobuf v1.36.5

@@ -1,5 +1,3 @@
-// proto файл auth-сервиса для генерации grpc для storage-клиента
-
 syntax = "proto3";
 
 package storage;
@@ -83,6 +81,34 @@ message AddUserRoleResponse{
   string error = 1;
 }
 
+message GetUserByLoginRequest{
+  string login = 1;
+}
+
+message GetUserByLoginResponse{
+  string login = 1;
+  string password = 2;
+  int32 id = 3;
+}
+
+message UpdateUserPasswordRequest{
+  int32 id = 1;
+  string login = 2;
+  string password = 3;
+}
+
+message DefaultResponse {
+  string error = 1;
+}
+
+message GetUserRoleRequest{
+  int32 user_id = 1;
+}
+
+message GetUserRoleResponse{
+  int32 role = 1;
+}
+
 
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
@@ -91,4 +117,7 @@ service StorageService {
   rpc AddUserRole(AddUserRoleRequest) returns (AddUserRoleResponse); // добавление роли пользователю
   rpc AddAdmin(AddAdminRequest) returns (AddAdminResponse); // добавление администратора
   rpc AddPatient(AddPatientRequest) returns (AddPatientResponse); // добавление пациента
+  rpc GetUserByLogin(GetUserByLoginRequest) returns (GetUserByLoginResponse); // получение пользователя по логину
+  rpc UpdateUserPassword(UpdateUserPasswordRequest) returns (DefaultResponse); // обновление пароля пользователя
+  rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse);
 }
