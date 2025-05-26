@@ -37,13 +37,6 @@ func (s *AuthService) UserAuth(ctx context.Context, user model.User) (string, st
 
 }
 
-func deref(s *string) string {
-	if s == nil {
-		return ""
-	}
-	return *s
-}
-
 func fetchRole(role int) string {
 	switch role {
 	case model.DoctorRole:

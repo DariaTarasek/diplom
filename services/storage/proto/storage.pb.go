@@ -786,6 +786,186 @@ func (x *AddUserRoleResponse) GetError() string {
 	return ""
 }
 
+type WeeklyDoctorSchedule struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Id                  int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	DoctorId            int32                  `protobuf:"varint,2,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
+	Weekday             int32                  `protobuf:"varint,3,opt,name=weekday,proto3" json:"weekday,omitempty"`
+	StartTime           *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime             *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	SlotDurationMinutes int32                  `protobuf:"varint,6,opt,name=slot_duration_minutes,json=slotDurationMinutes,proto3" json:"slot_duration_minutes,omitempty"`
+	IsDayOff            bool                   `protobuf:"varint,7,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *WeeklyDoctorSchedule) Reset() {
+	*x = WeeklyDoctorSchedule{}
+	mi := &file_proto_storage_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WeeklyDoctorSchedule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WeeklyDoctorSchedule) ProtoMessage() {}
+
+func (x *WeeklyDoctorSchedule) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WeeklyDoctorSchedule.ProtoReflect.Descriptor instead.
+func (*WeeklyDoctorSchedule) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *WeeklyDoctorSchedule) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *WeeklyDoctorSchedule) GetDoctorId() int32 {
+	if x != nil {
+		return x.DoctorId
+	}
+	return 0
+}
+
+func (x *WeeklyDoctorSchedule) GetWeekday() int32 {
+	if x != nil {
+		return x.Weekday
+	}
+	return 0
+}
+
+func (x *WeeklyDoctorSchedule) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *WeeklyDoctorSchedule) GetEndTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndTime
+	}
+	return nil
+}
+
+func (x *WeeklyDoctorSchedule) GetSlotDurationMinutes() int32 {
+	if x != nil {
+		return x.SlotDurationMinutes
+	}
+	return 0
+}
+
+func (x *WeeklyDoctorSchedule) GetIsDayOff() bool {
+	if x != nil {
+		return x.IsDayOff
+	}
+	return false
+}
+
+type GetScheduleByDoctorIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DoctorId      int32                  `protobuf:"varint,1,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetScheduleByDoctorIdRequest) Reset() {
+	*x = GetScheduleByDoctorIdRequest{}
+	mi := &file_proto_storage_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetScheduleByDoctorIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetScheduleByDoctorIdRequest) ProtoMessage() {}
+
+func (x *GetScheduleByDoctorIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetScheduleByDoctorIdRequest.ProtoReflect.Descriptor instead.
+func (*GetScheduleByDoctorIdRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetScheduleByDoctorIdRequest) GetDoctorId() int32 {
+	if x != nil {
+		return x.DoctorId
+	}
+	return 0
+}
+
+type GetScheduleByDoctorIdResponse struct {
+	state          protoimpl.MessageState  `protogen:"open.v1"`
+	DoctorSchedule []*WeeklyDoctorSchedule `protobuf:"bytes,1,rep,name=doctor_schedule,json=doctorSchedule,proto3" json:"doctor_schedule,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetScheduleByDoctorIdResponse) Reset() {
+	*x = GetScheduleByDoctorIdResponse{}
+	mi := &file_proto_storage_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetScheduleByDoctorIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetScheduleByDoctorIdResponse) ProtoMessage() {}
+
+func (x *GetScheduleByDoctorIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetScheduleByDoctorIdResponse.ProtoReflect.Descriptor instead.
+func (*GetScheduleByDoctorIdResponse) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetScheduleByDoctorIdResponse) GetDoctorSchedule() []*WeeklyDoctorSchedule {
+	if x != nil {
+		return x.DoctorSchedule
+	}
+	return nil
+}
+
 type GetUserByLoginRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
@@ -795,7 +975,7 @@ type GetUserByLoginRequest struct {
 
 func (x *GetUserByLoginRequest) Reset() {
 	*x = GetUserByLoginRequest{}
-	mi := &file_proto_storage_proto_msgTypes[13]
+	mi := &file_proto_storage_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -807,7 +987,7 @@ func (x *GetUserByLoginRequest) String() string {
 func (*GetUserByLoginRequest) ProtoMessage() {}
 
 func (x *GetUserByLoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[13]
+	mi := &file_proto_storage_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -820,7 +1000,7 @@ func (x *GetUserByLoginRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserByLoginRequest.ProtoReflect.Descriptor instead.
 func (*GetUserByLoginRequest) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{13}
+	return file_proto_storage_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetUserByLoginRequest) GetLogin() string {
@@ -841,7 +1021,7 @@ type GetUserByLoginResponse struct {
 
 func (x *GetUserByLoginResponse) Reset() {
 	*x = GetUserByLoginResponse{}
-	mi := &file_proto_storage_proto_msgTypes[14]
+	mi := &file_proto_storage_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -853,7 +1033,7 @@ func (x *GetUserByLoginResponse) String() string {
 func (*GetUserByLoginResponse) ProtoMessage() {}
 
 func (x *GetUserByLoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[14]
+	mi := &file_proto_storage_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -866,7 +1046,7 @@ func (x *GetUserByLoginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserByLoginResponse.ProtoReflect.Descriptor instead.
 func (*GetUserByLoginResponse) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{14}
+	return file_proto_storage_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GetUserByLoginResponse) GetLogin() string {
@@ -901,7 +1081,7 @@ type UpdateUserPasswordRequest struct {
 
 func (x *UpdateUserPasswordRequest) Reset() {
 	*x = UpdateUserPasswordRequest{}
-	mi := &file_proto_storage_proto_msgTypes[15]
+	mi := &file_proto_storage_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -913,7 +1093,7 @@ func (x *UpdateUserPasswordRequest) String() string {
 func (*UpdateUserPasswordRequest) ProtoMessage() {}
 
 func (x *UpdateUserPasswordRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[15]
+	mi := &file_proto_storage_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -926,7 +1106,7 @@ func (x *UpdateUserPasswordRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserPasswordRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserPasswordRequest) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{15}
+	return file_proto_storage_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *UpdateUserPasswordRequest) GetId() int32 {
@@ -959,7 +1139,7 @@ type DefaultResponse struct {
 
 func (x *DefaultResponse) Reset() {
 	*x = DefaultResponse{}
-	mi := &file_proto_storage_proto_msgTypes[16]
+	mi := &file_proto_storage_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -971,7 +1151,7 @@ func (x *DefaultResponse) String() string {
 func (*DefaultResponse) ProtoMessage() {}
 
 func (x *DefaultResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[16]
+	mi := &file_proto_storage_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -984,7 +1164,7 @@ func (x *DefaultResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DefaultResponse.ProtoReflect.Descriptor instead.
 func (*DefaultResponse) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{16}
+	return file_proto_storage_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *DefaultResponse) GetError() string {
@@ -1011,7 +1191,7 @@ type Doctor struct {
 
 func (x *Doctor) Reset() {
 	*x = Doctor{}
-	mi := &file_proto_storage_proto_msgTypes[17]
+	mi := &file_proto_storage_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1023,7 +1203,7 @@ func (x *Doctor) String() string {
 func (*Doctor) ProtoMessage() {}
 
 func (x *Doctor) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[17]
+	mi := &file_proto_storage_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1036,7 +1216,7 @@ func (x *Doctor) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Doctor.ProtoReflect.Descriptor instead.
 func (*Doctor) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{17}
+	return file_proto_storage_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *Doctor) GetUserId() int32 {
@@ -1111,7 +1291,7 @@ type GetDoctorsResponse struct {
 
 func (x *GetDoctorsResponse) Reset() {
 	*x = GetDoctorsResponse{}
-	mi := &file_proto_storage_proto_msgTypes[18]
+	mi := &file_proto_storage_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1123,7 +1303,7 @@ func (x *GetDoctorsResponse) String() string {
 func (*GetDoctorsResponse) ProtoMessage() {}
 
 func (x *GetDoctorsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[18]
+	mi := &file_proto_storage_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1136,7 +1316,7 @@ func (x *GetDoctorsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDoctorsResponse.ProtoReflect.Descriptor instead.
 func (*GetDoctorsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{18}
+	return file_proto_storage_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetDoctorsResponse) GetDoctors() []*Doctor {
@@ -1160,7 +1340,7 @@ type WeeklyClinicSchedule struct {
 
 func (x *WeeklyClinicSchedule) Reset() {
 	*x = WeeklyClinicSchedule{}
-	mi := &file_proto_storage_proto_msgTypes[19]
+	mi := &file_proto_storage_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1172,7 +1352,7 @@ func (x *WeeklyClinicSchedule) String() string {
 func (*WeeklyClinicSchedule) ProtoMessage() {}
 
 func (x *WeeklyClinicSchedule) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[19]
+	mi := &file_proto_storage_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1185,7 +1365,7 @@ func (x *WeeklyClinicSchedule) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WeeklyClinicSchedule.ProtoReflect.Descriptor instead.
 func (*WeeklyClinicSchedule) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{19}
+	return file_proto_storage_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *WeeklyClinicSchedule) GetId() int32 {
@@ -1239,7 +1419,7 @@ type GetClinicWeeklyScheduleResponse struct {
 
 func (x *GetClinicWeeklyScheduleResponse) Reset() {
 	*x = GetClinicWeeklyScheduleResponse{}
-	mi := &file_proto_storage_proto_msgTypes[20]
+	mi := &file_proto_storage_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1251,7 +1431,7 @@ func (x *GetClinicWeeklyScheduleResponse) String() string {
 func (*GetClinicWeeklyScheduleResponse) ProtoMessage() {}
 
 func (x *GetClinicWeeklyScheduleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[20]
+	mi := &file_proto_storage_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1264,7 +1444,7 @@ func (x *GetClinicWeeklyScheduleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetClinicWeeklyScheduleResponse.ProtoReflect.Descriptor instead.
 func (*GetClinicWeeklyScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{20}
+	return file_proto_storage_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *GetClinicWeeklyScheduleResponse) GetClinicSchedule() []*WeeklyClinicSchedule {
@@ -1283,7 +1463,7 @@ type GetUserRoleRequest struct {
 
 func (x *GetUserRoleRequest) Reset() {
 	*x = GetUserRoleRequest{}
-	mi := &file_proto_storage_proto_msgTypes[21]
+	mi := &file_proto_storage_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1295,7 +1475,7 @@ func (x *GetUserRoleRequest) String() string {
 func (*GetUserRoleRequest) ProtoMessage() {}
 
 func (x *GetUserRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[21]
+	mi := &file_proto_storage_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1308,7 +1488,7 @@ func (x *GetUserRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRoleRequest.ProtoReflect.Descriptor instead.
 func (*GetUserRoleRequest) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{21}
+	return file_proto_storage_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *GetUserRoleRequest) GetUserId() int32 {
@@ -1327,7 +1507,7 @@ type GetUserRoleResponse struct {
 
 func (x *GetUserRoleResponse) Reset() {
 	*x = GetUserRoleResponse{}
-	mi := &file_proto_storage_proto_msgTypes[22]
+	mi := &file_proto_storage_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1339,7 +1519,7 @@ func (x *GetUserRoleResponse) String() string {
 func (*GetUserRoleResponse) ProtoMessage() {}
 
 func (x *GetUserRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_storage_proto_msgTypes[22]
+	mi := &file_proto_storage_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1352,7 +1532,7 @@ func (x *GetUserRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRoleResponse.ProtoReflect.Descriptor instead.
 func (*GetUserRoleResponse) Descriptor() ([]byte, []int) {
-	return file_proto_storage_proto_rawDescGZIP(), []int{22}
+	return file_proto_storage_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *GetUserRoleResponse) GetRole() int32 {
@@ -1360,6 +1540,138 @@ func (x *GetUserRoleResponse) GetRole() int32 {
 		return x.Role
 	}
 	return 0
+}
+
+type UpdateClinicWeeklyScheduleRequest struct {
+	state          protoimpl.MessageState  `protogen:"open.v1"`
+	ClinicSchedule []*WeeklyClinicSchedule `protobuf:"bytes,1,rep,name=clinic_schedule,json=clinicSchedule,proto3" json:"clinic_schedule,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UpdateClinicWeeklyScheduleRequest) Reset() {
+	*x = UpdateClinicWeeklyScheduleRequest{}
+	mi := &file_proto_storage_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateClinicWeeklyScheduleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateClinicWeeklyScheduleRequest) ProtoMessage() {}
+
+func (x *UpdateClinicWeeklyScheduleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateClinicWeeklyScheduleRequest.ProtoReflect.Descriptor instead.
+func (*UpdateClinicWeeklyScheduleRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *UpdateClinicWeeklyScheduleRequest) GetClinicSchedule() []*WeeklyClinicSchedule {
+	if x != nil {
+		return x.ClinicSchedule
+	}
+	return nil
+}
+
+type AddDoctorWeeklyScheduleRequest struct {
+	state          protoimpl.MessageState  `protogen:"open.v1"`
+	DoctorSchedule []*WeeklyDoctorSchedule `protobuf:"bytes,1,rep,name=doctor_schedule,json=doctorSchedule,proto3" json:"doctor_schedule,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *AddDoctorWeeklyScheduleRequest) Reset() {
+	*x = AddDoctorWeeklyScheduleRequest{}
+	mi := &file_proto_storage_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddDoctorWeeklyScheduleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddDoctorWeeklyScheduleRequest) ProtoMessage() {}
+
+func (x *AddDoctorWeeklyScheduleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddDoctorWeeklyScheduleRequest.ProtoReflect.Descriptor instead.
+func (*AddDoctorWeeklyScheduleRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *AddDoctorWeeklyScheduleRequest) GetDoctorSchedule() []*WeeklyDoctorSchedule {
+	if x != nil {
+		return x.DoctorSchedule
+	}
+	return nil
+}
+
+type UpdateDoctorWeeklyScheduleRequest struct {
+	state          protoimpl.MessageState  `protogen:"open.v1"`
+	DoctorSchedule []*WeeklyDoctorSchedule `protobuf:"bytes,1,rep,name=doctor_schedule,json=doctorSchedule,proto3" json:"doctor_schedule,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UpdateDoctorWeeklyScheduleRequest) Reset() {
+	*x = UpdateDoctorWeeklyScheduleRequest{}
+	mi := &file_proto_storage_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDoctorWeeklyScheduleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDoctorWeeklyScheduleRequest) ProtoMessage() {}
+
+func (x *UpdateDoctorWeeklyScheduleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDoctorWeeklyScheduleRequest.ProtoReflect.Descriptor instead.
+func (*UpdateDoctorWeeklyScheduleRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *UpdateDoctorWeeklyScheduleRequest) GetDoctorSchedule() []*WeeklyDoctorSchedule {
+	if x != nil {
+		return x.DoctorSchedule
+	}
+	return nil
 }
 
 var File_proto_storage_proto protoreflect.FileDescriptor
@@ -1425,7 +1737,21 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x17\n" +
 	"\arole_id\x18\x02 \x01(\x05R\x06roleId\"+\n" +
 	"\x13AddUserRoleResponse\x12\x14\n" +
-	"\x05error\x18\x01 \x01(\tR\x05error\"-\n" +
+	"\x05error\x18\x01 \x01(\tR\x05error\"\xa1\x02\n" +
+	"\x14WeeklyDoctorSchedule\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1b\n" +
+	"\tdoctor_id\x18\x02 \x01(\x05R\bdoctorId\x12\x18\n" +
+	"\aweekday\x18\x03 \x01(\x05R\aweekday\x129\n" +
+	"\n" +
+	"start_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
+	"\bend_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x122\n" +
+	"\x15slot_duration_minutes\x18\x06 \x01(\x05R\x13slotDurationMinutes\x12\x1c\n" +
+	"\n" +
+	"is_day_off\x18\a \x01(\bR\bisDayOff\";\n" +
+	"\x1cGetScheduleByDoctorIdRequest\x12\x1b\n" +
+	"\tdoctor_id\x18\x01 \x01(\x05R\bdoctorId\"g\n" +
+	"\x1dGetScheduleByDoctorIdResponse\x12F\n" +
+	"\x0fdoctor_schedule\x18\x01 \x03(\v2\x1d.storage.WeeklyDoctorScheduleR\x0edoctorSchedule\"-\n" +
 	"\x15GetUserByLoginRequest\x12\x14\n" +
 	"\x05login\x18\x01 \x01(\tR\x05login\"Z\n" +
 	"\x16GetUserByLoginResponse\x12\x14\n" +
@@ -1468,7 +1794,13 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\x12GetUserRoleRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\")\n" +
 	"\x13GetUserRoleResponse\x12\x12\n" +
-	"\x04role\x18\x01 \x01(\x05R\x04role2\xb7\x06\n" +
+	"\x04role\x18\x01 \x01(\x05R\x04role\"k\n" +
+	"!UpdateClinicWeeklyScheduleRequest\x12F\n" +
+	"\x0fclinic_schedule\x18\x01 \x03(\v2\x1d.storage.WeeklyClinicScheduleR\x0eclinicSchedule\"h\n" +
+	"\x1eAddDoctorWeeklyScheduleRequest\x12F\n" +
+	"\x0fdoctor_schedule\x18\x01 \x03(\v2\x1d.storage.WeeklyDoctorScheduleR\x0edoctorSchedule\"k\n" +
+	"!UpdateDoctorWeeklyScheduleRequest\x12F\n" +
+	"\x0fdoctor_schedule\x18\x01 \x03(\v2\x1d.storage.WeeklyDoctorScheduleR\x0edoctorSchedule2\xc7\t\n" +
 	"\x0eStorageService\x12<\n" +
 	"\aAddUser\x12\x17.storage.AddUserRequest\x1a\x18.storage.AddUserResponse\x12B\n" +
 	"\tAddDoctor\x12\x19.storage.AddDoctorRequest\x1a\x1a.storage.AddDoctorResponse\x12B\n" +
@@ -1482,7 +1814,11 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\n" +
 	"GetDoctors\x12\x15.storage.EmptyRequest\x1a\x1b.storage.GetDoctorsResponse\x12Z\n" +
 	"\x17GetClinicWeeklySchedule\x12\x15.storage.EmptyRequest\x1a(.storage.GetClinicWeeklyScheduleResponse\x12H\n" +
-	"\vGetUserRole\x12\x1b.storage.GetUserRoleRequest\x1a\x1c.storage.GetUserRoleResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
+	"\vGetUserRole\x12\x1b.storage.GetUserRoleRequest\x1a\x1c.storage.GetUserRoleResponse\x12h\n" +
+	"\x17GetDoctorWeeklySchedule\x12%.storage.GetScheduleByDoctorIdRequest\x1a&.storage.GetScheduleByDoctorIdResponse\x12b\n" +
+	"\x1aUpdateClinicWeeklySchedule\x12*.storage.UpdateClinicWeeklyScheduleRequest\x1a\x18.storage.DefaultResponse\x12\\\n" +
+	"\x17AddDoctorWeeklySchedule\x12'.storage.AddDoctorWeeklyScheduleRequest\x1a\x18.storage.DefaultResponse\x12b\n" +
+	"\x1aUpdateDoctorWeeklySchedule\x12*.storage.UpdateDoctorWeeklyScheduleRequest\x1a\x18.storage.DefaultResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
 
 var (
 	file_proto_storage_proto_rawDescOnce sync.Once
@@ -1496,67 +1832,87 @@ func file_proto_storage_proto_rawDescGZIP() []byte {
 	return file_proto_storage_proto_rawDescData
 }
 
-var file_proto_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_proto_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_proto_storage_proto_goTypes = []any{
-	(*AddUserRequest)(nil),                  // 0: storage.AddUserRequest
-	(*AddUserResponse)(nil),                 // 1: storage.AddUserResponse
-	(*AddDoctorRequest)(nil),                // 2: storage.AddDoctorRequest
-	(*AddDoctorResponse)(nil),               // 3: storage.AddDoctorResponse
-	(*AddAdminRequest)(nil),                 // 4: storage.AddAdminRequest
-	(*AddAdminResponse)(nil),                // 5: storage.AddAdminResponse
-	(*AddPatientRequest)(nil),               // 6: storage.AddPatientRequest
-	(*AddPatientResponse)(nil),              // 7: storage.AddPatientResponse
-	(*EmptyRequest)(nil),                    // 8: storage.EmptyRequest
-	(*Specialization)(nil),                  // 9: storage.Specialization
-	(*GetAllSpecsResponse)(nil),             // 10: storage.GetAllSpecsResponse
-	(*AddUserRoleRequest)(nil),              // 11: storage.AddUserRoleRequest
-	(*AddUserRoleResponse)(nil),             // 12: storage.AddUserRoleResponse
-	(*GetUserByLoginRequest)(nil),           // 13: storage.GetUserByLoginRequest
-	(*GetUserByLoginResponse)(nil),          // 14: storage.GetUserByLoginResponse
-	(*UpdateUserPasswordRequest)(nil),       // 15: storage.UpdateUserPasswordRequest
-	(*DefaultResponse)(nil),                 // 16: storage.DefaultResponse
-	(*Doctor)(nil),                          // 17: storage.Doctor
-	(*GetDoctorsResponse)(nil),              // 18: storage.GetDoctorsResponse
-	(*WeeklyClinicSchedule)(nil),            // 19: storage.WeeklyClinicSchedule
-	(*GetClinicWeeklyScheduleResponse)(nil), // 20: storage.GetClinicWeeklyScheduleResponse
-	(*GetUserRoleRequest)(nil),              // 21: storage.GetUserRoleRequest
-	(*GetUserRoleResponse)(nil),             // 22: storage.GetUserRoleResponse
-	(*timestamppb.Timestamp)(nil),           // 23: google.protobuf.Timestamp
+	(*AddUserRequest)(nil),                    // 0: storage.AddUserRequest
+	(*AddUserResponse)(nil),                   // 1: storage.AddUserResponse
+	(*AddDoctorRequest)(nil),                  // 2: storage.AddDoctorRequest
+	(*AddDoctorResponse)(nil),                 // 3: storage.AddDoctorResponse
+	(*AddAdminRequest)(nil),                   // 4: storage.AddAdminRequest
+	(*AddAdminResponse)(nil),                  // 5: storage.AddAdminResponse
+	(*AddPatientRequest)(nil),                 // 6: storage.AddPatientRequest
+	(*AddPatientResponse)(nil),                // 7: storage.AddPatientResponse
+	(*EmptyRequest)(nil),                      // 8: storage.EmptyRequest
+	(*Specialization)(nil),                    // 9: storage.Specialization
+	(*GetAllSpecsResponse)(nil),               // 10: storage.GetAllSpecsResponse
+	(*AddUserRoleRequest)(nil),                // 11: storage.AddUserRoleRequest
+	(*AddUserRoleResponse)(nil),               // 12: storage.AddUserRoleResponse
+	(*WeeklyDoctorSchedule)(nil),              // 13: storage.WeeklyDoctorSchedule
+	(*GetScheduleByDoctorIdRequest)(nil),      // 14: storage.GetScheduleByDoctorIdRequest
+	(*GetScheduleByDoctorIdResponse)(nil),     // 15: storage.GetScheduleByDoctorIdResponse
+	(*GetUserByLoginRequest)(nil),             // 16: storage.GetUserByLoginRequest
+	(*GetUserByLoginResponse)(nil),            // 17: storage.GetUserByLoginResponse
+	(*UpdateUserPasswordRequest)(nil),         // 18: storage.UpdateUserPasswordRequest
+	(*DefaultResponse)(nil),                   // 19: storage.DefaultResponse
+	(*Doctor)(nil),                            // 20: storage.Doctor
+	(*GetDoctorsResponse)(nil),                // 21: storage.GetDoctorsResponse
+	(*WeeklyClinicSchedule)(nil),              // 22: storage.WeeklyClinicSchedule
+	(*GetClinicWeeklyScheduleResponse)(nil),   // 23: storage.GetClinicWeeklyScheduleResponse
+	(*GetUserRoleRequest)(nil),                // 24: storage.GetUserRoleRequest
+	(*GetUserRoleResponse)(nil),               // 25: storage.GetUserRoleResponse
+	(*UpdateClinicWeeklyScheduleRequest)(nil), // 26: storage.UpdateClinicWeeklyScheduleRequest
+	(*AddDoctorWeeklyScheduleRequest)(nil),    // 27: storage.AddDoctorWeeklyScheduleRequest
+	(*UpdateDoctorWeeklyScheduleRequest)(nil), // 28: storage.UpdateDoctorWeeklyScheduleRequest
+	(*timestamppb.Timestamp)(nil),             // 29: google.protobuf.Timestamp
 }
 var file_proto_storage_proto_depIdxs = []int32{
-	23, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
+	29, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
 	9,  // 1: storage.GetAllSpecsResponse.specs:type_name -> storage.Specialization
-	17, // 2: storage.GetDoctorsResponse.doctors:type_name -> storage.Doctor
-	23, // 3: storage.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
-	23, // 4: storage.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
-	19, // 5: storage.GetClinicWeeklyScheduleResponse.clinic_schedule:type_name -> storage.WeeklyClinicSchedule
-	0,  // 6: storage.StorageService.AddUser:input_type -> storage.AddUserRequest
-	2,  // 7: storage.StorageService.AddDoctor:input_type -> storage.AddDoctorRequest
-	8,  // 8: storage.StorageService.GetAllSpecs:input_type -> storage.EmptyRequest
-	11, // 9: storage.StorageService.AddUserRole:input_type -> storage.AddUserRoleRequest
-	4,  // 10: storage.StorageService.AddAdmin:input_type -> storage.AddAdminRequest
-	6,  // 11: storage.StorageService.AddPatient:input_type -> storage.AddPatientRequest
-	13, // 12: storage.StorageService.GetUserByLogin:input_type -> storage.GetUserByLoginRequest
-	15, // 13: storage.StorageService.UpdateUserPassword:input_type -> storage.UpdateUserPasswordRequest
-	8,  // 14: storage.StorageService.GetDoctors:input_type -> storage.EmptyRequest
-	8,  // 15: storage.StorageService.GetClinicWeeklySchedule:input_type -> storage.EmptyRequest
-	21, // 16: storage.StorageService.GetUserRole:input_type -> storage.GetUserRoleRequest
-	1,  // 17: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
-	3,  // 18: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
-	10, // 19: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
-	12, // 20: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
-	5,  // 21: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
-	7,  // 22: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
-	14, // 23: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
-	16, // 24: storage.StorageService.UpdateUserPassword:output_type -> storage.DefaultResponse
-	18, // 25: storage.StorageService.GetDoctors:output_type -> storage.GetDoctorsResponse
-	20, // 26: storage.StorageService.GetClinicWeeklySchedule:output_type -> storage.GetClinicWeeklyScheduleResponse
-	22, // 27: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
-	17, // [17:28] is the sub-list for method output_type
-	6,  // [6:17] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	29, // 2: storage.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
+	29, // 3: storage.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
+	13, // 4: storage.GetScheduleByDoctorIdResponse.doctor_schedule:type_name -> storage.WeeklyDoctorSchedule
+	20, // 5: storage.GetDoctorsResponse.doctors:type_name -> storage.Doctor
+	29, // 6: storage.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
+	29, // 7: storage.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
+	22, // 8: storage.GetClinicWeeklyScheduleResponse.clinic_schedule:type_name -> storage.WeeklyClinicSchedule
+	22, // 9: storage.UpdateClinicWeeklyScheduleRequest.clinic_schedule:type_name -> storage.WeeklyClinicSchedule
+	13, // 10: storage.AddDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> storage.WeeklyDoctorSchedule
+	13, // 11: storage.UpdateDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> storage.WeeklyDoctorSchedule
+	0,  // 12: storage.StorageService.AddUser:input_type -> storage.AddUserRequest
+	2,  // 13: storage.StorageService.AddDoctor:input_type -> storage.AddDoctorRequest
+	8,  // 14: storage.StorageService.GetAllSpecs:input_type -> storage.EmptyRequest
+	11, // 15: storage.StorageService.AddUserRole:input_type -> storage.AddUserRoleRequest
+	4,  // 16: storage.StorageService.AddAdmin:input_type -> storage.AddAdminRequest
+	6,  // 17: storage.StorageService.AddPatient:input_type -> storage.AddPatientRequest
+	16, // 18: storage.StorageService.GetUserByLogin:input_type -> storage.GetUserByLoginRequest
+	18, // 19: storage.StorageService.UpdateUserPassword:input_type -> storage.UpdateUserPasswordRequest
+	8,  // 20: storage.StorageService.GetDoctors:input_type -> storage.EmptyRequest
+	8,  // 21: storage.StorageService.GetClinicWeeklySchedule:input_type -> storage.EmptyRequest
+	24, // 22: storage.StorageService.GetUserRole:input_type -> storage.GetUserRoleRequest
+	14, // 23: storage.StorageService.GetDoctorWeeklySchedule:input_type -> storage.GetScheduleByDoctorIdRequest
+	26, // 24: storage.StorageService.UpdateClinicWeeklySchedule:input_type -> storage.UpdateClinicWeeklyScheduleRequest
+	27, // 25: storage.StorageService.AddDoctorWeeklySchedule:input_type -> storage.AddDoctorWeeklyScheduleRequest
+	28, // 26: storage.StorageService.UpdateDoctorWeeklySchedule:input_type -> storage.UpdateDoctorWeeklyScheduleRequest
+	1,  // 27: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
+	3,  // 28: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
+	10, // 29: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
+	12, // 30: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
+	5,  // 31: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
+	7,  // 32: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
+	17, // 33: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
+	19, // 34: storage.StorageService.UpdateUserPassword:output_type -> storage.DefaultResponse
+	21, // 35: storage.StorageService.GetDoctors:output_type -> storage.GetDoctorsResponse
+	23, // 36: storage.StorageService.GetClinicWeeklySchedule:output_type -> storage.GetClinicWeeklyScheduleResponse
+	25, // 37: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
+	15, // 38: storage.StorageService.GetDoctorWeeklySchedule:output_type -> storage.GetScheduleByDoctorIdResponse
+	19, // 39: storage.StorageService.UpdateClinicWeeklySchedule:output_type -> storage.DefaultResponse
+	19, // 40: storage.StorageService.AddDoctorWeeklySchedule:output_type -> storage.DefaultResponse
+	19, // 41: storage.StorageService.UpdateDoctorWeeklySchedule:output_type -> storage.DefaultResponse
+	27, // [27:42] is the sub-list for method output_type
+	12, // [12:27] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_proto_storage_proto_init() }
@@ -1570,7 +1926,7 @@ func file_proto_storage_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_storage_proto_rawDesc), len(file_proto_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   23,
+			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

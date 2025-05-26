@@ -194,3 +194,49 @@ func (s *Server) GetClinicWeeklySchedule(ctx context.Context, req *pb.EmptyReque
 	}
 	return &pb.GetClinicWeeklyScheduleResponse{ClinicSchedule: schedule}, nil
 }
+
+func (s *Server) GetDoctorWeeklySchedule(ctx context.Context, req *pb.GetScheduleByDoctorIdRequest) (*pb.GetScheduleByDoctorIdResponse, error) {
+	items, err := s.Store.GetScheduleByDoctorID(ctx, model.UserID(req.DoctorId))
+	if err != nil {
+		return nil, err
+	}
+	var schedule []*pb.WeeklyDoctorSchedule
+	for _, item := range items {
+		start := *item.StartTime
+		end := *item.EndTime
+		day := &pb.WeeklyDoctorSchedule{
+			Id:                  int32(item.ID),
+			DoctorId:            int32(item.DoctorID),
+			Weekday:             int32(item.Weekday),
+			StartTime:           timestamppb.New(start),
+			EndTime:             timestamppb.New(end),
+			SlotDurationMinutes: int32(*item.SlotDurationMinutes),
+			IsDayOff:            *item.IsDayOff,
+		}
+		schedule = append(schedule, day)
+	}
+	return &pb.GetScheduleByDoctorIdResponse{DoctorSchedule: schedule}, nil
+}
+
+func (s *Server) UpdateClinicWeeklySchedule(ctx context.Context, request *pb.UpdateClinicWeeklyScheduleRequest) (*pb.DefaultResponse, error) {
+	var schedule []model.ClinicSchedule
+	for _, item := range request.ClinicSchedule {
+		start := item.StartTime.AsTime()
+		end := item.EndTime.AsTime()
+		duration := int(item.SlotDurationMinutes)
+		day := model.ClinicSchedule{
+			ID:                  int(item.Id),
+			Weekday:             int(item.Weekday),
+			StartTime:           &start,
+			EndTime:             &end,
+			SlotDurationMinutes: &duration,
+			IsDayOff:            &item.IsDayOff,
+		}
+		schedule = append(schedule, day)
+	}
+	err := s.Store.UpdateClinicSchedule(ctx, schedule)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}

@@ -11,6 +11,7 @@ func (h *InfoHandler) GetDoctors(c *gin.Context) {
 	items, err := h.store.Client.GetDoctors(c.Request.Context(), &storagepb.EmptyRequest{})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	var doctors []model.Doctor
 	for _, item := range items.Doctors {

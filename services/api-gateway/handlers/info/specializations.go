@@ -11,6 +11,7 @@ func (h *InfoHandler) GetAllSpecs(c *gin.Context) {
 	items, err := h.store.Client.GetAllSpecs(c.Request.Context(), &storagepb.EmptyRequest{})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	var specs []model.Specialization
 	for _, item := range items.Specs {
