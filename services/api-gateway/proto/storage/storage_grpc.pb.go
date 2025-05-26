@@ -19,9 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StorageService_AddUser_FullMethodName     = "/storage.StorageService/AddUser"
-	StorageService_AddDoctor_FullMethodName   = "/storage.StorageService/AddDoctor"
-	StorageService_GetAllSpecs_FullMethodName = "/storage.StorageService/GetAllSpecs"
+	StorageService_AddUser_FullMethodName                 = "/storage.StorageService/AddUser"
+	StorageService_AddDoctor_FullMethodName               = "/storage.StorageService/AddDoctor"
+	StorageService_GetAllSpecs_FullMethodName             = "/storage.StorageService/GetAllSpecs"
+	StorageService_AddUserRole_FullMethodName             = "/storage.StorageService/AddUserRole"
+	StorageService_AddAdmin_FullMethodName                = "/storage.StorageService/AddAdmin"
+	StorageService_AddPatient_FullMethodName              = "/storage.StorageService/AddPatient"
+	StorageService_GetUserByLogin_FullMethodName          = "/storage.StorageService/GetUserByLogin"
+	StorageService_UpdateUserPassword_FullMethodName      = "/storage.StorageService/UpdateUserPassword"
+	StorageService_GetDoctors_FullMethodName              = "/storage.StorageService/GetDoctors"
+	StorageService_GetClinicWeeklySchedule_FullMethodName = "/storage.StorageService/GetClinicWeeklySchedule"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -31,6 +38,13 @@ type StorageServiceClient interface {
 	AddUser(ctx context.Context, in *AddUserRequest, opts ...grpc.CallOption) (*AddUserResponse, error)
 	AddDoctor(ctx context.Context, in *AddDoctorRequest, opts ...grpc.CallOption) (*AddDoctorResponse, error)
 	GetAllSpecs(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAllSpecsResponse, error)
+	AddUserRole(ctx context.Context, in *AddUserRoleRequest, opts ...grpc.CallOption) (*AddUserRoleResponse, error)
+	AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*AddAdminResponse, error)
+	AddPatient(ctx context.Context, in *AddPatientRequest, opts ...grpc.CallOption) (*AddPatientResponse, error)
+	GetUserByLogin(ctx context.Context, in *GetUserByLoginRequest, opts ...grpc.CallOption) (*GetUserByLoginResponse, error)
+	UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	GetDoctors(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error)
+	GetClinicWeeklySchedule(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicWeeklyScheduleResponse, error)
 }
 
 type storageServiceClient struct {
@@ -71,6 +85,76 @@ func (c *storageServiceClient) GetAllSpecs(ctx context.Context, in *EmptyRequest
 	return out, nil
 }
 
+func (c *storageServiceClient) AddUserRole(ctx context.Context, in *AddUserRoleRequest, opts ...grpc.CallOption) (*AddUserRoleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddUserRoleResponse)
+	err := c.cc.Invoke(ctx, StorageService_AddUserRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*AddAdminResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddAdminResponse)
+	err := c.cc.Invoke(ctx, StorageService_AddAdmin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) AddPatient(ctx context.Context, in *AddPatientRequest, opts ...grpc.CallOption) (*AddPatientResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddPatientResponse)
+	err := c.cc.Invoke(ctx, StorageService_AddPatient_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetUserByLogin(ctx context.Context, in *GetUserByLoginRequest, opts ...grpc.CallOption) (*GetUserByLoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserByLoginResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetUserByLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, StorageService_UpdateUserPassword_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetDoctors(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDoctorsResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetDoctors_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetClinicWeeklySchedule(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicWeeklyScheduleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetClinicWeeklyScheduleResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetClinicWeeklySchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -78,6 +162,13 @@ type StorageServiceServer interface {
 	AddUser(context.Context, *AddUserRequest) (*AddUserResponse, error)
 	AddDoctor(context.Context, *AddDoctorRequest) (*AddDoctorResponse, error)
 	GetAllSpecs(context.Context, *EmptyRequest) (*GetAllSpecsResponse, error)
+	AddUserRole(context.Context, *AddUserRoleRequest) (*AddUserRoleResponse, error)
+	AddAdmin(context.Context, *AddAdminRequest) (*AddAdminResponse, error)
+	AddPatient(context.Context, *AddPatientRequest) (*AddPatientResponse, error)
+	GetUserByLogin(context.Context, *GetUserByLoginRequest) (*GetUserByLoginResponse, error)
+	UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*DefaultResponse, error)
+	GetDoctors(context.Context, *EmptyRequest) (*GetDoctorsResponse, error)
+	GetClinicWeeklySchedule(context.Context, *EmptyRequest) (*GetClinicWeeklyScheduleResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -96,6 +187,27 @@ func (UnimplementedStorageServiceServer) AddDoctor(context.Context, *AddDoctorRe
 }
 func (UnimplementedStorageServiceServer) GetAllSpecs(context.Context, *EmptyRequest) (*GetAllSpecsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllSpecs not implemented")
+}
+func (UnimplementedStorageServiceServer) AddUserRole(context.Context, *AddUserRoleRequest) (*AddUserRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddUserRole not implemented")
+}
+func (UnimplementedStorageServiceServer) AddAdmin(context.Context, *AddAdminRequest) (*AddAdminResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddAdmin not implemented")
+}
+func (UnimplementedStorageServiceServer) AddPatient(context.Context, *AddPatientRequest) (*AddPatientResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPatient not implemented")
+}
+func (UnimplementedStorageServiceServer) GetUserByLogin(context.Context, *GetUserByLoginRequest) (*GetUserByLoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByLogin not implemented")
+}
+func (UnimplementedStorageServiceServer) UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserPassword not implemented")
+}
+func (UnimplementedStorageServiceServer) GetDoctors(context.Context, *EmptyRequest) (*GetDoctorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDoctors not implemented")
+}
+func (UnimplementedStorageServiceServer) GetClinicWeeklySchedule(context.Context, *EmptyRequest) (*GetClinicWeeklyScheduleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetClinicWeeklySchedule not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -172,6 +284,132 @@ func _StorageService_GetAllSpecs_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_AddUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddUserRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).AddUserRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_AddUserRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).AddUserRole(ctx, req.(*AddUserRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_AddAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddAdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).AddAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_AddAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).AddAdmin(ctx, req.(*AddAdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_AddPatient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPatientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).AddPatient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_AddPatient_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).AddPatient(ctx, req.(*AddPatientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetUserByLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserByLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetUserByLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetUserByLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetUserByLogin(ctx, req.(*GetUserByLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_UpdateUserPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).UpdateUserPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_UpdateUserPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).UpdateUserPassword(ctx, req.(*UpdateUserPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetDoctors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetDoctors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetDoctors_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetDoctors(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetClinicWeeklySchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetClinicWeeklySchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetClinicWeeklySchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetClinicWeeklySchedule(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +428,34 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllSpecs",
 			Handler:    _StorageService_GetAllSpecs_Handler,
+		},
+		{
+			MethodName: "AddUserRole",
+			Handler:    _StorageService_AddUserRole_Handler,
+		},
+		{
+			MethodName: "AddAdmin",
+			Handler:    _StorageService_AddAdmin_Handler,
+		},
+		{
+			MethodName: "AddPatient",
+			Handler:    _StorageService_AddPatient_Handler,
+		},
+		{
+			MethodName: "GetUserByLogin",
+			Handler:    _StorageService_GetUserByLogin_Handler,
+		},
+		{
+			MethodName: "UpdateUserPassword",
+			Handler:    _StorageService_UpdateUserPassword_Handler,
+		},
+		{
+			MethodName: "GetDoctors",
+			Handler:    _StorageService_GetDoctors_Handler,
+		},
+		{
+			MethodName: "GetClinicWeeklySchedule",
+			Handler:    _StorageService_GetClinicWeeklySchedule_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

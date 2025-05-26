@@ -5,11 +5,26 @@ import (
 	"github.com/DariaTarasek/diplom/services/storage/internal/model"
 	"github.com/DariaTarasek/diplom/services/storage/internal/store"
 	pb "github.com/DariaTarasek/diplom/services/storage/proto"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Server struct {
 	pb.UnimplementedStorageServiceServer
 	Store *store.Store
+}
+
+func deref(s *string) string {
+	if s == nil {
+		return ""
+	}
+	return *s
+}
+
+func derefInt(i *int) int {
+	if i == nil {
+		return 0
+	}
+	return *i
 }
 
 func (s *Server) AddUser(ctx context.Context, req *pb.AddUserRequest) (*pb.AddUserResponse, error) {
@@ -125,4 +140,49 @@ func (s *Server) UpdateUserPassword(ctx context.Context, req *pb.UpdateUserPassw
 		return nil, err
 	}
 	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) GetDoctors(ctx context.Context, req *pb.EmptyRequest) (*pb.GetDoctorsResponse, error) {
+	items, err := s.Store.GetDoctors(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var doctors []*pb.Doctor
+	for _, item := range items {
+		doctor := &pb.Doctor{
+			UserId:      int32(item.ID),
+			FirstName:   item.FirstName,
+			SecondName:  item.SecondName,
+			Surname:     deref(item.Surname),
+			PhoneNumber: deref(item.PhoneNumber),
+			Email:       item.Email,
+			Education:   deref(item.Education),
+			Experience:  int32(derefInt(item.Experience)),
+			Gender:      item.Gender,
+		}
+		doctors = append(doctors, doctor)
+	}
+	return &pb.GetDoctorsResponse{Doctors: doctors}, nil
+}
+
+func (s *Server) GetClinicWeeklySchedule(ctx context.Context, req *pb.EmptyRequest) (*pb.GetClinicWeeklyScheduleResponse, error) {
+	items, err := s.Store.GetClinicSchedule(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var schedule []*pb.WeeklyClinicSchedule
+	for _, item := range items {
+		start := *item.StartTime
+		end := *item.EndTime
+		day := &pb.WeeklyClinicSchedule{
+			Id:                  int32(item.ID),
+			Weekday:             int32(item.Weekday),
+			StartTime:           timestamppb.New(start),
+			EndTime:             timestamppb.New(end),
+			SlotDurationMinutes: int32(*item.SlotDurationMinutes),
+			IsDayOff:            *item.IsDayOff,
+		}
+		schedule = append(schedule, day)
+	}
+	return &pb.GetClinicWeeklyScheduleResponse{ClinicSchedule: schedule}, nil
 }
