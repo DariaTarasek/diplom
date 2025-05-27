@@ -27,8 +27,8 @@ func main() {
 		log.Fatalf("Не удалось создать клиент redis: %s", err.Error())
 	}
 	smsClient := clients.NewSMSClient()
-	authService := service.NewAuthService(storageClient, redisClient, smsClient)
 
+	authService := service.NewAuthService(storageClient, redisClient, smsClient)
 	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
 		log.Fatalf("Не удалось начать слушать: %v", err)

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/clients"
+	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/admin"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/auth"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/info"
 	"github.com/DariaTarasek/diplom/services/api-gateway/middleware"
@@ -29,6 +30,11 @@ func main() {
 	r.GET("/staff", func(c *gin.Context) {
 		c.File("./static/templates/auth_doc.html")
 	})
+
+	adminClient, err := clients.NewAdminClient("localhost:50053")
+	if err != nil {
+		log.Fatalf("Не удалось создать admin клиент: %s", err)
+	}
 
 	storageClient, err := clients.NewStorageClient("localhost:50051")
 	if err != nil {
@@ -95,6 +101,9 @@ func main() {
 
 	infoHandler := info.NewInfoHandler(storageClient)
 	info.RegisterRoutes(api, infoHandler)
+
+	adminHandler := admin.NewHandler(adminClient)
+	admin.RegisterRoutes(api, adminHandler)
 
 	log.Println("Api-gateway запущен")
 	if err := r.Run(":8080"); err != nil {

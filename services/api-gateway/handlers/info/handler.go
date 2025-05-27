@@ -17,6 +17,7 @@ func RegisterRoutes(rg *gin.RouterGroup, h *InfoHandler) {
 	rg.GET("/specialties", h.GetAllSpecs)
 	rg.GET("/doctors", h.GetDoctors)
 	rg.GET("/clinic-schedule", h.GetClinicWeeklySchedule)
+	rg.GET("/doctor-schedule/:selectedDoctor", h.GetDoctorWeeklySchedule)
 	rg.GET("/doctors/:specialty", h.getDoctorsBySpecialty)
 	// добавляй сюда остальные
 }

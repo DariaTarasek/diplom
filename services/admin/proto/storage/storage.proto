@@ -156,16 +156,17 @@ message GetUserRoleResponse{
   int32 role = 1;
 }
 
-
-message GetRolePermissionRequest {
-  int32 role_id = 1;
-  int32 perm_id = 2;
+message UpdateClinicWeeklyScheduleRequest {
+  repeated WeeklyClinicSchedule clinic_schedule = 1;
 }
 
-message GetDoctorBySpecIDRequest {
-  int32 spec_id = 1;
+message AddDoctorWeeklyScheduleRequest {
+  repeated WeeklyDoctorSchedule doctor_schedule = 1;
 }
 
+message UpdateDoctorWeeklyScheduleRequest {
+  repeated WeeklyDoctorSchedule doctor_schedule = 1;
+}
 
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
@@ -180,6 +181,7 @@ service StorageService {
   rpc GetClinicWeeklySchedule(EmptyRequest) returns (GetClinicWeeklyScheduleResponse); // получение постоянного расписания клиники
   rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse); // получение роли пользователя
   rpc GetDoctorWeeklySchedule(GetScheduleByDoctorIdRequest) returns (GetScheduleByDoctorIdResponse); // получение постоянного расписания врача
-  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse);
-  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse);
+  rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // обновление постояенного расписания клиники
+  rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
+  rpc UpdateDoctorWeeklySchedule(UpdateDoctorWeeklyScheduleRequest) returns (DefaultResponse); // обновление постоянного расписания врача
 }

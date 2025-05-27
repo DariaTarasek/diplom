@@ -106,10 +106,10 @@
                                             <input type="checkbox" v-model="day.is_day_off" class="form-check-input" :disabled="!isSuperAdmin"/>
                                         </td>
                                         <td>
-                                            <input type="time" v-model="day.start_time" class="form-control" :disabled="day.is_day_off || !isSuperAdmin" :class="{ 'is-invalid': invalidClinicDays.includes(day.day) }">
+                                            <input type="time" v-model="day.start_time" class="form-control" :disabled="!day.is_day_off || !isSuperAdmin" :class="{ 'is-invalid': invalidClinicDays.includes(day.day) }">
                                         </td>
                                         <td>
-                                            <input type="time" v-model="day.end_time" class="form-control" :disabled="day.is_day_off || !isSuperAdmin" :class="{ 'is-invalid': invalidClinicDays.includes(day.day) }">
+                                            <input type="time" v-model="day.end_time" class="form-control" :disabled="!day.is_day_off || !isSuperAdmin" :class="{ 'is-invalid': invalidClinicDays.includes(day.day) }">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -127,8 +127,8 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label class="form-label">Выберите врача</label>
-                                <select v-model="selectedDoctor" class="form-select" @change="fetchDoctorSchedule">
-                                    <option v-for="doc in doctors" :key="doc.id" :value="doc.id">{{ doc.firstName }} {{ doc.secondName }}</option>
+                                <select v-model="selectedDoctor" class="form-select">
+                                    <option v-for="doc in doctors" :key="doc.id" :value="doc">{{ doc.firstName }} {{ doc.secondName }}</option>
                                 </select>
                             </div>
                             <table class="table table-bordered align-middle" v-if="doctorSchedule.length">
@@ -147,10 +147,10 @@
                                             <input type="checkbox" v-model="day.is_day_off" class="form-check-input"/>
                                         </td>                                         
                                         <td>
-                                            <input type="time" v-model="day.start_time" class="form-control" :disabled="day.is_day_off" :class="{ 'is-invalid': invalidDays.includes(day.day) }">
+                                            <input type="time" v-model="day.start_time" class="form-control" :disabled="!day.is_day_off" :class="{ 'is-invalid': invalidDays.includes(day.day) }">
                                         </td>
                                         <td>
-                                            <input type="time" v-model="day.end_time" class="form-control" :disabled="day.is_day_off" :class="{ 'is-invalid': invalidDays.includes(day.day) }">
+                                            <input type="time" v-model="day.end_time" class="form-control" :disabled="!day.is_day_off" :class="{ 'is-invalid': invalidDays.includes(day.day) }">
                                         </td>
                                     </tr>
                                 </tbody>
