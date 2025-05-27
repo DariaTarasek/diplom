@@ -8,8 +8,9 @@ const (
 )
 
 type (
-	RoleID int
-	Role   struct {
+	PermissionID int
+	RoleID       int
+	Role         struct {
 		ID   RoleID
 		Name string
 	}

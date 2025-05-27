@@ -174,3 +174,11 @@ func (s *Server) Auth(ctx context.Context, req *pb.AuthRequest) (*pb.AuthRespons
 		Role:  role,
 	}, nil
 }
+
+func (s *Server) PermissionCheck(ctx context.Context, req *pb.PermissionCheckRequest) (*pb.DefaultResponse, error) {
+	err := s.Service.PermissionCheck(ctx, req.Token, model.PermissionID(req.PermId))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}

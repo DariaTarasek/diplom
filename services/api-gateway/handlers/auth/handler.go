@@ -16,10 +16,13 @@ func NewHandler(authClient *clients.AuthClient) *Handler {
 }
 
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
-	rg.POST("/employee-auth", h.EmployeeRegister)
-	rg.POST("/auth", h.PatientRegister)
-	rg.POST("/auth-in-clinic", h.PatientRegisterInClinic)
+	rg.POST("/employee-register", h.EmployeeRegister)
+	rg.POST("/register", h.PatientRegister)
+	rg.POST("/register-in-clinic", h.PatientRegisterInClinic)
 	rg.POST("/employee-password-recovery", h.EmployeePasswordRecovery)
 	rg.POST("/password-recovery", h.PatientPasswordRecovery)
+	rg.POST("/request-code", h.requestCode)
+	rg.POST("/verify-code", h.verifyCode)
+	rg.POST("/login", h.authorize)
 	//  сюда остальные
 }

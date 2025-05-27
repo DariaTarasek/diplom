@@ -157,6 +157,16 @@ message GetUserRoleResponse{
 }
 
 
+message GetRolePermissionRequest {
+  int32 role_id = 1;
+  int32 perm_id = 2;
+}
+
+message GetDoctorBySpecIDRequest {
+  int32 spec_id = 1;
+}
+
+
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
   rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse); // добавление врача
@@ -170,4 +180,6 @@ service StorageService {
   rpc GetClinicWeeklySchedule(EmptyRequest) returns (GetClinicWeeklyScheduleResponse); // получение постоянного расписания клиники
   rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse); // получение роли пользователя
   rpc GetDoctorWeeklySchedule(GetScheduleByDoctorIdRequest) returns (GetScheduleByDoctorIdResponse); // получение постоянного расписания врача
+  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse);
+  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse);
 }

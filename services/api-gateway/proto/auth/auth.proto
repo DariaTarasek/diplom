@@ -96,6 +96,11 @@ message AuthResponse {
   string role = 2;
 }
 
+message PermissionCheckRequest {
+  string token = 1;
+  int32 perm_id = 2;
+}
+
 service AuthService {
   rpc EmployeeRegister(EmployeeRegisterRequest) returns (EmployeeRegisterResponse); // регистрация персонала
   rpc PatientRegister(PatientRegisterRequest) returns (PatientRegisterResponse); // регистрация пациента онлайн
@@ -105,4 +110,5 @@ service AuthService {
   rpc RequestCode(GenerateCodeRequest) returns (DefaultResponse); // запрос кода подтверждения
   rpc VerifyCode(VerifyCodeRequest) returns (DefaultResponse); // подтверждение кода
   rpc Auth(AuthRequest) returns (AuthResponse); // авторизация
+  rpc PermissionCheck(PermissionCheckRequest) returns (DefaultResponse);
 }

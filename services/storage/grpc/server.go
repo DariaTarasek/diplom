@@ -2,6 +2,7 @@ package grpcserver
 
 import (
 	"context"
+	"fmt"
 	"github.com/DariaTarasek/diplom/services/storage/internal/model"
 	"github.com/DariaTarasek/diplom/services/storage/internal/store"
 	pb "github.com/DariaTarasek/diplom/services/storage/proto"
@@ -239,4 +240,36 @@ func (s *Server) UpdateClinicWeeklySchedule(ctx context.Context, request *pb.Upd
 		return nil, err
 	}
 	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) GetRolePermission(ctx context.Context, req *pb.GetRolePermissionRequest) (*pb.DefaultResponse, error) {
+	_, err := s.Store.GetRolePermission(ctx, model.RoleID(req.RoleId), model.PermissionID(req.PermId))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, err
+}
+
+func (s *Server) GetDoctorsBySpecID(ctx context.Context, req *pb.GetDoctorBySpecIDRequest) (*pb.GetDoctorsResponse, error) {
+	fmt.Println(req.SpecId)
+	items, err := s.Store.GetDoctorsBySpecializationID(ctx, model.SpecID(req.SpecId))
+	if err != nil {
+		return nil, fmt.Errorf("не удалось получить врачей по id специальности: %w", err)
+	}
+	var doctors []*pb.Doctor
+	for _, item := range items {
+		doctor := &pb.Doctor{
+			UserId:      int32(item.ID),
+			FirstName:   item.FirstName,
+			SecondName:  item.SecondName,
+			Surname:     deref(item.Surname),
+			PhoneNumber: deref(item.PhoneNumber),
+			Email:       item.Email,
+			Education:   deref(item.Education),
+			Experience:  int32(derefInt(item.Experience)),
+			Gender:      item.Gender,
+		}
+		doctors = append(doctors, doctor)
+	}
+	return &pb.GetDoctorsResponse{Doctors: doctors}, nil
 }
