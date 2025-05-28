@@ -167,6 +167,31 @@ message AddDoctorWeeklyScheduleRequest {
 message UpdateDoctorWeeklyScheduleRequest {
   repeated WeeklyDoctorSchedule doctor_schedule = 1;
 }
+message GetRolePermissionRequest {
+  int32 role_id = 1;
+  int32 perm_id = 2;
+}
+
+message AddClinicDailyOverrideRequest {
+  google.protobuf.Timestamp date = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 slot_duration_minutes = 4;
+  bool is_day_off = 5;
+}
+message AddDoctorDailyOverrideRequest {
+  int32 doctor_id = 1;
+  google.protobuf.Timestamp date = 2;
+  google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Timestamp end_time = 4;
+  int32 slot_duration_minutes = 5;
+  bool is_day_off = 6;
+}
+
+message GetDoctorBySpecIDRequest {
+  int32 spec_id = 1;
+}
+
 
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
@@ -184,4 +209,8 @@ service StorageService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // обновление постояенного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
   rpc UpdateDoctorWeeklySchedule(UpdateDoctorWeeklyScheduleRequest) returns (DefaultResponse); // обновление постоянного расписания врача
+  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse); // получение прав для роли
+  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse); // получение врачей по специализации
+  rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
+  rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
 }

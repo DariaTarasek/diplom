@@ -170,7 +170,6 @@ func (s *AuthService) PatientRegisterInternal(ctx context.Context, user model.Us
 		return 0, fmt.Errorf("не удалось добавить роль пациенту через gRPC: %w", err)
 	}
 
-	// Если нужно — возвращай сгенерированный пароль
 	return int(respUser.UserId), nil
 }
 

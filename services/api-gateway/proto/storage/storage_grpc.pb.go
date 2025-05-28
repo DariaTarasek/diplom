@@ -19,20 +19,27 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StorageService_AddUser_FullMethodName                 = "/storage.StorageService/AddUser"
-	StorageService_AddDoctor_FullMethodName               = "/storage.StorageService/AddDoctor"
-	StorageService_GetAllSpecs_FullMethodName             = "/storage.StorageService/GetAllSpecs"
-	StorageService_AddUserRole_FullMethodName             = "/storage.StorageService/AddUserRole"
-	StorageService_AddAdmin_FullMethodName                = "/storage.StorageService/AddAdmin"
-	StorageService_AddPatient_FullMethodName              = "/storage.StorageService/AddPatient"
-	StorageService_GetUserByLogin_FullMethodName          = "/storage.StorageService/GetUserByLogin"
-	StorageService_UpdateUserPassword_FullMethodName      = "/storage.StorageService/UpdateUserPassword"
-	StorageService_GetDoctors_FullMethodName              = "/storage.StorageService/GetDoctors"
-	StorageService_GetClinicWeeklySchedule_FullMethodName = "/storage.StorageService/GetClinicWeeklySchedule"
-	StorageService_GetUserRole_FullMethodName             = "/storage.StorageService/GetUserRole"
-	StorageService_GetDoctorWeeklySchedule_FullMethodName = "/storage.StorageService/GetDoctorWeeklySchedule"
-	StorageService_GetRolePermission_FullMethodName       = "/storage.StorageService/GetRolePermission"
-	StorageService_GetDoctorsBySpecID_FullMethodName      = "/storage.StorageService/GetDoctorsBySpecID"
+	StorageService_AddUser_FullMethodName                    = "/storage.StorageService/AddUser"
+	StorageService_AddDoctor_FullMethodName                  = "/storage.StorageService/AddDoctor"
+	StorageService_GetAllSpecs_FullMethodName                = "/storage.StorageService/GetAllSpecs"
+	StorageService_AddUserRole_FullMethodName                = "/storage.StorageService/AddUserRole"
+	StorageService_AddAdmin_FullMethodName                   = "/storage.StorageService/AddAdmin"
+	StorageService_AddPatient_FullMethodName                 = "/storage.StorageService/AddPatient"
+	StorageService_GetUserByLogin_FullMethodName             = "/storage.StorageService/GetUserByLogin"
+	StorageService_UpdateUserPassword_FullMethodName         = "/storage.StorageService/UpdateUserPassword"
+	StorageService_GetDoctors_FullMethodName                 = "/storage.StorageService/GetDoctors"
+	StorageService_GetClinicWeeklySchedule_FullMethodName    = "/storage.StorageService/GetClinicWeeklySchedule"
+	StorageService_GetUserRole_FullMethodName                = "/storage.StorageService/GetUserRole"
+	StorageService_GetDoctorWeeklySchedule_FullMethodName    = "/storage.StorageService/GetDoctorWeeklySchedule"
+	StorageService_UpdateClinicWeeklySchedule_FullMethodName = "/storage.StorageService/UpdateClinicWeeklySchedule"
+	StorageService_AddDoctorWeeklySchedule_FullMethodName    = "/storage.StorageService/AddDoctorWeeklySchedule"
+	StorageService_UpdateDoctorWeeklySchedule_FullMethodName = "/storage.StorageService/UpdateDoctorWeeklySchedule"
+	StorageService_GetRolePermission_FullMethodName          = "/storage.StorageService/GetRolePermission"
+	StorageService_GetDoctorsBySpecID_FullMethodName         = "/storage.StorageService/GetDoctorsBySpecID"
+	StorageService_AddClinicDailyOverride_FullMethodName     = "/storage.StorageService/AddClinicDailyOverride"
+	StorageService_AddDoctorDailyOverride_FullMethodName     = "/storage.StorageService/AddDoctorDailyOverride"
+	StorageService_GetClinicOverride_FullMethodName          = "/storage.StorageService/GetClinicOverride"
+	StorageService_GetDoctorOverride_FullMethodName          = "/storage.StorageService/GetDoctorOverride"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -51,8 +58,15 @@ type StorageServiceClient interface {
 	GetClinicWeeklySchedule(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicWeeklyScheduleResponse, error)
 	GetUserRole(ctx context.Context, in *GetUserRoleRequest, opts ...grpc.CallOption) (*GetUserRoleResponse, error)
 	GetDoctorWeeklySchedule(ctx context.Context, in *GetScheduleByDoctorIdRequest, opts ...grpc.CallOption) (*GetScheduleByDoctorIdResponse, error)
+	UpdateClinicWeeklySchedule(ctx context.Context, in *UpdateClinicWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddDoctorWeeklySchedule(ctx context.Context, in *AddDoctorWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	UpdateDoctorWeeklySchedule(ctx context.Context, in *UpdateDoctorWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetRolePermission(ctx context.Context, in *GetRolePermissionRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetDoctorsBySpecID(ctx context.Context, in *GetDoctorBySpecIDRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error)
+	AddClinicDailyOverride(ctx context.Context, in *AddClinicDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddDoctorDailyOverride(ctx context.Context, in *AddDoctorDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	GetClinicOverride(ctx context.Context, in *GetClinicOverrideRequest, opts ...grpc.CallOption) (*GetClinicOverrideResponse, error)
+	GetDoctorOverride(ctx context.Context, in *GetDoctorOverrideRequest, opts ...grpc.CallOption) (*GetDoctorOverrideResponse, error)
 }
 
 type storageServiceClient struct {
@@ -183,6 +197,36 @@ func (c *storageServiceClient) GetDoctorWeeklySchedule(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *storageServiceClient) UpdateClinicWeeklySchedule(ctx context.Context, in *UpdateClinicWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, StorageService_UpdateClinicWeeklySchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) AddDoctorWeeklySchedule(ctx context.Context, in *AddDoctorWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, StorageService_AddDoctorWeeklySchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) UpdateDoctorWeeklySchedule(ctx context.Context, in *UpdateDoctorWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, StorageService_UpdateDoctorWeeklySchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *storageServiceClient) GetRolePermission(ctx context.Context, in *GetRolePermissionRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DefaultResponse)
@@ -197,6 +241,46 @@ func (c *storageServiceClient) GetDoctorsBySpecID(ctx context.Context, in *GetDo
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetDoctorsResponse)
 	err := c.cc.Invoke(ctx, StorageService_GetDoctorsBySpecID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) AddClinicDailyOverride(ctx context.Context, in *AddClinicDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, StorageService_AddClinicDailyOverride_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) AddDoctorDailyOverride(ctx context.Context, in *AddDoctorDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, StorageService_AddDoctorDailyOverride_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetClinicOverride(ctx context.Context, in *GetClinicOverrideRequest, opts ...grpc.CallOption) (*GetClinicOverrideResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetClinicOverrideResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetClinicOverride_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetDoctorOverride(ctx context.Context, in *GetDoctorOverrideRequest, opts ...grpc.CallOption) (*GetDoctorOverrideResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDoctorOverrideResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetDoctorOverride_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -219,8 +303,15 @@ type StorageServiceServer interface {
 	GetClinicWeeklySchedule(context.Context, *EmptyRequest) (*GetClinicWeeklyScheduleResponse, error)
 	GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error)
 	GetDoctorWeeklySchedule(context.Context, *GetScheduleByDoctorIdRequest) (*GetScheduleByDoctorIdResponse, error)
+	UpdateClinicWeeklySchedule(context.Context, *UpdateClinicWeeklyScheduleRequest) (*DefaultResponse, error)
+	AddDoctorWeeklySchedule(context.Context, *AddDoctorWeeklyScheduleRequest) (*DefaultResponse, error)
+	UpdateDoctorWeeklySchedule(context.Context, *UpdateDoctorWeeklyScheduleRequest) (*DefaultResponse, error)
 	GetRolePermission(context.Context, *GetRolePermissionRequest) (*DefaultResponse, error)
 	GetDoctorsBySpecID(context.Context, *GetDoctorBySpecIDRequest) (*GetDoctorsResponse, error)
+	AddClinicDailyOverride(context.Context, *AddClinicDailyOverrideRequest) (*DefaultResponse, error)
+	AddDoctorDailyOverride(context.Context, *AddDoctorDailyOverrideRequest) (*DefaultResponse, error)
+	GetClinicOverride(context.Context, *GetClinicOverrideRequest) (*GetClinicOverrideResponse, error)
+	GetDoctorOverride(context.Context, *GetDoctorOverrideRequest) (*GetDoctorOverrideResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -267,11 +358,32 @@ func (UnimplementedStorageServiceServer) GetUserRole(context.Context, *GetUserRo
 func (UnimplementedStorageServiceServer) GetDoctorWeeklySchedule(context.Context, *GetScheduleByDoctorIdRequest) (*GetScheduleByDoctorIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDoctorWeeklySchedule not implemented")
 }
+func (UnimplementedStorageServiceServer) UpdateClinicWeeklySchedule(context.Context, *UpdateClinicWeeklyScheduleRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateClinicWeeklySchedule not implemented")
+}
+func (UnimplementedStorageServiceServer) AddDoctorWeeklySchedule(context.Context, *AddDoctorWeeklyScheduleRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddDoctorWeeklySchedule not implemented")
+}
+func (UnimplementedStorageServiceServer) UpdateDoctorWeeklySchedule(context.Context, *UpdateDoctorWeeklyScheduleRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDoctorWeeklySchedule not implemented")
+}
 func (UnimplementedStorageServiceServer) GetRolePermission(context.Context, *GetRolePermissionRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRolePermission not implemented")
 }
 func (UnimplementedStorageServiceServer) GetDoctorsBySpecID(context.Context, *GetDoctorBySpecIDRequest) (*GetDoctorsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDoctorsBySpecID not implemented")
+}
+func (UnimplementedStorageServiceServer) AddClinicDailyOverride(context.Context, *AddClinicDailyOverrideRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddClinicDailyOverride not implemented")
+}
+func (UnimplementedStorageServiceServer) AddDoctorDailyOverride(context.Context, *AddDoctorDailyOverrideRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddDoctorDailyOverride not implemented")
+}
+func (UnimplementedStorageServiceServer) GetClinicOverride(context.Context, *GetClinicOverrideRequest) (*GetClinicOverrideResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetClinicOverride not implemented")
+}
+func (UnimplementedStorageServiceServer) GetDoctorOverride(context.Context, *GetDoctorOverrideRequest) (*GetDoctorOverrideResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDoctorOverride not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -510,6 +622,60 @@ func _StorageService_GetDoctorWeeklySchedule_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_UpdateClinicWeeklySchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateClinicWeeklyScheduleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).UpdateClinicWeeklySchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_UpdateClinicWeeklySchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).UpdateClinicWeeklySchedule(ctx, req.(*UpdateClinicWeeklyScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_AddDoctorWeeklySchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddDoctorWeeklyScheduleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).AddDoctorWeeklySchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_AddDoctorWeeklySchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).AddDoctorWeeklySchedule(ctx, req.(*AddDoctorWeeklyScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_UpdateDoctorWeeklySchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDoctorWeeklyScheduleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).UpdateDoctorWeeklySchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_UpdateDoctorWeeklySchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).UpdateDoctorWeeklySchedule(ctx, req.(*UpdateDoctorWeeklyScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _StorageService_GetRolePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRolePermissionRequest)
 	if err := dec(in); err != nil {
@@ -542,6 +708,78 @@ func _StorageService_GetDoctorsBySpecID_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StorageServiceServer).GetDoctorsBySpecID(ctx, req.(*GetDoctorBySpecIDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_AddClinicDailyOverride_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddClinicDailyOverrideRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).AddClinicDailyOverride(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_AddClinicDailyOverride_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).AddClinicDailyOverride(ctx, req.(*AddClinicDailyOverrideRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_AddDoctorDailyOverride_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddDoctorDailyOverrideRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).AddDoctorDailyOverride(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_AddDoctorDailyOverride_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).AddDoctorDailyOverride(ctx, req.(*AddDoctorDailyOverrideRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetClinicOverride_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetClinicOverrideRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetClinicOverride(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetClinicOverride_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetClinicOverride(ctx, req.(*GetClinicOverrideRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetDoctorOverride_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDoctorOverrideRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetDoctorOverride(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetDoctorOverride_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetDoctorOverride(ctx, req.(*GetDoctorOverrideRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -602,12 +840,40 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StorageService_GetDoctorWeeklySchedule_Handler,
 		},
 		{
+			MethodName: "UpdateClinicWeeklySchedule",
+			Handler:    _StorageService_UpdateClinicWeeklySchedule_Handler,
+		},
+		{
+			MethodName: "AddDoctorWeeklySchedule",
+			Handler:    _StorageService_AddDoctorWeeklySchedule_Handler,
+		},
+		{
+			MethodName: "UpdateDoctorWeeklySchedule",
+			Handler:    _StorageService_UpdateDoctorWeeklySchedule_Handler,
+		},
+		{
 			MethodName: "GetRolePermission",
 			Handler:    _StorageService_GetRolePermission_Handler,
 		},
 		{
 			MethodName: "GetDoctorsBySpecID",
 			Handler:    _StorageService_GetDoctorsBySpecID_Handler,
+		},
+		{
+			MethodName: "AddClinicDailyOverride",
+			Handler:    _StorageService_AddClinicDailyOverride_Handler,
+		},
+		{
+			MethodName: "AddDoctorDailyOverride",
+			Handler:    _StorageService_AddDoctorDailyOverride_Handler,
+		},
+		{
+			MethodName: "GetClinicOverride",
+			Handler:    _StorageService_GetClinicOverride_Handler,
+		},
+		{
+			MethodName: "GetDoctorOverride",
+			Handler:    _StorageService_GetDoctorOverride_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

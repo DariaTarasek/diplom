@@ -376,6 +376,166 @@ func (x *DefaultResponse) GetErr() string {
 	return ""
 }
 
+type AddClinicDailyOverrideRequest struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Date                *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
+	StartTime           *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime             *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	SlotDurationMinutes int32                  `protobuf:"varint,4,opt,name=slot_duration_minutes,json=slotDurationMinutes,proto3" json:"slot_duration_minutes,omitempty"`
+	IsDayOff            bool                   `protobuf:"varint,5,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *AddClinicDailyOverrideRequest) Reset() {
+	*x = AddClinicDailyOverrideRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddClinicDailyOverrideRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddClinicDailyOverrideRequest) ProtoMessage() {}
+
+func (x *AddClinicDailyOverrideRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddClinicDailyOverrideRequest.ProtoReflect.Descriptor instead.
+func (*AddClinicDailyOverrideRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *AddClinicDailyOverrideRequest) GetDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Date
+	}
+	return nil
+}
+
+func (x *AddClinicDailyOverrideRequest) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *AddClinicDailyOverrideRequest) GetEndTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndTime
+	}
+	return nil
+}
+
+func (x *AddClinicDailyOverrideRequest) GetSlotDurationMinutes() int32 {
+	if x != nil {
+		return x.SlotDurationMinutes
+	}
+	return 0
+}
+
+func (x *AddClinicDailyOverrideRequest) GetIsDayOff() bool {
+	if x != nil {
+		return x.IsDayOff
+	}
+	return false
+}
+
+type AddDoctorDailyOverrideRequest struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	DoctorId            int32                  `protobuf:"varint,1,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
+	Date                *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=date,proto3" json:"date,omitempty"`
+	StartTime           *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime             *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	SlotDurationMinutes int32                  `protobuf:"varint,5,opt,name=slot_duration_minutes,json=slotDurationMinutes,proto3" json:"slot_duration_minutes,omitempty"`
+	IsDayOff            bool                   `protobuf:"varint,6,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *AddDoctorDailyOverrideRequest) Reset() {
+	*x = AddDoctorDailyOverrideRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddDoctorDailyOverrideRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddDoctorDailyOverrideRequest) ProtoMessage() {}
+
+func (x *AddDoctorDailyOverrideRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddDoctorDailyOverrideRequest.ProtoReflect.Descriptor instead.
+func (*AddDoctorDailyOverrideRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetDoctorId() int32 {
+	if x != nil {
+		return x.DoctorId
+	}
+	return 0
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Date
+	}
+	return nil
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetEndTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndTime
+	}
+	return nil
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetSlotDurationMinutes() int32 {
+	if x != nil {
+		return x.SlotDurationMinutes
+	}
+	return 0
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetIsDayOff() bool {
+	if x != nil {
+		return x.IsDayOff
+	}
+	return false
+}
+
 var File_proto_admin_admin_proto protoreflect.FileDescriptor
 
 const file_proto_admin_admin_proto_rawDesc = "" +
@@ -407,11 +567,30 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"!UpdateDoctorWeeklyScheduleRequest\x12D\n" +
 	"\x0fdoctor_schedule\x18\x01 \x03(\v2\x1b.admin.WeeklyDoctorScheduleR\x0edoctorSchedule\"#\n" +
 	"\x0fDefaultResponse\x12\x10\n" +
-	"\x03err\x18\x01 \x01(\tR\x03err2\xa8\x02\n" +
+	"\x03err\x18\x01 \x01(\tR\x03err\"\x93\x02\n" +
+	"\x1dAddClinicDailyOverrideRequest\x12.\n" +
+	"\x04date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\x129\n" +
+	"\n" +
+	"start_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
+	"\bend_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x122\n" +
+	"\x15slot_duration_minutes\x18\x04 \x01(\x05R\x13slotDurationMinutes\x12\x1c\n" +
+	"\n" +
+	"is_day_off\x18\x05 \x01(\bR\bisDayOff\"\xb0\x02\n" +
+	"\x1dAddDoctorDailyOverrideRequest\x12\x1b\n" +
+	"\tdoctor_id\x18\x01 \x01(\x05R\bdoctorId\x12.\n" +
+	"\x04date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\x129\n" +
+	"\n" +
+	"start_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
+	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x122\n" +
+	"\x15slot_duration_minutes\x18\x05 \x01(\x05R\x13slotDurationMinutes\x12\x1c\n" +
+	"\n" +
+	"is_day_off\x18\x06 \x01(\bR\bisDayOff2\xd8\x03\n" +
 	"\fAdminService\x12^\n" +
 	"\x1aUpdateClinicWeeklySchedule\x12(.admin.UpdateClinicWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12X\n" +
 	"\x17AddDoctorWeeklySchedule\x12%.admin.AddDoctorWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12^\n" +
-	"\x1aUpdateDoctorWeeklySchedule\x12(.admin.UpdateDoctorWeeklyScheduleRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
+	"\x1aUpdateDoctorWeeklySchedule\x12(.admin.UpdateDoctorWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12V\n" +
+	"\x16AddClinicDailyOverride\x12$.admin.AddClinicDailyOverrideRequest\x1a\x16.admin.DefaultResponse\x12V\n" +
+	"\x16AddDoctorDailyOverride\x12$.admin.AddDoctorDailyOverrideRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
 
 var (
 	file_proto_admin_admin_proto_rawDescOnce sync.Once
@@ -425,7 +604,7 @@ func file_proto_admin_admin_proto_rawDescGZIP() []byte {
 	return file_proto_admin_admin_proto_rawDescData
 }
 
-var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_proto_admin_admin_proto_goTypes = []any{
 	(*WeeklyClinicSchedule)(nil),              // 0: admin.WeeklyClinicSchedule
 	(*UpdateClinicWeeklyScheduleRequest)(nil), // 1: admin.UpdateClinicWeeklyScheduleRequest
@@ -433,27 +612,39 @@ var file_proto_admin_admin_proto_goTypes = []any{
 	(*AddDoctorWeeklyScheduleRequest)(nil),    // 3: admin.AddDoctorWeeklyScheduleRequest
 	(*UpdateDoctorWeeklyScheduleRequest)(nil), // 4: admin.UpdateDoctorWeeklyScheduleRequest
 	(*DefaultResponse)(nil),                   // 5: admin.DefaultResponse
-	(*timestamppb.Timestamp)(nil),             // 6: google.protobuf.Timestamp
+	(*AddClinicDailyOverrideRequest)(nil),     // 6: admin.AddClinicDailyOverrideRequest
+	(*AddDoctorDailyOverrideRequest)(nil),     // 7: admin.AddDoctorDailyOverrideRequest
+	(*timestamppb.Timestamp)(nil),             // 8: google.protobuf.Timestamp
 }
 var file_proto_admin_admin_proto_depIdxs = []int32{
-	6,  // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
-	6,  // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
+	8,  // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
+	8,  // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 2: admin.UpdateClinicWeeklyScheduleRequest.clinic_schedule:type_name -> admin.WeeklyClinicSchedule
-	6,  // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
-	6,  // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
+	8,  // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
+	8,  // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
 	2,  // 5: admin.AddDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
 	2,  // 6: admin.UpdateDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
-	1,  // 7: admin.AdminService.UpdateClinicWeeklySchedule:input_type -> admin.UpdateClinicWeeklyScheduleRequest
-	3,  // 8: admin.AdminService.AddDoctorWeeklySchedule:input_type -> admin.AddDoctorWeeklyScheduleRequest
-	4,  // 9: admin.AdminService.UpdateDoctorWeeklySchedule:input_type -> admin.UpdateDoctorWeeklyScheduleRequest
-	5,  // 10: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 11: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 12: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	10, // [10:13] is the sub-list for method output_type
-	7,  // [7:10] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	8,  // 7: admin.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	8,  // 8: admin.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	8,  // 9: admin.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	8,  // 10: admin.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	8,  // 11: admin.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	8,  // 12: admin.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	1,  // 13: admin.AdminService.UpdateClinicWeeklySchedule:input_type -> admin.UpdateClinicWeeklyScheduleRequest
+	3,  // 14: admin.AdminService.AddDoctorWeeklySchedule:input_type -> admin.AddDoctorWeeklyScheduleRequest
+	4,  // 15: admin.AdminService.UpdateDoctorWeeklySchedule:input_type -> admin.UpdateDoctorWeeklyScheduleRequest
+	6,  // 16: admin.AdminService.AddClinicDailyOverride:input_type -> admin.AddClinicDailyOverrideRequest
+	7,  // 17: admin.AdminService.AddDoctorDailyOverride:input_type -> admin.AddDoctorDailyOverrideRequest
+	5,  // 18: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 19: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 20: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 21: admin.AdminService.AddClinicDailyOverride:output_type -> admin.DefaultResponse
+	5,  // 22: admin.AdminService.AddDoctorDailyOverride:output_type -> admin.DefaultResponse
+	18, // [18:23] is the sub-list for method output_type
+	13, // [13:18] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_proto_admin_admin_proto_init() }
@@ -467,7 +658,7 @@ func file_proto_admin_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_admin_admin_proto_rawDesc), len(file_proto_admin_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

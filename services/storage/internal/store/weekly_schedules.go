@@ -159,7 +159,7 @@ func (s *Store) AddDoctorSchedule(ctx context.Context, schedules []model.DoctorS
 	return ids, nil
 }
 
-// UpdateDoctorSchedule Изменение расписания врача на неделю
+// UpdateDoctorSchedule Обновление постоянного расписания врача
 func (s *Store) UpdateDoctorSchedule(ctx context.Context, schedules []model.DoctorSchedule) error {
 	if len(schedules) == 0 {
 		return fmt.Errorf("пустое расписание — обновление невозможно")
@@ -181,20 +181,21 @@ func (s *Store) UpdateDoctorSchedule(ctx context.Context, schedules []model.Doct
 			"is_day_off":            schedule.IsDayOff,
 		}
 
-		query, args, err := s.builder.
+		// Попытка обновить
+		updateQuery, updateArgs, err := s.builder.
 			Update("doctor_weekly_schedule").
+			SetMap(fields).
 			Where(squirrel.Eq{
 				"doctor_id": schedule.DoctorID,
 				"weekday":   schedule.Weekday,
-			}).
-			SetMap(fields).
-			ToSql()
+			}).ToSql()
+
 		if err != nil {
 			tx.Rollback()
 			return fmt.Errorf("не удалось сформировать запрос на обновление расписания для дня %v: %w", schedule.Weekday, err)
 		}
 
-		res, err := tx.ExecContext(dbCtx, query, args...)
+		res, err := tx.ExecContext(dbCtx, updateQuery, updateArgs...)
 		if err != nil {
 			tx.Rollback()
 			return fmt.Errorf("не удалось выполнить обновление расписания для дня %v: %w", schedule.Weekday, err)
@@ -206,9 +207,30 @@ func (s *Store) UpdateDoctorSchedule(ctx context.Context, schedules []model.Doct
 			return fmt.Errorf("не удалось получить количество затронутых строк при обновлении дня %v: %w", schedule.Weekday, err)
 		}
 
+		// Если ничего не обновилось — вставляем новую запись
 		if rowsAffected == 0 {
-			tx.Rollback()
-			return fmt.Errorf("расписание на %v не было обновлено", schedule.Weekday)
+			insertQuery, insertArgs, err := s.builder.
+				Insert("doctor_weekly_schedule").
+				Columns("doctor_id", "weekday", "start_time", "end_time", "slot_duration_minutes", "is_day_off").
+				Values(
+					schedule.DoctorID,
+					schedule.Weekday,
+					schedule.StartTime,
+					schedule.EndTime,
+					schedule.SlotDurationMinutes,
+					schedule.IsDayOff,
+				).ToSql()
+
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("не удалось сформировать запрос на вставку расписания для дня %v: %w", schedule.Weekday, err)
+			}
+
+			_, err = tx.ExecContext(dbCtx, insertQuery, insertArgs...)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("не удалось вставить расписание для дня %v: %w", schedule.Weekday, err)
+			}
 		}
 	}
 

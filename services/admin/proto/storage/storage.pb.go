@@ -1674,6 +1674,262 @@ func (x *UpdateDoctorWeeklyScheduleRequest) GetDoctorSchedule() []*WeeklyDoctorS
 	return nil
 }
 
+type GetRolePermissionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoleId        int32                  `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	PermId        int32                  `protobuf:"varint,2,opt,name=perm_id,json=permId,proto3" json:"perm_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRolePermissionRequest) Reset() {
+	*x = GetRolePermissionRequest{}
+	mi := &file_proto_storage_storage_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRolePermissionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRolePermissionRequest) ProtoMessage() {}
+
+func (x *GetRolePermissionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_storage_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRolePermissionRequest.ProtoReflect.Descriptor instead.
+func (*GetRolePermissionRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_storage_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *GetRolePermissionRequest) GetRoleId() int32 {
+	if x != nil {
+		return x.RoleId
+	}
+	return 0
+}
+
+func (x *GetRolePermissionRequest) GetPermId() int32 {
+	if x != nil {
+		return x.PermId
+	}
+	return 0
+}
+
+type AddClinicDailyOverrideRequest struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Date                *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
+	StartTime           *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime             *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	SlotDurationMinutes int32                  `protobuf:"varint,4,opt,name=slot_duration_minutes,json=slotDurationMinutes,proto3" json:"slot_duration_minutes,omitempty"`
+	IsDayOff            bool                   `protobuf:"varint,5,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *AddClinicDailyOverrideRequest) Reset() {
+	*x = AddClinicDailyOverrideRequest{}
+	mi := &file_proto_storage_storage_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddClinicDailyOverrideRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddClinicDailyOverrideRequest) ProtoMessage() {}
+
+func (x *AddClinicDailyOverrideRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_storage_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddClinicDailyOverrideRequest.ProtoReflect.Descriptor instead.
+func (*AddClinicDailyOverrideRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_storage_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *AddClinicDailyOverrideRequest) GetDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Date
+	}
+	return nil
+}
+
+func (x *AddClinicDailyOverrideRequest) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *AddClinicDailyOverrideRequest) GetEndTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndTime
+	}
+	return nil
+}
+
+func (x *AddClinicDailyOverrideRequest) GetSlotDurationMinutes() int32 {
+	if x != nil {
+		return x.SlotDurationMinutes
+	}
+	return 0
+}
+
+func (x *AddClinicDailyOverrideRequest) GetIsDayOff() bool {
+	if x != nil {
+		return x.IsDayOff
+	}
+	return false
+}
+
+type AddDoctorDailyOverrideRequest struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	DoctorId            int32                  `protobuf:"varint,1,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
+	Date                *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=date,proto3" json:"date,omitempty"`
+	StartTime           *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime             *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	SlotDurationMinutes int32                  `protobuf:"varint,5,opt,name=slot_duration_minutes,json=slotDurationMinutes,proto3" json:"slot_duration_minutes,omitempty"`
+	IsDayOff            bool                   `protobuf:"varint,6,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *AddDoctorDailyOverrideRequest) Reset() {
+	*x = AddDoctorDailyOverrideRequest{}
+	mi := &file_proto_storage_storage_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddDoctorDailyOverrideRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddDoctorDailyOverrideRequest) ProtoMessage() {}
+
+func (x *AddDoctorDailyOverrideRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_storage_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddDoctorDailyOverrideRequest.ProtoReflect.Descriptor instead.
+func (*AddDoctorDailyOverrideRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_storage_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetDoctorId() int32 {
+	if x != nil {
+		return x.DoctorId
+	}
+	return 0
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Date
+	}
+	return nil
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetEndTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndTime
+	}
+	return nil
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetSlotDurationMinutes() int32 {
+	if x != nil {
+		return x.SlotDurationMinutes
+	}
+	return 0
+}
+
+func (x *AddDoctorDailyOverrideRequest) GetIsDayOff() bool {
+	if x != nil {
+		return x.IsDayOff
+	}
+	return false
+}
+
+type GetDoctorBySpecIDRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SpecId        int32                  `protobuf:"varint,1,opt,name=spec_id,json=specId,proto3" json:"spec_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDoctorBySpecIDRequest) Reset() {
+	*x = GetDoctorBySpecIDRequest{}
+	mi := &file_proto_storage_storage_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDoctorBySpecIDRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDoctorBySpecIDRequest) ProtoMessage() {}
+
+func (x *GetDoctorBySpecIDRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_storage_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDoctorBySpecIDRequest.ProtoReflect.Descriptor instead.
+func (*GetDoctorBySpecIDRequest) Descriptor() ([]byte, []int) {
+	return file_proto_storage_storage_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *GetDoctorBySpecIDRequest) GetSpecId() int32 {
+	if x != nil {
+		return x.SpecId
+	}
+	return 0
+}
+
 var File_proto_storage_storage_proto protoreflect.FileDescriptor
 
 const file_proto_storage_storage_proto_rawDesc = "" +
@@ -1800,7 +2056,29 @@ const file_proto_storage_storage_proto_rawDesc = "" +
 	"\x1eAddDoctorWeeklyScheduleRequest\x12F\n" +
 	"\x0fdoctor_schedule\x18\x01 \x03(\v2\x1d.storage.WeeklyDoctorScheduleR\x0edoctorSchedule\"k\n" +
 	"!UpdateDoctorWeeklyScheduleRequest\x12F\n" +
-	"\x0fdoctor_schedule\x18\x01 \x03(\v2\x1d.storage.WeeklyDoctorScheduleR\x0edoctorSchedule2\xc7\t\n" +
+	"\x0fdoctor_schedule\x18\x01 \x03(\v2\x1d.storage.WeeklyDoctorScheduleR\x0edoctorSchedule\"L\n" +
+	"\x18GetRolePermissionRequest\x12\x17\n" +
+	"\arole_id\x18\x01 \x01(\x05R\x06roleId\x12\x17\n" +
+	"\aperm_id\x18\x02 \x01(\x05R\x06permId\"\x93\x02\n" +
+	"\x1dAddClinicDailyOverrideRequest\x12.\n" +
+	"\x04date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\x129\n" +
+	"\n" +
+	"start_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
+	"\bend_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x122\n" +
+	"\x15slot_duration_minutes\x18\x04 \x01(\x05R\x13slotDurationMinutes\x12\x1c\n" +
+	"\n" +
+	"is_day_off\x18\x05 \x01(\bR\bisDayOff\"\xb0\x02\n" +
+	"\x1dAddDoctorDailyOverrideRequest\x12\x1b\n" +
+	"\tdoctor_id\x18\x01 \x01(\x05R\bdoctorId\x12.\n" +
+	"\x04date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\x129\n" +
+	"\n" +
+	"start_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
+	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x122\n" +
+	"\x15slot_duration_minutes\x18\x05 \x01(\x05R\x13slotDurationMinutes\x12\x1c\n" +
+	"\n" +
+	"is_day_off\x18\x06 \x01(\bR\bisDayOff\"3\n" +
+	"\x18GetDoctorBySpecIDRequest\x12\x17\n" +
+	"\aspec_id\x18\x01 \x01(\x05R\x06specId2\xa7\f\n" +
 	"\x0eStorageService\x12<\n" +
 	"\aAddUser\x12\x17.storage.AddUserRequest\x1a\x18.storage.AddUserResponse\x12B\n" +
 	"\tAddDoctor\x12\x19.storage.AddDoctorRequest\x1a\x1a.storage.AddDoctorResponse\x12B\n" +
@@ -1818,7 +2096,11 @@ const file_proto_storage_storage_proto_rawDesc = "" +
 	"\x17GetDoctorWeeklySchedule\x12%.storage.GetScheduleByDoctorIdRequest\x1a&.storage.GetScheduleByDoctorIdResponse\x12b\n" +
 	"\x1aUpdateClinicWeeklySchedule\x12*.storage.UpdateClinicWeeklyScheduleRequest\x1a\x18.storage.DefaultResponse\x12\\\n" +
 	"\x17AddDoctorWeeklySchedule\x12'.storage.AddDoctorWeeklyScheduleRequest\x1a\x18.storage.DefaultResponse\x12b\n" +
-	"\x1aUpdateDoctorWeeklySchedule\x12*.storage.UpdateDoctorWeeklyScheduleRequest\x1a\x18.storage.DefaultResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
+	"\x1aUpdateDoctorWeeklySchedule\x12*.storage.UpdateDoctorWeeklyScheduleRequest\x1a\x18.storage.DefaultResponse\x12P\n" +
+	"\x11GetRolePermission\x12!.storage.GetRolePermissionRequest\x1a\x18.storage.DefaultResponse\x12T\n" +
+	"\x12GetDoctorsBySpecID\x12!.storage.GetDoctorBySpecIDRequest\x1a\x1b.storage.GetDoctorsResponse\x12Z\n" +
+	"\x16AddClinicDailyOverride\x12&.storage.AddClinicDailyOverrideRequest\x1a\x18.storage.DefaultResponse\x12Z\n" +
+	"\x16AddDoctorDailyOverride\x12&.storage.AddDoctorDailyOverrideRequest\x1a\x18.storage.DefaultResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
 
 var (
 	file_proto_storage_storage_proto_rawDescOnce sync.Once
@@ -1832,7 +2114,7 @@ func file_proto_storage_storage_proto_rawDescGZIP() []byte {
 	return file_proto_storage_storage_proto_rawDescData
 }
 
-var file_proto_storage_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
+var file_proto_storage_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 33)
 var file_proto_storage_storage_proto_goTypes = []any{
 	(*AddUserRequest)(nil),                    // 0: storage.AddUserRequest
 	(*AddUserResponse)(nil),                   // 1: storage.AddUserResponse
@@ -1863,56 +2145,74 @@ var file_proto_storage_storage_proto_goTypes = []any{
 	(*UpdateClinicWeeklyScheduleRequest)(nil), // 26: storage.UpdateClinicWeeklyScheduleRequest
 	(*AddDoctorWeeklyScheduleRequest)(nil),    // 27: storage.AddDoctorWeeklyScheduleRequest
 	(*UpdateDoctorWeeklyScheduleRequest)(nil), // 28: storage.UpdateDoctorWeeklyScheduleRequest
-	(*timestamppb.Timestamp)(nil),             // 29: google.protobuf.Timestamp
+	(*GetRolePermissionRequest)(nil),          // 29: storage.GetRolePermissionRequest
+	(*AddClinicDailyOverrideRequest)(nil),     // 30: storage.AddClinicDailyOverrideRequest
+	(*AddDoctorDailyOverrideRequest)(nil),     // 31: storage.AddDoctorDailyOverrideRequest
+	(*GetDoctorBySpecIDRequest)(nil),          // 32: storage.GetDoctorBySpecIDRequest
+	(*timestamppb.Timestamp)(nil),             // 33: google.protobuf.Timestamp
 }
 var file_proto_storage_storage_proto_depIdxs = []int32{
-	29, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
+	33, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
 	9,  // 1: storage.GetAllSpecsResponse.specs:type_name -> storage.Specialization
-	29, // 2: storage.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
-	29, // 3: storage.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
+	33, // 2: storage.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
+	33, // 3: storage.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
 	13, // 4: storage.GetScheduleByDoctorIdResponse.doctor_schedule:type_name -> storage.WeeklyDoctorSchedule
 	20, // 5: storage.GetDoctorsResponse.doctors:type_name -> storage.Doctor
-	29, // 6: storage.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
-	29, // 7: storage.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
+	33, // 6: storage.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
+	33, // 7: storage.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
 	22, // 8: storage.GetClinicWeeklyScheduleResponse.clinic_schedule:type_name -> storage.WeeklyClinicSchedule
 	22, // 9: storage.UpdateClinicWeeklyScheduleRequest.clinic_schedule:type_name -> storage.WeeklyClinicSchedule
 	13, // 10: storage.AddDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> storage.WeeklyDoctorSchedule
 	13, // 11: storage.UpdateDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> storage.WeeklyDoctorSchedule
-	0,  // 12: storage.StorageService.AddUser:input_type -> storage.AddUserRequest
-	2,  // 13: storage.StorageService.AddDoctor:input_type -> storage.AddDoctorRequest
-	8,  // 14: storage.StorageService.GetAllSpecs:input_type -> storage.EmptyRequest
-	11, // 15: storage.StorageService.AddUserRole:input_type -> storage.AddUserRoleRequest
-	4,  // 16: storage.StorageService.AddAdmin:input_type -> storage.AddAdminRequest
-	6,  // 17: storage.StorageService.AddPatient:input_type -> storage.AddPatientRequest
-	16, // 18: storage.StorageService.GetUserByLogin:input_type -> storage.GetUserByLoginRequest
-	18, // 19: storage.StorageService.UpdateUserPassword:input_type -> storage.UpdateUserPasswordRequest
-	8,  // 20: storage.StorageService.GetDoctors:input_type -> storage.EmptyRequest
-	8,  // 21: storage.StorageService.GetClinicWeeklySchedule:input_type -> storage.EmptyRequest
-	24, // 22: storage.StorageService.GetUserRole:input_type -> storage.GetUserRoleRequest
-	14, // 23: storage.StorageService.GetDoctorWeeklySchedule:input_type -> storage.GetScheduleByDoctorIdRequest
-	26, // 24: storage.StorageService.UpdateClinicWeeklySchedule:input_type -> storage.UpdateClinicWeeklyScheduleRequest
-	27, // 25: storage.StorageService.AddDoctorWeeklySchedule:input_type -> storage.AddDoctorWeeklyScheduleRequest
-	28, // 26: storage.StorageService.UpdateDoctorWeeklySchedule:input_type -> storage.UpdateDoctorWeeklyScheduleRequest
-	1,  // 27: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
-	3,  // 28: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
-	10, // 29: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
-	12, // 30: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
-	5,  // 31: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
-	7,  // 32: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
-	17, // 33: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
-	19, // 34: storage.StorageService.UpdateUserPassword:output_type -> storage.DefaultResponse
-	21, // 35: storage.StorageService.GetDoctors:output_type -> storage.GetDoctorsResponse
-	23, // 36: storage.StorageService.GetClinicWeeklySchedule:output_type -> storage.GetClinicWeeklyScheduleResponse
-	25, // 37: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
-	15, // 38: storage.StorageService.GetDoctorWeeklySchedule:output_type -> storage.GetScheduleByDoctorIdResponse
-	19, // 39: storage.StorageService.UpdateClinicWeeklySchedule:output_type -> storage.DefaultResponse
-	19, // 40: storage.StorageService.AddDoctorWeeklySchedule:output_type -> storage.DefaultResponse
-	19, // 41: storage.StorageService.UpdateDoctorWeeklySchedule:output_type -> storage.DefaultResponse
-	27, // [27:42] is the sub-list for method output_type
-	12, // [12:27] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	33, // 12: storage.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	33, // 13: storage.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	33, // 14: storage.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	33, // 15: storage.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	33, // 16: storage.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	33, // 17: storage.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	0,  // 18: storage.StorageService.AddUser:input_type -> storage.AddUserRequest
+	2,  // 19: storage.StorageService.AddDoctor:input_type -> storage.AddDoctorRequest
+	8,  // 20: storage.StorageService.GetAllSpecs:input_type -> storage.EmptyRequest
+	11, // 21: storage.StorageService.AddUserRole:input_type -> storage.AddUserRoleRequest
+	4,  // 22: storage.StorageService.AddAdmin:input_type -> storage.AddAdminRequest
+	6,  // 23: storage.StorageService.AddPatient:input_type -> storage.AddPatientRequest
+	16, // 24: storage.StorageService.GetUserByLogin:input_type -> storage.GetUserByLoginRequest
+	18, // 25: storage.StorageService.UpdateUserPassword:input_type -> storage.UpdateUserPasswordRequest
+	8,  // 26: storage.StorageService.GetDoctors:input_type -> storage.EmptyRequest
+	8,  // 27: storage.StorageService.GetClinicWeeklySchedule:input_type -> storage.EmptyRequest
+	24, // 28: storage.StorageService.GetUserRole:input_type -> storage.GetUserRoleRequest
+	14, // 29: storage.StorageService.GetDoctorWeeklySchedule:input_type -> storage.GetScheduleByDoctorIdRequest
+	26, // 30: storage.StorageService.UpdateClinicWeeklySchedule:input_type -> storage.UpdateClinicWeeklyScheduleRequest
+	27, // 31: storage.StorageService.AddDoctorWeeklySchedule:input_type -> storage.AddDoctorWeeklyScheduleRequest
+	28, // 32: storage.StorageService.UpdateDoctorWeeklySchedule:input_type -> storage.UpdateDoctorWeeklyScheduleRequest
+	29, // 33: storage.StorageService.GetRolePermission:input_type -> storage.GetRolePermissionRequest
+	32, // 34: storage.StorageService.GetDoctorsBySpecID:input_type -> storage.GetDoctorBySpecIDRequest
+	30, // 35: storage.StorageService.AddClinicDailyOverride:input_type -> storage.AddClinicDailyOverrideRequest
+	31, // 36: storage.StorageService.AddDoctorDailyOverride:input_type -> storage.AddDoctorDailyOverrideRequest
+	1,  // 37: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
+	3,  // 38: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
+	10, // 39: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
+	12, // 40: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
+	5,  // 41: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
+	7,  // 42: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
+	17, // 43: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
+	19, // 44: storage.StorageService.UpdateUserPassword:output_type -> storage.DefaultResponse
+	21, // 45: storage.StorageService.GetDoctors:output_type -> storage.GetDoctorsResponse
+	23, // 46: storage.StorageService.GetClinicWeeklySchedule:output_type -> storage.GetClinicWeeklyScheduleResponse
+	25, // 47: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
+	15, // 48: storage.StorageService.GetDoctorWeeklySchedule:output_type -> storage.GetScheduleByDoctorIdResponse
+	19, // 49: storage.StorageService.UpdateClinicWeeklySchedule:output_type -> storage.DefaultResponse
+	19, // 50: storage.StorageService.AddDoctorWeeklySchedule:output_type -> storage.DefaultResponse
+	19, // 51: storage.StorageService.UpdateDoctorWeeklySchedule:output_type -> storage.DefaultResponse
+	19, // 52: storage.StorageService.GetRolePermission:output_type -> storage.DefaultResponse
+	21, // 53: storage.StorageService.GetDoctorsBySpecID:output_type -> storage.GetDoctorsResponse
+	19, // 54: storage.StorageService.AddClinicDailyOverride:output_type -> storage.DefaultResponse
+	19, // 55: storage.StorageService.AddDoctorDailyOverride:output_type -> storage.DefaultResponse
+	37, // [37:56] is the sub-list for method output_type
+	18, // [18:37] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_proto_storage_storage_proto_init() }
@@ -1926,7 +2226,7 @@ func file_proto_storage_storage_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_storage_storage_proto_rawDesc), len(file_proto_storage_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   29,
+			NumMessages:   33,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

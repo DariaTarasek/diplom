@@ -50,6 +50,7 @@ func main() {
 		"password_recovery.html",
 		"doctors.html",
 		"appointment.html",
+		"admins_schedule_management.html", // СТРАНИЦА АДМИНА! ЗДЕСЬ ДЛЯ ТЕСТОВ! ПОТОМ ПЕРЕНЕСТИ!
 	}
 
 	for _, page := range htmlPages {
@@ -63,7 +64,6 @@ func main() {
 		"employee_registration.html",
 		"registration_in_clinic.html",
 		"admins_doctor_list.html",
-		"admins_schedule_management.html",
 		"administrator_account.html",
 	}
 	for _, page := range adminPages {
