@@ -18,7 +18,6 @@ func RegisterRoutes(rg *gin.RouterGroup, h *InfoHandler) {
 	rg.GET("/doctors", h.GetDoctors)
 	rg.GET("/clinic-schedule", h.GetClinicWeeklySchedule)
 	rg.GET("/doctor-schedule/:selectedDoctor", h.GetDoctorWeeklySchedule)
-	rg.GET("/doctors/:specialty", h.getDoctorsBySpecialty)
 	rg.GET("doctor-overrides/:doctor_id/:date", h.GetDoctorOverride)
 	rg.GET("clinic-overrides/:date", h.GetClinicOverride)
 	rg.GET("/doctors/:specialty", h.GetDoctorsBySpecialty)

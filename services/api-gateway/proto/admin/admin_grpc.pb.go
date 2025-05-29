@@ -26,6 +26,12 @@ const (
 	AdminService_UpdateDoctorWeeklySchedule_FullMethodName = "/admin.AdminService/UpdateDoctorWeeklySchedule"
 	AdminService_AddClinicDailyOverride_FullMethodName     = "/admin.AdminService/AddClinicDailyOverride"
 	AdminService_AddDoctorDailyOverride_FullMethodName     = "/admin.AdminService/AddDoctorDailyOverride"
+	AdminService_AddMaterial_FullMethodName                = "/admin.AdminService/AddMaterial"
+	AdminService_AddService_FullMethodName                 = "/admin.AdminService/AddService"
+	AdminService_UpdateMaterial_FullMethodName             = "/admin.AdminService/UpdateMaterial"
+	AdminService_UpdateService_FullMethodName              = "/admin.AdminService/UpdateService"
+	AdminService_DeleteMaterial_FullMethodName             = "/admin.AdminService/DeleteMaterial"
+	AdminService_DeleteService_FullMethodName              = "/admin.AdminService/DeleteService"
 )
 
 // AdminServiceClient is the client API for AdminService service.
@@ -37,6 +43,12 @@ type AdminServiceClient interface {
 	UpdateDoctorWeeklySchedule(ctx context.Context, in *UpdateDoctorWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	AddClinicDailyOverride(ctx context.Context, in *AddClinicDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	AddDoctorDailyOverride(ctx context.Context, in *AddDoctorDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddMaterial(ctx context.Context, in *AddMaterialRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddService(ctx context.Context, in *AddServiceRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	UpdateMaterial(ctx context.Context, in *UpdateMaterialRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	UpdateService(ctx context.Context, in *UpdateServiceRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	DeleteMaterial(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	DeleteService(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 }
 
 type adminServiceClient struct {
@@ -97,6 +109,66 @@ func (c *adminServiceClient) AddDoctorDailyOverride(ctx context.Context, in *Add
 	return out, nil
 }
 
+func (c *adminServiceClient) AddMaterial(ctx context.Context, in *AddMaterialRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_AddMaterial_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) AddService(ctx context.Context, in *AddServiceRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_AddService_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateMaterial(ctx context.Context, in *UpdateMaterialRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateMaterial_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateService(ctx context.Context, in *UpdateServiceRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateService_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) DeleteMaterial(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_DeleteMaterial_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) DeleteService(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_DeleteService_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility.
@@ -106,6 +178,12 @@ type AdminServiceServer interface {
 	UpdateDoctorWeeklySchedule(context.Context, *UpdateDoctorWeeklyScheduleRequest) (*DefaultResponse, error)
 	AddClinicDailyOverride(context.Context, *AddClinicDailyOverrideRequest) (*DefaultResponse, error)
 	AddDoctorDailyOverride(context.Context, *AddDoctorDailyOverrideRequest) (*DefaultResponse, error)
+	AddMaterial(context.Context, *AddMaterialRequest) (*DefaultResponse, error)
+	AddService(context.Context, *AddServiceRequest) (*DefaultResponse, error)
+	UpdateMaterial(context.Context, *UpdateMaterialRequest) (*DefaultResponse, error)
+	UpdateService(context.Context, *UpdateServiceRequest) (*DefaultResponse, error)
+	DeleteMaterial(context.Context, *DeleteRequest) (*DefaultResponse, error)
+	DeleteService(context.Context, *DeleteRequest) (*DefaultResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -130,6 +208,24 @@ func (UnimplementedAdminServiceServer) AddClinicDailyOverride(context.Context, *
 }
 func (UnimplementedAdminServiceServer) AddDoctorDailyOverride(context.Context, *AddDoctorDailyOverrideRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddDoctorDailyOverride not implemented")
+}
+func (UnimplementedAdminServiceServer) AddMaterial(context.Context, *AddMaterialRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddMaterial not implemented")
+}
+func (UnimplementedAdminServiceServer) AddService(context.Context, *AddServiceRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddService not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateMaterial(context.Context, *UpdateMaterialRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMaterial not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateService(context.Context, *UpdateServiceRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateService not implemented")
+}
+func (UnimplementedAdminServiceServer) DeleteMaterial(context.Context, *DeleteRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMaterial not implemented")
+}
+func (UnimplementedAdminServiceServer) DeleteService(context.Context, *DeleteRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteService not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 func (UnimplementedAdminServiceServer) testEmbeddedByValue()                      {}
@@ -242,6 +338,114 @@ func _AdminService_AddDoctorDailyOverride_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_AddMaterial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddMaterialRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).AddMaterial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_AddMaterial_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).AddMaterial(ctx, req.(*AddMaterialRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_AddService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddServiceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).AddService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_AddService_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).AddService(ctx, req.(*AddServiceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateMaterial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMaterialRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateMaterial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateMaterial_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateMaterial(ctx, req.(*UpdateMaterialRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateServiceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateService_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateService(ctx, req.(*UpdateServiceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_DeleteMaterial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).DeleteMaterial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_DeleteMaterial_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).DeleteMaterial(ctx, req.(*DeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_DeleteService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).DeleteService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_DeleteService_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).DeleteService(ctx, req.(*DeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -268,6 +472,30 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddDoctorDailyOverride",
 			Handler:    _AdminService_AddDoctorDailyOverride_Handler,
+		},
+		{
+			MethodName: "AddMaterial",
+			Handler:    _AdminService_AddMaterial_Handler,
+		},
+		{
+			MethodName: "AddService",
+			Handler:    _AdminService_AddService_Handler,
+		},
+		{
+			MethodName: "UpdateMaterial",
+			Handler:    _AdminService_UpdateMaterial_Handler,
+		},
+		{
+			MethodName: "UpdateService",
+			Handler:    _AdminService_UpdateService_Handler,
+		},
+		{
+			MethodName: "DeleteMaterial",
+			Handler:    _AdminService_DeleteMaterial_Handler,
+		},
+		{
+			MethodName: "DeleteService",
+			Handler:    _AdminService_DeleteService_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

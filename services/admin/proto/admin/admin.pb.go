@@ -536,6 +536,470 @@ func (x *AddDoctorDailyOverrideRequest) GetIsDayOff() bool {
 	return false
 }
 
+type AddMaterialRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Price         int32                  `protobuf:"varint,2,opt,name=price,proto3" json:"price,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddMaterialRequest) Reset() {
+	*x = AddMaterialRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddMaterialRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddMaterialRequest) ProtoMessage() {}
+
+func (x *AddMaterialRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddMaterialRequest.ProtoReflect.Descriptor instead.
+func (*AddMaterialRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *AddMaterialRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *AddMaterialRequest) GetPrice() int32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+type AddServiceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Price         int32                  `protobuf:"varint,2,opt,name=price,proto3" json:"price,omitempty"`
+	Type          int32                  `protobuf:"varint,3,opt,name=type,proto3" json:"type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddServiceRequest) Reset() {
+	*x = AddServiceRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddServiceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddServiceRequest) ProtoMessage() {}
+
+func (x *AddServiceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddServiceRequest.ProtoReflect.Descriptor instead.
+func (*AddServiceRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *AddServiceRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *AddServiceRequest) GetPrice() int32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *AddServiceRequest) GetType() int32 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
+
+type UpdateMaterialRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Price         int32                  `protobuf:"varint,3,opt,name=price,proto3" json:"price,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateMaterialRequest) Reset() {
+	*x = UpdateMaterialRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateMaterialRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateMaterialRequest) ProtoMessage() {}
+
+func (x *UpdateMaterialRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateMaterialRequest.ProtoReflect.Descriptor instead.
+func (*UpdateMaterialRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UpdateMaterialRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpdateMaterialRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateMaterialRequest) GetPrice() int32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+type UpdateServiceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Price         int32                  `protobuf:"varint,3,opt,name=price,proto3" json:"price,omitempty"`
+	Type          int32                  `protobuf:"varint,4,opt,name=type,proto3" json:"type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateServiceRequest) Reset() {
+	*x = UpdateServiceRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateServiceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateServiceRequest) ProtoMessage() {}
+
+func (x *UpdateServiceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateServiceRequest.ProtoReflect.Descriptor instead.
+func (*UpdateServiceRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *UpdateServiceRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpdateServiceRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateServiceRequest) GetPrice() int32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *UpdateServiceRequest) GetType() int32 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
+
+type Material struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Price         int32                  `protobuf:"varint,3,opt,name=price,proto3" json:"price,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Material) Reset() {
+	*x = Material{}
+	mi := &file_proto_admin_admin_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Material) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Material) ProtoMessage() {}
+
+func (x *Material) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Material.ProtoReflect.Descriptor instead.
+func (*Material) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *Material) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Material) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Material) GetPrice() int32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+type Service struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Price         int32                  `protobuf:"varint,3,opt,name=price,proto3" json:"price,omitempty"`
+	Type          int32                  `protobuf:"varint,4,opt,name=type,proto3" json:"type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Service) Reset() {
+	*x = Service{}
+	mi := &file_proto_admin_admin_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Service) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Service) ProtoMessage() {}
+
+func (x *Service) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Service.ProtoReflect.Descriptor instead.
+func (*Service) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *Service) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Service) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Service) GetPrice() int32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *Service) GetType() int32 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
+
+type DeleteRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteRequest) Reset() {
+	*x = DeleteRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteRequest) ProtoMessage() {}
+
+func (x *DeleteRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteRequest.ProtoReflect.Descriptor instead.
+func (*DeleteRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *DeleteRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ServiceType struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ServiceType) Reset() {
+	*x = ServiceType{}
+	mi := &file_proto_admin_admin_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ServiceType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ServiceType) ProtoMessage() {}
+
+func (x *ServiceType) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ServiceType.ProtoReflect.Descriptor instead.
+func (*ServiceType) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *ServiceType) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ServiceType) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 var File_proto_admin_admin_proto protoreflect.FileDescriptor
 
 const file_proto_admin_admin_proto_rawDesc = "" +
@@ -584,13 +1048,50 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x122\n" +
 	"\x15slot_duration_minutes\x18\x05 \x01(\x05R\x13slotDurationMinutes\x12\x1c\n" +
 	"\n" +
-	"is_day_off\x18\x06 \x01(\bR\bisDayOff2\xd8\x03\n" +
+	"is_day_off\x18\x06 \x01(\bR\bisDayOff\">\n" +
+	"\x12AddMaterialRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\x05price\x18\x02 \x01(\x05R\x05price\"Q\n" +
+	"\x11AddServiceRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\x05price\x18\x02 \x01(\x05R\x05price\x12\x12\n" +
+	"\x04type\x18\x03 \x01(\x05R\x04type\"Q\n" +
+	"\x15UpdateMaterialRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05price\x18\x03 \x01(\x05R\x05price\"d\n" +
+	"\x14UpdateServiceRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05price\x18\x03 \x01(\x05R\x05price\x12\x12\n" +
+	"\x04type\x18\x04 \x01(\x05R\x04type\"D\n" +
+	"\bMaterial\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05price\x18\x03 \x01(\x05R\x05price\"W\n" +
+	"\aService\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05price\x18\x03 \x01(\x05R\x05price\x12\x12\n" +
+	"\x04type\x18\x04 \x01(\x05R\x04type\"\x1f\n" +
+	"\rDeleteRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"1\n" +
+	"\vServiceType\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name2\xe7\x06\n" +
 	"\fAdminService\x12^\n" +
 	"\x1aUpdateClinicWeeklySchedule\x12(.admin.UpdateClinicWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12X\n" +
 	"\x17AddDoctorWeeklySchedule\x12%.admin.AddDoctorWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12^\n" +
 	"\x1aUpdateDoctorWeeklySchedule\x12(.admin.UpdateDoctorWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12V\n" +
 	"\x16AddClinicDailyOverride\x12$.admin.AddClinicDailyOverrideRequest\x1a\x16.admin.DefaultResponse\x12V\n" +
-	"\x16AddDoctorDailyOverride\x12$.admin.AddDoctorDailyOverrideRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
+	"\x16AddDoctorDailyOverride\x12$.admin.AddDoctorDailyOverrideRequest\x1a\x16.admin.DefaultResponse\x12@\n" +
+	"\vAddMaterial\x12\x19.admin.AddMaterialRequest\x1a\x16.admin.DefaultResponse\x12>\n" +
+	"\n" +
+	"AddService\x12\x18.admin.AddServiceRequest\x1a\x16.admin.DefaultResponse\x12F\n" +
+	"\x0eUpdateMaterial\x12\x1c.admin.UpdateMaterialRequest\x1a\x16.admin.DefaultResponse\x12D\n" +
+	"\rUpdateService\x12\x1b.admin.UpdateServiceRequest\x1a\x16.admin.DefaultResponse\x12>\n" +
+	"\x0eDeleteMaterial\x12\x14.admin.DeleteRequest\x1a\x16.admin.DefaultResponse\x12=\n" +
+	"\rDeleteService\x12\x14.admin.DeleteRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
 
 var (
 	file_proto_admin_admin_proto_rawDescOnce sync.Once
@@ -604,7 +1105,7 @@ func file_proto_admin_admin_proto_rawDescGZIP() []byte {
 	return file_proto_admin_admin_proto_rawDescData
 }
 
-var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_proto_admin_admin_proto_goTypes = []any{
 	(*WeeklyClinicSchedule)(nil),              // 0: admin.WeeklyClinicSchedule
 	(*UpdateClinicWeeklyScheduleRequest)(nil), // 1: admin.UpdateClinicWeeklyScheduleRequest
@@ -614,34 +1115,54 @@ var file_proto_admin_admin_proto_goTypes = []any{
 	(*DefaultResponse)(nil),                   // 5: admin.DefaultResponse
 	(*AddClinicDailyOverrideRequest)(nil),     // 6: admin.AddClinicDailyOverrideRequest
 	(*AddDoctorDailyOverrideRequest)(nil),     // 7: admin.AddDoctorDailyOverrideRequest
-	(*timestamppb.Timestamp)(nil),             // 8: google.protobuf.Timestamp
+	(*AddMaterialRequest)(nil),                // 8: admin.AddMaterialRequest
+	(*AddServiceRequest)(nil),                 // 9: admin.AddServiceRequest
+	(*UpdateMaterialRequest)(nil),             // 10: admin.UpdateMaterialRequest
+	(*UpdateServiceRequest)(nil),              // 11: admin.UpdateServiceRequest
+	(*Material)(nil),                          // 12: admin.Material
+	(*Service)(nil),                           // 13: admin.Service
+	(*DeleteRequest)(nil),                     // 14: admin.DeleteRequest
+	(*ServiceType)(nil),                       // 15: admin.ServiceType
+	(*timestamppb.Timestamp)(nil),             // 16: google.protobuf.Timestamp
 }
 var file_proto_admin_admin_proto_depIdxs = []int32{
-	8,  // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
-	8,  // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
+	16, // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
+	16, // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 2: admin.UpdateClinicWeeklyScheduleRequest.clinic_schedule:type_name -> admin.WeeklyClinicSchedule
-	8,  // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
-	8,  // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
+	16, // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
+	16, // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
 	2,  // 5: admin.AddDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
 	2,  // 6: admin.UpdateDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
-	8,  // 7: admin.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	8,  // 8: admin.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	8,  // 9: admin.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
-	8,  // 10: admin.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	8,  // 11: admin.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	8,  // 12: admin.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	16, // 7: admin.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	16, // 8: admin.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	16, // 9: admin.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	16, // 10: admin.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	16, // 11: admin.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	16, // 12: admin.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
 	1,  // 13: admin.AdminService.UpdateClinicWeeklySchedule:input_type -> admin.UpdateClinicWeeklyScheduleRequest
 	3,  // 14: admin.AdminService.AddDoctorWeeklySchedule:input_type -> admin.AddDoctorWeeklyScheduleRequest
 	4,  // 15: admin.AdminService.UpdateDoctorWeeklySchedule:input_type -> admin.UpdateDoctorWeeklyScheduleRequest
 	6,  // 16: admin.AdminService.AddClinicDailyOverride:input_type -> admin.AddClinicDailyOverrideRequest
 	7,  // 17: admin.AdminService.AddDoctorDailyOverride:input_type -> admin.AddDoctorDailyOverrideRequest
-	5,  // 18: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 19: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 20: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 21: admin.AdminService.AddClinicDailyOverride:output_type -> admin.DefaultResponse
-	5,  // 22: admin.AdminService.AddDoctorDailyOverride:output_type -> admin.DefaultResponse
-	18, // [18:23] is the sub-list for method output_type
-	13, // [13:18] is the sub-list for method input_type
+	8,  // 18: admin.AdminService.AddMaterial:input_type -> admin.AddMaterialRequest
+	9,  // 19: admin.AdminService.AddService:input_type -> admin.AddServiceRequest
+	10, // 20: admin.AdminService.UpdateMaterial:input_type -> admin.UpdateMaterialRequest
+	11, // 21: admin.AdminService.UpdateService:input_type -> admin.UpdateServiceRequest
+	14, // 22: admin.AdminService.DeleteMaterial:input_type -> admin.DeleteRequest
+	14, // 23: admin.AdminService.DeleteService:input_type -> admin.DeleteRequest
+	5,  // 24: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 25: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 26: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 27: admin.AdminService.AddClinicDailyOverride:output_type -> admin.DefaultResponse
+	5,  // 28: admin.AdminService.AddDoctorDailyOverride:output_type -> admin.DefaultResponse
+	5,  // 29: admin.AdminService.AddMaterial:output_type -> admin.DefaultResponse
+	5,  // 30: admin.AdminService.AddService:output_type -> admin.DefaultResponse
+	5,  // 31: admin.AdminService.UpdateMaterial:output_type -> admin.DefaultResponse
+	5,  // 32: admin.AdminService.UpdateService:output_type -> admin.DefaultResponse
+	5,  // 33: admin.AdminService.DeleteMaterial:output_type -> admin.DefaultResponse
+	5,  // 34: admin.AdminService.DeleteService:output_type -> admin.DefaultResponse
+	24, // [24:35] is the sub-list for method output_type
+	13, // [13:24] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name
 	13, // [13:13] is the sub-list for extension extendee
 	0,  // [0:13] is the sub-list for field type_name
@@ -658,7 +1179,7 @@ func file_proto_admin_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_admin_admin_proto_rawDesc), len(file_proto_admin_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
