@@ -80,45 +80,53 @@ func (s *Store) GetOverridesByDoctorID(ctx context.Context, id model.UserID) ([]
 }
 
 // GetOverridesByDoctorAndDate Получение переопределения расписания по врачу и дате
-func (s *Store) GetOverridesByDoctorAndDate(ctx context.Context, id model.UserID, date time.Time) ([]model.DoctorDailyOverride, error) {
+func (s *Store) GetOverridesByDoctorAndDate(ctx context.Context, id model.UserID, date time.Time) (model.DoctorDailyOverride, error) {
 	query, args, err := s.builder.
 		Select("*").
 		From("doctor_daily_override").
 		Where(squirrel.Eq{"doctor_id": id, "date": date}).
 		ToSql()
 	if err != nil {
-		return nil, fmt.Errorf("не удалось сформировать запрос для получения переопределения расписания по врачу и дате: %w", err)
+		return model.DoctorDailyOverride{}, fmt.Errorf("не удалось сформировать запрос для получения переопределения расписания по врачу и дате: %w", err)
 	}
 
 	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
 
-	var overrides []model.DoctorDailyOverride
-	err = s.db.SelectContext(dbCtx, &overrides, query, args...)
+	var override model.DoctorDailyOverride
+	err = s.db.GetContext(dbCtx, &override, query, args...)
 	if err != nil {
-		return nil, fmt.Errorf("не удалось выполнить запрос для получения переопределения расписания по врачу и дате: %w", err)
+		return model.DoctorDailyOverride{}, fmt.Errorf("не удалось выполнить запрос для получения переопределения расписания по врачу и дате: %w", err)
 	}
 
-	return overrides, nil
+	return override, nil
 }
 
-// AddDoctorOverride Добавление нового переопределения расписания врача
+// AddDoctorOverride Добавление нового переопределения расписания врача (обновление, если переопределение уже есть)
 func (s *Store) AddDoctorOverride(ctx context.Context, override model.DoctorDailyOverride) (int, error) {
-	fields := map[string]any{
-		"doctor_id":             override.DoctorID,
-		"date":                  override.Date,
-		"start_time":            override.StartTime,
-		"end_time":              override.EndTime,
-		"slot_duration_minutes": override.SlotDurationMinutes,
-		"is_day_off":            override.IsDayOff,
-	}
 	query, args, err := s.builder.
 		Insert("doctor_daily_override").
-		SetMap(fields).
+		Columns("doctor_id", "date", "start_time", "end_time", "slot_duration_minutes", "is_day_off").
+		Values(
+			override.DoctorID,
+			override.Date,
+			override.StartTime,
+			override.EndTime,
+			override.SlotDurationMinutes,
+			override.IsDayOff,
+		).
+		Suffix(`
+			ON CONFLICT (doctor_id, date) DO UPDATE SET
+				start_time = EXCLUDED.start_time,
+				end_time = EXCLUDED.end_time,
+				slot_duration_minutes = EXCLUDED.slot_duration_minutes,
+				is_day_off = EXCLUDED.is_day_off
+		`).
 		Suffix("RETURNING id").
 		ToSql()
+
 	if err != nil {
-		return 0, fmt.Errorf("не удалось сформировать запрос для добавления нового переопределения расписания врача: %w", err)
+		return 0, fmt.Errorf("не удалось сформировать UPSERT-запрос для переопределения расписания врача: %w", err)
 	}
 
 	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
@@ -127,8 +135,9 @@ func (s *Store) AddDoctorOverride(ctx context.Context, override model.DoctorDail
 	var overrideID int
 	err = s.db.QueryRowxContext(dbCtx, query, args...).Scan(&overrideID)
 	if err != nil {
-		return 0, fmt.Errorf("не удалось выполнить запрос для добавления нового переопределения расписания врача: %w", err)
+		return 0, fmt.Errorf("не удалось выполнить UPSERT переопределения врача: %w", err)
 	}
+
 	return overrideID, nil
 }
 
@@ -240,31 +249,34 @@ func (s *Store) GetClinicOverrides(ctx context.Context) ([]model.ClinicDailyOver
 	return overrides, nil
 }
 
-// GetClinicOverridesByDate Получение переопределения расписания врачей по дате
-func (s *Store) GetClinicOverridesByDate(ctx context.Context, date time.Time) ([]model.ClinicDailyOverride, error) {
+// GetClinicOverridesByDate Получение переопределения расписания по дате
+func (s *Store) GetClinicOverridesByDate(ctx context.Context, date time.Time) (model.ClinicDailyOverride, error) {
 	query, args, err := s.builder.
 		Select("*").
 		From("clinic_daily_override").
 		Where(squirrel.Eq{"date": date}).
 		ToSql()
 	if err != nil {
-		return nil, fmt.Errorf("не удалось сформировать запрос для получения переопределения расписания клиники по дате: %w", err)
+		return model.ClinicDailyOverride{}, fmt.Errorf("не удалось сформировать запрос для получения переопределения расписания клиники по дате: %w", err)
 	}
 
 	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
 	defer cancel()
 
-	var overrides []model.ClinicDailyOverride
-	err = s.db.SelectContext(dbCtx, &overrides, query, args...)
+	var override model.ClinicDailyOverride
+	err = s.db.GetContext(dbCtx, &override, query, args...)
 	if err != nil {
-		return nil, fmt.Errorf("не удалось выполнить запрос для получения переопределения расписания клиники по дате: %w", err)
+		return model.ClinicDailyOverride{}, fmt.Errorf("не удалось выполнить запрос для получения переопределения расписания клиники по дате: %w", err)
 	}
 
-	return overrides, nil
+	return override, nil
 }
 
-// AddClinicOverride Добавление нового переопределения расписания клиники
+// AddClinicOverride Добавление нового переопределения расписания клиники (обновление, если переопределение уже есть)
 func (s *Store) AddClinicOverride(ctx context.Context, override model.ClinicDailyOverride) (int, error) {
+	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
+	defer cancel()
+
 	fields := map[string]any{
 		"date":                  override.Date,
 		"start_time":            override.StartTime,
@@ -272,23 +284,30 @@ func (s *Store) AddClinicOverride(ctx context.Context, override model.ClinicDail
 		"slot_duration_minutes": override.SlotDurationMinutes,
 		"is_day_off":            override.IsDayOff,
 	}
-	query, args, err := s.builder.
+
+	insertBuilder := s.builder.
 		Insert("clinic_daily_override").
 		SetMap(fields).
-		Suffix("RETURNING id").
-		ToSql()
-	if err != nil {
-		return 0, fmt.Errorf("не удалось сформировать запрос для добавления нового переопределения расписания клиники: %w", err)
-	}
+		Suffix(`
+			ON CONFLICT (date) DO UPDATE 
+			SET start_time = EXCLUDED.start_time,
+			    end_time = EXCLUDED.end_time,
+			    slot_duration_minutes = EXCLUDED.slot_duration_minutes,
+			    is_day_off = EXCLUDED.is_day_off
+			RETURNING id
+		`)
 
-	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
-	defer cancel()
+	query, args, err := insertBuilder.ToSql()
+	if err != nil {
+		return 0, fmt.Errorf("не удалось сформировать UPSERT-запрос для переопределения клиники: %w", err)
+	}
 
 	var overrideID int
 	err = s.db.QueryRowxContext(dbCtx, query, args...).Scan(&overrideID)
 	if err != nil {
-		return 0, fmt.Errorf("не удалось выполнить запрос для добавления нового переопределения расписания клиники: %w", err)
+		return 0, fmt.Errorf("не удалось выполнить UPSERT переопределения клиники: %w", err)
 	}
+
 	return overrideID, nil
 }
 

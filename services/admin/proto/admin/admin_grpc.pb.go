@@ -24,6 +24,8 @@ const (
 	AdminService_UpdateClinicWeeklySchedule_FullMethodName = "/admin.AdminService/UpdateClinicWeeklySchedule"
 	AdminService_AddDoctorWeeklySchedule_FullMethodName    = "/admin.AdminService/AddDoctorWeeklySchedule"
 	AdminService_UpdateDoctorWeeklySchedule_FullMethodName = "/admin.AdminService/UpdateDoctorWeeklySchedule"
+	AdminService_AddClinicDailyOverride_FullMethodName     = "/admin.AdminService/AddClinicDailyOverride"
+	AdminService_AddDoctorDailyOverride_FullMethodName     = "/admin.AdminService/AddDoctorDailyOverride"
 	AdminService_AddMaterial_FullMethodName                = "/admin.AdminService/AddMaterial"
 	AdminService_AddService_FullMethodName                 = "/admin.AdminService/AddService"
 	AdminService_UpdateMaterial_FullMethodName             = "/admin.AdminService/UpdateMaterial"
@@ -39,6 +41,8 @@ type AdminServiceClient interface {
 	UpdateClinicWeeklySchedule(ctx context.Context, in *UpdateClinicWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	AddDoctorWeeklySchedule(ctx context.Context, in *AddDoctorWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	UpdateDoctorWeeklySchedule(ctx context.Context, in *UpdateDoctorWeeklyScheduleRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddClinicDailyOverride(ctx context.Context, in *AddClinicDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddDoctorDailyOverride(ctx context.Context, in *AddDoctorDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	AddMaterial(ctx context.Context, in *AddMaterialRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	AddService(ctx context.Context, in *AddServiceRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	UpdateMaterial(ctx context.Context, in *UpdateMaterialRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
@@ -79,6 +83,26 @@ func (c *adminServiceClient) UpdateDoctorWeeklySchedule(ctx context.Context, in 
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DefaultResponse)
 	err := c.cc.Invoke(ctx, AdminService_UpdateDoctorWeeklySchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) AddClinicDailyOverride(ctx context.Context, in *AddClinicDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_AddClinicDailyOverride_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) AddDoctorDailyOverride(ctx context.Context, in *AddDoctorDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_AddDoctorDailyOverride_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -152,6 +176,8 @@ type AdminServiceServer interface {
 	UpdateClinicWeeklySchedule(context.Context, *UpdateClinicWeeklyScheduleRequest) (*DefaultResponse, error)
 	AddDoctorWeeklySchedule(context.Context, *AddDoctorWeeklyScheduleRequest) (*DefaultResponse, error)
 	UpdateDoctorWeeklySchedule(context.Context, *UpdateDoctorWeeklyScheduleRequest) (*DefaultResponse, error)
+	AddClinicDailyOverride(context.Context, *AddClinicDailyOverrideRequest) (*DefaultResponse, error)
+	AddDoctorDailyOverride(context.Context, *AddDoctorDailyOverrideRequest) (*DefaultResponse, error)
 	AddMaterial(context.Context, *AddMaterialRequest) (*DefaultResponse, error)
 	AddService(context.Context, *AddServiceRequest) (*DefaultResponse, error)
 	UpdateMaterial(context.Context, *UpdateMaterialRequest) (*DefaultResponse, error)
@@ -176,6 +202,12 @@ func (UnimplementedAdminServiceServer) AddDoctorWeeklySchedule(context.Context, 
 }
 func (UnimplementedAdminServiceServer) UpdateDoctorWeeklySchedule(context.Context, *UpdateDoctorWeeklyScheduleRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateDoctorWeeklySchedule not implemented")
+}
+func (UnimplementedAdminServiceServer) AddClinicDailyOverride(context.Context, *AddClinicDailyOverrideRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddClinicDailyOverride not implemented")
+}
+func (UnimplementedAdminServiceServer) AddDoctorDailyOverride(context.Context, *AddDoctorDailyOverrideRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddDoctorDailyOverride not implemented")
 }
 func (UnimplementedAdminServiceServer) AddMaterial(context.Context, *AddMaterialRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMaterial not implemented")
@@ -266,6 +298,42 @@ func _AdminService_UpdateDoctorWeeklySchedule_Handler(srv interface{}, ctx conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdminServiceServer).UpdateDoctorWeeklySchedule(ctx, req.(*UpdateDoctorWeeklyScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_AddClinicDailyOverride_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddClinicDailyOverrideRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).AddClinicDailyOverride(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_AddClinicDailyOverride_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).AddClinicDailyOverride(ctx, req.(*AddClinicDailyOverrideRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_AddDoctorDailyOverride_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddDoctorDailyOverrideRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).AddDoctorDailyOverride(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_AddDoctorDailyOverride_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).AddDoctorDailyOverride(ctx, req.(*AddDoctorDailyOverrideRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -396,6 +464,14 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateDoctorWeeklySchedule",
 			Handler:    _AdminService_UpdateDoctorWeeklySchedule_Handler,
+		},
+		{
+			MethodName: "AddClinicDailyOverride",
+			Handler:    _AdminService_AddClinicDailyOverride_Handler,
+		},
+		{
+			MethodName: "AddDoctorDailyOverride",
+			Handler:    _AdminService_AddDoctorDailyOverride_Handler,
 		},
 		{
 			MethodName: "AddMaterial",

@@ -242,6 +242,30 @@ func (s *Server) UpdateClinicWeeklySchedule(ctx context.Context, request *pb.Upd
 	return &pb.DefaultResponse{}, nil
 }
 
+func (s *Server) UpdateDoctorWeeklySchedule(ctx context.Context, request *pb.UpdateDoctorWeeklyScheduleRequest) (*pb.DefaultResponse, error) {
+	var schedule []model.DoctorSchedule
+	for _, item := range request.DoctorSchedule {
+		start := item.StartTime.AsTime()
+		end := item.EndTime.AsTime()
+		duration := int(item.SlotDurationMinutes)
+		day := model.DoctorSchedule{
+			ID:                  int(item.Id),
+			DoctorID:            model.UserID(item.DoctorId),
+			Weekday:             int(item.Weekday),
+			StartTime:           &start,
+			EndTime:             &end,
+			SlotDurationMinutes: &duration,
+			IsDayOff:            &item.IsDayOff,
+		}
+		schedule = append(schedule, day)
+	}
+	err := s.Store.UpdateDoctorSchedule(ctx, schedule)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
 func (s *Server) GetRolePermission(ctx context.Context, req *pb.GetRolePermissionRequest) (*pb.DefaultResponse, error) {
 	_, err := s.Store.GetRolePermission(ctx, model.RoleID(req.RoleId), model.PermissionID(req.PermId))
 	if err != nil {
@@ -400,4 +424,68 @@ func (s *Server) DeleteService(ctx context.Context, req *pb.DeleteRequest) (*pb.
 		return nil, err
 	}
 	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) AddClinicDailyOverride(ctx context.Context, req *pb.AddClinicDailyOverrideRequest) (*pb.DefaultResponse, error) {
+	start := req.StartTime.AsTime()
+	end := req.EndTime.AsTime()
+	duration := int(req.SlotDurationMinutes)
+	isDayOff := req.IsDayOff
+	_, err := s.Store.AddClinicOverride(ctx, model.ClinicDailyOverride{
+		Date:                req.Date.AsTime(),
+		StartTime:           &start,
+		EndTime:             &end,
+		SlotDurationMinutes: &duration,
+		IsDayOff:            &isDayOff,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, err
+}
+
+func (s *Server) AddDoctorDailyOverride(ctx context.Context, req *pb.AddDoctorDailyOverrideRequest) (*pb.DefaultResponse, error) {
+	start := req.StartTime.AsTime()
+	end := req.EndTime.AsTime()
+	duration := int(req.SlotDurationMinutes)
+	isDayOff := req.IsDayOff
+	_, err := s.Store.AddDoctorOverride(ctx, model.DoctorDailyOverride{
+		DoctorID:            model.UserID(req.DoctorId),
+		Date:                req.Date.AsTime(),
+		StartTime:           &start,
+		EndTime:             &end,
+		SlotDurationMinutes: &duration,
+		IsDayOff:            &isDayOff,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, err
+}
+
+func (s *Server) GetClinicOverride(ctx context.Context, req *pb.GetClinicOverrideRequest) (*pb.GetClinicOverrideResponse, error) {
+	override, err := s.Store.GetClinicOverridesByDate(ctx, req.Date.AsTime())
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetClinicOverrideResponse{
+		Date:      timestamppb.New(override.Date),
+		StartTime: timestamppb.New(*override.StartTime),
+		EndTime:   timestamppb.New(*override.EndTime),
+		IsDayOff:  *override.IsDayOff,
+	}, nil
+}
+
+func (s *Server) GetDoctorOverride(ctx context.Context, req *pb.GetDoctorOverrideRequest) (*pb.GetDoctorOverrideResponse, error) {
+	override, err := s.Store.GetOverridesByDoctorAndDate(ctx, model.UserID(req.DoctorId), req.Date.AsTime())
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetDoctorOverrideResponse{
+		DoctorId:  int32(override.DoctorID),
+		Date:      timestamppb.New(override.Date),
+		StartTime: timestamppb.New(*override.StartTime),
+		EndTime:   timestamppb.New(*override.EndTime),
+		IsDayOff:  *override.IsDayOff,
+	}, nil
 }

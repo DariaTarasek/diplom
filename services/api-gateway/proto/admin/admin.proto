@@ -43,6 +43,23 @@ message DefaultResponse {
   string err = 1;
 }
 
+message AddClinicDailyOverrideRequest {
+  google.protobuf.Timestamp date = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 slot_duration_minutes = 4;
+  bool is_day_off = 5;
+}
+
+message AddDoctorDailyOverrideRequest {
+  int32 doctor_id = 1;
+  google.protobuf.Timestamp date = 2;
+  google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Timestamp end_time = 4;
+  int32 slot_duration_minutes = 5;
+  bool is_day_off = 6;
+}
+
 message AddMaterialRequest {
   string name = 1;
   int32 price = 2;
@@ -94,6 +111,8 @@ service AdminService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // изменение постоянного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
   rpc UpdateDoctorWeeklySchedule(UpdateDoctorWeeklyScheduleRequest) returns (DefaultResponse); // изменение постоянного расписания врача
+  rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
+  rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
   rpc AddMaterial(AddMaterialRequest) returns (DefaultResponse);
   rpc AddService(AddServiceRequest) returns (DefaultResponse);
   rpc UpdateMaterial(UpdateMaterialRequest) returns (DefaultResponse);

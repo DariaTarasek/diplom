@@ -172,8 +172,49 @@ message GetRolePermissionRequest {
   int32 perm_id = 2;
 }
 
+message AddClinicDailyOverrideRequest {
+  google.protobuf.Timestamp date = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 slot_duration_minutes = 4;
+  bool is_day_off = 5;
+}
+
+message AddDoctorDailyOverrideRequest {
+  int32 doctor_id = 1;
+  google.protobuf.Timestamp date = 2;
+  google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Timestamp end_time = 4;
+  int32 slot_duration_minutes = 5;
+  bool is_day_off = 6;
+}
+
 message GetDoctorBySpecIDRequest {
   int32 spec_id = 1;
+}
+
+message GetClinicOverrideRequest {
+  google.protobuf.Timestamp date = 1;
+}
+
+message GetClinicOverrideResponse {
+  google.protobuf.Timestamp date = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  bool is_day_off = 4;
+}
+
+message GetDoctorOverrideRequest {
+  int32 doctor_id = 1;
+  google.protobuf.Timestamp date = 2;
+}
+
+message GetDoctorOverrideResponse {
+  int32 doctor_id = 1;
+  google.protobuf.Timestamp date = 2;
+  google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Timestamp end_time = 4;
+  bool is_day_off = 5;
 }
 
 
@@ -283,8 +324,13 @@ service StorageService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // обновление постояенного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
   rpc UpdateDoctorWeeklySchedule(UpdateDoctorWeeklyScheduleRequest) returns (DefaultResponse); // обновление постоянного расписания врача
-  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse);
-  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse);
+  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse); // получение прав для роли
+  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse); // получение врачей по специализации
+  rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
+  rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
+  rpc GetClinicOverride(GetClinicOverrideRequest) returns (GetClinicOverrideResponse); // получение переопределения дня клиники
+  rpc GetDoctorOverride(GetDoctorOverrideRequest) returns (GetDoctorOverrideResponse); // получение переопределения дня врача
+
 
   // управление услугами и материалами
   rpc AddMaterial(AddMaterialRequest) returns (DefaultResponse);
