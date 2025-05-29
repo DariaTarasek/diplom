@@ -53,7 +53,7 @@ func (s *Store) GetMaterialByID(ctx context.Context, id model.MaterialID) (model
 	return material, nil
 }
 
-// AddMaterial Добавление нового материалa
+// AddMaterial Добавление нового материала
 func (s *Store) AddMaterial(ctx context.Context, material model.Material) (model.MaterialID, error) {
 	fields := map[string]any{
 		"name":  material.Name,
@@ -65,7 +65,7 @@ func (s *Store) AddMaterial(ctx context.Context, material model.Material) (model
 		Suffix("RETURNING id").
 		ToSql()
 	if err != nil {
-		return model.MaterialID(0), fmt.Errorf("не удалось сформировать запрос для добавления нового материала: %w", err)
+		return 0, fmt.Errorf("не удалось сформировать запрос для добавления нового материала: %w", err)
 	}
 
 	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
@@ -74,7 +74,7 @@ func (s *Store) AddMaterial(ctx context.Context, material model.Material) (model
 	var materialID model.MaterialID
 	err = s.db.QueryRowxContext(dbCtx, query, args...).Scan(&materialID)
 	if err != nil {
-		return model.MaterialID(0), fmt.Errorf("не удалось выполнить запрос для добавления нового материала: %w", err)
+		return 0, fmt.Errorf("не удалось выполнить запрос для добавления нового материала: %w", err)
 	}
 
 	return materialID, nil
