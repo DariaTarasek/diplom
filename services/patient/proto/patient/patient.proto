@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package patient;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "patient/proto;patientpb";
+
+message GetAppointmentSlotsRequest{
+  int32 doctor_id = 1;
+}
+
+message GetAppointmentSlotsResponse {
+  repeated DaySlots slots = 1;
+}
+
+message DaySlots {
+  string date = 1;
+  repeated string slots = 2;
+}
+
+message Appointment {
+  int32 id = 1;
+  int32 doctor_id = 2;
+  google.protobuf.Timestamp date = 3;
+  google.protobuf.Timestamp time = 4;
+  int32 patient_id = 5;
+  string second_name = 6;
+  string first_name = 7;
+  string surname = 8;
+  google.protobuf.Timestamp birth_date = 9;
+  string gender = 10;
+  string phone_number = 11;
+  string status = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp updated_at = 14;
+}
+
+message AddAppointmentRequest {
+  Appointment appointment = 1;
+}
+
+message DefaultResponse {
+
+}
+
+service PatientService {
+  rpc GetAppointmentSlots(GetAppointmentSlotsRequest) returns (GetAppointmentSlotsResponse);
+  rpc AddAppointment(AddAppointmentRequest) returns (DefaultResponse);
+}

@@ -30,6 +30,29 @@ func (s *Store) GetAppointments(ctx context.Context) ([]model.Appointment, error
 	return appointment, nil
 }
 
+// GetAppointmentsByDoctorID Получение списка всех записей врача
+func (s *Store) GetAppointmentsByDoctorID(ctx context.Context, id model.UserID) ([]model.Appointment, error) {
+	query, args, err := s.builder.
+		Select("*").
+		From("appointments").
+		Where(squirrel.Eq{"doctor_id": id}).
+		ToSql()
+	if err != nil {
+		return nil, fmt.Errorf("не удалось сформировать запрос для получения списка записей: %w", err)
+	}
+
+	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
+	defer cancel()
+
+	var appointment []model.Appointment
+	err = s.db.SelectContext(dbCtx, &appointment, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось выполнить запрос для получения списка записей: %w", err)
+	}
+
+	return appointment, nil
+}
+
 // GetAppointmentByID Получение записи по id
 func (s *Store) GetAppointmentByID(ctx context.Context, id model.AppointmentID) (model.Appointment, error) {
 	query, args, err := s.builder.

@@ -6,6 +6,7 @@ import (
 	"github.com/DariaTarasek/diplom/services/auth/model"
 	pb "github.com/DariaTarasek/diplom/services/auth/proto/auth"
 	"github.com/DariaTarasek/diplom/services/auth/service"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Server struct {
@@ -181,4 +182,29 @@ func (s *Server) PermissionCheck(ctx context.Context, req *pb.PermissionCheckReq
 		return nil, err
 	}
 	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) GetPatient(ctx context.Context, req *pb.GetPatientRequest) (*pb.GetPatientResponse, error) {
+	patient, err := s.Service.GetPatientByID(ctx, req.Token)
+	if err != nil {
+		return nil, err
+	}
+	pbPatient := &pb.PatientData{
+		UserId:      int32(patient.ID),
+		FirstName:   patient.FirstName,
+		SecondName:  patient.SecondName,
+		Surname:     deref(patient.Surname),
+		Email:       deref(patient.Email),
+		BirthDate:   timestamppb.New(patient.BirthDate),
+		PhoneNumber: deref(patient.PhoneNumber),
+		Gender:      patient.Gender,
+	}
+	return &pb.GetPatientResponse{Patient: pbPatient}, nil
+}
+
+func deref(s *string) string {
+	if s == nil {
+		return ""
+	}
+	return *s
 }
