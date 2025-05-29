@@ -193,6 +193,93 @@ message GetDoctorBySpecIDRequest {
 }
 
 
+message AddMaterialRequest {
+  string name = 1;
+  int32 price = 2;
+}
+
+message AddServiceRequest {
+  string name = 1;
+  int32 price = 2;
+  int32 type = 3;
+}
+
+message UpdateMaterialRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message UpdateServiceRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+message Material {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message Service {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+message GetMaterialsResponse {
+  repeated Material materials = 1;
+}
+
+message GetServicesResponse {
+  repeated Service services = 1;
+}
+
+message GetByNameRequest {
+  string name = 1;
+}
+
+message GetMaterialByNameResponse {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+
+message GetServiceByNameResponse {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+
+message DeleteRequest {
+  int32 id = 1;
+}
+
+
+message ServiceType {
+  int32 id = 1;
+  string name = 2;
+}
+
+message GetServicesTypesResponse {
+  repeated ServiceType types = 1;
+}
+
+message GetServiceTypeByIdRequest {
+  int32 id = 1;
+}
+
+message GetServiceTypeByIdResponse {
+  int32 id = 1;
+  string name = 2;
+}
+
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
   rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse); // добавление врача
@@ -213,4 +300,21 @@ service StorageService {
   rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse); // получение врачей по специализации
   rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
   rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
+
+  // управление услугами и материалами
+  rpc AddMaterial(AddMaterialRequest) returns (DefaultResponse);
+  rpc AddService(AddServiceRequest) returns (DefaultResponse);
+
+  rpc UpdateMaterial(UpdateMaterialRequest) returns (DefaultResponse);
+  rpc UpdateService(UpdateServiceRequest) returns (DefaultResponse);
+
+  rpc GetMaterials(EmptyRequest) returns (GetMaterialsResponse);
+  rpc GetServices(EmptyRequest) returns (GetServicesResponse);
+  rpc GetServicesTypes(EmptyRequest) returns (GetServicesTypesResponse);
+  // rpc GetMaterialByName(GetByNameRequest) returns (GetMaterialByNameResponse);
+  // rpc GetServiceByName(GetByNameRequest) returns (GetServiceByNameResponse);
+  rpc GetServiceTypeById(GetServiceTypeByIdRequest) returns (GetServiceTypeByIdResponse);
+
+  rpc DeleteMaterial(DeleteRequest) returns (DefaultResponse);
+  rpc DeleteService(DeleteRequest) returns (DefaultResponse);
 }

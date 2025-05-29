@@ -34,7 +34,7 @@ func (h *InfoHandler) GetDoctors(c *gin.Context) {
 	c.JSON(http.StatusOK, doctors)
 }
 
-func (h *InfoHandler) getDoctorsBySpecialty(c *gin.Context) {
+func (h *InfoHandler) GetDoctorsBySpecialty(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("specialty"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Некорректный запрос " + err.Error()})

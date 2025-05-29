@@ -298,6 +298,134 @@ func (s *Server) GetDoctorsBySpecID(ctx context.Context, req *pb.GetDoctorBySpec
 	return &pb.GetDoctorsResponse{Doctors: doctors}, nil
 }
 
+func (s *Server) GetMaterials(ctx context.Context, req *pb.EmptyRequest) (*pb.GetMaterialsResponse, error) {
+	items, err := s.Store.GetMaterials(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var materials []*pb.Material
+	for _, item := range items {
+		material := &pb.Material{
+			Id:    int32(item.ID),
+			Name:  item.Name,
+			Price: int32(item.Price),
+		}
+		materials = append(materials, material)
+	}
+	return &pb.GetMaterialsResponse{Materials: materials}, nil
+}
+
+func (s *Server) GetServices(ctx context.Context, req *pb.EmptyRequest) (*pb.GetServicesResponse, error) {
+	items, err := s.Store.GetServices(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var services []*pb.Service
+	for _, item := range items {
+		service := &pb.Service{
+			Id:    int32(item.ID),
+			Name:  item.Name,
+			Price: int32(*item.Price),
+			Type:  int32(item.Category),
+		}
+		services = append(services, service)
+	}
+	return &pb.GetServicesResponse{Services: services}, nil
+}
+
+func (s *Server) GetServicesTypes(ctx context.Context, req *pb.EmptyRequest) (*pb.GetServicesTypesResponse, error) {
+	items, err := s.Store.GetServiceTypes(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var types []*pb.ServiceType
+	for _, item := range items {
+		serviceType := &pb.ServiceType{
+			Id:   int32(item.ID),
+			Name: item.Name,
+		}
+		types = append(types, serviceType)
+	}
+	return &pb.GetServicesTypesResponse{Types: types}, nil
+}
+
+func (s *Server) GetServiceTypeById(ctx context.Context, req *pb.GetServiceTypeByIdRequest) (*pb.GetServiceTypeByIdResponse, error) {
+	serviceType, err := s.Store.GetServiceTypeByID(ctx, model.ServiceTypeID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetServiceTypeByIdResponse{
+		Id:   int32(serviceType.ID),
+		Name: serviceType.Name,
+	}, nil
+}
+
+func (s *Server) AddMaterial(ctx context.Context, req *pb.AddMaterialRequest) (*pb.DefaultResponse, error) {
+	_, err := s.Store.AddMaterial(ctx, model.Material{
+		Name:  req.Name,
+		Price: int(req.Price),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) AddService(ctx context.Context, req *pb.AddServiceRequest) (*pb.DefaultResponse, error) {
+	price := int(req.Price)
+	_, err := s.Store.AddService(ctx, model.Service{
+		Name:     req.Name,
+		Price:    &price,
+		Category: model.ServiceTypeID(req.Type),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) UpdateMaterial(ctx context.Context, req *pb.UpdateMaterialRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.UpdateMaterial(ctx, model.MaterialID(req.Id), model.Material{
+		ID:    model.MaterialID(req.Id),
+		Name:  req.Name,
+		Price: int(req.Price),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) UpdateService(ctx context.Context, req *pb.UpdateServiceRequest) (*pb.DefaultResponse, error) {
+	price := int(req.Price)
+	err := s.Store.UpdateService(ctx, model.ServiceID(req.Id), model.Service{
+		ID:       model.ServiceID(req.Id),
+		Name:     req.Name,
+		Price:    &price,
+		Category: model.ServiceTypeID(req.Type),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) DeleteMaterial(ctx context.Context, req *pb.DeleteRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.DeleteMaterial(ctx, model.MaterialID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) DeleteService(ctx context.Context, req *pb.DeleteRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.DeleteService(ctx, model.ServiceID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
 func (s *Server) AddClinicDailyOverride(ctx context.Context, req *pb.AddClinicDailyOverrideRequest) (*pb.DefaultResponse, error) {
 	start := req.StartTime.AsTime()
 	end := req.EndTime.AsTime()

@@ -51,6 +51,7 @@ func main() {
 		"doctors.html",
 		"appointment.html",
 		"admins_schedule_management.html", // СТРАНИЦА АДМИНА! ЗДЕСЬ ДЛЯ ТЕСТОВ! ПОТОМ ПЕРЕНЕСТИ!
+		"price_list.html",
 	}
 
 	for _, page := range htmlPages {

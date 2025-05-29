@@ -60,10 +60,63 @@ message AddDoctorDailyOverrideRequest {
   bool is_day_off = 6;
 }
 
+message AddMaterialRequest {
+  string name = 1;
+  int32 price = 2;
+}
+
+message AddServiceRequest {
+  string name = 1;
+  int32 price = 2;
+  int32 type = 3;
+}
+
+message UpdateMaterialRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message UpdateServiceRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+message Material {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message Service {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+message DeleteRequest {
+  int32 id = 1;
+}
+
+message ServiceType {
+  int32 id = 1;
+  string name = 2;
+}
+
+
 service AdminService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // изменение постоянного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
   rpc UpdateDoctorWeeklySchedule(UpdateDoctorWeeklyScheduleRequest) returns (DefaultResponse); // изменение постоянного расписания врача
   rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
   rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
+  rpc AddMaterial(AddMaterialRequest) returns (DefaultResponse);
+  rpc AddService(AddServiceRequest) returns (DefaultResponse);
+  rpc UpdateMaterial(UpdateMaterialRequest) returns (DefaultResponse);
+  rpc UpdateService(UpdateServiceRequest) returns (DefaultResponse);
+  rpc DeleteMaterial(DeleteRequest) returns (DefaultResponse);
+  rpc DeleteService(DeleteRequest) returns (DefaultResponse);
 }

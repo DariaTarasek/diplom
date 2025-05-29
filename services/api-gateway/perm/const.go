@@ -6,4 +6,5 @@ const (
 	PermPatientPagesView
 	PermEmployeeAdd
 	PermScheduleUpdate
+	PermManageMaterialsAndServices
 )
