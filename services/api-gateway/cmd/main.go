@@ -50,6 +50,7 @@ func main() {
 		"password_recovery.html",
 		"doctors.html",
 		"appointment.html",
+		"price_list.html",
 	}
 
 	for _, page := range htmlPages {

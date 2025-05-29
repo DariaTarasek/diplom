@@ -18,4 +18,10 @@ func NewHandler(adminClient *clients.AdminClient) *Handler {
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.POST("/clinic-schedule", h.UpdateClinicSchedule)
 	rg.GET("/admin-data", h.GetUserRole)
+	rg.POST("/materials", h.AddMaterial)
+	rg.POST("/services", h.AddService)
+	rg.PUT("/materials/:id", h.UpdateMaterial)
+	rg.PUT("/services/:id", h.UpdateService)
+	rg.DELETE("/materials/:id", h.DeleteMaterial)
+	rg.DELETE("/services/:id", h.DeleteService)
 }

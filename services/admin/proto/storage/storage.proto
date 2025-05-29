@@ -167,6 +167,101 @@ message AddDoctorWeeklyScheduleRequest {
 message UpdateDoctorWeeklyScheduleRequest {
   repeated WeeklyDoctorSchedule doctor_schedule = 1;
 }
+message GetRolePermissionRequest {
+  int32 role_id = 1;
+  int32 perm_id = 2;
+}
+
+message GetDoctorBySpecIDRequest {
+  int32 spec_id = 1;
+}
+
+message AddMaterialRequest {
+  string name = 1;
+  int32 price = 2;
+}
+
+message AddServiceRequest {
+  string name = 1;
+  int32 price = 2;
+  int32 type = 3;
+}
+
+message UpdateMaterialRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message UpdateServiceRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+message Material {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message Service {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+message GetMaterialsResponse {
+  repeated Material materials = 1;
+}
+
+message GetServicesResponse {
+  repeated Service services = 1;
+}
+
+message GetByNameRequest {
+  string name = 1;
+}
+
+message GetMaterialByNameResponse {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+
+message GetServiceByNameResponse {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+
+message DeleteRequest {
+  int32 id = 1;
+}
+
+
+message ServiceType {
+  int32 id = 1;
+  string name = 2;
+}
+
+message GetServicesTypesResponse {
+  repeated ServiceType types = 1;
+}
+
+message GetServiceTypeByIdRequest {
+  int32 id = 1;
+}
+
+message GetServiceTypeByIdResponse {
+  int32 id = 1;
+  string name = 2;
+}
 
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
@@ -184,4 +279,23 @@ service StorageService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // обновление постояенного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
   rpc UpdateDoctorWeeklySchedule(UpdateDoctorWeeklyScheduleRequest) returns (DefaultResponse); // обновление постоянного расписания врача
+  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse);
+  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse);
+
+  // управление услугами и материалами
+  rpc AddMaterial(AddMaterialRequest) returns (DefaultResponse);
+  rpc AddService(AddServiceRequest) returns (DefaultResponse);
+
+  rpc UpdateMaterial(UpdateMaterialRequest) returns (DefaultResponse);
+  rpc UpdateService(UpdateServiceRequest) returns (DefaultResponse);
+
+  rpc GetMaterials(EmptyRequest) returns (GetMaterialsResponse);
+  rpc GetServices(EmptyRequest) returns (GetServicesResponse);
+  rpc GetServicesTypes(EmptyRequest) returns (GetServicesTypesResponse);
+  // rpc GetMaterialByName(GetByNameRequest) returns (GetMaterialByNameResponse);
+  // rpc GetServiceByName(GetByNameRequest) returns (GetServiceByNameResponse);
+  rpc GetServiceTypeById(GetServiceTypeByIdRequest) returns (GetServiceTypeByIdResponse);
+
+  rpc DeleteMaterial(DeleteRequest) returns (DefaultResponse);
+  rpc DeleteService(DeleteRequest) returns (DefaultResponse);
 }
