@@ -220,6 +220,30 @@ message GetPatientByIDResponse {
   Patient patient = 1;
 }
 
+message AddAppointmentRequest {
+  Appointment appointment = 1;
+}
+
+message UpdateAppointmentRequest {
+  Appointment appointment = 1;
+}
+
+message GetAppointmentsByUserIDResponse {
+  repeated Appointment appointment = 1;
+}
+
+message GetAppointmentByIDResponse {
+  Appointment appointment = 1;
+}
+
+message GetDoctorByIDResponse {
+  Doctor doctor = 1;
+}
+
+message GetSpecsByDoctorIDResponse {
+  repeated int32 spec_id = 1;
+}
+
 service StorageService {
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
   rpc AddDoctor(AddDoctorRequest) returns (AddDoctorResponse); // добавление врача
@@ -240,4 +264,10 @@ service StorageService {
   rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse);
   rpc GetAppointmentsByDoctorID(GetAppointmentsByDoctorIDRequest) returns (GetAppointmentsByDoctorIDResponse);
   rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse);
+  rpc AddAppointment(AddAppointmentRequest) returns (DefaultResponse);
+  rpc GetAppointmentsByUserID(GetByIDRequest) returns (GetAppointmentsByUserIDResponse);
+  rpc GetSpecsByDoctorID(GetByIDRequest) returns (GetSpecsByDoctorIDResponse);
+  rpc GetDoctorByID(GetByIDRequest) returns (GetDoctorByIDResponse);
+  rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
+  rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse);
 }

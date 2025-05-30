@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Запросить код
   requestCodeBtn.addEventListener('click', () => {
-     const phone = phoneField.value.trim();
+     const phone = phoneField.value.replace(/\D/g, '');
 
     if (!phone) {
         codeMessage.textContent = 'Введите номер телефона.';
@@ -177,6 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
       requestCodeBtn.disabled = true;
+
 
     fetch('/api/request-code', {
         method: 'POST',
@@ -251,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
  resendCodeBtn.addEventListener('click', () => {
-    const phone = phoneField.value.trim();
+    const phone = phoneField.value.replace(/\D/g, '');
 
     fetch('/api/request-code', {
       method: 'POST',

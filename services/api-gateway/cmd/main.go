@@ -5,6 +5,7 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/admin"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/auth"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/info"
+	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/patient"
 	"github.com/DariaTarasek/diplom/services/api-gateway/middleware"
 	"github.com/DariaTarasek/diplom/services/api-gateway/perm"
 	"github.com/gin-gonic/gin"
@@ -39,6 +40,11 @@ func main() {
 	storageClient, err := clients.NewStorageClient("localhost:50051")
 	if err != nil {
 		log.Fatalf("Не удалось создать storage клиент: %s", err)
+	}
+
+	patientClient, err := clients.NewPatientClient("localhost:50054")
+	if err != nil {
+		log.Fatalf("Не удалось создать patient клиент: %w", err)
 	}
 
 	htmlPages := []string{
@@ -105,6 +111,9 @@ func main() {
 
 	adminHandler := admin.NewHandler(adminClient)
 	admin.RegisterRoutes(api, adminHandler)
+
+	patientHandler := patient.NewHandler(patientClient)
+	patient.RegisterRoutes(api, patientHandler)
 
 	log.Println("Api-gateway запущен")
 	if err := r.Run(":8080"); err != nil {
