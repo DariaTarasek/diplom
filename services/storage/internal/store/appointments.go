@@ -53,6 +53,28 @@ func (s *Store) GetAppointmentsByDoctorID(ctx context.Context, id model.UserID) 
 	return appointment, nil
 }
 
+func (s *Store) GetAppointmentsByPatientID(ctx context.Context, id model.UserID) ([]model.Appointment, error) {
+	query, args, err := s.builder.
+		Select("*").
+		From("appointments").
+		Where(squirrel.Eq{"patient_id": id}).
+		ToSql()
+	if err != nil {
+		return nil, fmt.Errorf("не удалось сформировать запрос для получения списка записей: %w", err)
+	}
+
+	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
+	defer cancel()
+
+	var appointment []model.Appointment
+	err = s.db.SelectContext(dbCtx, &appointment, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось выполнить запрос для получения списка записей: %w", err)
+	}
+
+	return appointment, nil
+}
+
 // GetAppointmentByID Получение записи по id
 func (s *Store) GetAppointmentByID(ctx context.Context, id model.AppointmentID) (model.Appointment, error) {
 	query, args, err := s.builder.
@@ -116,19 +138,10 @@ func (s *Store) AddAppointment(ctx context.Context, appointment model.Appointmen
 // UpdateAppointment Изменение данных записи
 func (s *Store) UpdateAppointment(ctx context.Context, id model.AppointmentID, appointment model.Appointment) error {
 	fields := map[string]any{
-		"patient_id":   appointment.PatientID,
-		"doctor_id":    appointment.DoctorID,
-		"date":         appointment.Date,
-		"time":         appointment.Time,
-		"second_name":  appointment.PatientSecondName,
-		"first_name":   appointment.PatientFirstName,
-		"surname":      appointment.PatientSurname,
-		"birth_date":   appointment.PatientBirthDate,
-		"gender":       appointment.PatientGender,
-		"phone_number": appointment.PatientPhoneNumber,
-		"status":       appointment.Status,
-		"created_at":   appointment.CreatedAt,
-		"updated_at":   appointment.UpdatedAt,
+		"date":       appointment.Date,
+		"time":       appointment.Time,
+		"status":     appointment.Status,
+		"updated_at": appointment.UpdatedAt,
 	}
 	query, args, err := s.builder.
 		Update("appointments").

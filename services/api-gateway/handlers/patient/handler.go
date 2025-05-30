@@ -18,5 +18,8 @@ func NewHandler(patientClient *clients.PatientClient) *PatientHandler {
 func RegisterRoutes(rg *gin.RouterGroup, h *PatientHandler) {
 	rg.GET("/appointment-doctor-schedule/:doctorId", h.getAppointmentSlots)
 	rg.POST("/appointments", h.addAppointment)
+	rg.GET("/patient/upcoming", h.getUpcomingAppointments)
+	rg.PUT("/appointments/transfer", h.UpdateAppointment)
+	rg.GET("/appointments/cancel/:id", h.CancelAppointment)
 	//  сюда остальные
 }

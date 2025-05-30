@@ -6,10 +6,12 @@ import (
 
 type PatientService struct {
 	StorageClient *clients.StorageClient
+	AuthClient    *clients.AuthClient
 }
 
-func NewPatientService(client *clients.StorageClient) *PatientService {
+func NewPatientService(client *clients.StorageClient, auth *clients.AuthClient) *PatientService {
 	return &PatientService{
 		StorageClient: client,
+		AuthClient:    auth,
 	}
 }

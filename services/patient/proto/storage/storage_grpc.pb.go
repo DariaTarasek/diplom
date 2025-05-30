@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.31.0
-// source: proto/storage.proto
+// source: proto/storage/storage.proto
 
 package storagepb
 
@@ -1029,5 +1029,5 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/storage.proto",
+	Metadata: "proto/storage/storage.proto",
 }

@@ -4,11 +4,13 @@ import (
 	"context"
 	"fmt"
 	"github.com/DariaTarasek/diplom/services/patient/model"
+	authpb "github.com/DariaTarasek/diplom/services/patient/proto/auth"
 	storagepb "github.com/DariaTarasek/diplom/services/patient/proto/storage"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"sort"
 	"time"
+	"unicode"
 )
 
 const (
@@ -68,6 +70,9 @@ func (s *PatientService) MakeDoctorAppointmentSlots(ctx context.Context, doctorI
 
 	busy := make(map[string]map[string]bool)
 	for _, app := range appointments {
+		if app.Status == "cancelled" {
+			continue
+		}
 		dateStr := app.Date.Format("02.01.2006")
 		timeStr := app.Time.Format("15:04")
 		if busy[dateStr] == nil {
@@ -172,6 +177,103 @@ func (s *PatientService) AddAppointment(ctx context.Context, appointment model.A
 	return nil
 }
 
+func (s *PatientService) GetUpcomingAppointments(ctx context.Context, token string) ([]model.UpcomingAppointment, error) {
+	user, err := s.AuthClient.Client.GetPatient(ctx, &authpb.GetPatientRequest{Token: token})
+	if err != nil {
+		return nil, fmt.Errorf("не удалось получить пользователя: %w", err)
+	}
+	apps, err := s.StorageClient.Client.GetAppointmentsByUserID(ctx, &storagepb.GetByIDRequest{Id: user.Patient.UserId})
+	if err != nil {
+		return nil, fmt.Errorf("не удалось получить предстоящие записи: %w", err)
+	}
+	upcoming := make([]model.UpcomingAppointment, 0)
+	allSpecs, err := s.StorageClient.Client.GetAllSpecs(ctx, &storagepb.EmptyRequest{})
+	specsMap := make(map[int]string)
+	for _, spec := range allSpecs.Specs {
+		specsMap[int(spec.Id)] = spec.Name
+	}
+	if err != nil {
+		return nil, fmt.Errorf("не удалось получить все специальности")
+	}
+	now := time.Now()
+	for _, app := range apps.Appointment {
+		if app.Status == "cancelled" {
+			continue
+		}
+		if app.Date.AsTime().Before(now) {
+			continue
+		}
+		if app.Time.AsTime().AddDate(now.Year(), int(now.Month()), now.Day()).Before(now) {
+			continue
+		}
+		doc, err := s.StorageClient.Client.GetDoctorByID(ctx, &storagepb.GetByIDRequest{Id: app.DoctorId})
+		if err != nil {
+			return nil, fmt.Errorf("не удалось получить врача для отображения записи: %w", err)
+		}
+		specs, err := s.StorageClient.Client.GetSpecsByDoctorID(ctx, &storagepb.GetByIDRequest{Id: doc.Doctor.UserId})
+		if err != nil {
+			return nil, fmt.Errorf("не удалось получить специальности врача для отображения записи: %w", err)
+		}
+		docName := fmt.Sprintf("%s %s.%s.", doc.Doctor.SecondName, getAndCapitalizeFirstLetter(doc.Doctor.FirstName), getAndCapitalizeFirstLetter(doc.Doctor.Surname))
+		upcomingDate := app.Date.AsTime().Format("02.01.2006")
+		upcomingTime := app.Time.AsTime().Format("15:04")
+		var specsString string
+		for _, spec := range specs.SpecId {
+			specName := fmt.Sprintf("%s, ", specsMap[int(spec)])
+			specsString += specName
+		}
+		specsString = specsString[:len(specsString)-2]
+		upcomingAppointment := model.UpcomingAppointment{
+			ID:        model.AppointmentID(app.Id),
+			Date:      upcomingDate,
+			Time:      upcomingTime,
+			DoctorID:  model.UserID(app.DoctorId),
+			Doctor:    docName,
+			Specialty: specsString,
+		}
+		upcoming = append(upcoming, upcomingAppointment)
+	}
+	return upcoming, nil
+}
+
+func (s *PatientService) UpdateAppointment(ctx context.Context, appointment model.Appointment) error {
+	currApp, err := s.StorageClient.Client.GetAppointmentByID(ctx, &storagepb.GetByIDRequest{Id: int32(appointment.ID)})
+	if err != nil {
+		return fmt.Errorf("не удалось получить запись: %w", err)
+	}
+	updateApp := &storagepb.Appointment{
+		Id:        int32(appointment.ID),
+		Date:      timestamppb.New(appointment.Date),
+		Time:      timestamppb.New(appointment.Time),
+		Status:    currApp.Appointment.Status,
+		UpdatedAt: timestamppb.New(time.Now()),
+	}
+	_, err = s.StorageClient.Client.UpdateAppointment(ctx, &storagepb.UpdateAppointmentRequest{Appointment: updateApp})
+	if err != nil {
+		return fmt.Errorf("не удалось обновить запись: %w", err)
+	}
+	return nil
+}
+
+func (s *PatientService) CancelAppointment(ctx context.Context, id model.AppointmentID) error {
+	currApp, err := s.StorageClient.Client.GetAppointmentByID(ctx, &storagepb.GetByIDRequest{Id: int32(id)})
+	if err != nil {
+		return fmt.Errorf("не удалось получить запись: %w", err)
+	}
+	updateApp := &storagepb.Appointment{
+		Id:        int32(id),
+		Date:      currApp.Appointment.Date,
+		Time:      currApp.Appointment.Time,
+		Status:    "cancelled",
+		UpdatedAt: timestamppb.New(time.Now()),
+	}
+	_, err = s.StorageClient.Client.UpdateAppointment(ctx, &storagepb.UpdateAppointmentRequest{Appointment: updateApp})
+	if err != nil {
+		return fmt.Errorf("не удалось отменить запись: %w", err)
+	}
+	return nil
+}
+
 func weekdayToRus(weekday time.Weekday) string {
 	switch weekday {
 	case time.Monday:
@@ -204,4 +306,12 @@ func derefUserID(u *model.UserID) model.UserID {
 		return 0
 	}
 	return *u
+}
+
+func getAndCapitalizeFirstLetter(str string) string {
+	if str == "" {
+		return ""
+	}
+	runes := []rune(str)
+	return string(unicode.ToUpper(runes[0]))
 }

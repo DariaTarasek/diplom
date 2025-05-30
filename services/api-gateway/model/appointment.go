@@ -23,4 +23,12 @@ type (
 		CreatedAt          string        `json:"createdAt"`
 		UpdatedAt          string        `json:"updatedAt"`
 	}
+	UpcomingAppointment struct {
+		ID        AppointmentID `json:"id"`
+		Date      string        `json:"date"`
+		Time      string        `json:"time"`
+		DoctorID  UserID        `json:"doctorId"`
+		Doctor    string        `json:"doctor"`
+		Specialty string        `json:"specialty"`
+	}
 )

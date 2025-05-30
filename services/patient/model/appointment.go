@@ -26,4 +26,12 @@ type (
 		CreatedAt          time.Time
 		UpdatedAt          time.Time
 	}
+	UpcomingAppointment struct {
+		ID        AppointmentID
+		Date      string
+		Time      string
+		DoctorID  UserID
+		Doctor    string
+		Specialty string
+	}
 )

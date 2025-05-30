@@ -44,7 +44,35 @@ message DefaultResponse {
 
 }
 
+message UpcomingAppointments {
+  int32 id = 1;
+  string date = 2;
+  string time = 3;
+  int32 doctor_id = 4;
+  string doctor = 5;
+  string specialty = 6;
+}
+
+message UpdateAppointmentRequest {
+  Appointment appointment = 1;
+}
+
+message GetUpcomingAppointmentsRequest {
+  string token = 1;
+}
+
+message GetUpcomingAppointmentsResponse {
+  repeated UpcomingAppointments appointments = 1;
+}
+
+message GetByIDRequest {
+  int32 id = 1;
+}
+
 service PatientService {
   rpc GetAppointmentSlots(GetAppointmentSlotsRequest) returns (GetAppointmentSlotsResponse);
   rpc AddAppointment(AddAppointmentRequest) returns (DefaultResponse);
+  rpc GetUpcomingAppointments(GetUpcomingAppointmentsRequest) returns (GetUpcomingAppointmentsResponse);
+  rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
+  rpc CancelAppointment(GetByIDRequest) returns (DefaultResponse);
 }
