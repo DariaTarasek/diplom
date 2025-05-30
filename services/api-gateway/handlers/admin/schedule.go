@@ -227,6 +227,6 @@ func (h *Handler) GetUserRole(c *gin.Context) {
 		SecondName string `json:"second_name"`
 		Role       string `json:"role"`
 	}
-	MyAdmin := Admin{"Ivan", "Ivanov", "superadmin"}
+	MyAdmin := Admin{"Иван", "Иванов", "superadmin"}
 	c.JSON(http.StatusOK, MyAdmin)
 }

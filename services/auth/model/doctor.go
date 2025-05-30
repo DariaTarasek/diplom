@@ -10,4 +10,5 @@ type Doctor struct {
 	Education   *string
 	Experience  *int
 	Gender      string
+	Specs       []int
 }

@@ -30,6 +30,12 @@ func (h *Handler) EmployeeRegister(c *gin.Context) {
 	if employeeReq.Education != nil {
 		education = *employeeReq.Education
 	}
+
+	var specsInt32 []int32
+	for _, item := range employeeReq.Specs {
+		specsInt32 = append(specsInt32, int32(item))
+	}
+
 	gRPCEmployee := &authpb.EmployeeData{
 		FirstName:   employeeReq.FirstName,
 		SecondName:  employeeReq.SecondName,
@@ -40,6 +46,7 @@ func (h *Handler) EmployeeRegister(c *gin.Context) {
 		Experience:  exp,
 		Gender:      employeeReq.Gender,
 		Role:        int32(employeeReq.Role),
+		Specs:       specsInt32,
 	}
 
 	gRPCEmployeeRequest := &authpb.EmployeeRegisterRequest{

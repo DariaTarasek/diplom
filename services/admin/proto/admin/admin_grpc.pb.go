@@ -32,6 +32,14 @@ const (
 	AdminService_UpdateService_FullMethodName              = "/admin.AdminService/UpdateService"
 	AdminService_DeleteMaterial_FullMethodName             = "/admin.AdminService/DeleteMaterial"
 	AdminService_DeleteService_FullMethodName              = "/admin.AdminService/DeleteService"
+	AdminService_GetAdmins_FullMethodName                  = "/admin.AdminService/GetAdmins"
+	AdminService_GetPatients_FullMethodName                = "/admin.AdminService/GetPatients"
+	AdminService_GetDoctors_FullMethodName                 = "/admin.AdminService/GetDoctors"
+	AdminService_GetSpecs_FullMethodName                   = "/admin.AdminService/GetSpecs"
+	AdminService_UpdateDoctor_FullMethodName               = "/admin.AdminService/UpdateDoctor"
+	AdminService_UpdateAdmin_FullMethodName                = "/admin.AdminService/UpdateAdmin"
+	AdminService_UpdatePatient_FullMethodName              = "/admin.AdminService/UpdatePatient"
+	AdminService_DeleteUser_FullMethodName                 = "/admin.AdminService/DeleteUser"
 )
 
 // AdminServiceClient is the client API for AdminService service.
@@ -49,6 +57,14 @@ type AdminServiceClient interface {
 	UpdateService(ctx context.Context, in *UpdateServiceRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	DeleteMaterial(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	DeleteService(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	GetAdmins(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAdminsResponse, error)
+	GetPatients(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetPatientsResponse, error)
+	GetDoctors(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error)
+	GetSpecs(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetSpecsResponse, error)
+	UpdateDoctor(ctx context.Context, in *UpdateDoctorRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	UpdateAdmin(ctx context.Context, in *UpdateAdminRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	UpdatePatient(ctx context.Context, in *UpdatePatientRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	DeleteUser(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 }
 
 type adminServiceClient struct {
@@ -169,6 +185,86 @@ func (c *adminServiceClient) DeleteService(ctx context.Context, in *DeleteReques
 	return out, nil
 }
 
+func (c *adminServiceClient) GetAdmins(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAdminsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAdminsResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetAdmins_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetPatients(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetPatientsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetPatientsResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetPatients_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetDoctors(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDoctorsResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetDoctors_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetSpecs(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetSpecsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSpecsResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetSpecs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateDoctor(ctx context.Context, in *UpdateDoctorRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateDoctor_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateAdmin(ctx context.Context, in *UpdateAdminRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateAdmin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdatePatient(ctx context.Context, in *UpdatePatientRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdatePatient_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) DeleteUser(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_DeleteUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility.
@@ -184,6 +280,14 @@ type AdminServiceServer interface {
 	UpdateService(context.Context, *UpdateServiceRequest) (*DefaultResponse, error)
 	DeleteMaterial(context.Context, *DeleteRequest) (*DefaultResponse, error)
 	DeleteService(context.Context, *DeleteRequest) (*DefaultResponse, error)
+	GetAdmins(context.Context, *EmptyRequest) (*GetAdminsResponse, error)
+	GetPatients(context.Context, *EmptyRequest) (*GetPatientsResponse, error)
+	GetDoctors(context.Context, *EmptyRequest) (*GetDoctorsResponse, error)
+	GetSpecs(context.Context, *EmptyRequest) (*GetSpecsResponse, error)
+	UpdateDoctor(context.Context, *UpdateDoctorRequest) (*DefaultResponse, error)
+	UpdateAdmin(context.Context, *UpdateAdminRequest) (*DefaultResponse, error)
+	UpdatePatient(context.Context, *UpdatePatientRequest) (*DefaultResponse, error)
+	DeleteUser(context.Context, *DeleteRequest) (*DefaultResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -226,6 +330,30 @@ func (UnimplementedAdminServiceServer) DeleteMaterial(context.Context, *DeleteRe
 }
 func (UnimplementedAdminServiceServer) DeleteService(context.Context, *DeleteRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteService not implemented")
+}
+func (UnimplementedAdminServiceServer) GetAdmins(context.Context, *EmptyRequest) (*GetAdminsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAdmins not implemented")
+}
+func (UnimplementedAdminServiceServer) GetPatients(context.Context, *EmptyRequest) (*GetPatientsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPatients not implemented")
+}
+func (UnimplementedAdminServiceServer) GetDoctors(context.Context, *EmptyRequest) (*GetDoctorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDoctors not implemented")
+}
+func (UnimplementedAdminServiceServer) GetSpecs(context.Context, *EmptyRequest) (*GetSpecsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSpecs not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateDoctor(context.Context, *UpdateDoctorRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDoctor not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateAdmin(context.Context, *UpdateAdminRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAdmin not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdatePatient(context.Context, *UpdatePatientRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePatient not implemented")
+}
+func (UnimplementedAdminServiceServer) DeleteUser(context.Context, *DeleteRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 func (UnimplementedAdminServiceServer) testEmbeddedByValue()                      {}
@@ -446,6 +574,150 @@ func _AdminService_DeleteService_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_GetAdmins_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetAdmins(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_GetAdmins_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetAdmins(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetPatients_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetPatients(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_GetPatients_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetPatients(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetDoctors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetDoctors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_GetDoctors_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetDoctors(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetSpecs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetSpecs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_GetSpecs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetSpecs(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateDoctor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDoctorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateDoctor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateDoctor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateDoctor(ctx, req.(*UpdateDoctorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateAdmin(ctx, req.(*UpdateAdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdatePatient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePatientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdatePatient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdatePatient_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdatePatient(ctx, req.(*UpdatePatientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_DeleteUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).DeleteUser(ctx, req.(*DeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -496,6 +768,38 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteService",
 			Handler:    _AdminService_DeleteService_Handler,
+		},
+		{
+			MethodName: "GetAdmins",
+			Handler:    _AdminService_GetAdmins_Handler,
+		},
+		{
+			MethodName: "GetPatients",
+			Handler:    _AdminService_GetPatients_Handler,
+		},
+		{
+			MethodName: "GetDoctors",
+			Handler:    _AdminService_GetDoctors_Handler,
+		},
+		{
+			MethodName: "GetSpecs",
+			Handler:    _AdminService_GetSpecs_Handler,
+		},
+		{
+			MethodName: "UpdateDoctor",
+			Handler:    _AdminService_UpdateDoctor_Handler,
+		},
+		{
+			MethodName: "UpdateAdmin",
+			Handler:    _AdminService_UpdateAdmin_Handler,
+		},
+		{
+			MethodName: "UpdatePatient",
+			Handler:    _AdminService_UpdatePatient_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _AdminService_DeleteUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

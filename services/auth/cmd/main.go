@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"github.com/DariaTarasek/diplom/services/auth/clients"
 	grpcserver "github.com/DariaTarasek/diplom/services/auth/grpc"
 	pb "github.com/DariaTarasek/diplom/services/auth/proto/auth"
@@ -13,7 +12,7 @@ import (
 )
 
 func main() {
-	ctx := context.Background()
+	//ctx := context.Background()
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Не удалось получить переменные среды: %w", err)
@@ -22,13 +21,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("Не удалось создать клиент storage: %s", err)
 	}
-	redisClient, err := clients.NewRedisClient(ctx)
-	if err != nil {
-		log.Fatalf("Не удалось создать клиент redis: %s", err.Error())
-	}
+	//redisClient, err := clients.NewRedisClient(ctx)
+	//if err != nil {
+	//	log.Fatalf("Не удалось создать клиент redis: %s", err.Error())
+	//}
 	smsClient := clients.NewSMSClient()
+	//redisClient
 
-	authService := service.NewAuthService(storageClient, redisClient, smsClient)
+	authService := service.NewAuthService(storageClient, smsClient)
 	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
 		log.Fatalf("Не удалось начать слушать: %v", err)

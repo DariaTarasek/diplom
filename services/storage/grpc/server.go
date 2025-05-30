@@ -173,6 +173,60 @@ func (s *Server) GetDoctors(ctx context.Context, req *pb.EmptyRequest) (*pb.GetD
 	}
 	return &pb.GetDoctorsResponse{Doctors: doctors}, nil
 }
+func (s *Server) GetDoctorSpecsByDoctorId(ctx context.Context, req *pb.GetByIdRequest) (*pb.GetDoctorSpecsByDoctorIdResponse, error) {
+	items, err := s.Store.GetDoctorSpecializations(ctx, model.UserID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	var specs []int32
+	for _, item := range items {
+		specs = append(specs, int32(item.SpecializationID))
+	}
+	return &pb.GetDoctorSpecsByDoctorIdResponse{Specs: specs}, nil
+}
+
+func (s *Server) GetAdmins(ctx context.Context, req *pb.EmptyRequest) (*pb.GetAdminsResponse, error) {
+	items, err := s.Store.GetAdmins(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var admins []*pb.Admin
+	for _, item := range items {
+		admin := &pb.Admin{
+			UserId:      int32(item.ID),
+			FirstName:   item.FirstName,
+			SecondName:  item.SecondName,
+			Surname:     deref(item.Surname),
+			PhoneNumber: deref(item.PhoneNumber),
+			Email:       item.Email,
+			Gender:      item.Gender,
+		}
+		admins = append(admins, admin)
+	}
+	return &pb.GetAdminsResponse{Admins: admins}, nil
+}
+
+func (s *Server) GetPatients(ctx context.Context, req *pb.EmptyRequest) (*pb.GetPatientsResponse, error) {
+	items, err := s.Store.GetPatients(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var patients []*pb.Patient
+	for _, item := range items {
+		patient := &pb.Patient{
+			UserId:      int32(item.ID),
+			FirstName:   item.FirstName,
+			Surname:     *item.Surname,
+			SecondName:  item.SecondName,
+			Email:       *item.Email,
+			BirthDate:   timestamppb.New(item.BirthDate),
+			PhoneNumber: *item.PhoneNumber,
+			Gender:      item.Gender,
+		}
+		patients = append(patients, patient)
+	}
+	return &pb.GetPatientsResponse{Patients: patients}, nil
+}
 
 func (s *Server) GetClinicWeeklySchedule(ctx context.Context, req *pb.EmptyRequest) (*pb.GetClinicWeeklyScheduleResponse, error) {
 	items, err := s.Store.GetClinicSchedule(ctx)
@@ -488,4 +542,88 @@ func (s *Server) GetDoctorOverride(ctx context.Context, req *pb.GetDoctorOverrid
 		EndTime:   timestamppb.New(*override.EndTime),
 		IsDayOff:  *override.IsDayOff,
 	}, nil
+}
+
+func (s *Server) UpdatePatient(ctx context.Context, req *pb.UpdatePatientRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.UpdatePatient(ctx, model.UserID(req.UserId), model.Patient{
+		FirstName:   req.FirstName,
+		SecondName:  req.SecondName,
+		Surname:     &req.Surname,
+		Email:       &req.Email,
+		BirthDate:   req.BirthDate.AsTime(),
+		PhoneNumber: &req.PhoneNumber,
+		Gender:      req.Gender,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) UpdateDoctor(ctx context.Context, req *pb.UpdateDoctorRequest) (*pb.DefaultResponse, error) {
+	exp := int(req.Experience)
+	err := s.Store.UpdateDoctor(ctx, model.UserID(req.UserId), model.Doctor{
+		FirstName:   req.FirstName,
+		SecondName:  req.SecondName,
+		Surname:     &req.Surname,
+		PhoneNumber: &req.PhoneNumber,
+		Email:       req.Email,
+		Education:   &req.Education,
+		Experience:  &exp,
+		Gender:      req.Gender,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) AddDoctorSpec(ctx context.Context, req *pb.AddDoctorSpecRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.AddDoctorSpecialization(ctx, model.DoctorSpecialization{
+		DoctorID:         model.UserID(req.DoctorId),
+		SpecializationID: model.SpecID(req.SpecId),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) DeleteDoctorSpec(ctx context.Context, req *pb.DeleteDoctorSpecRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.DeleteDoctorSpecialization(ctx, model.UserID(req.DoctorId), model.SpecID(req.SpecId))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) UpdateAdmin(ctx context.Context, req *pb.UpdateAdminRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.UpdateAdmin(ctx, model.UserID(req.UserId), model.Admin{
+		FirstName:   req.FirstName,
+		SecondName:  req.SecondName,
+		Surname:     &req.Surname,
+		PhoneNumber: &req.PhoneNumber,
+		Email:       req.Email,
+		Gender:      req.Gender,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) UpdateAdminRole(ctx context.Context, req *pb.UpdateAdminRoleRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.UpdateUserRole(ctx, model.UserID(req.UserId), model.RoleID(req.RoleId))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) DeleteUser(ctx context.Context, req *pb.DeleteRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.DeleteUser(ctx, model.UserID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
 }

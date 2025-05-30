@@ -40,11 +40,29 @@ func (s *AuthService) DoctorRegister(ctx context.Context, user model.User, docto
 		Experience:  int32(*doctor.Experience),
 		Gender:      doctor.Gender,
 	}
-
 	_, err = s.StorageClient.Client.AddDoctor(ctx, reqDoctor)
 	if err != nil {
 		log.Println(err.Error())
+		_, err := s.StorageClient.Client.DeleteUser(ctx, &storagepb.DeleteRequest{Id: respUser.UserId})
+		if err != nil {
+			return 0, err
+		}
 		return 0, fmt.Errorf("не удалось добавить врача через gRPC: %w", err)
+	}
+
+	for _, item := range doctor.Specs {
+		reqAddDoctorSpec := &storagepb.AddDoctorSpecRequest{
+			DoctorId: reqDoctor.UserId,
+			SpecId:   int32(item),
+		}
+		_, err = s.StorageClient.Client.AddDoctorSpec(ctx, reqAddDoctorSpec)
+		if err != nil {
+			_, err := s.StorageClient.Client.DeleteUser(ctx, &storagepb.DeleteRequest{Id: respUser.UserId})
+			if err != nil {
+				return 0, err
+			}
+			return 0, fmt.Errorf("не удалось добавить специализацию врачу через gRPC: %w", err)
+		}
 	}
 
 	reqUserRole := &storagepb.AddUserRoleRequest{
@@ -53,11 +71,15 @@ func (s *AuthService) DoctorRegister(ctx context.Context, user model.User, docto
 	}
 	_, err = s.StorageClient.Client.AddUserRole(ctx, reqUserRole)
 	if err != nil {
+		_, err := s.StorageClient.Client.DeleteUser(ctx, &storagepb.DeleteRequest{Id: respUser.UserId})
+		if err != nil {
+			return 0, err
+		}
 		return 0, fmt.Errorf("не удалось добавить роль врачу через gRPC: %w", err)
 	}
 
-	message := fmt.Sprintf("Subject: Регистрация в системе клиники!\r\n\r\nВы зарегистрированы в системе клиники!\nВаш пароль для входа: %s", password)
-	err = utils.SendPassword(doctor.Email, password, message)
+	// message := fmt.Sprintf("Subject: Регистрация в системе клиники!\r\n\r\nВы зарегистрированы в системе клиники!\nВаш пароль для входа: %s", password)
+	//err = utils.SendPassword(doctor.Email, password, message)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось отправить пароль на email: %w", err)
 	}
@@ -97,6 +119,10 @@ func (s *AuthService) AdminRegister(ctx context.Context, user model.User, admin 
 	_, err = s.StorageClient.Client.AddAdmin(ctx, reqAdmin)
 	if err != nil {
 		log.Println(err.Error())
+		_, err := s.StorageClient.Client.DeleteUser(ctx, &storagepb.DeleteRequest{Id: respUser.UserId})
+		if err != nil {
+			return 0, err
+		}
 		return 0, fmt.Errorf("не удалось добавить администратора через gRPC: %w", err)
 	}
 	var role model.RoleID
@@ -111,6 +137,10 @@ func (s *AuthService) AdminRegister(ctx context.Context, user model.User, admin 
 	}
 	_, err = s.StorageClient.Client.AddUserRole(ctx, reqUserRole)
 	if err != nil {
+		_, err := s.StorageClient.Client.DeleteUser(ctx, &storagepb.DeleteRequest{Id: respUser.UserId})
+		if err != nil {
+			return 0, err
+		}
 		return 0, fmt.Errorf("не удалось добавить роль админу через gRPC: %w", err)
 	}
 
@@ -159,6 +189,10 @@ func (s *AuthService) PatientRegisterInternal(ctx context.Context, user model.Us
 	_, err = s.StorageClient.Client.AddPatient(ctx, reqPatient)
 	if err != nil {
 		log.Println(err.Error())
+		_, err := s.StorageClient.Client.DeleteUser(ctx, &storagepb.DeleteRequest{Id: respUser.UserId})
+		if err != nil {
+			return 0, err
+		}
 		return 0, fmt.Errorf("не удалось добавить пациента через gRPC: %w", err)
 	}
 
@@ -167,6 +201,10 @@ func (s *AuthService) PatientRegisterInternal(ctx context.Context, user model.Us
 		RoleId: model.PatientRole,
 	})
 	if err != nil {
+		_, err := s.StorageClient.Client.DeleteUser(ctx, &storagepb.DeleteRequest{Id: respUser.UserId})
+		if err != nil {
+			return 0, err
+		}
 		return 0, fmt.Errorf("не удалось добавить роль пациенту через gRPC: %w", err)
 	}
 

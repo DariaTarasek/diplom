@@ -27,4 +27,15 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.PUT("/services/:id", h.UpdateService)
 	rg.DELETE("/materials/:id", h.DeleteMaterial)
 	rg.DELETE("/services/:id", h.DeleteService)
+	rg.GET("/staff-admins", h.GetAdmins)
+	rg.GET("/staff-doctors", h.GetDoctors)
+	rg.GET("/patients", h.GetPatients)
+	rg.POST("/save-admin", h.UpdateAdmin)
+	rg.POST("save-doctor", h.UpdateDoctor)
+	rg.PUT("/patients/:id", h.UpdatePatient)
+	rg.DELETE("/patients/:id", h.DeleteUser)
+	rg.DELETE("/admins/:id", h.DeleteUser)
+	rg.DELETE("/doctors/:id", h.DeleteUser)
+
+	//	rg.GET("/specialties", h.GetSpecs)
 }

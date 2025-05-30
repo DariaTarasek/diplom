@@ -7,12 +7,12 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Bootstrap core CSS -->
-        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="static/bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template -->
-        <link rel="stylesheet" href="blocks.css">
-        <link href="style.css" rel="stylesheet">
-        <link rel="stylesheet" href="bootstrap_theme/icons.css">
-        <link href="footer_style.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/blocks.css">
+        <link href="static/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/bootstrap_theme/icons.css">
+        <link href="static/footer_style.css" rel="stylesheet">
         <title>Стоматологическая клиника «ПримаСтом»</title>
         <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; } th, td { text-align: center; vertical-align: middle; }</style>
     </head>
@@ -73,7 +73,7 @@
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_patient_list.html"> <i class="bi bi-person-fill-gear"></i>Список пациентов </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a>
-                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="static/img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Аналитика </a>
                             </div>
                         </div>                         
@@ -102,9 +102,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="p in patients" :key="p.id" @click="onRowClick(p)" :class="{ 'table-active': isSelected(p) }" style="cursor: pointer;">
-                                <td>{{ p.second_name }} {{p.first_name}} {{p.surname}}</td>
-                                <td>{{ formatDate(p.birthDate) }}</td>
+                            <tr v-for="p in patients" :key="p.user_id" @click="onRowClick(p)" :class="{ 'table-active': isSelected(p) }" style="cursor: pointer;">
+                                <td>{{ p.secondName }} {{p.firstName}} {{p.surname}}</td>
+                                <td>{{ p.birthDate }}</td>
                                 <td>{{ p.gender }}</td>
                                 <td>{{ formatPhone(p.phone) }}</td>
                                 <td>{{ p.email }}</td>
@@ -121,17 +121,17 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="hidden" v-model="form.id">
+                                        <input type="hidden" v-model="form.user_id">
                                         <div class="mb-3">
                                             <label class="form-label">Фамилия<span style="color:red;">*</span>
                                             </label>
-                                            <input v-model="form.second_name" type="text" class="form-control" maxlength="256" :class="{'is-invalid': secondNameError}" required>
+                                            <input v-model="form.secondName" type="text" class="form-control" maxlength="256" :class="{'is-invalid': secondNameError}" required>
                                             <div class="invalid-feedback">{{ secondNameError }}</div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Имя<span style="color:red;">*</span>
                                             </label>
-                                            <input v-model="form.first_name" type="text" class="form-control" maxlength="256" :class="{'is-invalid': firstNameError}" required>
+                                            <input v-model="form.firstName" type="text" class="form-control" maxlength="256" :class="{'is-invalid': firstNameError}" required>
                                             <div class="invalid-feedback">{{ firstNameError }}</div>
                                         </div>
                                         <div class="mb-3">
@@ -147,8 +147,8 @@
                                             <label class="form-label">Пол<span style="color:red;">*</span>
                                             </label>
                                             <select v-model="form.gender" name="gender" id="gender" required class="form-control">
-                                                <option value="male">Мужской</option>
-                                                <option value="female">Женский</option>
+                                                <option value="м">Мужской</option>
+                                                <option value="ж">Женский</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -175,7 +175,7 @@
                                 <div class="modal-body">
                                     <button class="btn btn-primary w-100 mb-2 bi-pencil" @click="openEdit(selectedPatient)"> Редактировать личные данные</button>
                                     <button class="btn btn-primary w-100 mb-2 bi-pencil-square" @click="openLoginChange"> Изменить логин (телефон)</button>
-                                    <button v-if="userRole === 'superadmin'" class="btn btn-danger w-100 mb-2 bi-x-circle" @click="deletePatient"> 
+                                    <button v-if="admin.role === 'superadmin'" class="btn btn-danger w-100 mb-2 bi-x-circle" @click="deletePatient">
                                         Удалить пользователя
 </button>
                                 </div>
@@ -192,7 +192,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="hidden" v-model="form.id">
+                                        <input type="hidden" v-model="form.user_id">
                                         <div class="mb-3">
                                             <label class="form-label">Новый номер телефона<span style="color:red;">*</span>
                                             </label>
@@ -227,7 +227,7 @@
                 </div>
                 <!-- Vue 3 -->
                 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-                <script src="js/admins_patient_list.js"></script>
+                <script src="static/js/admins_patient_list.js"></script>
             </main>
             <footer class="bg-dark text-white-50"> 
                 <div class="container"> 
@@ -236,8 +236,8 @@
                     </div>
                 </div>                 
             </footer>             
-            <script src="assets/js/popper.min.js"></script>
-            <script src="bootstrap/js/bootstrap.min.js"></script>
+            <script src="static/assets/js/popper.min.js"></script>
+            <script src="static/bootstrap/js/bootstrap.min.js"></script>
         </div>
     </body>
 </html>
