@@ -87,7 +87,7 @@
                                             <li v-for="(item, index) in todaySorted" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <strong>{{ item.date }} {{ item.time }}</strong><br/>
-                                                    {{ item.patient_name }}
+                                                    {{ item.patient }}
                                                 </div>
                                                 <button class="btn btn-primary btn-sm" @click="startConsultation(item.id)">Начать приём</button>
                                             </li>
@@ -95,28 +95,45 @@
                                     </div>
                                     <!-- Расписание -->
                                     <div v-show="activeTab === 'upcoming'" class="tab-pane" :class="{ active: activeTab === 'upcoming' }">
-                                        <div class="section-title">Расписание на неделю</div>
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered align-middle text-center">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Время / Дата</th>
-                                                        <th v-for="(date, i) in scheduleDates" :key="i">{{ date }}</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="(time, i) in scheduleTimes" :key="i">
-                                                        <td>{{ time }}</td>
-                                                        <td v-for="(date, j) in scheduleDates" :key="j">
-                                                            <div v-if="getPatientByDateTime(date, time)">
-                                                                {{ getPatientByDateTime(date, time).patient_name }}
-</div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div class="section-title">Расписание на неделю</div>
+
+                                    <!-- Ограничение по ширине — авто, по высоте — скролл -->
+                                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                                        <table class="table table-bordered align-middle text-center">
+                                            <thead>
+                                            <tr>
+                                                <th>Время / Дата</th>
+                                                <th v-for="(date, i) in paginatedDates" :key="i">{{ date }}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="(time, i) in scheduleTimes" :key="i">
+                                                <td>{{ time }}</td>
+                                                <td v-for="(date, j) in paginatedDates" :key="j">
+                                                    <div
+                                                            v-if="table[date] && table[date][time]"
+                                                            class="p-2 rounded border bg-light shadow-sm small"
+                                                    >
+                                                        {{ table[date][time].patient }}
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
+
+                                    <!-- Кнопки пагинации только по горизонтали -->
+                                    <div class="d-flex justify-content-center mt-2 gap-2">
+                                        <button @click="prevPageX" :disabled="currentPageX === 1" class="btn btn-sm btn-primary">
+                                            ⯇ Назад
+                                        </button>
+                                        <span>Страница {{ currentPageX }} / {{ totalPagesX }}</span>
+                                        <button @click="nextPageX" :disabled="currentPageX === totalPagesX" class="btn btn-sm btn-primary">
+                                            Вперед ⯈
+                                        </button>
+                                    </div>
+
                                     <!-- Завершённые приёмы -->
                                     <div v-show="activeTab === 'completed'" class="tab-pane" :class="{ active: activeTab === 'completed' }">
                                         <div class="section-title">Завершенные приемы</div>
@@ -134,6 +151,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
                 <!-- Vue 3 -->
                 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>

@@ -28,7 +28,6 @@ message EmployeeData {
   int32 role = 7;
   string education = 8;
   int32 experience = 9;
-  repeated int32 specs = 10;
 }
 
 message EmployeeRegisterRequest {

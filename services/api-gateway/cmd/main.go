@@ -4,6 +4,7 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/clients"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/admin"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/auth"
+	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/doctor"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/info"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/patient"
 	"github.com/DariaTarasek/diplom/services/api-gateway/middleware"
@@ -45,6 +46,11 @@ func main() {
 	patientClient, err := clients.NewPatientClient("localhost:50054")
 	if err != nil {
 		log.Fatalf("Не удалось создать patient клиент: %w", err)
+	}
+
+	doctorClient, err := clients.NewDoctorClient("localhost:50055")
+	if err != nil {
+		log.Fatalf("Не удалось создать doctor клиент: %s", err.Error())
 	}
 
 	htmlPages := []string{
@@ -119,6 +125,9 @@ func main() {
 
 	patientHandler := patient.NewHandler(patientClient)
 	patient.RegisterRoutes(api, patientHandler)
+
+	doctorHandler := doctor.NewHandler(doctorClient)
+	doctor.RegisterRoutes(api, doctorHandler)
 
 	log.Println("Api-gateway запущен")
 	if err := r.Run(":8080"); err != nil {

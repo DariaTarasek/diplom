@@ -37,6 +37,14 @@ func (s *AuthService) UserAuth(ctx context.Context, user model.User) (string, st
 
 }
 
+func (s *AuthService) GetUserID(ctx context.Context, token string) (model.UserID, error) {
+	userID, err := utils.ParseToken(token)
+	if err != nil {
+		return 0, fmt.Errorf("не удалось разобрать токен: %w", err)
+	}
+	return model.UserID(userID), nil
+}
+
 func fetchRole(role int) string {
 	switch role {
 	case model.DoctorRole:

@@ -34,6 +34,7 @@ func (s *AuthService) DoctorRegister(ctx context.Context, user model.User, docto
 	var hashedPassword string
 	var err error
 	password := utils.GeneratePassword()
+	fmt.Println("Пароль зареганного пользователя: " + password)
 	hashedPassword, err = utils.HashPassword(password)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось захешировать пароль: %w", err)

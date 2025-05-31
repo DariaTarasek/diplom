@@ -31,4 +31,23 @@ type (
 		Doctor    string        `json:"doctor"`
 		Specialty string        `json:"specialty"`
 	}
+	TodayAppointment struct {
+		ID        AppointmentID `json:"id"`
+		Date      string        `json:"date"`
+		Time      string        `json:"time"`
+		PatientID UserID        `json:"patient_id"`
+		Patient   string        `json:"patient"`
+	}
+	ScheduleTable struct {
+		Dates []string                                         `json:"dates"` // ["01.06.2025", "02.06.2025", ...]
+		Times []string                                         `json:"times"` // ["09:00", "09:30", "10:00", ...]
+		Table map[string]map[string]*UpcomingDoctorAppointment `json:"table"` // table[date][time] = запись или nil
+	}
+
+	UpcomingDoctorAppointment struct {
+		ID        AppointmentID `json:"id"`
+		PatientID UserID        `json:"patient_id"`
+		Patient   string        `json:"patient"`
+		// другие поля при необходимости
+	}
 )
