@@ -676,3 +676,47 @@ func derefBool(b *bool) bool {
 	}
 	return *b
 }
+func (s *Server) GetPatientByID(ctx context.Context, req *pb.GetByIDRequest) (*pb.GetPatientByIDResponse, error) {
+	patient, err := s.Store.GetPatientByID(ctx, model.UserID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	pbPatient := &pb.Patient{
+		UserId:      int32(patient.ID),
+		FirstName:   patient.FirstName,
+		SecondName:  patient.SecondName,
+		Surname:     deref(patient.Surname),
+		Email:       deref(patient.Email),
+		BirthDate:   timestamppb.New(patient.BirthDate),
+		PhoneNumber: deref(patient.PhoneNumber),
+		Gender:      patient.Gender,
+	}
+	return &pb.GetPatientByIDResponse{Patient: pbPatient}, nil
+}
+
+func (s *Server) GetICDCodes(ctx context.Context, req *pb.EmptyRequest) (*pb.GetICDCodesResponse, error) {
+	items, err := s.Store.GetICDCodes(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var codes []*pb.ICDCode
+	for _, item := range items {
+		code := &pb.ICDCode{
+			Id:          int32(item.ID),
+			Code:        item.Code,
+			Name:        item.Name,
+			Description: item.Description,
+		}
+		codes = append(codes, code)
+	}
+	return &pb.GetICDCodesResponse{IcdCode: codes}, nil
+}
+
+func (s *Server) GetPatientDiagnoses(ctx context.Context, req *pb.GetByIDRequest) (*pb.GetPatientDiagnosesResponse, error) {
+}
+
+//rpc GetPatientDiagnoses(GetByIdRequest) returns (GetPatientDiagnosesResponse);   // получение предыдущих диагнозов пациента
+//rpc GetPatientVisits(GetByIdRequest) returns (GetPatientVisitsResponse); // получение предыдущего лечения пациента
+//rpc GetPatientAllergiesChronics(GetByIdRequest) returns (GetPatientAllergiesChronicsResponse); // получение аллергий и хронических заболеваний
+
+//rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse); // получение записи по айди

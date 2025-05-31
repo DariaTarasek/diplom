@@ -69,6 +69,9 @@ func main() {
 		"admins_patient_list.html",        // СТРАНИЦА АДМИНА!
 		"employee_registration.html",      // СТРАНИЦА АДМИНА!
 		"registration_in_clinic.html",     // СТРАНИЦА АДМИНА!
+
+		"doctor_account.html",       // СТРАНИЦА ВРАЧА!
+		"doctors_consultation.html", // СТРАНИЦА ВРАЧА!
 	}
 
 	for _, page := range htmlPages {
@@ -92,7 +95,7 @@ func main() {
 	}
 
 	doctorPages := []string{
-		"doctor_account.html",
+		//"doctor_account.html",
 	}
 	for _, page := range doctorPages {
 		page := page // захват в замыкание

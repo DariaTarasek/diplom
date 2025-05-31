@@ -23,5 +23,8 @@ func RegisterRoutes(rg *gin.RouterGroup, h *InfoHandler) {
 	rg.GET("/doctors/:specialty", h.GetDoctorsBySpecialty)
 	rg.GET("/services", h.GetServices)
 	rg.GET("/materials", h.GetMaterials)
+	//rg.GET("/patient-history/:id", h.GetPatientHistory)
+	//rg.GET("/patient-notes/:id", h.GetPatientNotes)
+	//rg.GET("/icd-codes/:id", h.GetICD)
 	rg.GET("/service-categories", h.GetServicesTypes)
 }

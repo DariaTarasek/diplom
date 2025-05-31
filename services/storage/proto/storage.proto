@@ -462,6 +462,51 @@ message UpdateUserLoginRequest {
   string login = 2;
 }
 
+message ICDCode {
+  int32 id = 1;
+  string code = 2;
+  string name = 3;
+  string description = 4;
+}
+
+message Diagnose {
+  int32 id = 1;
+  int32 visit_id = 2;
+  int32 icd_code_id = 3;
+  string note = 4;
+}
+
+message Visit {
+  int32 id = 1;
+  int32 appointment_id = 2;
+  int32 complaints = 3;
+  int32 treatment = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message PatientAllergiesChronics {
+  int32 id = 1;
+  int32 patient_id = 2;
+  int32 type = 3;
+  int32 title = 4;
+}
+
+message GetPatientDiagnosesResponse {
+  repeated Diagnose diagnoses = 1;
+}
+
+message GetPatientVisitsResponse {
+  repeated Visit visits = 1;
+}
+
+message GetPatientAllergiesChronicsResponse {
+  repeated PatientAllergiesChronics patient_allergies_chronics = 1;
+}
+
+message GetICDCodesResponse {
+  repeated ICDCode icd_code = 1;
+}
+
 service StorageService {
   // управление аккаунтами
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
@@ -499,13 +544,11 @@ service StorageService {
   rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse);
   rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse);
   rpc GetAppointmentsByDoctorID(GetAppointmentsByDoctorIDRequest) returns (GetAppointmentsByDoctorIDResponse);
-  rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse);
   rpc AddAppointment(AddAppointmentRequest) returns (DefaultResponse);
   rpc GetAppointmentsByUserID(GetByIDRequest) returns (GetAppointmentsByUserIDResponse);
   rpc GetSpecsByDoctorID(GetByIDRequest) returns (GetSpecsByDoctorIDResponse);
   rpc GetDoctorByID(GetByIDRequest) returns (GetDoctorByIDResponse);
   rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
-  rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse);
   rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
   rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
   rpc GetClinicOverride(GetClinicOverrideRequest) returns (GetClinicOverrideResponse); // получение переопределения дня клиники
@@ -524,4 +567,13 @@ service StorageService {
   rpc DeleteService(DeleteRequest) returns (DefaultResponse);
 
   rpc GetDoctorOverrides(GetByIDRequest) returns (GetDoctorOverridesResponse);
+
+  // проведение приема
+  rpc GetPatientDiagnoses(GetByIdRequest) returns (GetPatientDiagnosesResponse);   // получение предыдущих диагнозов пациента
+  rpc GetPatientVisits(GetByIdRequest) returns (GetPatientVisitsResponse); // получение предыдущего лечения пациента
+  rpc GetPatientAllergiesChronics(GetByIdRequest) returns (GetPatientAllergiesChronicsResponse); // получение аллергий и хронических заболеваний
+  rpc GetICDCodes(EmptyRequest) returns (GetICDCodesResponse); // получение мкб-кодов
+  rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse); // получение пациента
+  rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse); // получение записи по айди
+
 }
