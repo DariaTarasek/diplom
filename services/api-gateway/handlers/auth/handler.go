@@ -24,5 +24,6 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.POST("/request-code", h.requestCode)
 	rg.POST("/verify-code", h.verifyCode)
 	rg.POST("/login", h.authorize)
+	rg.GET("/patient/me", h.getPatient)
 	//  сюда остальные
 }

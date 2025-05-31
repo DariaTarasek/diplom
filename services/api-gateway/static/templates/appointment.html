@@ -14,6 +14,40 @@
         <link href="static/footer_style.css" rel="stylesheet">
         <style>[v-cloak] { display: none !important; }</style>
         <title>Стоматологическая клиника «ПримаСтом»</title>
+        <style>
+            .table-scroll-wrapper {
+                max-height: 400px;
+                overflow-y: auto;
+            }
+
+            /* Аккуратный липкий th */
+            .sticky-th {
+                position: sticky;
+                top: 0;
+                background-color: #ffffff !important;
+                z-index: 10;
+                border: 1px solid #dee2e6 !important; /* границы со всех сторон */
+                box-shadow: inset 0 -1px 0 #dee2e6, 0 2px 4px rgba(0, 0, 0, 0.05) !important; /* нижняя граница и тень */
+                padding: 0.75rem;
+            }
+
+            .sticky-th:first-child {
+                border-left: 1px solid #dee2e6;
+            }
+
+            table {
+                border-collapse: separate;
+                border-spacing: 0;
+            }
+
+
+
+
+        </style>
+
+
+
+        <title>Design of the Week Template 15 - Pinegrow Web Editor</title>
     </head>
     <body class="text-muted">
         <div id="app">
@@ -82,30 +116,55 @@
                         <label class="form-label">Выберите врача</label>
                         <select class="form-select" v-model="selectedDoctorId" @change="fetchSchedule(selectedDoctorId)" :disabled="!selectedSpecialization">
                             <option disabled value="">Выберите врача</option>
-                            <option v-for="doc in doctors" :key="doc.id" :value="doc.id">
+                            <option v-for="doc in doctors" :key="doc.user_id" :value="doc.user_id">
                                 {{ doc.fullName }}
 </option>
                         </select>
                     </div>
                     <div v-if="Object.keys(schedule).length" class="my-4">
                         <h5 class="mb-3">Выберите удобное время</h5>
-                        <table class="table table-bordered text-center">
-                            <thead>
+
+                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                            <button class="btn btn-sm btn-primary" :disabled="currentPage === 0" @click="prevPage">← Назад</button>
+                            <span>Неделя {{ currentPage + 1 }} из {{ totalPages }}</span>
+                            <button class="btn btn-sm btn-primary" :disabled="currentPage >= totalPages - 1" @click="nextPage">Вперёд →</button>
+                        </div>
+                        <div class="table-scroll-wrapper">
+                            <table class="table table-bordered text-center mb-0">
+                                <thead>
                                 <tr>
-                                    <th v-for="(slots, day) in schedule" :key="day">{{ day }}</th>
+                                    <th
+                                            v-for="(daySchedule, dayIndex) in paginatedSchedule"
+                                            :key="dayIndex"
+                                            class="sticky-th"
+                                    >
+                                        {{ daySchedule.label }}
+                                    </th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+
+                                <tbody>
                                 <tr v-for="i in maxSlots" :key="i">
-                                    <td v-for="(slots, day) in schedule" :key="day + '-' + i">
-                                        <button v-if="slots[i - 1]" class="btn btn-outline-primary btn-sm" @click="selectSlot(slots[i - 1])">
-                                            {{ slots[i - 1] }}
-</button>
+                                    <td v-for="(daySchedule, dayIndex) in paginatedSchedule" :key="dayIndex + '-' + i">
+                                        <button
+                                                v-if="daySchedule.slots[i - 1]"
+                                                class="btn btn-outline-primary btn-sm"
+                                                @click="selectDateSlot(daySchedule, daySchedule.slots[i - 1])"
+                                        >
+                                            {{ daySchedule.slots[i - 1] }}
+                                        </button>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
                     </div>
+
+
                 </div>
                 <!-- Шаг 2 -->
                 <div v-if="step === 2">
@@ -117,7 +176,7 @@
                                 <strong>Специализация:</strong> {{ specialties.find(s => s.id === selectedSpecialization)?.name }}
                             </li>
                             <li>
-                                <strong>Врач:</strong> {{ doctors.find(d => d.id === selectedDoctorId)?.fullName }}
+                                <strong>Врач:</strong> {{ doctors.find(d => d.user_id === selectedDoctorId)?.fullName }}
                             </li>
                             <li>
                                 <strong>Время:</strong> {{ selectedSlot }}
@@ -126,13 +185,13 @@
                         <form @submit.prevent="submitForm">
                             <div class="mb-3">
                                 <label class="form-label">Фамилия</label>
-                                <input v-model="patient.second_name" type="text" class="form-control">
-                                <div class="text-danger">{{ errors.second_name }}</div>
+                                <input v-model="patient.secondName" type="text" class="form-control">
+                                <div class="text-danger">{{ errors.secondName }}</div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Имя</label>
-                                <input v-model="patient.first_name" type="text" class="form-control">
-                                <div class="text-danger">{{ errors.first_name }}</div>
+                                <input v-model="patient.firstName" type="text" class="form-control">
+                                <div class="text-danger">{{ errors.firstName }}</div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Отчество</label>
@@ -140,16 +199,16 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Дата рождения</label>
-                                <input v-model="patient.birth_date" type="date" id="birthDate" class="form-control" :min="birthDateAttrs.min" :max="birthDateAttrs.max">
+                                <input v-model="patient.birthDate" type="date" id="birthDate" class="form-control" :min="birthDateAttrs.min" :max="birthDateAttrs.max">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label d-block">Пол</label>
                                 <div class="form-check form-check-inline">
-                                    <input v-model="patient.gender" type="radio" id="genderMale" value="Мужской" class="form-check-input">
+                                    <input v-model="patient.gender" type="radio" id="genderMale" value="м" class="form-check-input">
                                     <label class="form-check-label" for="genderMale">Мужской</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input v-model="patient.gender" type="radio" id="genderFemale" value="Женский" class="form-check-input">
+                                    <input v-model="patient.gender" type="radio" id="genderFemale" value="ж" class="form-check-input">
                                     <label class="form-check-label" for="genderFemale">Женский</label>
                                 </div>
                             </div>

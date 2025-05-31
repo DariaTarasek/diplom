@@ -102,6 +102,14 @@ message PermissionCheckRequest {
   int32 perm_id = 2;
 }
 
+message GetPatientRequest {
+  string token = 1;
+}
+
+message GetPatientResponse {
+  PatientData patient = 1;
+}
+
 service AuthService {
   rpc EmployeeRegister(EmployeeRegisterRequest) returns (EmployeeRegisterResponse); // регистрация персонала
   rpc PatientRegister(PatientRegisterRequest) returns (PatientRegisterResponse); // регистрация пациента онлайн
@@ -112,4 +120,5 @@ service AuthService {
   rpc VerifyCode(VerifyCodeRequest) returns (DefaultResponse); // подтверждение кода
   rpc Auth(AuthRequest) returns (AuthResponse); // авторизация
   rpc PermissionCheck(PermissionCheckRequest) returns (DefaultResponse);
+  rpc GetPatient(GetPatientRequest) returns (GetPatientResponse);
 }
