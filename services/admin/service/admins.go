@@ -6,6 +6,7 @@ import (
 	"github.com/DariaTarasek/diplom/services/admin/model"
 	storagepb "github.com/DariaTarasek/diplom/services/admin/proto/storage"
 	"sort"
+	"strings"
 )
 
 const (
@@ -69,11 +70,11 @@ func (s *AdminService) GetAdmins(ctx context.Context) ([]model.Admin, error) {
 func (s *AdminService) UpdateAdmin(ctx context.Context, admin model.Admin) error {
 	_, err := s.StorageClient.Client.UpdateAdmin(ctx, &storagepb.UpdateAdminRequest{
 		UserId:      int32(admin.ID),
-		FirstName:   admin.FirstName,
-		SecondName:  admin.SecondName,
-		Surname:     admin.Surname,
+		FirstName:   NormalizeWord(admin.FirstName),
+		SecondName:  NormalizeWord(admin.SecondName),
+		Surname:     NormalizeWord(admin.Surname),
 		PhoneNumber: admin.PhoneNumber,
-		Email:       admin.Email,
+		Email:       strings.ToLower(admin.Email),
 		Gender:      admin.Gender,
 	})
 	if err != nil {

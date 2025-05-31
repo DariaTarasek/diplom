@@ -1896,6 +1896,58 @@ func (x *GetSpecsResponse) GetSpecs() []*Spec {
 	return nil
 }
 
+type UpdateUserLoginRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Login         string                 `protobuf:"bytes,2,opt,name=login,proto3" json:"login,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateUserLoginRequest) Reset() {
+	*x = UpdateUserLoginRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUserLoginRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserLoginRequest) ProtoMessage() {}
+
+func (x *UpdateUserLoginRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserLoginRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserLoginRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *UpdateUserLoginRequest) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *UpdateUserLoginRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
 var File_proto_admin_admin_proto protoreflect.FileDescriptor
 
 const file_proto_admin_admin_proto_rawDesc = "" +
@@ -2064,8 +2116,10 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"5\n" +
 	"\x10GetSpecsResponse\x12!\n" +
-	"\x05specs\x18\x01 \x03(\v2\v.admin.SpecR\x05specs2\xe3\n" +
-	"\n" +
+	"\x05specs\x18\x01 \x03(\v2\v.admin.SpecR\x05specs\"G\n" +
+	"\x16UpdateUserLoginRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x14\n" +
+	"\x05login\x18\x02 \x01(\tR\x05login2\xfe\v\n" +
 	"\fAdminService\x12^\n" +
 	"\x1aUpdateClinicWeeklySchedule\x12(.admin.UpdateClinicWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12X\n" +
 	"\x17AddDoctorWeeklySchedule\x12%.admin.AddDoctorWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12^\n" +
@@ -2088,7 +2142,9 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"\vUpdateAdmin\x12\x19.admin.UpdateAdminRequest\x1a\x16.admin.DefaultResponse\x12D\n" +
 	"\rUpdatePatient\x12\x1b.admin.UpdatePatientRequest\x1a\x16.admin.DefaultResponse\x12:\n" +
 	"\n" +
-	"DeleteUser\x12\x14.admin.DeleteRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
+	"DeleteUser\x12\x14.admin.DeleteRequest\x1a\x16.admin.DefaultResponse\x12L\n" +
+	"\x13UpdateEmployeeLogin\x12\x1d.admin.UpdateUserLoginRequest\x1a\x16.admin.DefaultResponse\x12K\n" +
+	"\x12UpdatePatientLogin\x12\x1d.admin.UpdateUserLoginRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
 
 var (
 	file_proto_admin_admin_proto_rawDescOnce sync.Once
@@ -2102,7 +2158,7 @@ func file_proto_admin_admin_proto_rawDescGZIP() []byte {
 	return file_proto_admin_admin_proto_rawDescData
 }
 
-var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
+var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_proto_admin_admin_proto_goTypes = []any{
 	(*WeeklyClinicSchedule)(nil),              // 0: admin.WeeklyClinicSchedule
 	(*UpdateClinicWeeklyScheduleRequest)(nil), // 1: admin.UpdateClinicWeeklyScheduleRequest
@@ -2132,22 +2188,23 @@ var file_proto_admin_admin_proto_goTypes = []any{
 	(*EmptyRequest)(nil),                      // 25: admin.EmptyRequest
 	(*Spec)(nil),                              // 26: admin.Spec
 	(*GetSpecsResponse)(nil),                  // 27: admin.GetSpecsResponse
-	(*timestamppb.Timestamp)(nil),             // 28: google.protobuf.Timestamp
+	(*UpdateUserLoginRequest)(nil),            // 28: admin.UpdateUserLoginRequest
+	(*timestamppb.Timestamp)(nil),             // 29: google.protobuf.Timestamp
 }
 var file_proto_admin_admin_proto_depIdxs = []int32{
-	28, // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
-	28, // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
+	29, // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
+	29, // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 2: admin.UpdateClinicWeeklyScheduleRequest.clinic_schedule:type_name -> admin.WeeklyClinicSchedule
-	28, // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
-	28, // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
+	29, // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
+	29, // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
 	2,  // 5: admin.AddDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
 	2,  // 6: admin.UpdateDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
-	28, // 7: admin.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	28, // 8: admin.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	28, // 9: admin.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
-	28, // 10: admin.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	28, // 11: admin.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	28, // 12: admin.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	29, // 7: admin.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	29, // 8: admin.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	29, // 9: admin.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	29, // 10: admin.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	29, // 11: admin.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	29, // 12: admin.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
 	16, // 13: admin.GetAdminsResponse.admins:type_name -> admin.Admin
 	18, // 14: admin.GetDoctorsResponse.doctors:type_name -> admin.DoctorWithSpecs
 	23, // 15: admin.GetPatientsResponse.patients:type_name -> admin.Patient
@@ -2171,27 +2228,31 @@ var file_proto_admin_admin_proto_depIdxs = []int32{
 	21, // 33: admin.AdminService.UpdateAdmin:input_type -> admin.UpdateAdminRequest
 	22, // 34: admin.AdminService.UpdatePatient:input_type -> admin.UpdatePatientRequest
 	14, // 35: admin.AdminService.DeleteUser:input_type -> admin.DeleteRequest
-	5,  // 36: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 37: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 38: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 39: admin.AdminService.AddClinicDailyOverride:output_type -> admin.DefaultResponse
-	5,  // 40: admin.AdminService.AddDoctorDailyOverride:output_type -> admin.DefaultResponse
-	5,  // 41: admin.AdminService.AddMaterial:output_type -> admin.DefaultResponse
-	5,  // 42: admin.AdminService.AddService:output_type -> admin.DefaultResponse
-	5,  // 43: admin.AdminService.UpdateMaterial:output_type -> admin.DefaultResponse
-	5,  // 44: admin.AdminService.UpdateService:output_type -> admin.DefaultResponse
-	5,  // 45: admin.AdminService.DeleteMaterial:output_type -> admin.DefaultResponse
-	5,  // 46: admin.AdminService.DeleteService:output_type -> admin.DefaultResponse
-	17, // 47: admin.AdminService.GetAdmins:output_type -> admin.GetAdminsResponse
-	24, // 48: admin.AdminService.GetPatients:output_type -> admin.GetPatientsResponse
-	19, // 49: admin.AdminService.GetDoctors:output_type -> admin.GetDoctorsResponse
-	27, // 50: admin.AdminService.GetSpecs:output_type -> admin.GetSpecsResponse
-	5,  // 51: admin.AdminService.UpdateDoctor:output_type -> admin.DefaultResponse
-	5,  // 52: admin.AdminService.UpdateAdmin:output_type -> admin.DefaultResponse
-	5,  // 53: admin.AdminService.UpdatePatient:output_type -> admin.DefaultResponse
-	5,  // 54: admin.AdminService.DeleteUser:output_type -> admin.DefaultResponse
-	36, // [36:55] is the sub-list for method output_type
-	17, // [17:36] is the sub-list for method input_type
+	28, // 36: admin.AdminService.UpdateEmployeeLogin:input_type -> admin.UpdateUserLoginRequest
+	28, // 37: admin.AdminService.UpdatePatientLogin:input_type -> admin.UpdateUserLoginRequest
+	5,  // 38: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 39: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 40: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 41: admin.AdminService.AddClinicDailyOverride:output_type -> admin.DefaultResponse
+	5,  // 42: admin.AdminService.AddDoctorDailyOverride:output_type -> admin.DefaultResponse
+	5,  // 43: admin.AdminService.AddMaterial:output_type -> admin.DefaultResponse
+	5,  // 44: admin.AdminService.AddService:output_type -> admin.DefaultResponse
+	5,  // 45: admin.AdminService.UpdateMaterial:output_type -> admin.DefaultResponse
+	5,  // 46: admin.AdminService.UpdateService:output_type -> admin.DefaultResponse
+	5,  // 47: admin.AdminService.DeleteMaterial:output_type -> admin.DefaultResponse
+	5,  // 48: admin.AdminService.DeleteService:output_type -> admin.DefaultResponse
+	17, // 49: admin.AdminService.GetAdmins:output_type -> admin.GetAdminsResponse
+	24, // 50: admin.AdminService.GetPatients:output_type -> admin.GetPatientsResponse
+	19, // 51: admin.AdminService.GetDoctors:output_type -> admin.GetDoctorsResponse
+	27, // 52: admin.AdminService.GetSpecs:output_type -> admin.GetSpecsResponse
+	5,  // 53: admin.AdminService.UpdateDoctor:output_type -> admin.DefaultResponse
+	5,  // 54: admin.AdminService.UpdateAdmin:output_type -> admin.DefaultResponse
+	5,  // 55: admin.AdminService.UpdatePatient:output_type -> admin.DefaultResponse
+	5,  // 56: admin.AdminService.DeleteUser:output_type -> admin.DefaultResponse
+	5,  // 57: admin.AdminService.UpdateEmployeeLogin:output_type -> admin.DefaultResponse
+	5,  // 58: admin.AdminService.UpdatePatientLogin:output_type -> admin.DefaultResponse
+	38, // [38:59] is the sub-list for method output_type
+	17, // [17:38] is the sub-list for method input_type
 	17, // [17:17] is the sub-list for extension type_name
 	17, // [17:17] is the sub-list for extension extendee
 	0,  // [0:17] is the sub-list for field type_name
@@ -2208,7 +2269,7 @@ func file_proto_admin_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_admin_admin_proto_rawDesc), len(file_proto_admin_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   28,
+			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -36,6 +36,8 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.DELETE("/patients/:id", h.DeleteUser)
 	rg.DELETE("/admins/:id", h.DeleteUser)
 	rg.DELETE("/doctors/:id", h.DeleteUser)
-
+	rg.PUT("/admins-login/:id", h.UpdateEmployeeLogin)
+	rg.PUT("/doctors-login/:id", h.UpdateEmployeeLogin)
+	rg.PUT("/patients-login/:id", h.UpdatePatientLogin)
 	//	rg.GET("/specialties", h.GetSpecs)
 }

@@ -5,6 +5,7 @@ ALTER TABLE doctors
             ON DELETE CASCADE;
 
 
+
 ALTER TABLE administrators
     ADD CONSTRAINT fk_administrators_login
         FOREIGN KEY (email) REFERENCES users(login)

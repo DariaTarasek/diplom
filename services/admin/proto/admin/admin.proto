@@ -201,6 +201,11 @@ message GetSpecsResponse {
   repeated Spec specs = 1;
 }
 
+message UpdateUserLoginRequest {
+  int32 user_id = 1;
+  string login = 2;
+}
+
 service AdminService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // изменение постоянного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
@@ -223,5 +228,7 @@ service AdminService {
   rpc UpdateAdmin(UpdateAdminRequest) returns (DefaultResponse);
   rpc UpdatePatient(UpdatePatientRequest) returns (DefaultResponse);
   rpc DeleteUser(DeleteRequest) returns (DefaultResponse);
+  rpc UpdateEmployeeLogin(UpdateUserLoginRequest) returns (DefaultResponse);
+  rpc UpdatePatientLogin(UpdateUserLoginRequest) returns (DefaultResponse);
 
 }

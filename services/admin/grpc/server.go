@@ -307,3 +307,19 @@ func (s *Server) DeleteUser(ctx context.Context, req *pb.DeleteRequest) (*pb.Def
 	}
 	return &pb.DefaultResponse{}, nil
 }
+
+func (s *Server) UpdateEmployeeLogin(ctx context.Context, req *pb.UpdateUserLoginRequest) (*pb.DefaultResponse, error) {
+	err := s.Service.UpdateEmployeeLogin(ctx, int(req.UserId), req.Login)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось обновить логин сотрудника: %w", err)
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) UpdatePatientLogin(ctx context.Context, req *pb.UpdateUserLoginRequest) (*pb.DefaultResponse, error) {
+	err := s.Service.UpdatePatientLogin(ctx, int(req.UserId), req.Login)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось обновить логин пациента: %w", err)
+	}
+	return &pb.DefaultResponse{}, nil
+}

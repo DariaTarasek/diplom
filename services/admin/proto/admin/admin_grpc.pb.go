@@ -40,6 +40,8 @@ const (
 	AdminService_UpdateAdmin_FullMethodName                = "/admin.AdminService/UpdateAdmin"
 	AdminService_UpdatePatient_FullMethodName              = "/admin.AdminService/UpdatePatient"
 	AdminService_DeleteUser_FullMethodName                 = "/admin.AdminService/DeleteUser"
+	AdminService_UpdateEmployeeLogin_FullMethodName        = "/admin.AdminService/UpdateEmployeeLogin"
+	AdminService_UpdatePatientLogin_FullMethodName         = "/admin.AdminService/UpdatePatientLogin"
 )
 
 // AdminServiceClient is the client API for AdminService service.
@@ -65,6 +67,8 @@ type AdminServiceClient interface {
 	UpdateAdmin(ctx context.Context, in *UpdateAdminRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	UpdatePatient(ctx context.Context, in *UpdatePatientRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	DeleteUser(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	UpdateEmployeeLogin(ctx context.Context, in *UpdateUserLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	UpdatePatientLogin(ctx context.Context, in *UpdateUserLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 }
 
 type adminServiceClient struct {
@@ -265,6 +269,26 @@ func (c *adminServiceClient) DeleteUser(ctx context.Context, in *DeleteRequest, 
 	return out, nil
 }
 
+func (c *adminServiceClient) UpdateEmployeeLogin(ctx context.Context, in *UpdateUserLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateEmployeeLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdatePatientLogin(ctx context.Context, in *UpdateUserLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdatePatientLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility.
@@ -288,6 +312,8 @@ type AdminServiceServer interface {
 	UpdateAdmin(context.Context, *UpdateAdminRequest) (*DefaultResponse, error)
 	UpdatePatient(context.Context, *UpdatePatientRequest) (*DefaultResponse, error)
 	DeleteUser(context.Context, *DeleteRequest) (*DefaultResponse, error)
+	UpdateEmployeeLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error)
+	UpdatePatientLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -354,6 +380,12 @@ func (UnimplementedAdminServiceServer) UpdatePatient(context.Context, *UpdatePat
 }
 func (UnimplementedAdminServiceServer) DeleteUser(context.Context, *DeleteRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateEmployeeLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmployeeLogin not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdatePatientLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePatientLogin not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 func (UnimplementedAdminServiceServer) testEmbeddedByValue()                      {}
@@ -718,6 +750,42 @@ func _AdminService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_UpdateEmployeeLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateEmployeeLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateEmployeeLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateEmployeeLogin(ctx, req.(*UpdateUserLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdatePatientLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdatePatientLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdatePatientLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdatePatientLogin(ctx, req.(*UpdateUserLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -800,6 +868,14 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteUser",
 			Handler:    _AdminService_DeleteUser_Handler,
+		},
+		{
+			MethodName: "UpdateEmployeeLogin",
+			Handler:    _AdminService_UpdateEmployeeLogin_Handler,
+		},
+		{
+			MethodName: "UpdatePatientLogin",
+			Handler:    _AdminService_UpdatePatientLogin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
