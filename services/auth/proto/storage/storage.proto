@@ -389,6 +389,38 @@ message GetServiceTypeByIdResponse {
   string name = 2;
 }
 
+message GetAppointmentsByDoctorIDRequest {
+  int32 doctor_id = 1;
+}
+
+message Appointment {
+  int32 id = 1;
+  int32 doctor_id = 2;
+  google.protobuf.Timestamp date = 3;
+  google.protobuf.Timestamp time = 4;
+  int32 patient_id = 5;
+  string second_name = 6;
+  string first_name = 7;
+  string surname = 8;
+  google.protobuf.Timestamp birth_date = 9;
+  string gender = 10;
+  string phone_number = 11;
+  string status = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp updated_at = 14;
+}
+
+message GetAppointmentsByDoctorIDResponse {
+  repeated Appointment appointments = 1;
+}
+
+message GetByIDRequest {
+  int32 id = 1;
+}
+
+message GetPatientByIDResponse {
+  Patient patient = 1;
+}
 
 service StorageService {
   // управление аккаунтами
@@ -410,7 +442,7 @@ service StorageService {
   rpc UpdateAdminRole(UpdateAdminRoleRequest) returns (DefaultResponse);
 
   rpc UpdatePatient(UpdatePatientRequest) returns (DefaultResponse);
-  
+
   rpc DeleteUser(DeleteRequest) returns (DefaultResponse);
 
   rpc GetAllSpecs(EmptyRequest) returns (GetAllSpecsResponse); // получение всех специализаций врачей
@@ -441,4 +473,6 @@ service StorageService {
   rpc GetServiceTypeById(GetServiceTypeByIdRequest) returns (GetServiceTypeByIdResponse);
   rpc DeleteMaterial(DeleteRequest) returns (DefaultResponse);
   rpc DeleteService(DeleteRequest) returns (DefaultResponse);
+  rpc GetAppointmentsByDoctorID(GetAppointmentsByDoctorIDRequest) returns (GetAppointmentsByDoctorIDResponse);
+  rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse);
 }

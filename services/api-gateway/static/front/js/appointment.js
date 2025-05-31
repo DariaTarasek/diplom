@@ -10,6 +10,7 @@ createApp({
     const selectedSpecialization = ref(null);
     const selectedDoctor = ref(null);
     const selectedSlot = ref(null);
+    const selectedDate = ref(null);
     const step = ref(1);
 
     const authFirstName = ref("");
@@ -20,19 +21,49 @@ createApp({
     const isAuthorized = ref(false)
 
     const patient = reactive({
-      second_name: '',
-      first_name: '',
+      user_id: '',
+      secondName: '',
+      firstName: '',
       surname: '',
-      birth_date: '',
+      birthDate: '',
       gender: '',
       phone: ''
     });
 
     const errors = reactive({
       phone: '',
-      first_name: '',
-      second_name: ''
+      firstName: '',
+      secondName: ''
     });
+
+    // Пагинация по неделям
+    const currentPage = ref(0);
+    const daysPerPage = 7;
+
+    const totalPages = computed(() => {
+      return Math.ceil(schedule.value.length / daysPerPage);
+    });
+
+    const paginatedSchedule = computed(() => {
+      const start = currentPage.value * daysPerPage;
+      const end = start + daysPerPage;
+      return schedule.value.slice(start, end);
+    });
+
+    const nextPage = () => {
+      if (currentPage.value < totalPages.value - 1) {
+        currentPage.value++;
+      }
+    };
+
+    const prevPage = () => {
+      if (currentPage.value > 0) {
+        currentPage.value--;
+      }
+    };
+
+
+
 
     const validatePhone = () => {
       if (errors.phone) {
@@ -43,40 +74,54 @@ createApp({
     };
 
     const validateFirstName = () => {
-      errors.first_name = patient.first_name.trim() ? '' : 'Имя не может быть пустым';
-      return !errors.first_name;
+      errors.first_name = patient.firstName.trim() ? '' : 'Имя не может быть пустым';
+      return !errors.firstName;
     };
 
     const validateSecondName = () => {
-      errors.second_name = patient.second_name.trim() ? '' : 'Фамилия не может быть пустой';
-      return !errors.second_name;
+      errors.second_name = patient.secondName.trim() ? '' : 'Фамилия не может быть пустой';
+      return !errors.secondName;
     };
 
 
     const fetchSpecialties = async () => {
-      const res = await fetch('http://192.168.1.207:8080/api/specialties');
+      const res = await fetch('/api/specialties');
       specialties.value = await res.json();
     };
 
     const fetchDoctors = async (specialtyId) => {
-  const res = await fetch(`http://192.168.1.207:8080/api/doctors?specialty=${specialtyId}`);
+      selectedDoctorId.value = "";
+      doctors.value = [];
+  const res = await fetch(`/api/doctors/${specialtyId}`);
   const rawDoctors = await res.json();
 
  
   doctors.value = rawDoctors.map(doc => ({
     ...doc,
-    fullName: `${doc.second_name} ${doc.first_name} ${doc.surname}`.trim()
+    fullName: `${doc.secondName} ${doc.firstName} ${doc.surname}`.trim()
   }));
 };
 
 
     const fetchSchedule = async (doctorId) => {
-      const res = await fetch(`http://192.168.1.207:8080/api/schedule?doctor_id=${doctorId}`);
-      schedule.value = await res.json();
-      maxSlots.value = Math.max(...Object.values(schedule.value).map(day => day.length));
+      const res = await fetch(`/api/appointment-doctor-schedule/${doctorId}`);
+      const data = await res.json();
+
+      // гарантируем, что slots всегда массив
+      data.forEach(day => {
+        if (!Array.isArray(day.slots)) {
+          day.slots = [];
+        }
+      });
+
+      schedule.value = data;
+
+      maxSlots.value = Math.max(...schedule.value.map(day => day.slots.length));
     };
 
-    const selectSlot = (slot) => {
+
+    const selectDateSlot = (date, slot) => {
+      selectedDate.value = date.label;
       selectedSlot.value = slot;
       step.value = 2;
     };
@@ -102,11 +147,12 @@ patient.phone = patient.phone.replace(/\D/g, '')
 
       const payload = {
         doctor_id: selectedDoctorId.value,
-        slot: selectedSlot.value,
-        patient: { ...patient }
+        date: selectedDate.value,
+        time: selectedSlot.value,
+        ...patient
       };
 
-      const res = await fetch('http://192.168.1.207:8080/api/appointments', {
+      const res = await fetch('/api/appointments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -126,17 +172,18 @@ patient.phone = patient.phone.replace(/\D/g, '')
 
     const loadPatientData = async () => {
       try {
-        const res = await fetch('http://192.168.1.207:8080/api/patient/me');
+        const res = await fetch('/api/patient/me');
         if (!res.ok) return;
         isAuthorized.value = true;
         const data = await res.json();
-        authFirstName.value = data.first_name;
-        authSecondName.value = data.second_name;
+        authFirstName.value = data.firstName;
+        authSecondName.value = data.secondName;
         Object.assign(patient, {
-          second_name: data.second_name || '',
-          first_name: data.first_name || '',
+          user_id: data.user_id || '',
+          secondName: data.secondName || '',
+          firstName: data.firstName || '',
           surname: data.surname || '',
-          birth_date: data.birthDate || '',
+          birthDate: data.birthDate || '',
           gender: data.gender || '',
           phone: data.phone || ''
         });
@@ -219,11 +266,11 @@ watch(step, (newVal) => {
 
 
 
-watch(() => patient.first_name, () => {
+watch(() => patient.firstName, () => {
   validateFirstName();
 });
 
-watch(() => patient.second_name, () => {
+watch(() => patient.secondName, () => {
   validateSecondName();
 });
 
@@ -241,14 +288,19 @@ watch(() => patient.second_name, () => {
       errors,
       fetchDoctors,
       fetchSchedule,
-      selectSlot,
+      selectDateSlot,
       back,
       submitForm,
       validatePhone,
       isAuthorized,
       isPopoverVisible,
       fullName,
-      birthDateAttrs
+      birthDateAttrs,
+      currentPage,
+      totalPages,
+      paginatedSchedule,
+      nextPage,
+      prevPage
     };
   }
 }).mount("#app");
