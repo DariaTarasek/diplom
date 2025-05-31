@@ -109,8 +109,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="s in staff" :key="s.id" @click="onRowClick(s)" :class="{ 'table-active': isSelected(s) }" style="cursor: pointer;">
-                                <td>{{ s.second_name }} {{ s.first_name }} {{ s.surname }}</td>
+                            <tr v-for="s in staff" :key="s.user_id" @click="onRowClick(s)" :class="{ 'table-active': isSelected(s) }" style="cursor: pointer;">
+                                <td>{{ s.secondName }} {{ s.firstName }} {{ s.surname }}</td>
                                 <td>{{ s.email }}</td>
                                 <td>{{ formatPhone(s.phone) }}</td>
                                 <td>{{ s.gender }}</td>
@@ -130,15 +130,15 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="hidden" v-model="form.id">
+                                        <input type="hidden" v-model="form.user_id">
                                         <div class="mb-3">
                                             <label class="form-label">Фамилия</label><span style="color:red;">*</span>
-                                            <input v-model="form.second_name" type="text" class="form-control" maxlength="256" :class="{'is-invalid': secondNameError}" required>
+                                            <input v-model="form.secondName" type="text" class="form-control" maxlength="256" :class="{'is-invalid': secondNameError}" required>
                                             <div class="invalid-feedback">{{ secondNameError }}</div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Имя</label><span style="color:red;">*</span>
-                                            <input v-model="form.first_name" type="text" class="form-control" maxlength="256" :class="{'is-invalid': firstNameError}" required>
+                                            <input v-model="form.firstName" type="text" class="form-control" maxlength="256" :class="{'is-invalid': firstNameError}" required>
                                             <div class="invalid-feedback">{{ firstNameError }}</div>
                                         </div>
                                         <div class="mb-3">
@@ -148,8 +148,8 @@
                                         <div class="mb-3">
                                             <label class="form-label">Пол</label><span style="color:red;">*</span>
                                             <select v-model="form.gender" name="gender" id="gender" required class="form-control">
-                                                <option value="male">Мужской</option>
-                                                <option value="female">Женский</option>
+                                                <option value="м">Мужской</option>
+                                                <option value="ж">Женский</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -213,7 +213,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="hidden" v-model="form.id">
+                                        <input type="hidden" v-model="form.user_id">
                                         <div class="mb-3">
                                             <label class="form-label">Новый email</label><span style="color:red;">*</span>
                                             <input v-model="form.email" type="email" class="form-control" :class="{'is-invalid': emailError}">

@@ -1000,6 +1000,954 @@ func (x *ServiceType) GetName() string {
 	return ""
 }
 
+type Admin struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	SecondName    string                 `protobuf:"bytes,3,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,5,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email         string                 `protobuf:"bytes,6,opt,name=email,proto3" json:"email,omitempty"`
+	Gender        string                 `protobuf:"bytes,7,opt,name=gender,proto3" json:"gender,omitempty"`
+	Role          string                 `protobuf:"bytes,8,opt,name=role,proto3" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Admin) Reset() {
+	*x = Admin{}
+	mi := &file_proto_admin_admin_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Admin) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Admin) ProtoMessage() {}
+
+func (x *Admin) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Admin.ProtoReflect.Descriptor instead.
+func (*Admin) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *Admin) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *Admin) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *Admin) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *Admin) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *Admin) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *Admin) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *Admin) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+func (x *Admin) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+type GetAdminsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Admins        []*Admin               `protobuf:"bytes,1,rep,name=admins,proto3" json:"admins,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAdminsResponse) Reset() {
+	*x = GetAdminsResponse{}
+	mi := &file_proto_admin_admin_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAdminsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAdminsResponse) ProtoMessage() {}
+
+func (x *GetAdminsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAdminsResponse.ProtoReflect.Descriptor instead.
+func (*GetAdminsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetAdminsResponse) GetAdmins() []*Admin {
+	if x != nil {
+		return x.Admins
+	}
+	return nil
+}
+
+type DoctorWithSpecs struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	SecondName    string                 `protobuf:"bytes,3,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,5,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email         string                 `protobuf:"bytes,6,opt,name=email,proto3" json:"email,omitempty"`
+	Education     string                 `protobuf:"bytes,7,opt,name=education,proto3" json:"education,omitempty"`
+	Experience    int32                  `protobuf:"varint,8,opt,name=experience,proto3" json:"experience,omitempty"`
+	Gender        string                 `protobuf:"bytes,9,opt,name=gender,proto3" json:"gender,omitempty"`
+	Specs         []int32                `protobuf:"varint,10,rep,packed,name=specs,proto3" json:"specs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DoctorWithSpecs) Reset() {
+	*x = DoctorWithSpecs{}
+	mi := &file_proto_admin_admin_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DoctorWithSpecs) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DoctorWithSpecs) ProtoMessage() {}
+
+func (x *DoctorWithSpecs) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DoctorWithSpecs.ProtoReflect.Descriptor instead.
+func (*DoctorWithSpecs) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *DoctorWithSpecs) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *DoctorWithSpecs) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *DoctorWithSpecs) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *DoctorWithSpecs) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *DoctorWithSpecs) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *DoctorWithSpecs) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *DoctorWithSpecs) GetEducation() string {
+	if x != nil {
+		return x.Education
+	}
+	return ""
+}
+
+func (x *DoctorWithSpecs) GetExperience() int32 {
+	if x != nil {
+		return x.Experience
+	}
+	return 0
+}
+
+func (x *DoctorWithSpecs) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+func (x *DoctorWithSpecs) GetSpecs() []int32 {
+	if x != nil {
+		return x.Specs
+	}
+	return nil
+}
+
+type GetDoctorsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Doctors       []*DoctorWithSpecs     `protobuf:"bytes,1,rep,name=doctors,proto3" json:"doctors,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDoctorsResponse) Reset() {
+	*x = GetDoctorsResponse{}
+	mi := &file_proto_admin_admin_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDoctorsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDoctorsResponse) ProtoMessage() {}
+
+func (x *GetDoctorsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDoctorsResponse.ProtoReflect.Descriptor instead.
+func (*GetDoctorsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetDoctorsResponse) GetDoctors() []*DoctorWithSpecs {
+	if x != nil {
+		return x.Doctors
+	}
+	return nil
+}
+
+type UpdateDoctorRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	SecondName    string                 `protobuf:"bytes,3,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,5,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email         string                 `protobuf:"bytes,6,opt,name=email,proto3" json:"email,omitempty"`
+	Education     string                 `protobuf:"bytes,7,opt,name=education,proto3" json:"education,omitempty"`
+	Experience    int32                  `protobuf:"varint,8,opt,name=experience,proto3" json:"experience,omitempty"`
+	Gender        string                 `protobuf:"bytes,9,opt,name=gender,proto3" json:"gender,omitempty"`
+	Specs         []int32                `protobuf:"varint,10,rep,packed,name=specs,proto3" json:"specs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateDoctorRequest) Reset() {
+	*x = UpdateDoctorRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDoctorRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDoctorRequest) ProtoMessage() {}
+
+func (x *UpdateDoctorRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDoctorRequest.ProtoReflect.Descriptor instead.
+func (*UpdateDoctorRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *UpdateDoctorRequest) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *UpdateDoctorRequest) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *UpdateDoctorRequest) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *UpdateDoctorRequest) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *UpdateDoctorRequest) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *UpdateDoctorRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UpdateDoctorRequest) GetEducation() string {
+	if x != nil {
+		return x.Education
+	}
+	return ""
+}
+
+func (x *UpdateDoctorRequest) GetExperience() int32 {
+	if x != nil {
+		return x.Experience
+	}
+	return 0
+}
+
+func (x *UpdateDoctorRequest) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+func (x *UpdateDoctorRequest) GetSpecs() []int32 {
+	if x != nil {
+		return x.Specs
+	}
+	return nil
+}
+
+type UpdateAdminRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	SecondName    string                 `protobuf:"bytes,3,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,5,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email         string                 `protobuf:"bytes,6,opt,name=email,proto3" json:"email,omitempty"`
+	Gender        string                 `protobuf:"bytes,7,opt,name=gender,proto3" json:"gender,omitempty"`
+	Role          string                 `protobuf:"bytes,8,opt,name=role,proto3" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAdminRequest) Reset() {
+	*x = UpdateAdminRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAdminRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAdminRequest) ProtoMessage() {}
+
+func (x *UpdateAdminRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAdminRequest.ProtoReflect.Descriptor instead.
+func (*UpdateAdminRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *UpdateAdminRequest) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *UpdateAdminRequest) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *UpdateAdminRequest) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *UpdateAdminRequest) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *UpdateAdminRequest) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *UpdateAdminRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UpdateAdminRequest) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+func (x *UpdateAdminRequest) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+type UpdatePatientRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	SecondName    string                 `protobuf:"bytes,3,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Email         string                 `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
+	BirthDate     string                 `protobuf:"bytes,6,opt,name=birth_date,json=birthDate,proto3" json:"birth_date,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,7,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Gender        string                 `protobuf:"bytes,8,opt,name=gender,proto3" json:"gender,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdatePatientRequest) Reset() {
+	*x = UpdatePatientRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdatePatientRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdatePatientRequest) ProtoMessage() {}
+
+func (x *UpdatePatientRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdatePatientRequest.ProtoReflect.Descriptor instead.
+func (*UpdatePatientRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *UpdatePatientRequest) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *UpdatePatientRequest) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *UpdatePatientRequest) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *UpdatePatientRequest) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *UpdatePatientRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UpdatePatientRequest) GetBirthDate() string {
+	if x != nil {
+		return x.BirthDate
+	}
+	return ""
+}
+
+func (x *UpdatePatientRequest) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *UpdatePatientRequest) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+type Patient struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	SecondName    string                 `protobuf:"bytes,3,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Email         string                 `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
+	BirthDate     string                 `protobuf:"bytes,6,opt,name=birth_date,json=birthDate,proto3" json:"birth_date,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,7,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Gender        string                 `protobuf:"bytes,8,opt,name=gender,proto3" json:"gender,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Patient) Reset() {
+	*x = Patient{}
+	mi := &file_proto_admin_admin_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Patient) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Patient) ProtoMessage() {}
+
+func (x *Patient) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Patient.ProtoReflect.Descriptor instead.
+func (*Patient) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *Patient) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *Patient) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *Patient) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *Patient) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *Patient) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *Patient) GetBirthDate() string {
+	if x != nil {
+		return x.BirthDate
+	}
+	return ""
+}
+
+func (x *Patient) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *Patient) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+type GetPatientsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Patients      []*Patient             `protobuf:"bytes,1,rep,name=patients,proto3" json:"patients,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetPatientsResponse) Reset() {
+	*x = GetPatientsResponse{}
+	mi := &file_proto_admin_admin_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetPatientsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPatientsResponse) ProtoMessage() {}
+
+func (x *GetPatientsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPatientsResponse.ProtoReflect.Descriptor instead.
+func (*GetPatientsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetPatientsResponse) GetPatients() []*Patient {
+	if x != nil {
+		return x.Patients
+	}
+	return nil
+}
+
+type EmptyRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EmptyRequest) Reset() {
+	*x = EmptyRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EmptyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EmptyRequest) ProtoMessage() {}
+
+func (x *EmptyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EmptyRequest.ProtoReflect.Descriptor instead.
+func (*EmptyRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{25}
+}
+
+type Spec struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Spec) Reset() {
+	*x = Spec{}
+	mi := &file_proto_admin_admin_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Spec) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Spec) ProtoMessage() {}
+
+func (x *Spec) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Spec.ProtoReflect.Descriptor instead.
+func (*Spec) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *Spec) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Spec) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type GetSpecsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Specs         []*Spec                `protobuf:"bytes,1,rep,name=specs,proto3" json:"specs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSpecsResponse) Reset() {
+	*x = GetSpecsResponse{}
+	mi := &file_proto_admin_admin_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSpecsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSpecsResponse) ProtoMessage() {}
+
+func (x *GetSpecsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSpecsResponse.ProtoReflect.Descriptor instead.
+func (*GetSpecsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *GetSpecsResponse) GetSpecs() []*Spec {
+	if x != nil {
+		return x.Specs
+	}
+	return nil
+}
+
+type UpdateUserLoginRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Login         string                 `protobuf:"bytes,2,opt,name=login,proto3" json:"login,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateUserLoginRequest) Reset() {
+	*x = UpdateUserLoginRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUserLoginRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserLoginRequest) ProtoMessage() {}
+
+func (x *UpdateUserLoginRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserLoginRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserLoginRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *UpdateUserLoginRequest) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *UpdateUserLoginRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
 var File_proto_admin_admin_proto protoreflect.FileDescriptor
 
 const file_proto_admin_admin_proto_rawDesc = "" +
@@ -1078,7 +2026,100 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\"1\n" +
 	"\vServiceType\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name2\xe7\x06\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"\xdf\x01\n" +
+	"\x05Admin\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x1f\n" +
+	"\vsecond_name\x18\x03 \x01(\tR\n" +
+	"secondName\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12!\n" +
+	"\fphone_number\x18\x05 \x01(\tR\vphoneNumber\x12\x14\n" +
+	"\x05email\x18\x06 \x01(\tR\x05email\x12\x16\n" +
+	"\x06gender\x18\a \x01(\tR\x06gender\x12\x12\n" +
+	"\x04role\x18\b \x01(\tR\x04role\"9\n" +
+	"\x11GetAdminsResponse\x12$\n" +
+	"\x06admins\x18\x01 \x03(\v2\f.admin.AdminR\x06admins\"\xa9\x02\n" +
+	"\x0fDoctorWithSpecs\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x1f\n" +
+	"\vsecond_name\x18\x03 \x01(\tR\n" +
+	"secondName\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12!\n" +
+	"\fphone_number\x18\x05 \x01(\tR\vphoneNumber\x12\x14\n" +
+	"\x05email\x18\x06 \x01(\tR\x05email\x12\x1c\n" +
+	"\teducation\x18\a \x01(\tR\teducation\x12\x1e\n" +
+	"\n" +
+	"experience\x18\b \x01(\x05R\n" +
+	"experience\x12\x16\n" +
+	"\x06gender\x18\t \x01(\tR\x06gender\x12\x14\n" +
+	"\x05specs\x18\n" +
+	" \x03(\x05R\x05specs\"F\n" +
+	"\x12GetDoctorsResponse\x120\n" +
+	"\adoctors\x18\x01 \x03(\v2\x16.admin.DoctorWithSpecsR\adoctors\"\xad\x02\n" +
+	"\x13UpdateDoctorRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x1f\n" +
+	"\vsecond_name\x18\x03 \x01(\tR\n" +
+	"secondName\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12!\n" +
+	"\fphone_number\x18\x05 \x01(\tR\vphoneNumber\x12\x14\n" +
+	"\x05email\x18\x06 \x01(\tR\x05email\x12\x1c\n" +
+	"\teducation\x18\a \x01(\tR\teducation\x12\x1e\n" +
+	"\n" +
+	"experience\x18\b \x01(\x05R\n" +
+	"experience\x12\x16\n" +
+	"\x06gender\x18\t \x01(\tR\x06gender\x12\x14\n" +
+	"\x05specs\x18\n" +
+	" \x03(\x05R\x05specs\"\xec\x01\n" +
+	"\x12UpdateAdminRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x1f\n" +
+	"\vsecond_name\x18\x03 \x01(\tR\n" +
+	"secondName\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12!\n" +
+	"\fphone_number\x18\x05 \x01(\tR\vphoneNumber\x12\x14\n" +
+	"\x05email\x18\x06 \x01(\tR\x05email\x12\x16\n" +
+	"\x06gender\x18\a \x01(\tR\x06gender\x12\x12\n" +
+	"\x04role\x18\b \x01(\tR\x04role\"\xf9\x01\n" +
+	"\x14UpdatePatientRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12\x1f\n" +
+	"\vsecond_name\x18\x03 \x01(\tR\n" +
+	"secondName\x12\x14\n" +
+	"\x05email\x18\x05 \x01(\tR\x05email\x12\x1d\n" +
+	"\n" +
+	"birth_date\x18\x06 \x01(\tR\tbirthDate\x12!\n" +
+	"\fphone_number\x18\a \x01(\tR\vphoneNumber\x12\x16\n" +
+	"\x06gender\x18\b \x01(\tR\x06gender\"\xec\x01\n" +
+	"\aPatient\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12\x1f\n" +
+	"\vsecond_name\x18\x03 \x01(\tR\n" +
+	"secondName\x12\x14\n" +
+	"\x05email\x18\x05 \x01(\tR\x05email\x12\x1d\n" +
+	"\n" +
+	"birth_date\x18\x06 \x01(\tR\tbirthDate\x12!\n" +
+	"\fphone_number\x18\a \x01(\tR\vphoneNumber\x12\x16\n" +
+	"\x06gender\x18\b \x01(\tR\x06gender\"A\n" +
+	"\x13GetPatientsResponse\x12*\n" +
+	"\bpatients\x18\x01 \x03(\v2\x0e.admin.PatientR\bpatients\"\x0e\n" +
+	"\fEmptyRequest\"*\n" +
+	"\x04Spec\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"5\n" +
+	"\x10GetSpecsResponse\x12!\n" +
+	"\x05specs\x18\x01 \x03(\v2\v.admin.SpecR\x05specs\"G\n" +
+	"\x16UpdateUserLoginRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x14\n" +
+	"\x05login\x18\x02 \x01(\tR\x05login2\xfe\v\n" +
 	"\fAdminService\x12^\n" +
 	"\x1aUpdateClinicWeeklySchedule\x12(.admin.UpdateClinicWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12X\n" +
 	"\x17AddDoctorWeeklySchedule\x12%.admin.AddDoctorWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12^\n" +
@@ -1091,7 +2132,19 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"\x0eUpdateMaterial\x12\x1c.admin.UpdateMaterialRequest\x1a\x16.admin.DefaultResponse\x12D\n" +
 	"\rUpdateService\x12\x1b.admin.UpdateServiceRequest\x1a\x16.admin.DefaultResponse\x12>\n" +
 	"\x0eDeleteMaterial\x12\x14.admin.DeleteRequest\x1a\x16.admin.DefaultResponse\x12=\n" +
-	"\rDeleteService\x12\x14.admin.DeleteRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
+	"\rDeleteService\x12\x14.admin.DeleteRequest\x1a\x16.admin.DefaultResponse\x12:\n" +
+	"\tGetAdmins\x12\x13.admin.EmptyRequest\x1a\x18.admin.GetAdminsResponse\x12>\n" +
+	"\vGetPatients\x12\x13.admin.EmptyRequest\x1a\x1a.admin.GetPatientsResponse\x12<\n" +
+	"\n" +
+	"GetDoctors\x12\x13.admin.EmptyRequest\x1a\x19.admin.GetDoctorsResponse\x128\n" +
+	"\bGetSpecs\x12\x13.admin.EmptyRequest\x1a\x17.admin.GetSpecsResponse\x12B\n" +
+	"\fUpdateDoctor\x12\x1a.admin.UpdateDoctorRequest\x1a\x16.admin.DefaultResponse\x12@\n" +
+	"\vUpdateAdmin\x12\x19.admin.UpdateAdminRequest\x1a\x16.admin.DefaultResponse\x12D\n" +
+	"\rUpdatePatient\x12\x1b.admin.UpdatePatientRequest\x1a\x16.admin.DefaultResponse\x12:\n" +
+	"\n" +
+	"DeleteUser\x12\x14.admin.DeleteRequest\x1a\x16.admin.DefaultResponse\x12L\n" +
+	"\x13UpdateEmployeeLogin\x12\x1d.admin.UpdateUserLoginRequest\x1a\x16.admin.DefaultResponse\x12K\n" +
+	"\x12UpdatePatientLogin\x12\x1d.admin.UpdateUserLoginRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
 
 var (
 	file_proto_admin_admin_proto_rawDescOnce sync.Once
@@ -1105,7 +2158,7 @@ func file_proto_admin_admin_proto_rawDescGZIP() []byte {
 	return file_proto_admin_admin_proto_rawDescData
 }
 
-var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_proto_admin_admin_proto_goTypes = []any{
 	(*WeeklyClinicSchedule)(nil),              // 0: admin.WeeklyClinicSchedule
 	(*UpdateClinicWeeklyScheduleRequest)(nil), // 1: admin.UpdateClinicWeeklyScheduleRequest
@@ -1123,49 +2176,86 @@ var file_proto_admin_admin_proto_goTypes = []any{
 	(*Service)(nil),                           // 13: admin.Service
 	(*DeleteRequest)(nil),                     // 14: admin.DeleteRequest
 	(*ServiceType)(nil),                       // 15: admin.ServiceType
-	(*timestamppb.Timestamp)(nil),             // 16: google.protobuf.Timestamp
+	(*Admin)(nil),                             // 16: admin.Admin
+	(*GetAdminsResponse)(nil),                 // 17: admin.GetAdminsResponse
+	(*DoctorWithSpecs)(nil),                   // 18: admin.DoctorWithSpecs
+	(*GetDoctorsResponse)(nil),                // 19: admin.GetDoctorsResponse
+	(*UpdateDoctorRequest)(nil),               // 20: admin.UpdateDoctorRequest
+	(*UpdateAdminRequest)(nil),                // 21: admin.UpdateAdminRequest
+	(*UpdatePatientRequest)(nil),              // 22: admin.UpdatePatientRequest
+	(*Patient)(nil),                           // 23: admin.Patient
+	(*GetPatientsResponse)(nil),               // 24: admin.GetPatientsResponse
+	(*EmptyRequest)(nil),                      // 25: admin.EmptyRequest
+	(*Spec)(nil),                              // 26: admin.Spec
+	(*GetSpecsResponse)(nil),                  // 27: admin.GetSpecsResponse
+	(*UpdateUserLoginRequest)(nil),            // 28: admin.UpdateUserLoginRequest
+	(*timestamppb.Timestamp)(nil),             // 29: google.protobuf.Timestamp
 }
 var file_proto_admin_admin_proto_depIdxs = []int32{
-	16, // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
-	16, // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
+	29, // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
+	29, // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 2: admin.UpdateClinicWeeklyScheduleRequest.clinic_schedule:type_name -> admin.WeeklyClinicSchedule
-	16, // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
-	16, // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
+	29, // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
+	29, // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
 	2,  // 5: admin.AddDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
 	2,  // 6: admin.UpdateDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
-	16, // 7: admin.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	16, // 8: admin.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	16, // 9: admin.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
-	16, // 10: admin.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	16, // 11: admin.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	16, // 12: admin.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
-	1,  // 13: admin.AdminService.UpdateClinicWeeklySchedule:input_type -> admin.UpdateClinicWeeklyScheduleRequest
-	3,  // 14: admin.AdminService.AddDoctorWeeklySchedule:input_type -> admin.AddDoctorWeeklyScheduleRequest
-	4,  // 15: admin.AdminService.UpdateDoctorWeeklySchedule:input_type -> admin.UpdateDoctorWeeklyScheduleRequest
-	6,  // 16: admin.AdminService.AddClinicDailyOverride:input_type -> admin.AddClinicDailyOverrideRequest
-	7,  // 17: admin.AdminService.AddDoctorDailyOverride:input_type -> admin.AddDoctorDailyOverrideRequest
-	8,  // 18: admin.AdminService.AddMaterial:input_type -> admin.AddMaterialRequest
-	9,  // 19: admin.AdminService.AddService:input_type -> admin.AddServiceRequest
-	10, // 20: admin.AdminService.UpdateMaterial:input_type -> admin.UpdateMaterialRequest
-	11, // 21: admin.AdminService.UpdateService:input_type -> admin.UpdateServiceRequest
-	14, // 22: admin.AdminService.DeleteMaterial:input_type -> admin.DeleteRequest
-	14, // 23: admin.AdminService.DeleteService:input_type -> admin.DeleteRequest
-	5,  // 24: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 25: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 26: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 27: admin.AdminService.AddClinicDailyOverride:output_type -> admin.DefaultResponse
-	5,  // 28: admin.AdminService.AddDoctorDailyOverride:output_type -> admin.DefaultResponse
-	5,  // 29: admin.AdminService.AddMaterial:output_type -> admin.DefaultResponse
-	5,  // 30: admin.AdminService.AddService:output_type -> admin.DefaultResponse
-	5,  // 31: admin.AdminService.UpdateMaterial:output_type -> admin.DefaultResponse
-	5,  // 32: admin.AdminService.UpdateService:output_type -> admin.DefaultResponse
-	5,  // 33: admin.AdminService.DeleteMaterial:output_type -> admin.DefaultResponse
-	5,  // 34: admin.AdminService.DeleteService:output_type -> admin.DefaultResponse
-	24, // [24:35] is the sub-list for method output_type
-	13, // [13:24] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	29, // 7: admin.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	29, // 8: admin.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	29, // 9: admin.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	29, // 10: admin.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	29, // 11: admin.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	29, // 12: admin.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	16, // 13: admin.GetAdminsResponse.admins:type_name -> admin.Admin
+	18, // 14: admin.GetDoctorsResponse.doctors:type_name -> admin.DoctorWithSpecs
+	23, // 15: admin.GetPatientsResponse.patients:type_name -> admin.Patient
+	26, // 16: admin.GetSpecsResponse.specs:type_name -> admin.Spec
+	1,  // 17: admin.AdminService.UpdateClinicWeeklySchedule:input_type -> admin.UpdateClinicWeeklyScheduleRequest
+	3,  // 18: admin.AdminService.AddDoctorWeeklySchedule:input_type -> admin.AddDoctorWeeklyScheduleRequest
+	4,  // 19: admin.AdminService.UpdateDoctorWeeklySchedule:input_type -> admin.UpdateDoctorWeeklyScheduleRequest
+	6,  // 20: admin.AdminService.AddClinicDailyOverride:input_type -> admin.AddClinicDailyOverrideRequest
+	7,  // 21: admin.AdminService.AddDoctorDailyOverride:input_type -> admin.AddDoctorDailyOverrideRequest
+	8,  // 22: admin.AdminService.AddMaterial:input_type -> admin.AddMaterialRequest
+	9,  // 23: admin.AdminService.AddService:input_type -> admin.AddServiceRequest
+	10, // 24: admin.AdminService.UpdateMaterial:input_type -> admin.UpdateMaterialRequest
+	11, // 25: admin.AdminService.UpdateService:input_type -> admin.UpdateServiceRequest
+	14, // 26: admin.AdminService.DeleteMaterial:input_type -> admin.DeleteRequest
+	14, // 27: admin.AdminService.DeleteService:input_type -> admin.DeleteRequest
+	25, // 28: admin.AdminService.GetAdmins:input_type -> admin.EmptyRequest
+	25, // 29: admin.AdminService.GetPatients:input_type -> admin.EmptyRequest
+	25, // 30: admin.AdminService.GetDoctors:input_type -> admin.EmptyRequest
+	25, // 31: admin.AdminService.GetSpecs:input_type -> admin.EmptyRequest
+	20, // 32: admin.AdminService.UpdateDoctor:input_type -> admin.UpdateDoctorRequest
+	21, // 33: admin.AdminService.UpdateAdmin:input_type -> admin.UpdateAdminRequest
+	22, // 34: admin.AdminService.UpdatePatient:input_type -> admin.UpdatePatientRequest
+	14, // 35: admin.AdminService.DeleteUser:input_type -> admin.DeleteRequest
+	28, // 36: admin.AdminService.UpdateEmployeeLogin:input_type -> admin.UpdateUserLoginRequest
+	28, // 37: admin.AdminService.UpdatePatientLogin:input_type -> admin.UpdateUserLoginRequest
+	5,  // 38: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 39: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 40: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 41: admin.AdminService.AddClinicDailyOverride:output_type -> admin.DefaultResponse
+	5,  // 42: admin.AdminService.AddDoctorDailyOverride:output_type -> admin.DefaultResponse
+	5,  // 43: admin.AdminService.AddMaterial:output_type -> admin.DefaultResponse
+	5,  // 44: admin.AdminService.AddService:output_type -> admin.DefaultResponse
+	5,  // 45: admin.AdminService.UpdateMaterial:output_type -> admin.DefaultResponse
+	5,  // 46: admin.AdminService.UpdateService:output_type -> admin.DefaultResponse
+	5,  // 47: admin.AdminService.DeleteMaterial:output_type -> admin.DefaultResponse
+	5,  // 48: admin.AdminService.DeleteService:output_type -> admin.DefaultResponse
+	17, // 49: admin.AdminService.GetAdmins:output_type -> admin.GetAdminsResponse
+	24, // 50: admin.AdminService.GetPatients:output_type -> admin.GetPatientsResponse
+	19, // 51: admin.AdminService.GetDoctors:output_type -> admin.GetDoctorsResponse
+	27, // 52: admin.AdminService.GetSpecs:output_type -> admin.GetSpecsResponse
+	5,  // 53: admin.AdminService.UpdateDoctor:output_type -> admin.DefaultResponse
+	5,  // 54: admin.AdminService.UpdateAdmin:output_type -> admin.DefaultResponse
+	5,  // 55: admin.AdminService.UpdatePatient:output_type -> admin.DefaultResponse
+	5,  // 56: admin.AdminService.DeleteUser:output_type -> admin.DefaultResponse
+	5,  // 57: admin.AdminService.UpdateEmployeeLogin:output_type -> admin.DefaultResponse
+	5,  // 58: admin.AdminService.UpdatePatientLogin:output_type -> admin.DefaultResponse
+	38, // [38:59] is the sub-list for method output_type
+	17, // [17:38] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_proto_admin_admin_proto_init() }
@@ -1179,7 +2269,7 @@ func file_proto_admin_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_admin_admin_proto_rawDesc), len(file_proto_admin_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

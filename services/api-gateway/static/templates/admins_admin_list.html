@@ -7,12 +7,12 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Bootstrap core CSS -->
-        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="static/bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template -->
-        <link rel="stylesheet" href="blocks.css">
-        <link href="style.css" rel="stylesheet">
-        <link href="footer_style.css" rel="stylesheet">
-        <link rel="stylesheet" href="bootstrap_theme/icons.css">
+        <link rel="stylesheet" href="static/blocks.css">
+        <link href="static/style.css" rel="stylesheet">
+        <link href="static/footer_style.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/bootstrap_theme/icons.css">
         <title>Стоматологическая клиника «ПримаСтом»</title>
         <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; } th, td { text-align: center; vertical-align: middle; }</style>
     </head>
@@ -70,7 +70,7 @@
                     </button>
                     <div class="collapse navbar-collapse w-100" id="navbarToggler11">
                         <div class="container my-2">
-                            <div class="d-flex flex-wrap gap-3 justify-content-center"><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="administrator_account.html"> <i class="bi bi-display"></i> Главная </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_schedule_management.html"> <i class="bi bi-calendar3"></i> Управление расписанием </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_patient_list.html"> <i class="bi bi-person-fill-gear"></i>Список пациентов </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Аналитика </a>
+                            <div class="d-flex flex-wrap gap-3 justify-content-center"><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="administrator_account.html"> <i class="bi bi-display"></i> Главная </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_schedule_management.html"> <i class="bi bi-calendar3"></i> Управление расписанием </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_patient_list.html"> <i class="bi bi-person-fill-gear"></i>Список пациентов </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="static/img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Аналитика </a>
                             </div>
                         </div>                         
                     </div>                     
@@ -83,12 +83,13 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <input v-model="search" @input="loadStaff" class="form-control" placeholder="Поиск по ФИО или email">
+                            <input v-model="search" @input="loadStaff" class="form-control" placeholder="Поиск по ФИО">
                         </div>
                         <div class="col-md-3">
                             <select v-model="filters.role" class="form-select">
                                 <option value="">Все должности</option>
-                                <option v-for="r in roles" :key="r.id" :value="r.id">{{ r.name }}</option>
+                                <option value="Администратор">Администратор</option>
+                                <option value="Старший администратор">Старший администратор</option>
                             </select>
                         </div>
                     </div>
@@ -103,12 +104,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="s in staff" :key="s.id" @click="onRowClick(s)" :class="{ 'table-active': isSelected(s) }" style="cursor: pointer;">
+                            <tr v-for="s in filteredStaff" :key="s.id" @click="onRowClick(s)" :class="{ 'table-active': isSelected(s) }" style="cursor: pointer;">
                                 <td>{{ s.second_name }} {{ s.first_name }} {{ s.surname }}</td>
                                 <td>{{ s.email }}</td>
                                 <td>{{ formatPhone(s.phone) }}</td>
                                 <td>{{ s.gender }}</td>
-                                <td>{{ getRoleName(s.role) }}</td>
+                                <td>{{ getRoleName(s.role)}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -143,8 +144,8 @@
                                             <label class="form-label">Пол<span style="color:red;">*</span>
                                             </label>
                                             <select v-model="form.gender" name="gender" id="gender" required class="form-control">
-                                                <option value="male">Мужской</option>
-                                                <option value="female">Женский</option>
+                                                <option value="м">Мужской</option>
+                                                <option value="ж">Женский</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -157,9 +158,9 @@
                                         <div class="mb-3">
                                             <label class="form-label">Должность<span style="color:red;">*</span>
                                             </label>
-                                            <select v-model="form.role" name="role" id="role" required class="form-select text-primary">
-                                                <option value="admin">Администратор</option>
-                                                <option value="superadmin">Главный администратор</option>
+                                            <select v-model="form.role" name="role" id="role" required class="form-select text-black">
+                                                <option value="Администратор">Администратор</option>
+                                                <option value="Старший администратор">Старший администратор</option>
                                             </select>
                                         </div>
                                     </div>
@@ -215,7 +216,7 @@
                 </div>
                 <!-- Vue 3 -->
                 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-                <script src="js/admins_admin_list.js"></script>
+                <script src="static/js/admins_admin_list.js"></script>
             </main>
             <footer class="bg-dark text-white-50"> 
                 <div class="container"> 
@@ -224,8 +225,8 @@
                     </div>
                 </div>                 
             </footer>             
-            <script src="assets/js/popper.min.js"></script>
-            <script src="bootstrap/js/bootstrap.min.js"></script>
+            <script src="static/assets/js/popper.min.js"></script>
+            <script src="static/bootstrap/js/bootstrap.min.js"></script>
         </div>
     </body>
 </html>

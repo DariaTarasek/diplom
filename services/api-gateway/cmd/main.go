@@ -63,8 +63,12 @@ func main() {
 		"doctors.html",
 		"appointment.html",
 		"admins_schedule_management.html", // СТРАНИЦА АДМИНА! ЗДЕСЬ ДЛЯ ТЕСТОВ! ПОТОМ ПЕРЕНЕСТИ!
-		"price_list.html",
-		"employee_registration.html", // СТРАНИЦА АДМИНА! ЗДЕСЬ ДЛЯ ТЕСТОВ! ПОТОМ ПЕРЕНЕСТИ!
+		"price_list.html",                 // СТРАНИЦА АДМИНА!
+		"admins_admin_list.html",          // СТРАНИЦА АДМИНА!
+		"admins_doctor_list.html",         // СТРАНИЦА АДМИНА!
+		"admins_patient_list.html",        // СТРАНИЦА АДМИНА!
+		"employee_registration.html",      // СТРАНИЦА АДМИНА!
+		"registration_in_clinic.html",     // СТРАНИЦА АДМИНА!
 	}
 
 	for _, page := range htmlPages {
@@ -76,8 +80,8 @@ func main() {
 
 	adminPages := []string{
 		//"employee_registration.html",
-		"registration_in_clinic.html",
-		"admins_doctor_list.html",
+		//"registration_in_clinic.html",
+		//"admins_doctor_list.html",
 		"administrator_account.html",
 	}
 	for _, page := range adminPages {

@@ -29,8 +29,7 @@ func main() {
 	}
 
 	pb.RegisterAdminServiceServer(s, server)
-
-	log.Println("Auth gRPC server started on :50053")
+	log.Println("Admin gRPC server started on :50053")
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("не удалось запустить сервер: %v", err)
 	}

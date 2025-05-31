@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/DariaTarasek/diplom/services/storage/internal/model"
 	"github.com/Masterminds/squirrel"
+	"strings"
 )
 
 // GetUsers Получение списка всех пользователей
@@ -78,8 +79,14 @@ func (s *Store) GetUserByLogin(ctx context.Context, login string) (model.User, e
 
 // AddUser Добавление нового пользователя
 func (s *Store) AddUser(ctx context.Context, user model.User) (model.UserID, error) {
+	var login *string
+	if strings.Trim(*user.Login, " ") == "" {
+		login = nil
+	} else {
+		login = user.Login
+	}
 	fields := map[string]any{
-		"login":    user.Login,
+		"login":    login,
 		"password": user.Password,
 	}
 	query, args, err := s.builder.
@@ -147,7 +154,50 @@ func (s *Store) UpdateUser(ctx context.Context, id model.UserID, user model.User
 	return nil
 }
 
-// DeleteUser Удаление администратора по id
+// UpdateUserLogin Изменение логина пользователя
+func (s *Store) UpdateUserLogin(ctx context.Context, id model.UserID, login string) error {
+	fields := map[string]any{
+		"login": login,
+	}
+	query, args, err := s.builder.
+		Update("users").
+		Where(squirrel.Eq{"id": id}).
+		SetMap(fields).
+		ToSql()
+	if err != nil {
+		return fmt.Errorf("не удалось сформировать запрос для обновления логина пользователя: %w", err)
+	}
+
+	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
+	defer cancel()
+
+	tx, err := s.db.BeginTxx(dbCtx, &sql.TxOptions{})
+	if err != nil {
+		return fmt.Errorf("не удалось начать транзакцию для изменения логина пользователя: %w", err)
+	}
+
+	res, err := tx.ExecContext(dbCtx, query, args...)
+	if err != nil {
+		return fmt.Errorf("не удалось выполнить запрос для изменения логина пользователя: %w", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("не удалось получить количество измененных строк после изменения логина пользователя: %w", err)
+	}
+
+	if rowsAffected == 0 {
+		return fmt.Errorf("данные логина не изменены")
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return fmt.Errorf("не удалось зафиксировать транзакцию для изменения логина пользователя: %w", err)
+	}
+	return nil
+}
+
+// DeleteUser Удаление пользователя по id
 func (s *Store) DeleteUser(ctx context.Context, id model.UserID) error {
 	query, args, err := s.builder.
 		Delete("users").
