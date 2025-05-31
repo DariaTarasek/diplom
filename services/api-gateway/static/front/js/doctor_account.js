@@ -4,70 +4,85 @@ createApp({
   data() {
     return {
       activeTab: 'today',
-      second_name: '',
       first_name: '',
+      second_name: '',
       tabs: [
         { id: 'today', label: 'Записи на сегодня' },
         { id: 'upcoming', label: 'Расписание' },
         { id: 'completed', label: 'Завершенные приемы' }
       ],
       data: {
-        today: [],
-        upcoming: [],
-        completed: []
+        today: null,
+        upcoming: null,
+        completed: null
       },
       scheduleDates: [],
-      scheduleTimes: [],     
+      scheduleTimes: [],
+      table: {},
+      currentPageX: 1,
+      pageSizeX: 7,
       isPopoverVisible: false,
     };
   },
   computed: {
     todaySorted() {
-      return [...this.data.today].sort((a, b) => a.time.localeCompare(b.time));
+      return (this.data.today || []).slice().sort((a, b) => a.time.localeCompare(b.time));
     },
     fullName() {
       return [this.first_name, this.second_name].filter(Boolean).join(' ');
+    },
+    paginatedDates() {
+      const start = (this.currentPageX - 1) * this.pageSizeX;
+      return this.scheduleDates.slice(start, start + this.pageSizeX);
+    },
+    totalPagesX() {
+      return Math.ceil(this.scheduleDates.length / this.pageSizeX);
+    }
+  },
+  watch: {
+    activeTab(newTab) {
+      if (newTab === 'today' && this.data.today === null) this.fetchTodayAppointments();
+      if (newTab === 'upcoming' && this.data.upcoming === null) this.fetchUpcomingSchedule();
+      if (newTab === 'completed' && this.data.completed === null) this.fetchCompletedAppointments();
     }
   },
   methods: {
-    fetchDoctorData() {
-      fetch('http://192.168.1.207:8080/api/doctor-data')
-        .then(res => {
-          if (!res.ok) throw new Error('Ошибка загрузки');
-          return res.json();
-        })
-        .then(json => {
-          this.data.today = json.today || [];
-          this.data.upcoming = json.upcoming || [];
-          this.data.completed = json.completed || [];
-          this.first_name = json.first_name;
-          this.second_name = json.second_name;
-        })
-        .catch(err => {
-          console.error('Ошибка при получении данных врача:', err);
-        });
+    fetchTodayAppointments() {
+      fetch('/api/appointments-today')
+          .then(res => res.json())
+          .then(json => { this.data.today = json || []; })
+          .catch(err => console.error('Ошибка при загрузке записей на сегодня:', err));
     },
-    fetchSchedule() {
-      fetch('http://192.168.1.207:8080/api/schedule-admin')
-        .then(res => {
-          if (!res.ok) throw new Error('Ошибка загрузки расписания');
-          return res.json();
-        })
-        .then(json => {
-          this.scheduleDates = json.days.map(d => d.date);
-          this.scheduleTimes = json.timeSlots || [];
-        })
-        .catch(err => {
-          console.error('Ошибка при получении расписания:', err);
-        });
+    fetchUpcomingSchedule() {
+      fetch('/api/schedule-with-appointments')
+          .then(res => res.json())
+          .then(data => {
+            this.scheduleDates = data.dates;
+            this.scheduleTimes = data.times;
+            this.table = data.table;
+          })
+          .catch(err => console.error('Ошибка при загрузке расписания:', err));
+    },
+
+    fetchCompletedAppointments() {
+      fetch('/api/appointments-completed')
+          .then(res => res.json())
+          .then(json => { this.data.completed = json.completed || []; })
+          .catch(err => console.error('Ошибка при загрузке завершенных приёмов:', err));
     },
     getPatientByDateTime(date, time) {
-      return this.data.upcoming.find(x => x.date === date && x.time === time);
+      return (this.data.upcoming || []).find(x => x.date === date && x.time === time);
     },
+    formatDateToIso(dateStr) {
+      const [day, month, year] = dateStr.split('.');
+      return `${year}-${month}-${day}`;
+    },
+
     isToday(dateStr) {
       const today = new Date().toISOString().split('T')[0];
-      return dateStr === today;
+      return this.formatDateToIso(dateStr) === today;
     },
+
     startConsultation(appointmentId) {
       if (appointmentId) {
         window.location.href = `doctors_consultation.html?appointment_id=${appointmentId}`;
@@ -83,11 +98,17 @@ createApp({
       if (popover && !popover.contains(event.target)) {
         this.isPopoverVisible = false;
       }
+    },
+    nextPageX() {
+      if (this.currentPageX < this.totalPagesX) this.currentPageX++;
+    },
+    prevPageX() {
+      if (this.currentPageX > 1) this.currentPageX--;
     }
   },
   mounted() {
-    this.fetchDoctorData();
-    this.fetchSchedule(); 
+    // подгружаем только первую вкладку
+    this.fetchTodayAppointments();
     document.addEventListener('click', this.handleClickOutside);
   }
 }).mount('#app');

@@ -14,6 +14,7 @@ func (s *AuthService) DoctorRegister(ctx context.Context, user model.User, docto
 	var hashedPassword string
 	var err error
 	password := utils.GeneratePassword()
+	fmt.Println("Пароль зареганного пользователя: " + password)
 	hashedPassword, err = utils.HashPassword(password)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось захешировать пароль: %w", err)
@@ -56,8 +57,8 @@ func (s *AuthService) DoctorRegister(ctx context.Context, user model.User, docto
 		return 0, fmt.Errorf("не удалось добавить роль врачу через gRPC: %w", err)
 	}
 
-	message := fmt.Sprintf("Subject: Регистрация в системе клиники!\r\n\r\nВы зарегистрированы в системе клиники!\nВаш пароль для входа: %s", password)
-	err = utils.SendPassword(doctor.Email, password, message)
+	//message := fmt.Sprintf("Subject: Регистрация в системе клиники!\r\n\r\nВы зарегистрированы в системе клиники!\nВаш пароль для входа: %s", password)
+	//err = utils.SendPassword(doctor.Email, password, message)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось отправить пароль на email: %w", err)
 	}

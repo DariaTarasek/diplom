@@ -202,6 +202,14 @@ func (s *Server) GetPatient(ctx context.Context, req *pb.GetPatientRequest) (*pb
 	return &pb.GetPatientResponse{Patient: pbPatient}, nil
 }
 
+func (s *Server) GetUserID(ctx context.Context, req *pb.GetUserIDRequest) (*pb.GetUserIDResponse, error) {
+	userId, err := s.Service.GetUserID(ctx, req.Token)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetUserIDResponse{UserId: int32(userId)}, nil
+}
+
 func deref(s *string) string {
 	if s == nil {
 		return ""

@@ -4,6 +4,7 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/clients"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/admin"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/auth"
+	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/doctor"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/info"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/patient"
 	"github.com/DariaTarasek/diplom/services/api-gateway/middleware"
@@ -47,6 +48,11 @@ func main() {
 		log.Fatalf("Не удалось создать patient клиент: %w", err)
 	}
 
+	doctorClient, err := clients.NewDoctorClient("localhost:50055")
+	if err != nil {
+		log.Fatalf("Не удалось создать doctor клиент: %s", err.Error())
+	}
+
 	htmlPages := []string{
 		"index.html",
 		"auth_doc.html",
@@ -58,6 +64,7 @@ func main() {
 		"appointment.html",
 		"admins_schedule_management.html", // СТРАНИЦА АДМИНА! ЗДЕСЬ ДЛЯ ТЕСТОВ! ПОТОМ ПЕРЕНЕСТИ!
 		"price_list.html",
+		"employee_registration.html", // СТРАНИЦА АДМИНА! ЗДЕСЬ ДЛЯ ТЕСТОВ! ПОТОМ ПЕРЕНЕСТИ!
 	}
 
 	for _, page := range htmlPages {
@@ -68,7 +75,7 @@ func main() {
 	}
 
 	adminPages := []string{
-		"employee_registration.html",
+		//"employee_registration.html",
 		"registration_in_clinic.html",
 		"admins_doctor_list.html",
 		"administrator_account.html",
@@ -114,6 +121,9 @@ func main() {
 
 	patientHandler := patient.NewHandler(patientClient)
 	patient.RegisterRoutes(api, patientHandler)
+
+	doctorHandler := doctor.NewHandler(doctorClient)
+	doctor.RegisterRoutes(api, doctorHandler)
 
 	log.Println("Api-gateway запущен")
 	if err := r.Run(":8080"); err != nil {

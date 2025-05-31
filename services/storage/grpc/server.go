@@ -7,6 +7,7 @@ import (
 	"github.com/DariaTarasek/diplom/services/storage/internal/store"
 	pb "github.com/DariaTarasek/diplom/services/storage/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
+	"time"
 )
 
 type Server struct {
@@ -668,4 +669,37 @@ func (s *Server) GetAppointmentByID(ctx context.Context, request *pb.GetByIDRequ
 		UpdatedAt:   timestamppb.New(app.UpdatedAt),
 	}
 	return &pb.GetAppointmentByIDResponse{Appointment: appointment}, nil
+}
+
+func (s *Server) GetDoctorOverrides(ctx context.Context, request *pb.GetByIDRequest) (*pb.GetDoctorOverridesResponse, error) {
+	overs, err := s.Store.GetOverridesByDoctorID(ctx, model.UserID(request.Id))
+	if err != nil {
+		return nil, err
+	}
+	docOverrides := make([]*pb.DoctorOverride, 0, len(overs))
+	for _, over := range overs {
+		docOverride := &pb.DoctorOverride{
+			DoctorId:  int32(over.DoctorID),
+			Date:      timestamppb.New(over.Date),
+			StartTime: timestamppb.New(derefTime(over.StartTime)),
+			EndTime:   timestamppb.New(derefTime(over.EndTime)),
+			IsDayOff:  derefBool(over.IsDayOff),
+		}
+		docOverrides = append(docOverrides, docOverride)
+	}
+	return &pb.GetDoctorOverridesResponse{Override: docOverrides}, nil
+}
+
+func derefTime(t *time.Time) time.Time {
+	if t == nil {
+		return time.Time{}
+	}
+	return *t
+}
+
+func derefBool(b *bool) bool {
+	if b == nil {
+		return false
+	}
+	return *b
 }

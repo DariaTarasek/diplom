@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package doctor;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "doctor/proto;doctorpb";
+
+message Appointment {
+  int32 id = 1;
+  int32 doctor_id = 2;
+  google.protobuf.Timestamp date = 3;
+  google.protobuf.Timestamp time = 4;
+  int32 patient_id = 5;
+  string second_name = 6;
+  string first_name = 7;
+  string surname = 8;
+  google.protobuf.Timestamp birth_date = 9;
+  string gender = 10;
+  string phone_number = 11;
+  string status = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp updated_at = 14;
+}
+
+message GetTodayAppointmentsRequest {
+  string token = 1;
+}
+
+message GetUpcomingAppointmentsRequest {
+  string token = 1;
+}
+
+message GetUpcomingAppointmentsResponse {
+  ScheduleTable schedule = 1;
+}
+
+message ScheduleTable {
+  repeated string dates = 1;
+  repeated string times = 2;
+  repeated ScheduleCell table = 3;
+}
+
+message ScheduleCell {
+  string date = 1; // "01.06.2025"
+  string time = 2; // "09:00"
+  UpcomingAppointment appointment = 3; // optional
+}
+
+message UpcomingAppointment {
+  int64 id = 1;
+  int64 patient_id = 2;
+  string patient = 3;
+}
+
+message AppointmentsResponse {
+  repeated Appointment appointments = 1;
+}
+
+message TodayAppointment {
+  int32 id = 1;
+  string date = 2;
+  string time = 3;
+  int32 patientID = 4;
+  string patient = 5;
+}
+
+message GetTodayAppointmentsResponse {
+  repeated TodayAppointment appointments = 1;
+}
+
+service DoctorService {
+  rpc GetTodayAppointments(GetTodayAppointmentsRequest) returns (GetTodayAppointmentsResponse);
+  rpc GetUpcomingAppointments(GetUpcomingAppointmentsRequest) returns (GetUpcomingAppointmentsResponse);
+}
