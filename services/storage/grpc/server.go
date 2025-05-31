@@ -635,6 +635,14 @@ func (s *Server) DeleteUser(ctx context.Context, req *pb.DeleteRequest) (*pb.Def
 	return &pb.DefaultResponse{}, nil
 }
 
+func (s *Server) UpdateUserLogin(ctx context.Context, req *pb.UpdateUserLoginRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.UpdateUserLogin(ctx, model.UserID(req.UserId), req.Login)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
 func (s *Server) GetAppointmentsByDoctorID(ctx context.Context, req *pb.GetAppointmentsByDoctorIDRequest) (*pb.GetAppointmentsByDoctorIDResponse, error) {
 	apps, err := s.Store.GetAppointmentsByDoctorID(ctx, model.UserID(req.DoctorId))
 	if err != nil {

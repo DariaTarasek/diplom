@@ -7,6 +7,7 @@ import (
 	storagepb "github.com/DariaTarasek/diplom/services/admin/proto/storage"
 	"slices"
 	"sort"
+	"strings"
 )
 
 func (s *AdminService) GetSpecs(ctx context.Context) ([]model.Spec, error) {
@@ -66,11 +67,11 @@ func (s *AdminService) GetDoctors(ctx context.Context) ([]model.Doctor, error) {
 func (s *AdminService) UpdateDoctor(ctx context.Context, doctor model.Doctor) error {
 	_, err := s.StorageClient.Client.UpdateDoctor(ctx, &storagepb.UpdateDoctorRequest{
 		UserId:      int32(doctor.ID),
-		FirstName:   doctor.FirstName,
-		SecondName:  doctor.SecondName,
-		Surname:     doctor.Surname,
+		FirstName:   NormalizeWord(doctor.FirstName),
+		SecondName:  NormalizeWord(doctor.SecondName),
+		Surname:     NormalizeWord(doctor.Surname),
 		PhoneNumber: doctor.PhoneNumber,
-		Email:       doctor.Email,
+		Email:       strings.ToLower(doctor.Email),
 		Education:   doctor.Education,
 		Experience:  int32(doctor.Experience),
 		Gender:      doctor.Gender,

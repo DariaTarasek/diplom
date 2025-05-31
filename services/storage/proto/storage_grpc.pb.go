@@ -34,6 +34,7 @@ const (
 	StorageService_UpdateAdminRole_FullMethodName            = "/storage.StorageService/UpdateAdminRole"
 	StorageService_UpdatePatient_FullMethodName              = "/storage.StorageService/UpdatePatient"
 	StorageService_DeleteUser_FullMethodName                 = "/storage.StorageService/DeleteUser"
+	StorageService_UpdateUserLogin_FullMethodName            = "/storage.StorageService/UpdateUserLogin"
 	StorageService_GetAllSpecs_FullMethodName                = "/storage.StorageService/GetAllSpecs"
 	StorageService_AddUserRole_FullMethodName                = "/storage.StorageService/AddUserRole"
 	StorageService_GetUserByLogin_FullMethodName             = "/storage.StorageService/GetUserByLogin"
@@ -90,6 +91,7 @@ type StorageServiceClient interface {
 	UpdateAdminRole(ctx context.Context, in *UpdateAdminRoleRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	UpdatePatient(ctx context.Context, in *UpdatePatientRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	DeleteUser(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	UpdateUserLogin(ctx context.Context, in *UpdateUserLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetAllSpecs(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAllSpecsResponse, error)
 	AddUserRole(ctx context.Context, in *AddUserRoleRequest, opts ...grpc.CallOption) (*AddUserRoleResponse, error)
 	GetUserByLogin(ctx context.Context, in *GetUserByLoginRequest, opts ...grpc.CallOption) (*GetUserByLoginResponse, error)
@@ -279,6 +281,16 @@ func (c *storageServiceClient) DeleteUser(ctx context.Context, in *DeleteRequest
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DefaultResponse)
 	err := c.cc.Invoke(ctx, StorageService_DeleteUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) UpdateUserLogin(ctx context.Context, in *UpdateUserLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, StorageService_UpdateUserLogin_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -645,6 +657,7 @@ type StorageServiceServer interface {
 	UpdateAdminRole(context.Context, *UpdateAdminRoleRequest) (*DefaultResponse, error)
 	UpdatePatient(context.Context, *UpdatePatientRequest) (*DefaultResponse, error)
 	DeleteUser(context.Context, *DeleteRequest) (*DefaultResponse, error)
+	UpdateUserLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error)
 	GetAllSpecs(context.Context, *EmptyRequest) (*GetAllSpecsResponse, error)
 	AddUserRole(context.Context, *AddUserRoleRequest) (*AddUserRoleResponse, error)
 	GetUserByLogin(context.Context, *GetUserByLoginRequest) (*GetUserByLoginResponse, error)
@@ -734,6 +747,9 @@ func (UnimplementedStorageServiceServer) UpdatePatient(context.Context, *UpdateP
 }
 func (UnimplementedStorageServiceServer) DeleteUser(context.Context, *DeleteRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedStorageServiceServer) UpdateUserLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserLogin not implemented")
 }
 func (UnimplementedStorageServiceServer) GetAllSpecs(context.Context, *EmptyRequest) (*GetAllSpecsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllSpecs not implemented")
@@ -1124,6 +1140,24 @@ func _StorageService_DeleteUser_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StorageServiceServer).DeleteUser(ctx, req.(*DeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_UpdateUserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).UpdateUserLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_UpdateUserLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).UpdateUserLogin(ctx, req.(*UpdateUserLoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1806,6 +1840,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteUser",
 			Handler:    _StorageService_DeleteUser_Handler,
+		},
+		{
+			MethodName: "UpdateUserLogin",
+			Handler:    _StorageService_UpdateUserLogin_Handler,
 		},
 		{
 			MethodName: "GetAllSpecs",

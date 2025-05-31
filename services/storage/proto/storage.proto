@@ -389,6 +389,10 @@ message GetServiceTypeByIdResponse {
   string name = 2;
 }
 
+message UpdateUserLoginRequest {
+  int32 user_id = 1;
+  string login = 2;
+}
 message GetAppointmentsByDoctorIDRequest {
   int32 doctor_id = 1;
 }
@@ -468,6 +472,7 @@ service StorageService {
   rpc UpdatePatient(UpdatePatientRequest) returns (DefaultResponse);
 
   rpc DeleteUser(DeleteRequest) returns (DefaultResponse);
+  rpc UpdateUserLogin(UpdateUserLoginRequest) returns (DefaultResponse);
 
   rpc GetAllSpecs(EmptyRequest) returns (GetAllSpecsResponse); // получение всех специализаций врачей
   rpc AddUserRole(AddUserRoleRequest) returns (AddUserRoleResponse); // добавление роли пользователю
