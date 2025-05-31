@@ -43,8 +43,185 @@ message DefaultResponse {
   string err = 1;
 }
 
+message AddClinicDailyOverrideRequest {
+  google.protobuf.Timestamp date = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 slot_duration_minutes = 4;
+  bool is_day_off = 5;
+}
+
+message AddDoctorDailyOverrideRequest {
+  int32 doctor_id = 1;
+  google.protobuf.Timestamp date = 2;
+  google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Timestamp end_time = 4;
+  int32 slot_duration_minutes = 5;
+  bool is_day_off = 6;
+}
+
+message AddMaterialRequest {
+  string name = 1;
+  int32 price = 2;
+}
+
+message AddServiceRequest {
+  string name = 1;
+  int32 price = 2;
+  int32 type = 3;
+}
+
+message UpdateMaterialRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message UpdateServiceRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+message Material {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message Service {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  int32 type = 4;
+}
+
+message DeleteRequest {
+  int32 id = 1;
+}
+
+message ServiceType {
+  int32 id = 1;
+  string name = 2;
+}
+
+message Admin {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string gender = 7;
+  string role = 8;
+}
+
+message GetAdminsResponse {
+  repeated Admin admins = 1;
+}
+
+
+message DoctorWithSpecs {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string education = 7;
+  int32 experience = 8;
+  string gender = 9;
+  repeated int32 specs = 10;
+}
+
+message GetDoctorsResponse {
+  repeated DoctorWithSpecs doctors = 1;
+}
+
+message UpdateDoctorRequest {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string education = 7;
+  int32 experience = 8;
+  string gender = 9;
+  repeated int32 specs = 10;
+}
+
+message UpdateAdminRequest {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string gender = 7;
+  string role = 8;
+}
+
+message UpdatePatientRequest {
+  int32 user_id = 1;
+  string first_name = 2;
+  string surname = 4;
+  string second_name = 3;
+  string email = 5;
+  string birth_date = 6;
+  string phone_number = 7;
+  string gender = 8;
+}
+
+message Patient {
+  int32 user_id = 1;
+  string first_name = 2;
+  string surname = 4;
+  string second_name = 3;
+  string email = 5;
+  string birth_date = 6;
+  string phone_number = 7;
+  string gender = 8;
+}
+
+message GetPatientsResponse {
+  repeated Patient patients = 1;
+}
+
+message EmptyRequest {
+
+}
+
+message Spec {
+  int32 id = 1;
+  string name = 2;
+}
+message GetSpecsResponse {
+  repeated Spec specs = 1;
+}
+
 service AdminService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // изменение постоянного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
   rpc UpdateDoctorWeeklySchedule(UpdateDoctorWeeklyScheduleRequest) returns (DefaultResponse); // изменение постоянного расписания врача
+  rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
+  rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
+
+  rpc AddMaterial(AddMaterialRequest) returns (DefaultResponse);
+  rpc AddService(AddServiceRequest) returns (DefaultResponse);
+  rpc UpdateMaterial(UpdateMaterialRequest) returns (DefaultResponse);
+  rpc UpdateService(UpdateServiceRequest) returns (DefaultResponse);
+  rpc DeleteMaterial(DeleteRequest) returns (DefaultResponse);
+  rpc DeleteService(DeleteRequest) returns (DefaultResponse);
+
+  rpc GetAdmins(EmptyRequest) returns (GetAdminsResponse);
+  rpc GetPatients(EmptyRequest) returns (GetPatientsResponse);
+  rpc GetDoctors(EmptyRequest) returns (GetDoctorsResponse);
+  rpc GetSpecs(EmptyRequest) returns (GetSpecsResponse);
+  rpc UpdateDoctor(UpdateDoctorRequest) returns (DefaultResponse);
+  rpc UpdateAdmin(UpdateAdminRequest) returns (DefaultResponse);
+  rpc UpdatePatient(UpdatePatientRequest) returns (DefaultResponse);
+  rpc DeleteUser(DeleteRequest) returns (DefaultResponse);
+
 }

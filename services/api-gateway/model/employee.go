@@ -11,4 +11,5 @@ type Employee struct {
 	Experience  *int    `json:"experience"`
 	Gender      string  `json:"gender"`
 	Role        int     `json:"role"`
+	Specs       []int   `json:"specializations"`
 }

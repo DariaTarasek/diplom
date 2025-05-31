@@ -2,7 +2,6 @@ package grpcserver
 
 import (
 	"context"
-	"fmt"
 	"github.com/DariaTarasek/diplom/services/auth/model"
 	pb "github.com/DariaTarasek/diplom/services/auth/proto/auth"
 	"github.com/DariaTarasek/diplom/services/auth/service"
@@ -22,12 +21,15 @@ func (s *Server) EmployeeRegister(ctx context.Context, req *pb.EmployeeRegisterR
 
 	var id int
 	var err error
-
 	role := req.Employee.Role
 	switch role {
+
 	case model.DoctorRole:
 		exp := int(req.Employee.Experience)
-
+		var specsInt []int
+		for _, item := range req.Employee.Specs {
+			specsInt = append(specsInt, int(item))
+		}
 		modelDoctor := model.Doctor{
 			FirstName:   req.Employee.FirstName,
 			SecondName:  req.Employee.SecondName,
@@ -37,12 +39,13 @@ func (s *Server) EmployeeRegister(ctx context.Context, req *pb.EmployeeRegisterR
 			Education:   &req.Employee.Education,
 			Experience:  &exp,
 			Gender:      req.Employee.Gender,
+			Specs:       specsInt,
 		}
-
 		id, err = s.Service.DoctorRegister(ctx, modelUser, modelDoctor)
 		if err != nil {
 			return nil, err
 		}
+
 	case model.AdminRole:
 		modelAdmin := model.Admin{
 			FirstName:   req.Employee.FirstName,
@@ -147,18 +150,18 @@ func (s *Server) PatientPasswordRecovery(ctx context.Context, req *pb.PatientPas
 }
 
 func (s *Server) RequestCode(ctx context.Context, req *pb.GenerateCodeRequest) (*pb.DefaultResponse, error) {
-	err := s.Service.RequestCode(ctx, req.Phone)
-	if err != nil {
-		return nil, fmt.Errorf("не удалось отправить код подтверждения: %w", err)
-	}
+	//err := s.Service.RequestCode(ctx, req.Phone)
+	//if err != nil {
+	//	return nil, fmt.Errorf("не удалось отправить код подтверждения: %w", err)
+	//}
 	return &pb.DefaultResponse{}, nil
 }
 
 func (s *Server) VerifyCode(ctx context.Context, req *pb.VerifyCodeRequest) (*pb.DefaultResponse, error) {
-	err := s.Service.VerifyCode(ctx, req.Phone, req.Code)
-	if err != nil {
-		return nil, fmt.Errorf("не удалось подтвердить код: %w", err)
-	}
+	//err := s.Service.VerifyCode(ctx, req.Phone, req.Code)
+	//if err != nil {
+	//	return nil, fmt.Errorf("не удалось подтвердить код: %w", err)
+	//}
 	return &pb.DefaultResponse{}, nil
 }
 
