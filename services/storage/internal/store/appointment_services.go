@@ -46,8 +46,8 @@ func (s *Store) AddAppointmentServices(ctx context.Context, services []model.App
 	defer tx.Rollback()
 
 	insert := s.builder.
-		Insert("appointment_materials").
-		Columns("visit_id", "material_id", "quantity_used")
+		Insert("appointment_services").
+		Columns("visit_id", "service_id", "quantity")
 
 	for _, m := range services {
 		insert = insert.Values(m.VisitID, m.ServiceID, m.Quantity)

@@ -3,12 +3,13 @@ const { createApp } = Vue;
 createApp({
   data() {
     return {
-      dayLabels: [ 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
+        dayLabels: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
       clinicSchedule: [],
       clinicSlotMinutes: null,
       doctors: [],
       selectedDoctor: null,
-      doctorSchedule: [],
+        selectedDoctorId: null,
+        doctorSchedule: [],
       doctorSlotMinutes: null,
       overrideForm: {
             doctor_id: null,
@@ -51,8 +52,21 @@ createApp({
       return [this.admin.first_name, this.admin.second_name].filter(Boolean).join(' ');
         },
     isSuperAdmin() {
-         return this.admin.role === 'superadmin';
+         return this.admin.role === "superadmin";
   },
+      clinicScheduleSorted() {
+              return [...this.clinicSchedule].sort((a, b) => {
+                  // Сначала понедельник (1), затем вторник (2), ..., воскресенье (0) в конце
+                  const order = [1, 2, 3, 4, 5, 6, 0];
+                  return order.indexOf(a.day) - order.indexOf(b.day);
+              });
+      },
+      doctorScheduleSorted() {
+          return [...this.doctorSchedule].sort((a, b) => {
+              const order = [1, 2, 3, 4, 5, 6, 0];
+              return order.indexOf(a.day) - order.indexOf(b.day);
+          });
+      },
     },
   mounted() {
     this.loadClinicSchedule();
@@ -60,24 +74,99 @@ createApp({
     this.fetchData(); 
     document.addEventListener('click', this.handleClickOutside);
   },
+        watch: {
+            'overrideForm.date'(newDate) {
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(newDate)) return;
+                if (this.overrideForm.doctor_id && newDate.length === 10) {
+                    this.loadDoctorOverride(this.overrideForm.doctor_id, newDate);
+                }
+            },
+            'overrideClinicForm.date'(newDate) {
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(newDate)) return;
+                if (newDate.length === 10) this.loadClinicOverride(newDate);
+            },
+            'overrideForm.doctor_id'(newDoctorId) {
+                if (newDoctorId && this.overrideForm.date && this.overrideForm.date.length === 10) {
+                    this.loadDoctorOverride(newDoctorId, this.overrideForm.date);
+                }
+            },
+            selectedDoctor(newVal) {
+                if (newVal) {
+                    this.fetchDoctorSchedule();
+                }
+            }
+        },
   methods: {
     togglePopover() {
         this.isPopoverVisible = !this.isPopoverVisible;
     },
-
-
       async fetchData() {
       try {
-        const res = await fetch('http://192.168.1.207:8080/api/admin-data');
+        const res = await fetch('/api/admin-data');
         const data = await res.json();
+
         this.admin.first_name = data.first_name || '';
         this.admin.second_name = data.second_name || '';
-        this.admin.role = data.role.role || '';
+        this.admin.role = data.role || '';
         }
         catch (err) {
-        console.error('Ошибка при загрузке данных:', err);
       }
     },
+
+      async loadClinicOverride(date) {
+          this.overrideClinicErrors.date = false;
+          const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+
+          try {
+              const res = await fetch(`/api/clinic-overrides/${date}`);
+              if (!res.ok) {
+                  if (res.status === 404) {
+                      this.overrideClinicForm.type = 'off';
+                      this.overrideClinicForm.start_time = '';
+                      this.overrideClinicForm.end_time = '';
+                      return;
+                  }
+                  console.error('Ошибка при загрузке переопределения клиники:', res.statusText);
+                  return;
+              }
+
+              const data = await res.json();
+              this.overrideClinicForm.type = data.is_day_off ? 'off' : 'work';
+              this.overrideClinicForm.start_time = data.start_time || '';
+              this.overrideClinicForm.end_time = data.end_time || '';
+          } catch (err) {
+              console.error('Ошибка при загрузке переопределения клиники:', err);
+          }
+      },
+
+      async loadDoctorOverride(doctorId, date) {
+          this.overrideErrors.date = false;
+          const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+          if (!date || !doctorId || !datePattern.test(date)) return;
+
+          try {
+              const res = await fetch(`/api/doctor-overrides/${doctorId}/${date}`);
+              if (!res.ok) {
+                  if (res.status === 404) {
+                      this.overrideForm.type = 'off';
+                      this.overrideForm.start_time = '';
+                      this.overrideForm.end_time = '';
+                      return;
+                  }
+                  console.error('Ошибка при загрузке переопределения врача:', res.statusText);
+                  return;
+              }
+
+              const data = await res.json();
+              this.overrideForm.type = data.is_day_off ? 'off' : 'work';
+              this.overrideForm.start_time = data.start_time || '';
+              this.overrideForm.end_time = data.end_time || '';
+          } catch (err) {
+              console.error('Ошибка при загрузке переопределения врача:', err);
+          }
+      },
 
     handleClickOutside(event) {
          const popover = document.getElementById('admin-profile');
@@ -88,20 +177,19 @@ createApp({
 
    async loadClinicSchedule() {
   try {
-    const res = await fetch('http://192.168.1.207:8080/api/clinic-schedule');
+    const res = await fetch('/api/clinic-schedule');
     const data = await res.json();
 
-    const fullSchedule = Array(7).fill(null).map((_, i) => ({
-      day: i,
-      start_time: '',
-      end_time: '',
-      is_open: false
-    }));
+      const fullSchedule = Array(7).fill(null).map((_, i) => ({
+          day: i,
+          start_time: '',
+          end_time: '',
+          is_day_off: false
+      }));
 
-
-    for (const day of data.schedule) {
-      fullSchedule[day.day] = day;
-    }
+      for (const day of data.schedule) {
+          fullSchedule[day.day] = { ...day, day: day.day };
+      }
 
     this.clinicSchedule = fullSchedule;
     this.clinicSlotMinutes = data.slot_minutes;
@@ -134,7 +222,7 @@ createApp({
 
     clinicTimeBoundsForDay(day) {
         const clinicDay = this.clinicSchedule.find(d => d.day === day);
-        if (!clinicDay || !clinicDay.is_open) return null;
+        if (!clinicDay || !clinicDay.is_day_off) return null; // если день не рабочий
         return {
             start: clinicDay.start_time,
             end: clinicDay.end_time,
@@ -160,12 +248,12 @@ createApp({
 
         if (!this.isValidSlot(this.clinicSlotMinutes)) {
             this.clinicSlotError = true;
-            alert('Продолжительность приема должна составлять от 5 до 180 минут');
+            alert('Продолжительность приема должна составлять от 10 до 180 минут');
             return;
         }
 
         for (const day of this.clinicSchedule) {
-            if (day.is_open && !this.validateTimeInterval(day.start_time, day.end_time, this.clinicSlotMinutes)) {
+            if (day.is_day_off && !this.validateTimeInterval(day.start_time, day.end_time, this.clinicSlotMinutes)) {
             this.invalidClinicDays.push(day.day);
             }
         }
@@ -177,13 +265,11 @@ createApp({
 
 
         try {
-            const res = await fetch('http://192.168.1.207:8080/api/clinic-schedule', {
+            const res = await fetch('api/clinic-schedule', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            schedule: this.clinicSchedule,
-            slot_minutes: this.clinicSlotMinutes,
-          }),
+          body: JSON.stringify({schedule: this.clinicSchedule,
+          slot_duration_minutes: this.clinicSlotMinutes}),
         });
         if (!res.ok) throw new Error('Ошибка при сохранении');
         alert('Расписание клиники сохранено');
@@ -194,52 +280,65 @@ createApp({
     },
     async loadDoctors() {
       try {
-        const res = await fetch('http://192.168.1.207:8080/api/get-doctors');
+        const res = await fetch('/api/doctors');
         this.doctors = await res.json();
       } catch (err) {
         console.error('Ошибка при загрузке списка врачей', err);
       }
     },
 
-async fetchDoctorSchedule() {
-  if (!this.selectedDoctor) return;
-  try {
-    const res = await fetch(`http://192.168.1.207:8080/api/doctor-schedule/${this.selectedDoctor}`);
-    const data = await res.json();
+      async fetchDoctorSchedule() {
+          if (!this.selectedDoctor) return;
 
-    const fullSchedule = Array(7).fill(null).map((_, i) => ({
-      day: i,
-      start_time: '',
-      end_time: '',
-      is_open: false
-    }));
+          try {
+              const res = await fetch(`/api/doctor-schedule/${this.selectedDoctor.user_id}`);
+              const data = await res.json();
+              console.log("Ответ от сервера", data);
 
-    for (const day of data.schedule) {
-        fullSchedule[day.day] = {
-            ...fullSchedule[day.day], 
-            ...day,
-            is_open: day.is_open !== undefined ? day.is_open : true
-        };
-    }
-    this.doctorSchedule = fullSchedule;
-    this.doctorSlotMinutes = data.slot_minutes;
-  } catch (err) {
-    console.error('Ошибка при загрузке расписания врача', err);
-  }
-}
-,
+              const fullSchedule = Array(7).fill(null).map((_, i) => ({
+                  day: i,
+                  start_time: '',
+                  end_time: '',
+                  is_day_off: false // все дни по умолчанию выходные
+              }));
+
+              if (Array.isArray(data.schedule)) {
+                  for (const day of data.schedule) {
+                      fullSchedule[day.day] = {
+                          ...fullSchedule[day.day],
+                          ...day,
+                          day: day.day,
+                          is_day_off: day.is_day_off !== undefined ? day.is_day_off : true
+                      };
+                  }
+              }
+
+              this.doctorSchedule = fullSchedule;
+              this.doctorSlotMinutes = data.slot_minutes ?? null; // если нет, будет null
+          } catch (err) {
+              console.error('Ошибка при загрузке расписания врача', err);
+              // fallback: показать пустое расписание, где всё выходные
+              this.doctorSchedule = Array(7).fill(null).map((_, i) => ({
+                  day: i,
+                  start_time: '',
+                  end_time: '',
+                  is_day_off: true
+              }));
+              this.doctorSlotMinutes = null;
+          }
+      },
     async saveDoctorSchedule() {
         this.invalidDays = [];
         this.doctorSlotError = false;
 
         if (!this.isValidSlot(this.doctorSlotMinutes)) {
             this.doctorSlotError = true;
-            alert('Продолжительность приема должна составлять от 5 до 180 минут');
+            alert('Продолжительность приема должна составлять от 10 до 180 минут');
             return;
         }
 
         for (const day of this.doctorSchedule) {
-            if (day.is_open) {
+            if (day.is_day_off) { // если день рабочий
             const clinicBounds = this.clinicTimeBoundsForDay(day.day);
 
             if (!this.validateTimeInterval(day.start_time, day.end_time, this.doctorSlotMinutes)) {
@@ -260,7 +359,7 @@ async fetchDoctorSchedule() {
         }
 
     try {
-        const res = await fetch(`http://192.168.1.207:8080/api/doctor-schedule/${this.selectedDoctor}`, {
+        const res = await fetch(`/api/doctor-schedule/${this.selectedDoctor.user_id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -274,9 +373,74 @@ async fetchDoctorSchedule() {
         console.error(err);
         alert('Не удалось сохранить расписание врача');
     }
-    }, 
+    },
 
-    async saveOverrideClinic() {
+      async handleOverrideClinicDateChange() {
+          this.overrideClinicErrors.date = false;
+
+          const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+          if (!this.overrideClinicForm.date || !datePattern.test(this.overrideClinicForm.date)) {
+              return;
+          }
+
+          try {
+              const res = await fetch(`/api/clinic-overrides/${this.overrideClinicForm.date}`);
+              if (!res.ok) {
+                  if (res.status === 404) {
+                      this.overrideClinicForm.type = 'off';
+                      this.overrideClinicForm.start_time = '';
+                      this.overrideClinicForm.end_time = '';
+                      return;
+                  }
+                  console.error('Ошибка при загрузке переопределения клиники:', res.statusText);
+                  return;
+              }
+
+              const data = await res.json();
+
+              this.overrideClinicForm.type = data.is_day_off ? 'off' : 'work';
+              this.overrideClinicForm.start_time = data.start_time || '';
+              this.overrideClinicForm.end_time = data.end_time || '';
+          } catch (err) {
+              console.error('Ошибка при загрузке переопределения клиники:', err);
+          }
+      },
+
+      async handleOverrideDateChange() {
+          this.overrideErrors.date = false;
+
+          const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+          if (!this.overrideForm.date || !this.overrideForm.doctor_id || !datePattern.test(this.overrideForm.date)) {
+              return;
+          }
+          try {
+              const res = await fetch(`/api/doctor-overrides/${this.overrideForm.doctor_id}/${this.overrideForm.date}`);
+              if (!res.ok) {
+                  if (res.status === 404) {
+                      this.overrideForm.type = 'off';
+                      this.overrideForm.start_time = '';
+                      this.overrideForm.end_time = '';
+                      return;
+                  }
+                  console.error('Ошибка при загрузке переопределения клиники:', res.statusText);
+                  return;
+              }
+
+
+
+              const data = await res.json();
+
+              this.overrideForm.type = data.is_day_off ? 'off' : 'work';
+              this.overrideForm.start_time = data.start_time || '';
+              this.overrideForm.end_time = data.end_time || '';
+          } catch (err) {
+              console.error('Ошибка при загрузке переопределения врача:', err);
+          }
+      },
+
+      async saveOverrideClinic() {
         this.overrideClinicErrors = {
             date: false,
             start_time: false,
@@ -299,7 +463,7 @@ async fetchDoctorSchedule() {
         }
 
         try {
-            const res = await fetch('http://192.168.1.207:8080/api/clinic-overrides', {
+            const res = await fetch('/api/clinic-overrides', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.overrideClinicForm),
@@ -343,10 +507,11 @@ async fetchDoctorSchedule() {
             return;
             }
 
-            const day = new Date(this.overrideForm.date).getDay();
-            const clinicBounds = this.clinicTimeBoundsForDay(day === 0 ? 6 : day - 1);
+        const day = new Date(this.overrideForm.date).getDay(); // 0 = воскресенье
+        const clinicBounds = this.clinicTimeBoundsForDay(day);
 
-            if (!this.isWithinClinicTime(this.overrideForm.start_time, this.overrideForm.end_time, clinicBounds)) {
+
+        if (!this.isWithinClinicTime(this.overrideForm.start_time, this.overrideForm.end_time, clinicBounds)) {
                 this.overrideErrors.start_time = true;
                 this.overrideErrors.end_time = true;
                 alert('Выбранные параметры не соответствуют расписанию клиники');
@@ -354,7 +519,7 @@ async fetchDoctorSchedule() {
             }
         }
       try {
-        const res = await fetch('http://192.168.1.207:8080/api/doctor-overrides', {
+        const res = await fetch('/api/doctor-overrides', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(this.overrideForm),

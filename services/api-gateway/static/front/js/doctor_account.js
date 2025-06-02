@@ -9,12 +9,10 @@ createApp({
       tabs: [
         { id: 'today', label: 'Записи на сегодня' },
         { id: 'upcoming', label: 'Расписание' },
-        { id: 'completed', label: 'Завершенные приемы' }
       ],
       data: {
         today: null,
         upcoming: null,
-        completed: null
       },
       scheduleDates: [],
       scheduleTimes: [],
@@ -43,7 +41,6 @@ createApp({
     activeTab(newTab) {
       if (newTab === 'today' && this.data.today === null) this.fetchTodayAppointments();
       if (newTab === 'upcoming' && this.data.upcoming === null) this.fetchUpcomingSchedule();
-      if (newTab === 'completed' && this.data.completed === null) this.fetchCompletedAppointments();
     }
   },
   methods: {
@@ -64,12 +61,6 @@ createApp({
           .catch(err => console.error('Ошибка при загрузке расписания:', err));
     },
 
-    fetchCompletedAppointments() {
-      fetch('/api/appointments-completed')
-          .then(res => res.json())
-          .then(json => { this.data.completed = json.completed || []; })
-          .catch(err => console.error('Ошибка при загрузке завершенных приёмов:', err));
-    },
     getPatientByDateTime(date, time) {
       return (this.data.upcoming || []).find(x => x.date === date && x.time === time);
     },

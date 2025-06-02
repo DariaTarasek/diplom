@@ -12,7 +12,7 @@ import (
 func (s *Store) GetICDCodes(ctx context.Context) ([]model.ICD, error) {
 	query, args, err := s.builder.
 		Select("*").
-		From("icd-codes").
+		From("icd_codes").
 		ToSql()
 	if err != nil {
 		return nil, fmt.Errorf("не удалось сформировать запрос для получения списка кодов МКБ: %w", err)

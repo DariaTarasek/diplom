@@ -19,12 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const data = {
-      contact: rawValue,
+      login: rawValue,
       type: 'email',
     };
 
     try {
-      const response = await fetch('/api/emaployee-password-recovery', {
+      const response = await fetch('/api/employee-password-recovery', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (response.ok) {
-        alert('На указанный email отправлен код восстановления пароля.');
+        alert('На указанный email отправлен новый пароль.');
         window.location.href = "/auth_doc.html"
       } else {
         alert('Ошибка на сервере. Попробуйте позже.');

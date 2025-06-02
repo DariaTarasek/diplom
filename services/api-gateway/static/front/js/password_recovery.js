@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const rawValue = input.value.trim();
+    const rawValue = input.value.trim().replace(/\D/g, '');
 
     // Проверка номера (нач. с 7, 11 символов)
     const digits = phoneInput.value.replace(/\D/g, '');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const data = {
-      contact: rawValue,
+      login: rawValue,
       type: 'phone',
     };
 
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (response.ok) {
-        alert('На указанный номер отправлен код восстановления пароля.');
+        alert('На указанный номер отправлен новый пароль.');
         window.location.href = "/index.html"
       } else {
         alert('Ошибка на сервере. Попробуйте позже.');

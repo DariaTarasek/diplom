@@ -1,0 +1,204 @@
+package doctor
+
+import (
+	"fmt"
+	"github.com/DariaTarasek/diplom/services/api-gateway/model"
+	doctorpb "github.com/DariaTarasek/diplom/services/api-gateway/proto/doctor"
+	"github.com/gin-gonic/gin"
+	"log"
+	"net/http"
+	"strconv"
+)
+
+func (h *DoctorHandler) GetPatientAllergiesChronics(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+
+	notesResp, err := h.DoctorClient.Client.GetPatientAllergiesChronics(c.Request.Context(), &doctorpb.GetByIdRequest{Id: int32(id)})
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	var notes []model.AllergiesChronics
+	for _, item := range notesResp.PatientAllergiesChronics {
+		note := model.AllergiesChronics{
+			ID:        int(item.Id),
+			PatientID: int(item.PatientId),
+			Type:      item.Type,
+			Title:     item.Title,
+		}
+		notes = append(notes, note)
+	}
+	c.JSON(http.StatusOK, notes)
+}
+
+func (h *DoctorHandler) GetAppointmentByID(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+
+	apptResp, err := h.DoctorClient.Client.GetAppointmentByID(c.Request.Context(), &doctorpb.GetByIdRequest{Id: int32(id)})
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	patientID := model.UserID(apptResp.Appt.PatientId)
+	appt := model.Appointment{
+		ID:                 model.AppointmentID(apptResp.Appt.Id),
+		DoctorID:           model.UserID(apptResp.Appt.DoctorId),
+		PatientID:          &patientID,
+		Date:               apptResp.Appt.Date.AsTime().Format("02.01.06"),
+		Time:               apptResp.Appt.Time.AsTime().Format("15:04"),
+		PatientSecondName:  apptResp.Appt.SecondName,
+		PatientFirstName:   apptResp.Appt.FirstName,
+		PatientSurname:     &apptResp.Appt.Surname,
+		PatientBirthDate:   apptResp.Appt.BirthDate.AsTime().Format("02.01.2006"),
+		PatientGender:      apptResp.Appt.Gender,
+		PatientPhoneNumber: apptResp.Appt.PhoneNumber,
+		Status:             apptResp.Appt.Status,
+		CreatedAt:          apptResp.Appt.CreatedAt.AsTime().Format("2006.01.02 15:04"),
+		UpdatedAt:          apptResp.Appt.UpdatedAt.AsTime().Format("2006.01.02 15:04"),
+	}
+
+	c.JSON(http.StatusOK, appt)
+}
+
+func (h *DoctorHandler) GetPatientVisits(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+
+	visitsResp, err := h.DoctorClient.Client.GetPatientVisits(c.Request.Context(), &doctorpb.GetByIdRequest{Id: int32(id)})
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	var visits []model.Visit
+	for _, item := range visitsResp.Visits {
+		visit := model.Visit{
+			ID:            int(item.Id),
+			AppointmentID: int(item.ApptId),
+			PatientID:     int(item.PatientId),
+			Doctor:        item.Doctor,
+			Complaints:    item.Complaints,
+			Treatment:     item.Treatment,
+			CreatedAt:     item.CreatedAt,
+			Diagnoses:     DerefDiagnoses(item.Diagnoses),
+		}
+		visits = append(visits, visit)
+	}
+	fmt.Println(visits)
+	c.JSON(http.StatusOK, visits)
+}
+
+func DerefDiagnoses(src []*doctorpb.Diagnose) []model.Diagnose {
+	result := make([]model.Diagnose, 0, len(src))
+	for _, d := range src {
+		if d != nil {
+			result = append(result, model.Diagnose{
+				ICDCode: d.IcdCode,
+				Notes:   d.Notes,
+			})
+		}
+	}
+	return result
+}
+
+func (h *DoctorHandler) AddPatientAllergiesChronics(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+
+	var notes []model.AllergiesChronics
+	if err := c.ShouldBindJSON(&notes); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	var notesReq []*doctorpb.PatientAllergiesChronics
+	for _, item := range notes {
+		note := &doctorpb.PatientAllergiesChronics{
+			PatientId: int32(id),
+			Type:      item.Type,
+			Title:     item.Title,
+		}
+		notesReq = append(notesReq, note)
+	}
+	AddNotesRequest := &doctorpb.AddPatientAllergiesChronicsRequest{Notes: notesReq}
+	_, err = h.DoctorClient.Client.AddPatientAllergiesChronics(c.Request.Context(), AddNotesRequest)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusCreated, gin.H{})
+}
+
+func (h *DoctorHandler) AddConsultation(c *gin.Context) {
+	var visit model.VisitSaveRequest
+	if err := c.ShouldBindJSON(&visit); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+
+	var materialsReq []*doctorpb.AddVisitMaterials
+	for _, item := range visit.Materials {
+		material := &doctorpb.AddVisitMaterials{
+			MaterialId: int32(item.ID),
+			Amount:     int32(item.Quantity),
+		}
+		materialsReq = append(materialsReq, material)
+	}
+
+	var servicesReq []*doctorpb.AddVisitServices
+	for _, item := range visit.Services {
+		service := &doctorpb.AddVisitServices{
+			ServiceId: int32(item.ID),
+			Amount:    int32(item.Quantity),
+		}
+		servicesReq = append(servicesReq, service)
+	}
+
+	var diagnosesReq []*doctorpb.VisitDiagnose
+	for _, item := range visit.ICDCodes {
+		diagnose := &doctorpb.VisitDiagnose{
+			IcdCodeId: int32(item.CodeID),
+			Note:      item.Comment,
+		}
+		diagnosesReq = append(diagnosesReq, diagnose)
+	}
+
+	_, err := h.DoctorClient.Client.AddConsultation(c.Request.Context(), &doctorpb.AddConsultationRequest{
+		AppointmentId: int32(visit.AppointmentID),
+		PatientId:     int32(visit.PatientID),
+		DoctorId:      int32(visit.DoctorID),
+		Complaints:    visit.Complaints,
+		Treatment:     visit.Treatment,
+		Diagnoses:     diagnosesReq,
+		Services:      servicesReq,
+		Materials:     materialsReq,
+	})
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	c.JSON(http.StatusCreated, gin.H{})
+}

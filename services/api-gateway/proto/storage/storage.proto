@@ -274,6 +274,62 @@ message GetDoctorBySpecIDRequest {
   int32 spec_id = 1;
 }
 
+message GetAppointmentsByDoctorIDRequest {
+  int32 doctor_id = 1;
+}
+
+message Appointment {
+  int32 id = 1;
+  int32 doctor_id = 2;
+  google.protobuf.Timestamp date = 3;
+  google.protobuf.Timestamp time = 4;
+  int32 patient_id = 5;
+  string second_name = 6;
+  string first_name = 7;
+  string surname = 8;
+  google.protobuf.Timestamp birth_date = 9;
+  string gender = 10;
+  string phone_number = 11;
+  string status = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp updated_at = 14;
+}
+
+message GetAppointmentsByDoctorIDResponse {
+  repeated Appointment appointments = 1;
+}
+
+message GetByIDRequest {
+  int32 id = 1;
+}
+
+message GetPatientByIDResponse {
+  Patient patient = 1;
+}
+
+message AddAppointmentRequest {
+  Appointment appointment = 1;
+}
+
+message UpdateAppointmentRequest {
+  Appointment appointment = 1;
+}
+
+message GetAppointmentsByUserIDResponse {
+  repeated Appointment appointment = 1;
+}
+
+message GetAppointmentByIDResponse {
+  Appointment appointment = 1;
+}
+
+message GetDoctorByIDResponse {
+  Doctor doctor = 1;
+}
+
+message GetSpecsByDoctorIDResponse {
+  repeated int32 spec_id = 1;
+}
 message GetClinicOverrideRequest {
   google.protobuf.Timestamp date = 1;
 }
@@ -290,6 +346,7 @@ message GetDoctorOverrideRequest {
   google.protobuf.Timestamp date = 2;
 }
 
+
 message GetDoctorOverrideResponse {
   int32 doctor_id = 1;
   google.protobuf.Timestamp date = 2;
@@ -298,6 +355,17 @@ message GetDoctorOverrideResponse {
   bool is_day_off = 5;
 }
 
+message DoctorOverride {
+  int32 doctor_id = 1;
+  google.protobuf.Timestamp date = 2;
+  google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Timestamp end_time = 4;
+  bool is_day_off = 5;
+}
+
+message GetDoctorOverridesResponse {
+  repeated DoctorOverride override = 1;
+}
 
 message AddMaterialRequest {
   string name = 1;
@@ -389,6 +457,54 @@ message GetServiceTypeByIdResponse {
   string name = 2;
 }
 
+message UpdateUserLoginRequest {
+  int32 user_id = 1;
+  string login = 2;
+}
+
+message ICDCode {
+  int32 id = 1;
+  string code = 2;
+  string name = 3;
+}
+
+message Diagnose {
+  int32 id = 1;
+  int32 visit_id = 2;
+  int32 icd_code_id = 3;
+  string note = 4;
+}
+
+message Visit {
+  int32 id = 1;
+  int32 appointment_id = 2;
+  string complaints = 3;
+  string treatment = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message PatientAllergiesChronics {
+  int32 id = 1;
+  int32 patient_id = 2;
+  string type = 3;
+  string title = 4;
+}
+
+message GetPatientDiagnosesResponse {
+  repeated Diagnose diagnoses = 1;
+}
+
+message GetPatientVisitsResponse {
+  repeated Visit visits = 1;
+}
+
+message GetPatientAllergiesChronicsResponse {
+  repeated PatientAllergiesChronics patient_allergies_chronics = 1;
+}
+
+message GetICDCodesResponse {
+  repeated ICDCode icd_code = 1;
+}
 
 service StorageService {
   // управление аккаунтами
@@ -410,8 +526,9 @@ service StorageService {
   rpc UpdateAdminRole(UpdateAdminRoleRequest) returns (DefaultResponse);
 
   rpc UpdatePatient(UpdatePatientRequest) returns (DefaultResponse);
-  
+
   rpc DeleteUser(DeleteRequest) returns (DefaultResponse);
+  rpc UpdateUserLogin(UpdateUserLoginRequest) returns (DefaultResponse);
 
   rpc GetAllSpecs(EmptyRequest) returns (GetAllSpecsResponse); // получение всех специализаций врачей
   rpc AddUserRole(AddUserRoleRequest) returns (AddUserRoleResponse); // добавление роли пользователю
@@ -423,8 +540,14 @@ service StorageService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // обновление постояенного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
   rpc UpdateDoctorWeeklySchedule(UpdateDoctorWeeklyScheduleRequest) returns (DefaultResponse); // обновление постоянного расписания врача
-  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse); // получение прав для роли
-  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse); // получение врачей по специализации
+  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse);
+  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse);
+  rpc GetAppointmentsByDoctorID(GetAppointmentsByDoctorIDRequest) returns (GetAppointmentsByDoctorIDResponse);
+  rpc AddAppointment(AddAppointmentRequest) returns (DefaultResponse);
+  rpc GetAppointmentsByUserID(GetByIDRequest) returns (GetAppointmentsByUserIDResponse);
+  rpc GetSpecsByDoctorID(GetByIDRequest) returns (GetSpecsByDoctorIDResponse);
+  rpc GetDoctorByID(GetByIDRequest) returns (GetDoctorByIDResponse);
+  rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
   rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
   rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
   rpc GetClinicOverride(GetClinicOverrideRequest) returns (GetClinicOverrideResponse); // получение переопределения дня клиники
@@ -441,4 +564,15 @@ service StorageService {
   rpc GetServiceTypeById(GetServiceTypeByIdRequest) returns (GetServiceTypeByIdResponse);
   rpc DeleteMaterial(DeleteRequest) returns (DefaultResponse);
   rpc DeleteService(DeleteRequest) returns (DefaultResponse);
+
+  rpc GetDoctorOverrides(GetByIDRequest) returns (GetDoctorOverridesResponse);
+
+  // проведение приема
+  rpc GetPatientDiagnoses(GetByIdRequest) returns (GetPatientDiagnosesResponse);   // получение предыдущих диагнозов пациента
+  rpc GetPatientVisits(GetByIdRequest) returns (GetPatientVisitsResponse); // получение предыдущего лечения пациента
+  rpc GetPatientAllergiesChronics(GetByIdRequest) returns (GetPatientAllergiesChronicsResponse); // получение аллергий и хронических заболеваний
+  rpc GetICDCodes(EmptyRequest) returns (GetICDCodesResponse); // получение мкб-кодов
+  rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse); // получение пациента
+  rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse); // получение записи по айди
+
 }

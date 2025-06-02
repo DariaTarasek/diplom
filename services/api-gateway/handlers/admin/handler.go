@@ -39,5 +39,6 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.PUT("/admins-login/:id", h.UpdateEmployeeLogin)
 	rg.PUT("/doctors-login/:id", h.UpdateEmployeeLogin)
 	rg.PUT("/patients-login/:id", h.UpdatePatientLogin)
+	rg.GET("/completed-visits", h.GetVisitPayments)
 	//	rg.GET("/specialties", h.GetSpecs)
 }

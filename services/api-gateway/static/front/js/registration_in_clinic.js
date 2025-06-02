@@ -12,23 +12,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const popover = document.getElementById('profile-popover');
   const popoverUsername = document.getElementById('popover-username');
 
-  fetch('http://192.168.1.207:8080/api/admin-data')
-    .then(response => {
-      if (!response.ok) throw new Error("Ошибка при получении данных");
-      return response.json();
-    })
-    .then(data => {
-      const fullName = data.second_name + " " + data.first_name || "Неизвестный пользователь";
-      button.textContent = fullName;
-      popoverUsername.textContent = fullName;
-    })
-    .catch(error => {
-      console.error("Ошибка при загрузке имени пользователя:", error);
-      button.textContent = "Ошибка загрузки";
-      popoverUsername.textContent = "Ошибка загрузки";
-    });
+  fetch('/api/admin-data')
+      .then(response => {
+        if (!response.ok) throw new Error("Ошибка при получении данных");
+        return response.json();
+      })
+      .then(data => {
+        const fullName = data.second_name + " " + data.first_name || "Неизвестный пользователь";
+        button.textContent = fullName;
+        popoverUsername.textContent = fullName;
+      })
+      .catch(error => {
+        console.error("Ошибка при загрузке имени пользователя:", error);
+        button.textContent = "Ошибка загрузки";
+        popoverUsername.textContent = "Ошибка загрузки";
+      });
 
-  
+
   button.addEventListener('click', () => {
     popover.classList.toggle('d-none');
   });
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dateInput.max = maxDate;
   }
 
- 
+
   function validateEmail() {
     const value = email.value.trim();
     if (value.length === 0) {
@@ -73,12 +73,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   email.addEventListener('input', validateEmail);
 
-  
+
   const phoneInput = document.getElementById('phone');
   const phoneError = document.getElementById('phoneError');
 
   const validatePhone = () => {
     const digits = phoneInput.value.replace(/\D/g, '');
+    if (digits === '') {
+      phoneInput.classList.remove('is-invalid');
+      phoneError.textContent = '';
+      return true;
+    }
     if (digits.length !== 11) {
       phoneInput.classList.add('is-invalid');
       phoneError.textContent = 'Введите полный 11-значный номер телефона.';
@@ -92,184 +97,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   phoneInput.addEventListener('input', validatePhone);
 
-  // Подтверждение номера телефона 
-  const requestCodeBtn = document.getElementById('requestCodeBtn');
-  const verifyCodeBtn = document.getElementById('verifyCodeBtn');
-  const codeSection = document.getElementById('codeSection');
-  const codeInput = document.getElementById('smsCode');
-  const codeMessage = document.getElementById('codeMessage');
-  const phoneField = document.getElementById('phone');
-  const changePhone = document.getElementById('changePhone');
-  const resendCodeBtn = document.getElementById('resendCodeBtn');
-  const changePhoneBtn = document.getElementById('changePhoneBtn');
-
-  let phoneVerified = false;
-  let verifiedPhoneNumber = '';
-  let resendTimer;
-
-  function startResendTimer() {
-    clearInterval(resendTimer);
-    let seconds = 60;
-    resendCodeBtn.disabled = true;
-    resendCodeBtn.textContent = `Отправить код повторно (${seconds})`;
-
-    resendTimer = setInterval(() => {
-      seconds--;
-      resendCodeBtn.textContent = `Отправить код повторно (${seconds})`;
-
-      if (seconds <= 0) {
-        clearInterval(resendTimer);
-        resendCodeBtn.disabled = false;
-        resendCodeBtn.textContent = 'Отправить код повторно';
-      }
-    }, 1000);
-  }
-
-  requestCodeBtn.addEventListener('click', () => {
-    const phone = phoneField.value.trim();
-
-    if (!phone) {
-        codeMessage.textContent = 'Введите номер телефона.';
-        codeMessage.classList.remove('text-success');
-        codeMessage.classList.add('text-danger');
-        return;
-    }
-
-    if (!validatePhone()) {
-        codeMessage.textContent = 'Введите корректный номер телефона.';
-        codeMessage.classList.remove('text-success');
-        codeMessage.classList.add('text-danger');
-        return;
-    }
-
-    requestCodeBtn.disabled = true;
-
-    fetch('http://192.168.1.207:8080/api/request-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone })
-    })
-    .then(res => {
-        if (res.ok) {
-        phoneField.readOnly = true;
-        verifiedPhoneNumber = phone;
-        codeSection.style.display = 'block';
-        changePhone.style.display = 'block';
-        codeMessage.textContent = 'Код отправлен на номер.';
-        codeMessage.classList.remove('text-danger');
-        codeMessage.classList.add('text-success');
-        startResendTimer();
-        } else {
-        requestCodeBtn.disabled = false;
-        codeMessage.textContent = 'Ошибка при отправке кода.';
-        codeMessage.classList.remove('text-success');
-        codeMessage.classList.add('text-danger');
-        }
-    })
-    .catch(() => {
-        requestCodeBtn.disabled = false;
-        codeMessage.textContent = 'Ошибка сети при отправке кода.';
-        codeMessage.classList.remove('text-success');
-        codeMessage.classList.add('text-danger');
-    });
-  });
-
-  verifyCodeBtn.addEventListener('click', () => {
-    const code = codeInput.value.trim();
-
-    if (!code || !verifiedPhoneNumber) {
-      codeMessage.textContent = 'Введите код';
-      codeMessage.classList.remove('text-success');
-      codeMessage.classList.add('text-danger');
-      return;
-    }
-
-    fetch('http://192.168.1.207:8080/api/verify-code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone: verifiedPhoneNumber, code })
-    })
-      .then(res => {
-        if (res.ok) {
-          codeMessage.classList.remove('text-danger');
-          codeMessage.classList.add('text-success');
-          phoneVerified = true;
-          codeSection.style.display = 'none';         
-          changePhone.style.display = 'none'; 
-          requestCodeBtn.disabled = true;        
-          phoneField.disabled = true;                
-          const confirmedLabel = document.createElement('div'); 
-          confirmedLabel.className = 'text-success mt-2';
-          confirmedLabel.textContent = 'Телефон подтвержден!';
-          phoneField.parentNode.appendChild(confirmedLabel); 
-
-        } else {
-          codeMessage.textContent = 'Неверный код.';
-          codeMessage.classList.remove('text-success');
-          codeMessage.classList.add('text-danger');
-        }
-      })
-      .catch(() => {
-        codeMessage.textContent = 'Ошибка проверки кода.';
-        codeMessage.classList.remove('text-success');
-        codeMessage.classList.add('text-danger');
-      });
-  });
-
-  resendCodeBtn.addEventListener('click', () => {
-    const phone = phoneField.value.trim();
-
-    fetch('http://192.168.1.207:8080/api/request-code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone })
-    })
-      .then(res => {
-        if (res.ok) {
-          startResendTimer();
-        } else {
-          codeMessage.textContent = 'Ошибка при повторной отправке кода.';
-          codeMessage.classList.remove('text-success');
-          codeMessage.classList.add('text-danger');
-        }
-      })
-      .catch(() => {
-        codeMessage.textContent = 'Ошибка сети при повторной отправке кода.';
-        codeMessage.classList.remove('text-success');
-        codeMessage.classList.add('text-danger');
-      });
-  });
-
-  changePhoneBtn.addEventListener('click', () => {
-    clearInterval(resendTimer);
-    phoneField.readOnly = false;
-    verifiedPhoneNumber = '';
-    phoneVerified = false;
-    codeSection.style.display = 'none';
-    changePhone.style.display = 'none';
-    codeInput.value = '';
-    codeMessage.textContent = '';
-    requestCodeBtn.disabled = false;
-  });
 
   firstName.addEventListener('input', () => {
     if (firstName.value.trim().length === 0) {
-        firstNameError.textContent = 'Имя не может быть пустым';
-         firstName.classList.add('is-invalid');
-     } else {
-        firstNameError.textContent = '';
-        firstName.classList.remove('is-invalid');
-        }
+      firstNameError.textContent = 'Имя не может быть пустым';
+      firstName.classList.add('is-invalid');
+    } else {
+      firstNameError.textContent = '';
+      firstName.classList.remove('is-invalid');
+    }
   });
 
   secondName.addEventListener('input', () => {
     if (secondName.value.trim().length === 0) {
-        secondNameError.textContent = 'Фамилия не может быть пустой';
-         secondName.classList.add('is-invalid');
-     } else {
-        secondNameError.textContent = '';
-        secondName.classList.remove('is-invalid');
-        }
+      secondNameError.textContent = 'Фамилия не может быть пустой';
+      secondName.classList.add('is-invalid');
+    } else {
+      secondNameError.textContent = '';
+      secondName.classList.remove('is-invalid');
+    }
   });
 
   form.addEventListener('submit', function (event) {
@@ -286,51 +132,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!isFirstNameValid || !isSecondNameValid) return;
 
-    if (!phoneVerified) {
-      alert('Подтвердите номер телефона перед регистрацией.');
-      return;
-    }
-
-
 
     const formData = {
-      second_name: form.elements['secondName'].value,
-      first_name: form.elements['firstName'].value,
+      secondName: form.elements['secondName'].value,
+      firstName: form.elements['firstName'].value,
       surname: form.elements['surname'].value,
       gender: form.elements['gender'].value,
       birthDate: form.elements['birthDate'].value,
-      phone: verifiedPhoneNumber,
+      phone: form.elements['phone'].value,
       email: form.elements['email'].value
     };
 
-    fetch('http://192.168.1.207:8080/api/register-in-clinic', {
+    formData.phone = formData.phone.replace(/\D/g, '').trim()
+
+    fetch('/api/register-in-clinic', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
     })
-      .then(response => {
-        if (response.ok) {
-          alert('Регистрация прошла успешно!');
-          phoneField.readOnly = false;
-          phoneVerified = false;
-          verifiedPhoneNumber = '';
-          codeSection.style.display = 'none';
-          changePhone.style.display = 'none';
-          codeInput.value = '';
-          codeMessage.textContent = '';
-          requestCodeBtn.disabled = false;
-          window.location.href = "/admins_patient_list.html"
-        } else {
-          response.text().then(text => {
-            alert('Ошибка регистрации: ' + text);
-          });
-        }
-      })
-      .catch(error => {
-        console.error('Ошибка:', error);
-        alert('Произошла ошибка при отправке данных.');
-      });
+        .then(response => {
+          if (response.ok) {
+            alert('Регистрация прошла успешно!');
+            window.location.href = "/admins_patient_list.html"
+          } else {
+            response.text().then(text => {
+              alert('Ошибка регистрации: ' + text);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Ошибка:', error);
+          alert('Произошла ошибка при отправке данных.');
+        });
   });
 });

@@ -466,7 +466,6 @@ message ICDCode {
   int32 id = 1;
   string code = 2;
   string name = 3;
-  string description = 4;
 }
 
 message Diagnose {
@@ -479,16 +478,53 @@ message Diagnose {
 message Visit {
   int32 id = 1;
   int32 appointment_id = 2;
-  int32 complaints = 3;
-  int32 treatment = 4;
-  google.protobuf.Timestamp created_at = 5;
+  int32 patient_id = 3;
+  int32 doctor_id = 4;
+  string complaints = 5;
+  string treatment = 6;
+  google.protobuf.Timestamp created_at = 7;
 }
 
 message PatientAllergiesChronics {
   int32 id = 1;
   int32 patient_id = 2;
-  int32 type = 3;
-  int32 title = 4;
+  string type = 3;
+  string title = 4;
+}
+
+message AddVisitMaterials {
+  int32 visit_id = 1;
+  int32 material_id = 2;
+  int32 amount = 3;
+}
+message AddVisitMaterialsRequest {
+  repeated AddVisitMaterials materials = 1;
+}
+
+message AddVisitServices {
+  int32 visit_id = 1;
+  int32 service_id = 2;
+  int32 amount = 3;
+}
+message AddVisitServicesRequest {
+  repeated AddVisitServices services = 1;
+}
+
+message AddPatientAllergiesChronicsRequest {
+  repeated PatientAllergiesChronics notes = 1;
+}
+
+message AddPatientVisitRequest {
+  int32 appointment_id = 2;
+  int32 patient_id = 3;
+  int32 doctor_id = 4;
+  string complaints = 5;
+  string treatment = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message AddPatientDiagnosesRequest {
+  repeated Diagnose diagnoses = 1;
 }
 
 message GetPatientDiagnosesResponse {
@@ -506,6 +542,46 @@ message GetPatientAllergiesChronicsResponse {
 message GetICDCodesResponse {
   repeated ICDCode icd_code = 1;
 }
+
+message AddVisitResponse {
+  int32 id = 1;
+}
+
+message VisitPayment {
+    int32 visit_id = 1;
+    int32 price = 2;
+    string status = 3;
+}
+
+message VisitPaymentRequest {
+  int32 visit_id = 1;
+  int32 price = 2;
+  string status = 3;
+}
+
+message GetVisitsPaymentsResponse {
+  repeated VisitPayment visit_payment = 1;
+}
+
+// Запрос на подсчет суммы по визиту
+message CalculateVisitTotalRequest {
+  int32 visit_id = 1;
+}
+
+// Ответ с итоговой суммой
+message CalculateVisitTotalResponse {
+  int32 total = 1;
+}
+
+// Запрос на добавление или обновление платежа
+message AddOrUpdateVisitPaymentRequest {
+  VisitPayment payment = 1;
+}
+
+message GetVisitByIDResponse {
+  Visit visit = 1;
+}
+
 
 service StorageService {
   // управление аккаунтами
@@ -575,5 +651,16 @@ service StorageService {
   rpc GetICDCodes(EmptyRequest) returns (GetICDCodesResponse); // получение мкб-кодов
   rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse); // получение пациента
   rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse); // получение записи по айди
+  rpc AddPatientAllergiesChronics(AddPatientAllergiesChronicsRequest) returns (DefaultResponse);
+  rpc AddPatientVisit(AddPatientVisitRequest) returns (AddVisitResponse);
+  rpc AddVisitMaterials(AddVisitMaterialsRequest) returns (DefaultResponse);
+  rpc AddVisitServices(AddVisitServicesRequest) returns (DefaultResponse);
+  rpc AddPatientDiagnoses(AddPatientDiagnosesRequest) returns (DefaultResponse);
+  rpc AddVisitPayment(VisitPaymentRequest) returns (DefaultResponse);
+  rpc UpdateVisitPayment(VisitPaymentRequest) returns (DefaultResponse);
+  rpc GetVisitByID(GetByIdRequest) returns (GetVisitByIDResponse);
 
+  rpc CalculateVisitTotal(CalculateVisitTotalRequest) returns (CalculateVisitTotalResponse);
+  rpc AddOrUpdateVisitPayment(AddOrUpdateVisitPaymentRequest) returns (DefaultResponse);
+  rpc GetVisitsPayments(EmptyRequest) returns (GetVisitsPaymentsResponse);
 }

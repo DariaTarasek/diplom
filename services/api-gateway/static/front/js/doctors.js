@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("http://192.168.1.207:8080/api/doctors")
+  fetch("/api/doctors")
     .then(res => res.json())
     .then(doctors => {
       const container = document.getElementById("doctorsContainer");
@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const text = clone.querySelector(".card-text");
         const img = clone.querySelector(".card-img-top");
 
-        if (title) title.textContent =  doctor.second_name + " " + doctor.first_name + " " + doctor.surname;
-        if (text) text.textContent = "Специализация: " + doctor.specialty.name;
+        if (title) title.textContent =  doctor.secondName + " " + doctor.firstName + " " + doctor.surname;
+        if (text) text.textContent = "Специализация: " + doctor.specialization;
         if (img) img.setAttribute("src", doctor.photo_url);
 
         container.appendChild(clone);

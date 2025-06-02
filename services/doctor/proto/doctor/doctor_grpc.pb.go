@@ -19,8 +19,19 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DoctorService_GetTodayAppointments_FullMethodName    = "/doctor.DoctorService/GetTodayAppointments"
-	DoctorService_GetUpcomingAppointments_FullMethodName = "/doctor.DoctorService/GetUpcomingAppointments"
+	DoctorService_GetTodayAppointments_FullMethodName        = "/doctor.DoctorService/GetTodayAppointments"
+	DoctorService_GetUpcomingAppointments_FullMethodName     = "/doctor.DoctorService/GetUpcomingAppointments"
+	DoctorService_GetPatientAllergiesChronics_FullMethodName = "/doctor.DoctorService/GetPatientAllergiesChronics"
+	DoctorService_GetAppointmentByID_FullMethodName          = "/doctor.DoctorService/GetAppointmentByID"
+	DoctorService_GetPatientVisits_FullMethodName            = "/doctor.DoctorService/GetPatientVisits"
+	DoctorService_AddPatientAllergiesChronics_FullMethodName = "/doctor.DoctorService/AddPatientAllergiesChronics"
+	DoctorService_AddPatientVisit_FullMethodName             = "/doctor.DoctorService/AddPatientVisit"
+	DoctorService_AddVisitMaterials_FullMethodName           = "/doctor.DoctorService/AddVisitMaterials"
+	DoctorService_AddVisitServices_FullMethodName            = "/doctor.DoctorService/AddVisitServices"
+	DoctorService_AddPatientDiagnoses_FullMethodName         = "/doctor.DoctorService/AddPatientDiagnoses"
+	DoctorService_AddVisitPayment_FullMethodName             = "/doctor.DoctorService/AddVisitPayment"
+	DoctorService_UpdateVisitPayment_FullMethodName          = "/doctor.DoctorService/UpdateVisitPayment"
+	DoctorService_AddConsultation_FullMethodName             = "/doctor.DoctorService/AddConsultation"
 )
 
 // DoctorServiceClient is the client API for DoctorService service.
@@ -29,6 +40,17 @@ const (
 type DoctorServiceClient interface {
 	GetTodayAppointments(ctx context.Context, in *GetTodayAppointmentsRequest, opts ...grpc.CallOption) (*GetTodayAppointmentsResponse, error)
 	GetUpcomingAppointments(ctx context.Context, in *GetUpcomingAppointmentsRequest, opts ...grpc.CallOption) (*GetUpcomingAppointmentsResponse, error)
+	GetPatientAllergiesChronics(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetPatientAllergiesChronicsResponse, error)
+	GetAppointmentByID(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetAppointmentByIDResponse, error)
+	GetPatientVisits(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetPatientVisitsResponse, error)
+	AddPatientAllergiesChronics(ctx context.Context, in *AddPatientAllergiesChronicsRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddPatientVisit(ctx context.Context, in *AddPatientVisitRequest, opts ...grpc.CallOption) (*AddVisitResponse, error)
+	AddVisitMaterials(ctx context.Context, in *AddVisitMaterialsRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddVisitServices(ctx context.Context, in *AddVisitServicesRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddPatientDiagnoses(ctx context.Context, in *AddPatientDiagnosesRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddVisitPayment(ctx context.Context, in *VisitPaymentRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	UpdateVisitPayment(ctx context.Context, in *VisitPaymentRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	AddConsultation(ctx context.Context, in *AddConsultationRequest, opts ...grpc.CallOption) (*AddConsultationResponse, error)
 }
 
 type doctorServiceClient struct {
@@ -59,12 +81,133 @@ func (c *doctorServiceClient) GetUpcomingAppointments(ctx context.Context, in *G
 	return out, nil
 }
 
+func (c *doctorServiceClient) GetPatientAllergiesChronics(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetPatientAllergiesChronicsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetPatientAllergiesChronicsResponse)
+	err := c.cc.Invoke(ctx, DoctorService_GetPatientAllergiesChronics_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) GetAppointmentByID(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetAppointmentByIDResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAppointmentByIDResponse)
+	err := c.cc.Invoke(ctx, DoctorService_GetAppointmentByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) GetPatientVisits(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetPatientVisitsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetPatientVisitsResponse)
+	err := c.cc.Invoke(ctx, DoctorService_GetPatientVisits_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) AddPatientAllergiesChronics(ctx context.Context, in *AddPatientAllergiesChronicsRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, DoctorService_AddPatientAllergiesChronics_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) AddPatientVisit(ctx context.Context, in *AddPatientVisitRequest, opts ...grpc.CallOption) (*AddVisitResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddVisitResponse)
+	err := c.cc.Invoke(ctx, DoctorService_AddPatientVisit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) AddVisitMaterials(ctx context.Context, in *AddVisitMaterialsRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, DoctorService_AddVisitMaterials_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) AddVisitServices(ctx context.Context, in *AddVisitServicesRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, DoctorService_AddVisitServices_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) AddPatientDiagnoses(ctx context.Context, in *AddPatientDiagnosesRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, DoctorService_AddPatientDiagnoses_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) AddVisitPayment(ctx context.Context, in *VisitPaymentRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, DoctorService_AddVisitPayment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) UpdateVisitPayment(ctx context.Context, in *VisitPaymentRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, DoctorService_UpdateVisitPayment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) AddConsultation(ctx context.Context, in *AddConsultationRequest, opts ...grpc.CallOption) (*AddConsultationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddConsultationResponse)
+	err := c.cc.Invoke(ctx, DoctorService_AddConsultation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DoctorServiceServer is the server API for DoctorService service.
 // All implementations must embed UnimplementedDoctorServiceServer
 // for forward compatibility.
 type DoctorServiceServer interface {
 	GetTodayAppointments(context.Context, *GetTodayAppointmentsRequest) (*GetTodayAppointmentsResponse, error)
 	GetUpcomingAppointments(context.Context, *GetUpcomingAppointmentsRequest) (*GetUpcomingAppointmentsResponse, error)
+	GetPatientAllergiesChronics(context.Context, *GetByIdRequest) (*GetPatientAllergiesChronicsResponse, error)
+	GetAppointmentByID(context.Context, *GetByIdRequest) (*GetAppointmentByIDResponse, error)
+	GetPatientVisits(context.Context, *GetByIdRequest) (*GetPatientVisitsResponse, error)
+	AddPatientAllergiesChronics(context.Context, *AddPatientAllergiesChronicsRequest) (*DefaultResponse, error)
+	AddPatientVisit(context.Context, *AddPatientVisitRequest) (*AddVisitResponse, error)
+	AddVisitMaterials(context.Context, *AddVisitMaterialsRequest) (*DefaultResponse, error)
+	AddVisitServices(context.Context, *AddVisitServicesRequest) (*DefaultResponse, error)
+	AddPatientDiagnoses(context.Context, *AddPatientDiagnosesRequest) (*DefaultResponse, error)
+	AddVisitPayment(context.Context, *VisitPaymentRequest) (*DefaultResponse, error)
+	UpdateVisitPayment(context.Context, *VisitPaymentRequest) (*DefaultResponse, error)
+	AddConsultation(context.Context, *AddConsultationRequest) (*AddConsultationResponse, error)
 	mustEmbedUnimplementedDoctorServiceServer()
 }
 
@@ -80,6 +223,39 @@ func (UnimplementedDoctorServiceServer) GetTodayAppointments(context.Context, *G
 }
 func (UnimplementedDoctorServiceServer) GetUpcomingAppointments(context.Context, *GetUpcomingAppointmentsRequest) (*GetUpcomingAppointmentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUpcomingAppointments not implemented")
+}
+func (UnimplementedDoctorServiceServer) GetPatientAllergiesChronics(context.Context, *GetByIdRequest) (*GetPatientAllergiesChronicsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPatientAllergiesChronics not implemented")
+}
+func (UnimplementedDoctorServiceServer) GetAppointmentByID(context.Context, *GetByIdRequest) (*GetAppointmentByIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAppointmentByID not implemented")
+}
+func (UnimplementedDoctorServiceServer) GetPatientVisits(context.Context, *GetByIdRequest) (*GetPatientVisitsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPatientVisits not implemented")
+}
+func (UnimplementedDoctorServiceServer) AddPatientAllergiesChronics(context.Context, *AddPatientAllergiesChronicsRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPatientAllergiesChronics not implemented")
+}
+func (UnimplementedDoctorServiceServer) AddPatientVisit(context.Context, *AddPatientVisitRequest) (*AddVisitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPatientVisit not implemented")
+}
+func (UnimplementedDoctorServiceServer) AddVisitMaterials(context.Context, *AddVisitMaterialsRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddVisitMaterials not implemented")
+}
+func (UnimplementedDoctorServiceServer) AddVisitServices(context.Context, *AddVisitServicesRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddVisitServices not implemented")
+}
+func (UnimplementedDoctorServiceServer) AddPatientDiagnoses(context.Context, *AddPatientDiagnosesRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPatientDiagnoses not implemented")
+}
+func (UnimplementedDoctorServiceServer) AddVisitPayment(context.Context, *VisitPaymentRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddVisitPayment not implemented")
+}
+func (UnimplementedDoctorServiceServer) UpdateVisitPayment(context.Context, *VisitPaymentRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateVisitPayment not implemented")
+}
+func (UnimplementedDoctorServiceServer) AddConsultation(context.Context, *AddConsultationRequest) (*AddConsultationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddConsultation not implemented")
 }
 func (UnimplementedDoctorServiceServer) mustEmbedUnimplementedDoctorServiceServer() {}
 func (UnimplementedDoctorServiceServer) testEmbeddedByValue()                       {}
@@ -138,6 +314,204 @@ func _DoctorService_GetUpcomingAppointments_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DoctorService_GetPatientAllergiesChronics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).GetPatientAllergiesChronics(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_GetPatientAllergiesChronics_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).GetPatientAllergiesChronics(ctx, req.(*GetByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_GetAppointmentByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).GetAppointmentByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_GetAppointmentByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).GetAppointmentByID(ctx, req.(*GetByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_GetPatientVisits_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).GetPatientVisits(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_GetPatientVisits_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).GetPatientVisits(ctx, req.(*GetByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_AddPatientAllergiesChronics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPatientAllergiesChronicsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).AddPatientAllergiesChronics(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_AddPatientAllergiesChronics_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).AddPatientAllergiesChronics(ctx, req.(*AddPatientAllergiesChronicsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_AddPatientVisit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPatientVisitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).AddPatientVisit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_AddPatientVisit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).AddPatientVisit(ctx, req.(*AddPatientVisitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_AddVisitMaterials_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddVisitMaterialsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).AddVisitMaterials(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_AddVisitMaterials_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).AddVisitMaterials(ctx, req.(*AddVisitMaterialsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_AddVisitServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddVisitServicesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).AddVisitServices(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_AddVisitServices_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).AddVisitServices(ctx, req.(*AddVisitServicesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_AddPatientDiagnoses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPatientDiagnosesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).AddPatientDiagnoses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_AddPatientDiagnoses_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).AddPatientDiagnoses(ctx, req.(*AddPatientDiagnosesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_AddVisitPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VisitPaymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).AddVisitPayment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_AddVisitPayment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).AddVisitPayment(ctx, req.(*VisitPaymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_UpdateVisitPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VisitPaymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).UpdateVisitPayment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_UpdateVisitPayment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).UpdateVisitPayment(ctx, req.(*VisitPaymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_AddConsultation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddConsultationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).AddConsultation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_AddConsultation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).AddConsultation(ctx, req.(*AddConsultationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DoctorService_ServiceDesc is the grpc.ServiceDesc for DoctorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +526,50 @@ var DoctorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUpcomingAppointments",
 			Handler:    _DoctorService_GetUpcomingAppointments_Handler,
+		},
+		{
+			MethodName: "GetPatientAllergiesChronics",
+			Handler:    _DoctorService_GetPatientAllergiesChronics_Handler,
+		},
+		{
+			MethodName: "GetAppointmentByID",
+			Handler:    _DoctorService_GetAppointmentByID_Handler,
+		},
+		{
+			MethodName: "GetPatientVisits",
+			Handler:    _DoctorService_GetPatientVisits_Handler,
+		},
+		{
+			MethodName: "AddPatientAllergiesChronics",
+			Handler:    _DoctorService_AddPatientAllergiesChronics_Handler,
+		},
+		{
+			MethodName: "AddPatientVisit",
+			Handler:    _DoctorService_AddPatientVisit_Handler,
+		},
+		{
+			MethodName: "AddVisitMaterials",
+			Handler:    _DoctorService_AddVisitMaterials_Handler,
+		},
+		{
+			MethodName: "AddVisitServices",
+			Handler:    _DoctorService_AddVisitServices_Handler,
+		},
+		{
+			MethodName: "AddPatientDiagnoses",
+			Handler:    _DoctorService_AddPatientDiagnoses_Handler,
+		},
+		{
+			MethodName: "AddVisitPayment",
+			Handler:    _DoctorService_AddVisitPayment_Handler,
+		},
+		{
+			MethodName: "UpdateVisitPayment",
+			Handler:    _DoctorService_UpdateVisitPayment_Handler,
+		},
+		{
+			MethodName: "AddConsultation",
+			Handler:    _DoctorService_AddConsultation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

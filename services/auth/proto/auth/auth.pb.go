@@ -139,6 +139,7 @@ type EmployeeData struct {
 	Role          int32                  `protobuf:"varint,7,opt,name=role,proto3" json:"role,omitempty"`
 	Education     string                 `protobuf:"bytes,8,opt,name=education,proto3" json:"education,omitempty"`
 	Experience    int32                  `protobuf:"varint,9,opt,name=experience,proto3" json:"experience,omitempty"`
+	Specs         []int32                `protobuf:"varint,10,rep,packed,name=specs,proto3" json:"specs,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -234,6 +235,13 @@ func (x *EmployeeData) GetExperience() int32 {
 		return x.Experience
 	}
 	return 0
+}
+
+func (x *EmployeeData) GetSpecs() []int32 {
+	if x != nil {
+		return x.Specs
+	}
+	return nil
 }
 
 type EmployeeRegisterRequest struct {
@@ -1166,7 +1174,7 @@ const file_proto_auth_auth_proto_rawDesc = "" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"I\n" +
 	"\x18EmployeeRegisterResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"\x8b\x02\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\xa1\x02\n" +
 	"\fEmployeeData\x12\x1d\n" +
 	"\n" +
 	"first_name\x18\x01 \x01(\tR\tfirstName\x12\x1f\n" +
@@ -1180,7 +1188,9 @@ const file_proto_auth_auth_proto_rawDesc = "" +
 	"\teducation\x18\b \x01(\tR\teducation\x12\x1e\n" +
 	"\n" +
 	"experience\x18\t \x01(\x05R\n" +
-	"experience\"m\n" +
+	"experience\x12\x14\n" +
+	"\x05specs\x18\n" +
+	" \x03(\x05R\x05specs\"m\n" +
 	"\x17EmployeeRegisterRequest\x12\"\n" +
 	"\x04user\x18\x01 \x01(\v2\x0e.auth.UserDataR\x04user\x12.\n" +
 	"\bemployee\x18\x02 \x01(\v2\x12.auth.EmployeeDataR\bemployee\"\x8c\x02\n" +

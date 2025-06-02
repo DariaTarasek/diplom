@@ -1,7 +1,5 @@
 package model
 
-type VisitID int
-
 type AppointmentMaterial struct {
 	ID           int        `db:"id"`
 	VisitID      VisitID    `db:"visit_id"`
