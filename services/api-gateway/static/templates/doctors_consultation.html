@@ -7,12 +7,12 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Bootstrap core CSS -->
-        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="static/bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template -->
-        <link rel="stylesheet" href="blocks.css">
-        <link href="style.css" rel="stylesheet">
-        <link rel="stylesheet" href="bootstrap_theme/icons.css">
-        <link href="footer_style.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/blocks.css">
+        <link href="static/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/bootstrap_theme/icons.css">
+        <link href="static/footer_style.css" rel="stylesheet">
         <title>Стоматологическая клиника «ПримаСтом»</title>
         <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; } th, td { text-align: center; vertical-align: middle; }</style>
         <style>[v-cloak] { display: none !important; }</style>
@@ -93,7 +93,7 @@
                         <h4 class="mb-3 text-black">Информация о пациенте</h4>
                         <p class="fs-5 text-black"><strong>ФИО:</strong> {{ fullName }}</p>
                         <p class="fs-5 text-black"><strong>Пол:</strong> {{ patient.gender }}</p>
-                        <p class="fs-5 text-black"><strong>Дата рождения:</strong> {{ patient.birthDate }} ({{ patientAge }} лет)</p>
+                        <p class="fs-5 text-black"><strong>Дата рождения:</strong> {{ patient.birthDate }} ({{ patientAge }} {{ getYearWord(patientAge) }})</p>
                         <!-- Аллергии -->
                         <h6 class="fs-5 text-black">Аллергии</h6>
                         <div class="d-flex flex-wrap mb-2"><span class="badge fs-6 mb-2 me-2  bg-light text-black" :class="newAllergies.includes(a) ? 'bg-outline-primary text-primary' : 'bg-light text-black'" v-for="(a, i) in combinedAllergies" :key="'a-' + i">
@@ -109,7 +109,7 @@
                         {{ c }} <i v-if="newChronics.includes(c)" class="bi bi-x ms-1" @click="removeNewChronicByValue(c)" role="button"></i> </span>
                         </div>
                         <div class="input-group w-50 mb-3">
-                            <input v-model="newChronic" class="form-control text-black" placeholder="Добавить хроническое заболевание" @keyup.enter="addNewChronic"/>
+                            <input v-model="newChronic" class="form-control text-black" placeholder="Добавить хр. заболевание" @keyup.enter="addNewChronic"/>
                             <button class="btn btn-outline-primary" @click="addNewChronic">Добавить</button>
                         </div>
                     </div>
@@ -320,7 +320,7 @@
                 </div>
                 <!-- Vue 3 -->
                 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-                <script src="js/doctors_consultation.js"></script>
+                <script src="static/js/doctors_consultation.js"></script>
             </main>
             <footer class="bg-dark text-white-50"> 
                 <div class="container"> 
@@ -329,8 +329,8 @@
                     </div>
                 </div>                 
             </footer>             
-            <script src="assets/js/popper.min.js"></script>
-            <script src="bootstrap/js/bootstrap.min.js"></script>
+            <script src="static/assets/js/popper.min.js"></script>
+            <script src="static/bootstrap/js/bootstrap.min.js"></script>
         </div>
     </body>
 </html>

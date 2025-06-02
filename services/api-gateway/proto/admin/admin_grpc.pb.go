@@ -21,28 +21,28 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AdminService_UpdateClinicWeeklySchedule_FullMethodName = "/admin.AdminService/UpdateClinicWeeklySchedule"
-	AdminService_AddDoctorWeeklySchedule_FullMethodName    = "/admin.AdminService/AddDoctorWeeklySchedule"
-	AdminService_UpdateDoctorWeeklySchedule_FullMethodName = "/admin.AdminService/UpdateDoctorWeeklySchedule"
-	AdminService_AddClinicDailyOverride_FullMethodName     = "/admin.AdminService/AddClinicDailyOverride"
-	AdminService_AddDoctorDailyOverride_FullMethodName     = "/admin.AdminService/AddDoctorDailyOverride"
-	AdminService_AddMaterial_FullMethodName                = "/admin.AdminService/AddMaterial"
-	AdminService_AddService_FullMethodName                 = "/admin.AdminService/AddService"
-	AdminService_UpdateMaterial_FullMethodName             = "/admin.AdminService/UpdateMaterial"
-	AdminService_UpdateService_FullMethodName              = "/admin.AdminService/UpdateService"
-	AdminService_DeleteMaterial_FullMethodName             = "/admin.AdminService/DeleteMaterial"
-	AdminService_DeleteService_FullMethodName              = "/admin.AdminService/DeleteService"
-	AdminService_GetAdmins_FullMethodName                  = "/admin.AdminService/GetAdmins"
-	AdminService_GetPatients_FullMethodName                = "/admin.AdminService/GetPatients"
-	AdminService_GetDoctors_FullMethodName                 = "/admin.AdminService/GetDoctors"
-	AdminService_GetSpecs_FullMethodName                   = "/admin.AdminService/GetSpecs"
-	AdminService_UpdateDoctor_FullMethodName               = "/admin.AdminService/UpdateDoctor"
-	AdminService_UpdateAdmin_FullMethodName                = "/admin.AdminService/UpdateAdmin"
-	AdminService_UpdatePatient_FullMethodName              = "/admin.AdminService/UpdatePatient"
-	AdminService_DeleteUser_FullMethodName                 = "/admin.AdminService/DeleteUser"
-	AdminService_UpdateEmployeeLogin_FullMethodName        = "/admin.AdminService/UpdateEmployeeLogin"
-	AdminService_UpdatePatientLogin_FullMethodName         = "/admin.AdminService/UpdatePatientLogin"
-	AdminService_GetClinicScheduleGrid_FullMethodName      = "/admin.AdminService/GetClinicScheduleGrid"
+	AdminService_UpdateClinicWeeklySchedule_FullMethodName  = "/admin.AdminService/UpdateClinicWeeklySchedule"
+	AdminService_AddDoctorWeeklySchedule_FullMethodName     = "/admin.AdminService/AddDoctorWeeklySchedule"
+	AdminService_UpdateDoctorWeeklySchedule_FullMethodName  = "/admin.AdminService/UpdateDoctorWeeklySchedule"
+	AdminService_AddClinicDailyOverride_FullMethodName      = "/admin.AdminService/AddClinicDailyOverride"
+	AdminService_AddDoctorDailyOverride_FullMethodName      = "/admin.AdminService/AddDoctorDailyOverride"
+	AdminService_AddMaterial_FullMethodName                 = "/admin.AdminService/AddMaterial"
+	AdminService_AddService_FullMethodName                  = "/admin.AdminService/AddService"
+	AdminService_UpdateMaterial_FullMethodName              = "/admin.AdminService/UpdateMaterial"
+	AdminService_UpdateService_FullMethodName               = "/admin.AdminService/UpdateService"
+	AdminService_DeleteMaterial_FullMethodName              = "/admin.AdminService/DeleteMaterial"
+	AdminService_DeleteService_FullMethodName               = "/admin.AdminService/DeleteService"
+	AdminService_GetAdmins_FullMethodName                   = "/admin.AdminService/GetAdmins"
+	AdminService_GetPatients_FullMethodName                 = "/admin.AdminService/GetPatients"
+	AdminService_GetDoctors_FullMethodName                  = "/admin.AdminService/GetDoctors"
+	AdminService_GetSpecs_FullMethodName                    = "/admin.AdminService/GetSpecs"
+	AdminService_UpdateDoctor_FullMethodName                = "/admin.AdminService/UpdateDoctor"
+	AdminService_UpdateAdmin_FullMethodName                 = "/admin.AdminService/UpdateAdmin"
+	AdminService_UpdatePatient_FullMethodName               = "/admin.AdminService/UpdatePatient"
+	AdminService_DeleteUser_FullMethodName                  = "/admin.AdminService/DeleteUser"
+	AdminService_UpdateEmployeeLogin_FullMethodName         = "/admin.AdminService/UpdateEmployeeLogin"
+	AdminService_UpdatePatientLogin_FullMethodName          = "/admin.AdminService/UpdatePatientLogin"
+	AdminService_GetUnconfirmedVisitPayments_FullMethodName = "/admin.AdminService/GetUnconfirmedVisitPayments"
 )
 
 // AdminServiceClient is the client API for AdminService service.
@@ -70,7 +70,7 @@ type AdminServiceClient interface {
 	DeleteUser(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	UpdateEmployeeLogin(ctx context.Context, in *UpdateUserLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	UpdatePatientLogin(ctx context.Context, in *UpdateUserLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
-	GetClinicScheduleGrid(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*AdminScheduleOverview, error)
+	GetUnconfirmedVisitPayments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*UnconfirmedVisitPaymentsResponse, error)
 }
 
 type adminServiceClient struct {
@@ -291,10 +291,10 @@ func (c *adminServiceClient) UpdatePatientLogin(ctx context.Context, in *UpdateU
 	return out, nil
 }
 
-func (c *adminServiceClient) GetClinicScheduleGrid(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*AdminScheduleOverview, error) {
+func (c *adminServiceClient) GetUnconfirmedVisitPayments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*UnconfirmedVisitPaymentsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AdminScheduleOverview)
-	err := c.cc.Invoke(ctx, AdminService_GetClinicScheduleGrid_FullMethodName, in, out, cOpts...)
+	out := new(UnconfirmedVisitPaymentsResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetUnconfirmedVisitPayments_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -326,7 +326,7 @@ type AdminServiceServer interface {
 	DeleteUser(context.Context, *DeleteRequest) (*DefaultResponse, error)
 	UpdateEmployeeLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error)
 	UpdatePatientLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error)
-	GetClinicScheduleGrid(context.Context, *EmptyRequest) (*AdminScheduleOverview, error)
+	GetUnconfirmedVisitPayments(context.Context, *EmptyRequest) (*UnconfirmedVisitPaymentsResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -400,8 +400,8 @@ func (UnimplementedAdminServiceServer) UpdateEmployeeLogin(context.Context, *Upd
 func (UnimplementedAdminServiceServer) UpdatePatientLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePatientLogin not implemented")
 }
-func (UnimplementedAdminServiceServer) GetClinicScheduleGrid(context.Context, *EmptyRequest) (*AdminScheduleOverview, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetClinicScheduleGrid not implemented")
+func (UnimplementedAdminServiceServer) GetUnconfirmedVisitPayments(context.Context, *EmptyRequest) (*UnconfirmedVisitPaymentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUnconfirmedVisitPayments not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 func (UnimplementedAdminServiceServer) testEmbeddedByValue()                      {}
@@ -802,20 +802,20 @@ func _AdminService_UpdatePatientLogin_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AdminService_GetClinicScheduleGrid_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminService_GetUnconfirmedVisitPayments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EmptyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AdminServiceServer).GetClinicScheduleGrid(ctx, in)
+		return srv.(AdminServiceServer).GetUnconfirmedVisitPayments(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AdminService_GetClinicScheduleGrid_FullMethodName,
+		FullMethod: AdminService_GetUnconfirmedVisitPayments_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminServiceServer).GetClinicScheduleGrid(ctx, req.(*EmptyRequest))
+		return srv.(AdminServiceServer).GetUnconfirmedVisitPayments(ctx, req.(*EmptyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -912,8 +912,8 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AdminService_UpdatePatientLogin_Handler,
 		},
 		{
-			MethodName: "GetClinicScheduleGrid",
-			Handler:    _AdminService_GetClinicScheduleGrid_Handler,
+			MethodName: "GetUnconfirmedVisitPayments",
+			Handler:    _AdminService_GetUnconfirmedVisitPayments_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -383,3 +383,22 @@ func convertToProto(resp model.AdminScheduleOverview) *pb.AdminScheduleOverview 
 
 	return protoResp
 }
+
+func (s *Server) GetUnconfirmedVisitPayments(ctx context.Context, req *pb.EmptyRequest) (*pb.UnconfirmedVisitPaymentsResponse, error) {
+	visits, err := s.Service.GetUnconfirmedVisitsPayments(ctx)
+	if err != nil {
+		return &pb.UnconfirmedVisitPaymentsResponse{}, fmt.Errorf("не удалось получить визиты с неподтвержденной суммой к оплате: %w", err)
+	}
+	var visitsResp []*pb.UnconfirmedVisitPayment
+	for _, item := range visits {
+		visit := &pb.UnconfirmedVisitPayment{
+			VisitId:   int32(item.VisitID),
+			Doctor:    item.Doctor,
+			Patient:   item.Patient,
+			CreatedAt: item.CreatedAt,
+			Price:     int32(item.Price),
+		}
+		visitsResp = append(visitsResp, visit)
+	}
+	return &pb.UnconfirmedVisitPaymentsResponse{VisitPayments: visitsResp}, nil
+}

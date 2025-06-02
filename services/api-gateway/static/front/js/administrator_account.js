@@ -7,8 +7,9 @@ createApp({
       second_name: '',
       first_name: '',
       tabs: [
-        { id: 'schedule', label: 'Расписание приёмов' },
-        { id: 'pending', label: 'Неподтверждённые записи' }
+          { id: 'schedule', label: 'Расписание приёмов' },
+          { id: 'pending', label: 'Неподтверждённые записи' },
+          { id: 'completed', label: 'Завершённые приёмы' }
       ],
       schedule: {
         days: [],
@@ -64,9 +65,13 @@ createApp({
         },
 
       currentWeekStartIndex: 0,  // индекс начала текущей видимой недели
+<<<<<<< HEAD
+        completed: [],
+=======
         currentPage: 0,
 
 
+>>>>>>> master
     };
   },
 
@@ -90,6 +95,50 @@ createApp({
   },
 
   methods: {
+<<<<<<< HEAD
+    async fetchData() {
+      try {
+        const res = await fetch('/api/admin-data');
+        const data = await res.json();
+        this.appointments = data.appointments || {};
+        this.pending = data.pending || [];
+        this.first_name = data.first_name || '';
+        this.second_name = data.second_name || '';
+
+        const scheduleRes = await fetch('/api/schedule-admin');
+        const scheduleData = await scheduleRes.json();
+        this.schedule = {
+          days: scheduleData.days || [],
+          timeSlots: scheduleData.timeSlots || []
+        };
+      } catch (err) {
+        console.error('Ошибка при загрузке данных:', err);
+      }
+    },
+
+      formatDateTime(dt) {
+          const d = new Date(dt);
+          return d.toLocaleString('ru-RU', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+          });
+      },
+
+      async fetchCompletedVisits() {
+          try {
+              const res = await fetch('/api/completed-visits');
+              const data = await res.json();
+              this.completed = data || [];
+          } catch (err) {
+              console.error('Ошибка при загрузке завершённых приёмов:', err);
+          }
+      },
+
+    confirmEntry(index) {
+=======
       async fetchData() {
           try {
               // Загружаем данные для таблицы — дни, слоты и приёмы
@@ -115,6 +164,7 @@ createApp({
 
 
       confirmEntry(index) {
+>>>>>>> master
       const entry = this.pending[index];
       this.pending.splice(index, 1);
     },
@@ -152,7 +202,11 @@ createApp({
     },
 
    async fetchDoctors(specialtyId) {
+<<<<<<< HEAD
+  const res = await fetch(`/api/doctors?specialty=${specialtyId}`);
+=======
   const res = await fetch(`/api/doctors/${specialtyId}`);
+>>>>>>> master
   const rawDoctors = await res.json();
   this.doctors = rawDoctors.map(doc => ({
     ...doc,
@@ -160,6 +214,31 @@ createApp({
   }));
 },
 
+<<<<<<< HEAD
+async fetchDoctorSchedule(doctorId) {
+  const res = await fetch(`/api/schedule?doctor_id=${doctorId}`);
+  this.appointmentSchedule = await res.json();
+  this.maxSlots = Math.max(...Object.values(this.appointmentSchedule).map(day => day.length));
+},
+      async confirmVisit(entry) {
+          try {
+              const res = await fetch(`/api/visit-payment/${entry.visit_id}`, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                      price: entry.price,
+                      status: 'confirmed'
+                  })
+              });
+
+              if (!res.ok) throw new Error('Ошибка при подтверждении');
+
+          } catch (err) {
+              console.error('Ошибка подтверждения:', err);
+              alert('Не удалось подтвердить приём');
+          }
+      },
+=======
       async fetchDoctorSchedule(doctorId) {
           const res = await fetch(`/api/appointment-doctor-schedule/${doctorId}`);
           const data = await res.json();
@@ -171,6 +250,7 @@ createApp({
           });
 
           console.log('Загружено расписание:', data); // <--- ДОБАВЬ ЭТО
+>>>>>>> master
 
           if (!Array.isArray(data)) {
               this.appointmentSchedule = [];
@@ -178,6 +258,10 @@ createApp({
               return;
           }
 
+<<<<<<< HEAD
+      selectSlot(slot) {
+      this.selectedSlot = slot;
+=======
           this.appointmentSchedule = data;
           this.maxSlots = Math.max(...data.map(d => d.slots?.length || 0));
       },
@@ -189,6 +273,7 @@ createApp({
       selectSlot(slot) {
             console.log(`Вы выбрали слот: ${slot}, день: ${label}`);
         this.selectedSlot = slot;
+>>>>>>> master
       this.step = 2;
       this.$nextTick(() => this.initPhoneMask());
     },
@@ -326,7 +411,7 @@ createApp({
         new_slot: { day: newDate, time: newTime }
     };
 
-    const res = await fetch('http://192.168.1.207:8080/api/reschedule', {
+    const res = await fetch('/api/reschedule', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -373,8 +458,13 @@ createApp({
         time: this.selectedAppt.time
     };
 
+<<<<<<< HEAD
+    const res = await fetch('/api/cancel-appointment', {
+        method: 'POST',
+=======
     const res = await fetch(`/api/appointments/cancel/${this.selectedAppt.id}`, {
         method: 'GET',
+>>>>>>> master
         headers: { 'Content-Type': 'application/json' },
     });
 
@@ -415,6 +505,7 @@ createApp({
 
   mounted() {
     this.fetchData();
+    this.fetchCompletedVisits();
     document.addEventListener('click', this.handleClickOutside);
   }
 }).mount('#app');

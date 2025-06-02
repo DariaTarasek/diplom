@@ -6,6 +6,8 @@ import (
 	"github.com/DariaTarasek/diplom/services/storage/internal/model"
 	"github.com/DariaTarasek/diplom/services/storage/internal/store"
 	pb "github.com/DariaTarasek/diplom/services/storage/proto"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
 )
@@ -447,6 +449,25 @@ func (s *Server) GetDoctorsBySpecID(ctx context.Context, req *pb.GetDoctorBySpec
 	return &pb.GetDoctorsResponse{Doctors: doctors}, nil
 }
 
+func (s *Server) GetDoctorByID(ctx context.Context, req *pb.GetByIDRequest) (*pb.GetDoctorByIDResponse, error) {
+	item, err := s.Store.GetDoctorByID(ctx, model.UserID(req.Id))
+	if err != nil {
+		return nil, fmt.Errorf("не удалось получить врача: %w", err)
+	}
+	doctor := &pb.Doctor{
+		UserId:      int32(item.ID),
+		FirstName:   item.FirstName,
+		SecondName:  item.SecondName,
+		Surname:     deref(item.Surname),
+		PhoneNumber: deref(item.PhoneNumber),
+		Email:       item.Email,
+		Education:   deref(item.Education),
+		Experience:  int32(derefInt(item.Experience)),
+		Gender:      item.Gender,
+	}
+	return &pb.GetDoctorByIDResponse{Doctor: doctor}, nil
+}
+
 func (s *Server) GetMaterials(ctx context.Context, req *pb.EmptyRequest) (*pb.GetMaterialsResponse, error) {
 	items, err := s.Store.GetMaterials(ctx)
 	if err != nil {
@@ -692,6 +713,19 @@ func (s *Server) DeleteDoctorSpec(ctx context.Context, req *pb.DeleteDoctorSpecR
 	return &pb.DefaultResponse{}, nil
 }
 
+func (s *Server) UpdateAppointment(ctx context.Context, request *pb.UpdateAppointmentRequest) (*pb.DefaultResponse, error) {
+	err := s.Store.UpdateAppointment(ctx, model.AppointmentID(request.Appointment.Id), model.Appointment{
+		Date:      request.Appointment.Date.AsTime(),
+		Time:      request.Appointment.Time.AsTime(),
+		Status:    request.Appointment.Status,
+		UpdatedAt: request.Appointment.UpdatedAt.AsTime(),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
 func (s *Server) UpdateAdmin(ctx context.Context, req *pb.UpdateAdminRequest) (*pb.DefaultResponse, error) {
 	err := s.Store.UpdateAdmin(ctx, model.UserID(req.UserId), model.Admin{
 		FirstName:   req.FirstName,
@@ -896,4 +930,302 @@ func derefBool(b *bool) bool {
 		return false
 	}
 	return *b
+}
+func (s *Server) GetPatientByID(ctx context.Context, req *pb.GetByIDRequest) (*pb.GetPatientByIDResponse, error) {
+	patient, err := s.Store.GetPatientByID(ctx, model.UserID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	pbPatient := &pb.Patient{
+		UserId:      int32(patient.ID),
+		FirstName:   patient.FirstName,
+		SecondName:  patient.SecondName,
+		Surname:     deref(patient.Surname),
+		Email:       deref(patient.Email),
+		BirthDate:   timestamppb.New(patient.BirthDate),
+		PhoneNumber: deref(patient.PhoneNumber),
+		Gender:      patient.Gender,
+	}
+	return &pb.GetPatientByIDResponse{Patient: pbPatient}, nil
+}
+
+//rpc GetPatientDiagnoses(GetByIdRequest) returns (GetPatientDiagnosesResponse);   // получение предыдущих диагнозов пациента
+//rpc GetPatientVisits(GetByIdRequest) returns (GetPatientVisitsResponse); // получение предыдущего лечения пациента
+//rpc GetPatientAllergiesChronics(GetByIdRequest) returns (GetPatientAllergiesChronicsResponse); // получение аллергий и хронических заболеваний
+//rpc GetICDCodes(EmptyRequest) returns (GetICDCodesResponse); // получение мкб-кодов
+//rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse); // получение пациента
+//rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse); // получение записи по айди
+
+func (s *Server) GetICDCodes(ctx context.Context, req *pb.EmptyRequest) (*pb.GetICDCodesResponse, error) {
+	items, err := s.Store.GetICDCodes(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var codes []*pb.ICDCode
+	for _, item := range items {
+		code := &pb.ICDCode{
+			Id:   int32(item.ID),
+			Code: item.Code,
+			Name: item.Name,
+		}
+		codes = append(codes, code)
+	}
+	return &pb.GetICDCodesResponse{IcdCode: codes}, nil
+}
+
+// GetPatientDiagnoses Получение диагнозов по айди визита
+func (s *Server) GetPatientDiagnoses(ctx context.Context, req *pb.GetByIdRequest) (*pb.GetPatientDiagnosesResponse, error) {
+	diagnoses, err := s.Store.GetDiagnosesByVisitID(ctx, model.VisitID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	var pbDiagnoses []*pb.Diagnose
+	for _, item := range diagnoses {
+		diagnose := &pb.Diagnose{
+			Id:        int32(item.ID),
+			VisitId:   int32(item.VisitID),
+			IcdCodeId: int32(item.ICDCodeID),
+			Note:      item.DiagnosisNote,
+		}
+		pbDiagnoses = append(pbDiagnoses, diagnose)
+	}
+	return &pb.GetPatientDiagnosesResponse{Diagnoses: pbDiagnoses}, nil
+}
+
+// GetPatientVisits Получение визитов пациента
+func (s *Server) GetPatientVisits(ctx context.Context, req *pb.GetByIdRequest) (*pb.GetPatientVisitsResponse, error) {
+	visits, err := s.Store.GetVisitsByPatientId(ctx, model.UserID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	var pbVisits []*pb.Visit
+	for _, item := range visits {
+		visit := &pb.Visit{
+			Id:            int32(item.ID),
+			AppointmentId: int32(item.AppointmentID),
+			PatientId:     int32(item.PatientID),
+			DoctorId:      int32(item.DoctorID),
+			Complaints:    item.Complaints,
+			Treatment:     item.TreatmentPlan,
+			CreatedAt:     timestamppb.New(item.CreatedAt),
+		}
+		pbVisits = append(pbVisits, visit)
+	}
+	return &pb.GetPatientVisitsResponse{Visits: pbVisits}, nil
+}
+
+// GetPatientAllergiesChronics Получение аллергий и хронических заболеваний пациента
+func (s *Server) GetPatientAllergiesChronics(ctx context.Context, req *pb.GetByIdRequest) (*pb.GetPatientAllergiesChronicsResponse, error) {
+	notes, err := s.Store.GetPatientMedicalNotes(ctx, model.UserID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	var pbNotes []*pb.PatientAllergiesChronics
+	for _, item := range notes {
+		note := &pb.PatientAllergiesChronics{
+			Id:        int32(item.ID),
+			PatientId: int32(item.PatientID),
+			Type:      item.Type,
+			Title:     item.Title,
+		}
+		pbNotes = append(pbNotes, note)
+	}
+	return &pb.GetPatientAllergiesChronicsResponse{PatientAllergiesChronics: pbNotes}, nil
+}
+
+func (s *Server) GetAppointmentByID(ctx context.Context, req *pb.GetByIDRequest) (*pb.GetAppointmentByIDResponse, error) {
+	app, err := s.Store.GetAppointmentByID(ctx, model.AppointmentID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	patientID := *app.PatientID
+	pbApp := &pb.Appointment{
+		Id:          int32(app.ID),
+		DoctorId:    int32(app.DoctorID),
+		Date:        timestamppb.New(app.Date),
+		Time:        timestamppb.New(app.Time),
+		PatientId:   int32(patientID),
+		SecondName:  app.PatientSecondName,
+		FirstName:   app.PatientFirstName,
+		Surname:     *app.PatientSurname,
+		BirthDate:   timestamppb.New(app.PatientBirthDate),
+		Gender:      app.PatientGender,
+		PhoneNumber: app.PatientPhoneNumber,
+		Status:      app.Status,
+		CreatedAt:   timestamppb.New(app.CreatedAt),
+		UpdatedAt:   timestamppb.New(app.UpdatedAt),
+	}
+	return &pb.GetAppointmentByIDResponse{Appointment: pbApp}, nil
+}
+
+func (s *Server) AddPatientAllergiesChronics(ctx context.Context, req *pb.AddPatientAllergiesChronicsRequest) (*pb.DefaultResponse, error) {
+	var notes []model.PatientMedicalNote
+	for _, item := range req.Notes {
+		note := model.PatientMedicalNote{
+			PatientID: model.UserID(item.PatientId),
+			Type:      item.Type,
+			Title:     item.Title,
+			CreatedAt: time.Now(),
+		}
+		notes = append(notes, note)
+	}
+	err := s.Store.AddPatientMedicalNotes(ctx, notes)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+func (s *Server) AddPatientVisit(ctx context.Context, req *pb.AddPatientVisitRequest) (*pb.AddVisitResponse, error) {
+	visit := model.Visit{
+		AppointmentID: model.AppointmentID(req.AppointmentId),
+		PatientID:     model.UserID(req.PatientId),
+		DoctorID:      model.UserID(req.DoctorId),
+		Complaints:    req.Complaints,
+		TreatmentPlan: req.Treatment,
+		CreatedAt:     time.Now(),
+		UpdatedAt:     time.Now(),
+	}
+	id, err := s.Store.AddVisit(ctx, visit)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.AddVisitResponse{Id: int32(id)}, nil
+}
+
+func (s *Server) AddVisitMaterials(ctx context.Context, req *pb.AddVisitMaterialsRequest) (*pb.DefaultResponse, error) {
+	var materials []model.AppointmentMaterial
+	for _, item := range req.Materials {
+		material := model.AppointmentMaterial{
+			VisitID:      model.VisitID(item.VisitId),
+			MaterialID:   model.MaterialID(item.MaterialId),
+			QuantityUsed: int(item.Amount),
+		}
+		materials = append(materials, material)
+	}
+	err := s.Store.AddAppointmentMaterials(ctx, materials)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) AddVisitServices(ctx context.Context, req *pb.AddVisitServicesRequest) (*pb.DefaultResponse, error) {
+	var services []model.AppointmentService
+	for _, item := range req.Services {
+		service := model.AppointmentService{
+			VisitID:   model.VisitID(item.VisitId),
+			ServiceID: model.ServiceID(item.ServiceId),
+			Quantity:  int(item.Amount),
+		}
+		services = append(services, service)
+	}
+	err := s.Store.AddAppointmentServices(ctx, services)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) AddPatientDiagnoses(ctx context.Context, req *pb.AddPatientDiagnosesRequest) (*pb.DefaultResponse, error) {
+	var diagnoses []model.Diagnose
+	for _, item := range req.Diagnoses {
+		diagnose := model.Diagnose{
+			VisitID:       model.VisitID(item.VisitId),
+			ICDCodeID:     model.ICDCodeID(item.IcdCodeId),
+			DiagnosisNote: item.Note,
+		}
+		diagnoses = append(diagnoses, diagnose)
+	}
+	err := s.Store.AddDiagnoses(ctx, diagnoses)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) AddVisitPayment(ctx context.Context, req *pb.VisitPaymentRequest) (*pb.DefaultResponse, error) {
+	payment := model.VisitPayment{
+		VisitID: model.VisitID(req.VisitId),
+		Price:   req.Price,
+		Status:  req.Status,
+	}
+
+	err := s.Store.AddVisitPayment(ctx, payment)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) UpdateVisitPayment(ctx context.Context, req *pb.VisitPaymentRequest) (*pb.DefaultResponse, error) {
+	payment := model.VisitPayment{
+		Price:  req.Price,
+		Status: req.Status,
+	}
+
+	err := s.Store.UpdateVisitPayment(ctx, model.VisitID(req.VisitId), payment)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) CalculateVisitTotal(ctx context.Context, req *pb.CalculateVisitTotalRequest) (*pb.CalculateVisitTotalResponse, error) {
+	total, err := s.Store.CalculateVisitTotal(ctx, model.VisitID(req.VisitId))
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "не удалось посчитать сумму приёма: %v", err)
+	}
+	return &pb.CalculateVisitTotalResponse{
+		Total: int32(total),
+	}, nil
+}
+
+func (s *Server) AddOrUpdateVisitPayment(ctx context.Context, req *pb.AddOrUpdateVisitPaymentRequest) (*pb.DefaultResponse, error) {
+	p := req.Payment
+	payment := model.VisitPayment{
+		VisitID: model.VisitID(p.VisitId),
+		Price:   p.Price,
+		Status:  p.Status,
+	}
+	err := s.Store.AddOrUpdateVisitPayment(ctx, payment)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "не удалось добавить/обновить платёж: %v", err)
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) GetVisitsPayments(ctx context.Context, request *pb.EmptyRequest) (*pb.GetVisitsPaymentsResponse, error) {
+	resp, err := s.Store.GetUnconfirmedVisitsPayments(ctx)
+	if err != nil {
+		return nil, err
+	}
+	visitPayments := make([]*pb.VisitPayment, 0, len(resp))
+	for _, item := range resp {
+		visitPayment := &pb.VisitPayment{
+			VisitId: int32(item.VisitID),
+			Price:   item.Price,
+			Status:  item.Status,
+		}
+		visitPayments = append(visitPayments, visitPayment)
+	}
+	return &pb.GetVisitsPaymentsResponse{VisitPayment: visitPayments}, nil
+}
+
+func (s *Server) GetVisitByID(ctx context.Context, request *pb.GetByIdRequest) (*pb.GetVisitByIDResponse, error) {
+	resp, err := s.Store.GetVisitByID(ctx, model.VisitID(request.Id))
+	if err != nil {
+		return nil, err
+	}
+	visit := &pb.Visit{
+		Id:            int32(resp.ID),
+		AppointmentId: int32(resp.AppointmentID),
+		PatientId:     int32(resp.PatientID),
+		DoctorId:      int32(resp.DoctorID),
+		Complaints:    resp.Complaints,
+		Treatment:     resp.TreatmentPlan,
+		CreatedAt:     timestamppb.New(resp.CreatedAt),
+	}
+	return &pb.GetVisitByIDResponse{Visit: visit}, nil
 }

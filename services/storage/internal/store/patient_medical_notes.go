@@ -31,20 +31,28 @@ func (s *Store) GetPatientMedicalNotes(ctx context.Context, id model.UserID) ([]
 	return notes, nil
 }
 
-// AddPatientMedicalNote Добавление новой мед. инф. пациента
-func (s *Store) AddPatientMedicalNote(ctx context.Context, note model.PatientMedicalNote) error {
-	fields := map[string]any{
-		"patient_id": note.PatientID,
-		"type":       note.Type,
-		"title":      note.Title,
-		"created_at": note.CreatedAt,
+// AddPatientMedicalNotes Добавляет пачку медицинских записей пациента
+func (s *Store) AddPatientMedicalNotes(ctx context.Context, notes []model.PatientMedicalNote) error {
+	if len(notes) == 0 {
+		return nil
 	}
-	query, args, err := s.builder.
+
+	queryBuilder := s.builder.
 		Insert("patient_medical_notes").
-		SetMap(fields).
-		ToSql()
+		Columns("patient_id", "type", "title", "created_at")
+
+	for _, note := range notes {
+		queryBuilder = queryBuilder.Values(
+			note.PatientID,
+			note.Type,
+			note.Title,
+			note.CreatedAt,
+		)
+	}
+
+	query, args, err := queryBuilder.ToSql()
 	if err != nil {
-		return fmt.Errorf("не удалось сформировать запрос для добавления новой новой мед. инф. пациента: %w", err)
+		return fmt.Errorf("не удалось сформировать batch insert для мед. инф. пациента: %w", err)
 	}
 
 	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
@@ -52,7 +60,7 @@ func (s *Store) AddPatientMedicalNote(ctx context.Context, note model.PatientMed
 
 	_, err = s.db.ExecContext(dbCtx, query, args...)
 	if err != nil {
-		return fmt.Errorf("не удалось выполнить запрос для добавления новой мед. инф. пациента: %w", err)
+		return fmt.Errorf("не удалось выполнить batch insert мед. инф. пациента: %w", err)
 	}
 
 	return nil

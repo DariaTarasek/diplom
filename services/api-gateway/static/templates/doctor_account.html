@@ -134,19 +134,6 @@
                                         </button>
                                     </div>
 
-                                    <!-- Завершённые приёмы -->
-                                    <div v-show="activeTab === 'completed'" class="tab-pane" :class="{ active: activeTab === 'completed' }">
-                                        <div class="section-title">Завершенные приемы</div>
-                                        <ul class="list-group">
-                                            <li v-for="(item, index) in data.completed" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <strong>{{ item.date }} {{ item.time }}</strong><br/>
-                                                    {{ item.patient_name }}
-                                                </div>
-                                                <button v-if="isToday(item.date)" class="btn btn-outline-primary btn-sm">Редактировать</button>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
                         </div>

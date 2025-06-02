@@ -463,6 +463,127 @@ message UpdateUserLoginRequest {
   string login = 2;
 }
 
+message ICDCode {
+  int32 id = 1;
+  string code = 2;
+  string name = 3;
+}
+
+message Diagnose {
+  int32 id = 1;
+  int32 visit_id = 2;
+  int32 icd_code_id = 3;
+  string note = 4;
+}
+
+message Visit {
+  int32 id = 1;
+  int32 appointment_id = 2;
+  int32 patient_id = 3;
+  int32 doctor_id = 4;
+  string complaints = 5;
+  string treatment = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message PatientAllergiesChronics {
+  int32 id = 1;
+  int32 patient_id = 2;
+  string type = 3;
+  string title = 4;
+}
+
+message AddVisitMaterials {
+  int32 visit_id = 1;
+  int32 material_id = 2;
+  int32 amount = 3;
+}
+message AddVisitMaterialsRequest {
+  repeated AddVisitMaterials materials = 1;
+}
+
+message AddVisitServices {
+  int32 visit_id = 1;
+  int32 service_id = 2;
+  int32 amount = 3;
+}
+message AddVisitServicesRequest {
+  repeated AddVisitServices services = 1;
+}
+
+message AddPatientAllergiesChronicsRequest {
+  repeated PatientAllergiesChronics notes = 1;
+}
+
+message AddPatientVisitRequest {
+  int32 appointment_id = 2;
+  int32 patient_id = 3;
+  int32 doctor_id = 4;
+  string complaints = 5;
+  string treatment = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message AddPatientDiagnosesRequest {
+  repeated Diagnose diagnoses = 1;
+}
+
+message GetPatientDiagnosesResponse {
+  repeated Diagnose diagnoses = 1;
+}
+
+message GetPatientVisitsResponse {
+  repeated Visit visits = 1;
+}
+
+message GetPatientAllergiesChronicsResponse {
+  repeated PatientAllergiesChronics patient_allergies_chronics = 1;
+}
+
+message GetICDCodesResponse {
+  repeated ICDCode icd_code = 1;
+}
+
+message AddVisitResponse {
+  int32 id = 1;
+}
+
+message VisitPayment {
+    int32 visit_id = 1;
+    int32 price = 2;
+    string status = 3;
+}
+
+message VisitPaymentRequest {
+  int32 visit_id = 1;
+  int32 price = 2;
+  string status = 3;
+}
+
+message GetVisitsPaymentsResponse {
+  repeated VisitPayment visit_payment = 1;
+}
+
+// Запрос на подсчет суммы по визиту
+message CalculateVisitTotalRequest {
+  int32 visit_id = 1;
+}
+
+// Ответ с итоговой суммой
+message CalculateVisitTotalResponse {
+  int32 total = 1;
+}
+
+// Запрос на добавление или обновление платежа
+message AddOrUpdateVisitPaymentRequest {
+  VisitPayment payment = 1;
+}
+
+message GetVisitByIDResponse {
+  Visit visit = 1;
+}
+
+
 message ClinicOverride {
   google.protobuf.Timestamp date = 1;
   google.protobuf.Timestamp start_time = 2;
@@ -542,6 +663,24 @@ service StorageService {
   rpc DeleteService(DeleteRequest) returns (DefaultResponse);
 
   rpc GetDoctorOverrides(GetByIDRequest) returns (GetDoctorOverridesResponse);
+
+  // проведение приема
+  rpc GetPatientDiagnoses(GetByIdRequest) returns (GetPatientDiagnosesResponse);   // получение предыдущих диагнозов пациента
+  rpc GetPatientVisits(GetByIdRequest) returns (GetPatientVisitsResponse); // получение предыдущего лечения пациента
+  rpc GetPatientAllergiesChronics(GetByIdRequest) returns (GetPatientAllergiesChronicsResponse); // получение аллергий и хронических заболеваний
+  rpc GetICDCodes(EmptyRequest) returns (GetICDCodesResponse); // получение мкб-кодов
+  rpc AddPatientAllergiesChronics(AddPatientAllergiesChronicsRequest) returns (DefaultResponse);
+  rpc AddPatientVisit(AddPatientVisitRequest) returns (AddVisitResponse);
+  rpc AddVisitMaterials(AddVisitMaterialsRequest) returns (DefaultResponse);
+  rpc AddVisitServices(AddVisitServicesRequest) returns (DefaultResponse);
+  rpc AddPatientDiagnoses(AddPatientDiagnosesRequest) returns (DefaultResponse);
+  rpc AddVisitPayment(VisitPaymentRequest) returns (DefaultResponse);
+  rpc UpdateVisitPayment(VisitPaymentRequest) returns (DefaultResponse);
+  rpc GetVisitByID(GetByIdRequest) returns (GetVisitByIDResponse);
+
+  rpc CalculateVisitTotal(CalculateVisitTotalRequest) returns (CalculateVisitTotalResponse);
+  rpc AddOrUpdateVisitPayment(AddOrUpdateVisitPaymentRequest) returns (DefaultResponse);
+  rpc GetVisitsPayments(EmptyRequest) returns (GetVisitsPaymentsResponse);
   rpc GetClinicOverrides(EmptyRequest) returns (GetClinicOverridesResponse);
   rpc GetAppointments(EmptyRequest) returns (GetAppointmentsResponse);
 }
