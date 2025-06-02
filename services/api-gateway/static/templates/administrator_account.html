@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="static/bootstrap_theme/icons.css">
         <link href="static/footer_style.css" rel="stylesheet">
         <title>Стоматологическая клиника «ПримаСтом»</title>
+
         <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; } th, td { text-align: center; vertical-align: middle; }</style>
     </head>
     <body class="text-muted">
@@ -127,7 +128,12 @@
                                                         <td v-for="(day, dayIndex) in visibleWeekDays" :key="day.date">
                                                             <div v-if="appointments[day.date] && appointments[day.date][time]">
                                                                 <div v-for="(appt, idx) in appointments[day.date][time]" :key="idx" class="mb-2 p-1 border rounded bg-light cursor-pointer" @click="openAppointmentModal(day, time, appt)">
-                                                                    <strong>{{ appt.doctor.second_name + " " + appt.doctor.first_name + " " + appt.doctor.surname }}</strong><br>
+                                                                    <strong>
+                                                                        {{ appt.doctor.second_name }}
+                                                                        {{ appt.doctor.first_name ? appt.doctor.first_name.charAt(0) + '.' : '' }}
+                                                                        {{ appt.doctor.surname ? appt.doctor.surname.charAt(0) + '.' : '' }}
+                                                                    </strong>
+                                                                    <br>
                                                                     {{ appt.patient.second_name + " " + appt.patient.first_name + " " + appt.patient.surname }}
                                                                 </div>
                                                             </div>
@@ -198,29 +204,50 @@
                                         <label class="form-label">Выберите врача</label>
                                         <select class="form-select" v-model="selectedDoctorId" @change="fetchDoctorSchedule(selectedDoctorId)" :disabled="!selectedSpecialization">
                                             <option disabled value="">Выберите врача</option>
-                                            <option v-for="doc in doctors" :key="doc.id" :value="doc.id">
+                                            <option v-for="doc in doctors" :key="doc.user_id" :value="doc.user_id">
                                                 {{ doc.fullName }}
 </option>
                                         </select>
                                     </div>
-                                    <div v-if="selectedDoctorId && Object.keys(appointmentSchedule).length" class="my-4">
-                                        <h5 class="mb-3">Выберите удобное время</h5>
-                                        <table class="table table-bordered text-center align-middle table-hover">
-                                            <thead>
+                                    <div v-if="appointmentSchedule.length" class="my-4">
+                                    <h5 class="mb-3">Выберите удобное время</h5>
+
+                                        <!-- Пагинация -->
+                                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                                            <button class="btn btn-sm btn-primary" :disabled="currentPage === 0" @click="prevPage">← Назад</button>
+                                            <span>Неделя {{ currentPage + 1 }} из {{ totalPages }}</span>
+                                            <button class="btn btn-sm btn-primary" :disabled="currentPage >= totalPages - 1" @click="nextPage">Вперёд →</button>
+                                        </div>
+
+                                        <!-- Таблица -->
+                                        <div class="d-block overflow-auto w-100">
+                                            <table class="table table-bordered text-center mb-0">
+                                                <thead>
                                                 <tr>
-                                                    <th v-for="(slots, day) in appointmentSchedule" :key="day">{{ day }}</th>
+                                                    <th
+                                                            v-for="(daySchedule, dayIndex) in paginatedSchedule"
+                                                            :key="dayIndex"
+                                                    >
+                                                        {{ daySchedule.label }}
+                                                    </th>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
+                                                </thead>
+                                                <tbody>
                                                 <tr v-for="i in maxSlots" :key="i">
-                                                    <td v-for="(slots, day) in appointmentSchedule" :key="day + '-' + i">
-                                                        <button v-if="slots[i - 1]" class="btn btn-outline-primary btn-sm mb-1" @click="selectSlot(slots[i - 1])">
-                                                            {{ slots[i - 1] }}
-</button>
+                                                    <td v-for="(daySchedule, dayIndex) in paginatedSchedule" :key="dayIndex + '-' + i">
+                                                        <button
+                                                                v-if="Array.isArray(daySchedule.slots) && daySchedule.slots[i - 1]"
+                                                                class="btn btn-outline-primary btn-sm mb-1"
+                                                                @click="selectDateSlot(daySchedule, daySchedule.slots[i - 1])"
+                                                        >
+                                                            {{ daySchedule.slots[i - 1] }}
+                                                        </button>
                                                     </td>
                                                 </tr>
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <!-- Шаг 2 -->
@@ -231,9 +258,9 @@
                                         <ul class="list-unstyled mb-4">
                                             <li><strong>Специализация:</strong> {{ specialties.find(s => s.id === selectedSpecialization)?.name }}
                                             </li>
-                                            <li><strong>Врач:</strong> {{ doctors.find(d => d.id === selectedDoctorId)?.fullName }}
+                                            <li><strong>Врач:</strong> {{ doctors.find(d => d.user_id === selectedDoctorId)?.fullName }}
                                             </li>
-                                            <li><strong>Время:</strong> {{ selectedSlot }}
+                                            <li><strong>Время:</strong> {{ selectedSlot.date + ' ' + selectedSlot.time }}
                                             </li>
                                         </ul>
                                         <form @submit.prevent="submitForm">
@@ -253,14 +280,14 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Дата рождения</label>
-                                                <input type="date" v-model="patient.birth_date" class="form-control" :min="birthDateAttrs.min" :max="birthDateAttrs.max">
+                                                <input type="date" v-model="patient.birthDate" class="form-control" :min="birthDateAttrs.min" :max="birthDateAttrs.max">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Пол</label>
                                                 <select v-model="patient.gender" class="form-select">
                                                     <option value="">Выберите пол</option>
-                                                    <option value="male">Мужской</option>
-                                                    <option value="female">Женский</option>
+                                                    <option value="м">Мужской</option>
+                                                    <option value="ж">Женский</option>
                                                 </select>
                                             </div>
                                             <div class="mb-3">

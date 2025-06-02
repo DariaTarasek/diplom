@@ -19,10 +19,47 @@ const (
 	timeLayout = "15:04"
 )
 
+type Override struct {
+	StartTime time.Time
+	EndTime   time.Time
+	SlotMins  int
+	IsDayOff  bool
+}
+
 func (s *PatientService) MakeDoctorAppointmentSlots(ctx context.Context, doctorID int) ([]model.ScheduleEntry, error) {
 	resp, err := s.StorageClient.Client.GetDoctorWeeklySchedule(ctx, &storagepb.GetScheduleByDoctorIdRequest{DoctorId: int32(doctorID)})
 	if err != nil {
 		return nil, fmt.Errorf("не удалось получить расписание врача: %w", err)
+	}
+	docOverrides, err := s.StorageClient.Client.GetDoctorOverrides(ctx, &storagepb.GetByIDRequest{Id: int32(doctorID)})
+	if err != nil {
+		return nil, fmt.Errorf("не удалось получить переопределения врача: %w", err)
+	}
+	clinicOverrides, err := s.StorageClient.Client.GetClinicOverrides(ctx, &storagepb.EmptyRequest{})
+	if err != nil {
+		return nil, fmt.Errorf("не удалось получить переопределения клиники: %w", err)
+	}
+
+	clinicOverridesMap := make(map[string]Override)
+	for _, o := range clinicOverrides.Overrides {
+		dateStr := o.Date.AsTime().Format("02.01.2006")
+		clinicOverridesMap[dateStr] = Override{
+			StartTime: o.StartTime.AsTime(),
+			EndTime:   o.EndTime.AsTime(),
+			SlotMins:  int(o.SlotDurationMinutes),
+			IsDayOff:  o.IsDayOff,
+		}
+	}
+
+	doctorOverridesMap := make(map[string]Override)
+	for _, o := range docOverrides.Override {
+		dateStr := o.Date.AsTime().Format("02.01.2006")
+		doctorOverridesMap[dateStr] = Override{
+			StartTime: o.StartTime.AsTime(),
+			EndTime:   o.EndTime.AsTime(),
+			SlotMins:  int(o.SlotDurationMinutes),
+			IsDayOff:  o.IsDayOff,
+		}
 	}
 
 	var doctorSchedule []model.DoctorSchedule
@@ -88,36 +125,72 @@ func (s *PatientService) MakeDoctorAppointmentSlots(ctx context.Context, doctorI
 	}
 
 	today := time.Now()
-	weekdayToday := int(today.Weekday())
-	if weekdayToday == 0 { // Sunday
-		weekdayToday = 7
-	}
-	monday := today.AddDate(0, 0, -weekdayToday+1) // предыдущий (или сегодняшний) понедельник
+	monday := today.AddDate(0, 0, -int(today.Weekday())+1)
 
 	totalDays := weeksAhead * 7
 	for i := 0; i < totalDays; i++ {
 		date := monday.AddDate(0, 0, i)
+		dateStr := date.Format("02.01.2006")
+		dateBusyStr := date.Format("02.01.2006")
 		weekday := date.Weekday()
 
-		slots := []string{}
-		for _, day := range doctorSchedule {
-			if time.Weekday(day.Weekday) == weekday && !*day.IsDayOff {
-				startTime := time.Date(date.Year(), date.Month(), date.Day(), day.StartTime.Hour(), day.StartTime.Minute(), 0, 0, time.Local)
-				endTime := time.Date(date.Year(), date.Month(), date.Day(), day.EndTime.Hour(), day.EndTime.Minute(), 0, 0, time.Local)
+		var slots []string
 
-				for t := startTime; t.Before(endTime); t = t.Add(time.Duration(*day.SlotDurationMinutes) * time.Minute) {
-					// Пропускаем слоты в прошлом, но день не исключаем
-					if t.Before(time.Now()) {
-						continue
+		clinicOverride, hasClinic := clinicOverridesMap[dateStr]
+		doctorOverride, hasDoctor := doctorOverridesMap[dateStr]
+
+		switch {
+		// Приоритет: выходной клиники => нет слотов
+		case hasClinic && clinicOverride.IsDayOff:
+			slots = append(slots, []string{}...)
+
+		// Если врач взял выходной — игнорируем, даже если клиника работает
+		case hasDoctor && doctorOverride.IsDayOff:
+			slots = append(slots, []string{}...)
+
+		// Если есть обе перегрузки
+		case hasClinic && hasDoctor:
+			clinicStart := time.Date(date.Year(), date.Month(), date.Day(), clinicOverride.StartTime.Hour(), clinicOverride.StartTime.Minute(), 0, 0, time.Local)
+			clinicEnd := time.Date(date.Year(), date.Month(), date.Day(), clinicOverride.EndTime.Hour(), clinicOverride.EndTime.Minute(), 0, 0, time.Local)
+
+			doctorStart := time.Date(date.Year(), date.Month(), date.Day(), doctorOverride.StartTime.Hour(), doctorOverride.StartTime.Minute(), 0, 0, time.Local)
+			doctorEnd := time.Date(date.Year(), date.Month(), date.Day(), doctorOverride.EndTime.Hour(), doctorOverride.EndTime.Minute(), 0, 0, time.Local)
+
+			if !doctorStart.Before(clinicStart) && !doctorEnd.After(clinicEnd) {
+				// Врач внутри клиники — используем врача
+				slots = append(slots, generateSlots(doctorStart, doctorEnd, doctorOverride.SlotMins, busy[dateBusyStr])...)
+			} else {
+				// Врач вне рамок — используем клинику
+				slots = append(slots, generateSlots(clinicStart, clinicEnd, clinicOverride.SlotMins, busy[dateBusyStr])...)
+			}
+
+		// Только перегрузка врача
+		case hasDoctor:
+			start := time.Date(date.Year(), date.Month(), date.Day(), doctorOverride.StartTime.Hour(), doctorOverride.StartTime.Minute(), 0, 0, time.Local)
+			end := time.Date(date.Year(), date.Month(), date.Day(), doctorOverride.EndTime.Hour(), doctorOverride.EndTime.Minute(), 0, 0, time.Local)
+			slots = append(slots, generateSlots(start, end, doctorOverride.SlotMins, busy[dateBusyStr])...)
+
+		// Только перегрузка клиники
+		case hasClinic:
+			start := time.Date(date.Year(), date.Month(), date.Day(), clinicOverride.StartTime.Hour(), clinicOverride.StartTime.Minute(), 0, 0, time.Local)
+			end := time.Date(date.Year(), date.Month(), date.Day(), clinicOverride.EndTime.Hour(), clinicOverride.EndTime.Minute(), 0, 0, time.Local)
+			slots = append(slots, generateSlots(start, end, clinicOverride.SlotMins, busy[dateBusyStr])...)
+
+		// Никаких перегрузок — обычное расписание
+		default:
+			log.Printf("weekday=%d, doctorSchedule count=%d", weekday, len(doctorSchedule))
+			for _, day := range doctorSchedule {
+				log.Printf("checking day: weekday=%d, target=%d, isDayOff=%v", day.Weekday, weekday, derefBool(day.IsDayOff))
+				log.Printf("doctor day: Weekday=%d Start=%v End=%v", day.Weekday, day.StartTime, day.EndTime)
+				if day.Weekday == int(weekday) && !derefBool(day.IsDayOff) {
+					slotMins := derefInt(day.SlotDurationMinutes)
+					if slotMins == 0 {
+						slotMins = 30
 					}
-
-					timeStr := t.Format(timeLayout)
-					busyKey := date.Format("02.01.2006")
-					if busy[busyKey] != nil && busy[busyKey][timeStr] {
-						continue
-					}
-
-					slots = append(slots, timeStr)
+					start := time.Date(date.Year(), date.Month(), date.Day(), day.StartTime.Hour(), day.StartTime.Minute(), 0, 0, time.Local)
+					end := time.Date(date.Year(), date.Month(), date.Day(), day.EndTime.Hour(), day.EndTime.Minute(), 0, 0, time.Local)
+					log.Printf("Generating slots for weekday=%d from %v to %v", weekday, start, end)
+					slots = append(slots, generateSlots(start, end, slotMins, busy[dateBusyStr])...)
 				}
 			}
 		}
@@ -134,12 +207,10 @@ func (s *PatientService) MakeDoctorAppointmentSlots(ctx context.Context, doctorI
 		})
 	}
 
-	// Сортировка по дате
 	sort.Slice(tempSlots, func(i, j int) bool {
 		return tempSlots[i].Date.Before(tempSlots[j].Date)
 	})
 
-	// Финальная сборка отсортированного слайса
 	var result []model.ScheduleEntry
 	for _, slot := range tempSlots {
 		result = append(result, model.ScheduleEntry{
@@ -148,9 +219,8 @@ func (s *PatientService) MakeDoctorAppointmentSlots(ctx context.Context, doctorI
 		})
 	}
 
-	log.Println(result)
+	//log.Println(result)
 	return result, nil
-
 }
 
 func (s *PatientService) AddAppointment(ctx context.Context, appointment model.Appointment) error {
@@ -308,10 +378,43 @@ func derefUserID(u *model.UserID) model.UserID {
 	return *u
 }
 
+func derefInt(i *int) int {
+	if i == nil {
+		return 0
+	}
+	return *i
+}
+
+func derefBool(b *bool) bool {
+	if b == nil {
+		return false
+	}
+	return *b
+}
+
 func getAndCapitalizeFirstLetter(str string) string {
 	if str == "" {
 		return ""
 	}
 	runes := []rune(str)
 	return string(unicode.ToUpper(runes[0]))
+}
+
+func generateSlots(start, end time.Time, slotMins int, busy map[string]bool) []string {
+	if !start.Before(end) {
+		log.Printf("WARNING: start >= end: %v >= %v", start, end)
+		return nil
+	}
+	var result []string
+	for t := start; t.Before(end); t = t.Add(time.Duration(slotMins) * time.Minute) {
+		if t.Before(time.Now()) {
+			continue
+		}
+		timeStr := t.Format("15:04")
+		if busy != nil && busy[timeStr] {
+			continue
+		}
+		result = append(result, timeStr)
+	}
+	return result
 }

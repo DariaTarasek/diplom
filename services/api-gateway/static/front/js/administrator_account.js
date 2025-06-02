@@ -36,7 +36,7 @@ createApp({
         second_name: '',
         first_name: '',
         surname: '',
-        birth_date: '',
+        birthDate: '',
         gender: '',
         phone: ''
       },
@@ -65,7 +65,13 @@ createApp({
         },
 
       currentWeekStartIndex: 0,  // индекс начала текущей видимой недели
+<<<<<<< HEAD
         completed: [],
+=======
+        currentPage: 0,
+
+
+>>>>>>> master
     };
   },
 
@@ -75,10 +81,21 @@ createApp({
     },
     visibleWeekDays() {
         return this.schedule.days.slice(this.currentWeekStartIndex, this.currentWeekStartIndex + 7);
-    }
+    },
+      paginatedSchedule() {
+          const start = this.currentPage * 7;
+          const end = start + 7;
+          return this.appointmentSchedule.slice(start, end);
+      },
+      totalPages() {
+          return Math.ceil(this.appointmentSchedule.length / 7);
+      }
+
+
   },
 
   methods: {
+<<<<<<< HEAD
     async fetchData() {
       try {
         const res = await fetch('/api/admin-data');
@@ -121,6 +138,33 @@ createApp({
       },
 
     confirmEntry(index) {
+=======
+      async fetchData() {
+          try {
+              // Загружаем данные для таблицы — дни, слоты и приёмы
+              const scheduleRes = await fetch('/api/schedule-admin');
+              const scheduleData = await scheduleRes.json();
+              this.schedule = {
+                  days: scheduleData.schedule?.days || [],
+                  timeSlots: scheduleData.schedule?.timeSlots || []
+              };
+              this.appointments = scheduleData.appointments || {};
+
+              // Загружаем остальные данные: имя админа, неподтверждённые записи и т.п.
+              const res = await fetch('/api/admin-data');
+              const data = await res.json();
+              this.pending = data.pending || [];
+              this.first_name = data.first_name || '';
+              this.second_name = data.second_name || '';
+
+          } catch (err) {
+              console.error('Ошибка при загрузке данных:', err);
+          }
+      },
+
+
+      confirmEntry(index) {
+>>>>>>> master
       const entry = this.pending[index];
       this.pending.splice(index, 1);
     },
@@ -158,14 +202,19 @@ createApp({
     },
 
    async fetchDoctors(specialtyId) {
+<<<<<<< HEAD
   const res = await fetch(`/api/doctors?specialty=${specialtyId}`);
+=======
+  const res = await fetch(`/api/doctors/${specialtyId}`);
+>>>>>>> master
   const rawDoctors = await res.json();
   this.doctors = rawDoctors.map(doc => ({
     ...doc,
-    fullName: `${doc.second_name} ${doc.first_name} ${doc.surname}`.trim()
+    fullName: `${doc.secondName} ${doc.firstName} ${doc.surname}`.trim()
   }));
 },
 
+<<<<<<< HEAD
 async fetchDoctorSchedule(doctorId) {
   const res = await fetch(`/api/schedule?doctor_id=${doctorId}`);
   this.appointmentSchedule = await res.json();
@@ -189,10 +238,42 @@ async fetchDoctorSchedule(doctorId) {
               alert('Не удалось подтвердить приём');
           }
       },
+=======
+      async fetchDoctorSchedule(doctorId) {
+          const res = await fetch(`/api/appointment-doctor-schedule/${doctorId}`);
+          const data = await res.json();
+
+          data.forEach(day => {
+              if (!Array.isArray(day.slots)) {
+                  day.slots = [];
+              }
+          });
+
+          console.log('Загружено расписание:', data); // <--- ДОБАВЬ ЭТО
+>>>>>>> master
+
+          if (!Array.isArray(data)) {
+              this.appointmentSchedule = [];
+              this.maxSlots = 0;
+              return;
+          }
+
+<<<<<<< HEAD
+      selectSlot(slot) {
+      this.selectedSlot = slot;
+=======
+          this.appointmentSchedule = data;
+          this.maxSlots = Math.max(...data.map(d => d.slots?.length || 0));
+      },
+
+
+
 
 
       selectSlot(slot) {
-      this.selectedSlot = slot;
+            console.log(`Вы выбрали слот: ${slot}, день: ${label}`);
+        this.selectedSlot = slot;
+>>>>>>> master
       this.step = 2;
       this.$nextTick(() => this.initPhoneMask());
     },
@@ -212,8 +293,10 @@ async fetchDoctorSchedule(doctorId) {
 
       const payload = {
         doctor_id: this.selectedDoctorId,
-        slot: this.selectedSlot,
-        patient: { ...this.patient, phone: this.patient.phone.replace(/\D/g, '') }
+        date: this.selectedSlot.date,
+          time: this.selectedSlot.time,
+        ...this.patient,
+          phone: this.patient.phone.replace(/\D/g, '')
       };
 
       const res = await fetch('/api/appointments', {
@@ -280,7 +363,7 @@ async fetchDoctorSchedule(doctorId) {
             second_name: '',
             first_name: '',
             surname: '',
-            birth_date: '',
+            birthDate: '',
             gender: '',
             phone: ''
         };
@@ -375,10 +458,14 @@ async fetchDoctorSchedule(doctorId) {
         time: this.selectedAppt.time
     };
 
+<<<<<<< HEAD
     const res = await fetch('/api/cancel-appointment', {
         method: 'POST',
+=======
+    const res = await fetch(`/api/appointments/cancel/${this.selectedAppt.id}`, {
+        method: 'GET',
+>>>>>>> master
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
     });
 
     if (res.ok) {
@@ -388,7 +475,28 @@ async fetchDoctorSchedule(doctorId) {
         alert('Ошибка отмены записи');
     }
     },
-     },
+      prevPage() {
+          if (this.currentPage > 0) {
+              this.currentPage--;
+          }
+      },
+      nextPage() {
+          if ((this.currentPage + 1) * 7 < this.appointmentSchedule.length) {
+              this.currentPage++;
+          }
+      },
+      selectDateSlot(daySchedule, slot) {
+          this.selectedSlot = {
+              date: daySchedule.label,
+              time: slot
+          };
+          this.step = 2;
+
+          this.$nextTick(() => this.initPhoneMask());
+      }
+
+
+  },
 
   watch: {
     'patient.first_name': 'validateFirstName',

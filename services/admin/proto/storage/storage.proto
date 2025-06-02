@@ -367,6 +367,7 @@ message GetDoctorOverridesResponse {
   repeated DoctorOverride override = 1;
 }
 
+
 message AddMaterialRequest {
   string name = 1;
   int32 price = 2;
@@ -583,6 +584,23 @@ message GetVisitByIDResponse {
 }
 
 
+message ClinicOverride {
+  google.protobuf.Timestamp date = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 slot_duration_minutes = 4;
+  bool is_day_off = 5;
+}
+
+message GetClinicOverridesResponse {
+  repeated ClinicOverride overrides = 1;
+}
+
+message GetAppointmentsResponse {
+  repeated Appointment appointments = 1;
+}
+
+
 service StorageService {
   // управление аккаунтами
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
@@ -625,6 +643,8 @@ service StorageService {
   rpc GetSpecsByDoctorID(GetByIDRequest) returns (GetSpecsByDoctorIDResponse);
   rpc GetDoctorByID(GetByIDRequest) returns (GetDoctorByIDResponse);
   rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
+  rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse);
+  rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse);
   rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
   rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
   rpc GetClinicOverride(GetClinicOverrideRequest) returns (GetClinicOverrideResponse); // получение переопределения дня клиники
@@ -649,8 +669,6 @@ service StorageService {
   rpc GetPatientVisits(GetByIdRequest) returns (GetPatientVisitsResponse); // получение предыдущего лечения пациента
   rpc GetPatientAllergiesChronics(GetByIdRequest) returns (GetPatientAllergiesChronicsResponse); // получение аллергий и хронических заболеваний
   rpc GetICDCodes(EmptyRequest) returns (GetICDCodesResponse); // получение мкб-кодов
-  rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse); // получение пациента
-  rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse); // получение записи по айди
   rpc AddPatientAllergiesChronics(AddPatientAllergiesChronicsRequest) returns (DefaultResponse);
   rpc AddPatientVisit(AddPatientVisitRequest) returns (AddVisitResponse);
   rpc AddVisitMaterials(AddVisitMaterialsRequest) returns (DefaultResponse);
@@ -663,4 +681,7 @@ service StorageService {
   rpc CalculateVisitTotal(CalculateVisitTotalRequest) returns (CalculateVisitTotalResponse);
   rpc AddOrUpdateVisitPayment(AddOrUpdateVisitPaymentRequest) returns (DefaultResponse);
   rpc GetVisitsPayments(EmptyRequest) returns (GetVisitsPaymentsResponse);
+
+  rpc GetClinicOverrides(EmptyRequest) returns (GetClinicOverridesResponse);
+  rpc GetAppointments(EmptyRequest) returns (GetAppointmentsResponse);
 }

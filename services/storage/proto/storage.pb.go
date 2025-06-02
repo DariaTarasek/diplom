@@ -3539,14 +3539,15 @@ func (x *GetDoctorOverrideResponse) GetIsDayOff() bool {
 }
 
 type DoctorOverride struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	DoctorId      int32                  `protobuf:"varint,1,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
-	Date          *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=date,proto3" json:"date,omitempty"`
-	StartTime     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
-	EndTime       *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
-	IsDayOff      bool                   `protobuf:"varint,5,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	DoctorId            int32                  `protobuf:"varint,1,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
+	Date                *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=date,proto3" json:"date,omitempty"`
+	StartTime           *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime             *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	SlotDurationMinutes int32                  `protobuf:"varint,5,opt,name=slot_duration_minutes,json=slotDurationMinutes,proto3" json:"slot_duration_minutes,omitempty"`
+	IsDayOff            bool                   `protobuf:"varint,6,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *DoctorOverride) Reset() {
@@ -3605,6 +3606,13 @@ func (x *DoctorOverride) GetEndTime() *timestamppb.Timestamp {
 		return x.EndTime
 	}
 	return nil
+}
+
+func (x *DoctorOverride) GetSlotDurationMinutes() int32 {
+	if x != nil {
+		return x.SlotDurationMinutes
+	}
+	return 0
 }
 
 func (x *DoctorOverride) GetIsDayOff() bool {
@@ -5849,6 +5857,170 @@ func (x *GetVisitByIDResponse) GetVisit() *Visit {
 	return nil
 }
 
+type ClinicOverride struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Date                *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
+	StartTime           *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime             *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	SlotDurationMinutes int32                  `protobuf:"varint,4,opt,name=slot_duration_minutes,json=slotDurationMinutes,proto3" json:"slot_duration_minutes,omitempty"`
+	IsDayOff            bool                   `protobuf:"varint,5,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *ClinicOverride) Reset() {
+	*x = ClinicOverride{}
+	mi := &file_proto_storage_proto_msgTypes[102]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ClinicOverride) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClinicOverride) ProtoMessage() {}
+
+func (x *ClinicOverride) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[102]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClinicOverride.ProtoReflect.Descriptor instead.
+func (*ClinicOverride) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{102}
+}
+
+func (x *ClinicOverride) GetDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Date
+	}
+	return nil
+}
+
+func (x *ClinicOverride) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *ClinicOverride) GetEndTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndTime
+	}
+	return nil
+}
+
+func (x *ClinicOverride) GetSlotDurationMinutes() int32 {
+	if x != nil {
+		return x.SlotDurationMinutes
+	}
+	return 0
+}
+
+func (x *ClinicOverride) GetIsDayOff() bool {
+	if x != nil {
+		return x.IsDayOff
+	}
+	return false
+}
+
+type GetClinicOverridesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Overrides     []*ClinicOverride      `protobuf:"bytes,1,rep,name=overrides,proto3" json:"overrides,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetClinicOverridesResponse) Reset() {
+	*x = GetClinicOverridesResponse{}
+	mi := &file_proto_storage_proto_msgTypes[103]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetClinicOverridesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetClinicOverridesResponse) ProtoMessage() {}
+
+func (x *GetClinicOverridesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[103]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetClinicOverridesResponse.ProtoReflect.Descriptor instead.
+func (*GetClinicOverridesResponse) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{103}
+}
+
+func (x *GetClinicOverridesResponse) GetOverrides() []*ClinicOverride {
+	if x != nil {
+		return x.Overrides
+	}
+	return nil
+}
+
+type GetAppointmentsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Appointments  []*Appointment         `protobuf:"bytes,1,rep,name=appointments,proto3" json:"appointments,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAppointmentsResponse) Reset() {
+	*x = GetAppointmentsResponse{}
+	mi := &file_proto_storage_proto_msgTypes[104]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAppointmentsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAppointmentsResponse) ProtoMessage() {}
+
+func (x *GetAppointmentsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_storage_proto_msgTypes[104]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAppointmentsResponse.ProtoReflect.Descriptor instead.
+func (*GetAppointmentsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_storage_proto_rawDescGZIP(), []int{104}
+}
+
+func (x *GetAppointmentsResponse) GetAppointments() []*Appointment {
+	if x != nil {
+		return x.Appointments
+	}
+	return nil
+}
+
 var File_proto_storage_proto protoreflect.FileDescriptor
 
 const file_proto_storage_proto_rawDesc = "" +
@@ -6132,15 +6304,16 @@ const file_proto_storage_proto_rawDesc = "" +
 	"start_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
 	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x12\x1c\n" +
 	"\n" +
-	"is_day_off\x18\x05 \x01(\bR\bisDayOff\"\xed\x01\n" +
+	"is_day_off\x18\x05 \x01(\bR\bisDayOff\"\xa1\x02\n" +
 	"\x0eDoctorOverride\x12\x1b\n" +
 	"\tdoctor_id\x18\x01 \x01(\x05R\bdoctorId\x12.\n" +
 	"\x04date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\x129\n" +
 	"\n" +
 	"start_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
-	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x12\x1c\n" +
+	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x122\n" +
+	"\x15slot_duration_minutes\x18\x05 \x01(\x05R\x13slotDurationMinutes\x12\x1c\n" +
 	"\n" +
-	"is_day_off\x18\x05 \x01(\bR\bisDayOff\"Q\n" +
+	"is_day_off\x18\x06 \x01(\bR\bisDayOff\"Q\n" +
 	"\x1aGetDoctorOverridesResponse\x123\n" +
 	"\boverride\x18\x01 \x03(\v2\x17.storage.DoctorOverrideR\boverride\">\n" +
 	"\x12AddMaterialRequest\x12\x12\n" +
@@ -6283,7 +6456,19 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\x1eAddOrUpdateVisitPaymentRequest\x12/\n" +
 	"\apayment\x18\x01 \x01(\v2\x15.storage.VisitPaymentR\apayment\"<\n" +
 	"\x14GetVisitByIDResponse\x12$\n" +
-	"\x05visit\x18\x01 \x01(\v2\x0e.storage.VisitR\x05visit2\xdf)\n" +
+	"\x05visit\x18\x01 \x01(\v2\x0e.storage.VisitR\x05visit\"\x84\x02\n" +
+	"\x0eClinicOverride\x12.\n" +
+	"\x04date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\x129\n" +
+	"\n" +
+	"start_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
+	"\bend_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x122\n" +
+	"\x15slot_duration_minutes\x18\x04 \x01(\x05R\x13slotDurationMinutes\x12\x1c\n" +
+	"\n" +
+	"is_day_off\x18\x05 \x01(\bR\bisDayOff\"S\n" +
+	"\x1aGetClinicOverridesResponse\x125\n" +
+	"\toverrides\x18\x01 \x03(\v2\x17.storage.ClinicOverrideR\toverrides\"S\n" +
+	"\x17GetAppointmentsResponse\x128\n" +
+	"\fappointments\x18\x01 \x03(\v2\x14.storage.AppointmentR\fappointments2\xfd*\n" +
 	"\x0eStorageService\x12<\n" +
 	"\aAddUser\x12\x17.storage.AddUserRequest\x1a\x18.storage.AddUserResponse\x12B\n" +
 	"\tAddDoctor\x12\x19.storage.AddDoctorRequest\x1a\x1a.storage.AddDoctorResponse\x12?\n" +
@@ -6317,11 +6502,13 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\x11GetRolePermission\x12!.storage.GetRolePermissionRequest\x1a\x18.storage.DefaultResponse\x12T\n" +
 	"\x12GetDoctorsBySpecID\x12!.storage.GetDoctorBySpecIDRequest\x1a\x1b.storage.GetDoctorsResponse\x12r\n" +
 	"\x19GetAppointmentsByDoctorID\x12).storage.GetAppointmentsByDoctorIDRequest\x1a*.storage.GetAppointmentsByDoctorIDResponse\x12J\n" +
+	"\x0eGetPatientByID\x12\x17.storage.GetByIDRequest\x1a\x1f.storage.GetPatientByIDResponse\x12J\n" +
 	"\x0eAddAppointment\x12\x1e.storage.AddAppointmentRequest\x1a\x18.storage.DefaultResponse\x12\\\n" +
 	"\x17GetAppointmentsByUserID\x12\x17.storage.GetByIDRequest\x1a(.storage.GetAppointmentsByUserIDResponse\x12R\n" +
 	"\x12GetSpecsByDoctorID\x12\x17.storage.GetByIDRequest\x1a#.storage.GetSpecsByDoctorIDResponse\x12H\n" +
 	"\rGetDoctorByID\x12\x17.storage.GetByIDRequest\x1a\x1e.storage.GetDoctorByIDResponse\x12P\n" +
-	"\x11UpdateAppointment\x12!.storage.UpdateAppointmentRequest\x1a\x18.storage.DefaultResponse\x12Z\n" +
+	"\x11UpdateAppointment\x12!.storage.UpdateAppointmentRequest\x1a\x18.storage.DefaultResponse\x12R\n" +
+	"\x12GetAppointmentByID\x12\x17.storage.GetByIDRequest\x1a#.storage.GetAppointmentByIDResponse\x12Z\n" +
 	"\x16AddClinicDailyOverride\x12&.storage.AddClinicDailyOverrideRequest\x1a\x18.storage.DefaultResponse\x12Z\n" +
 	"\x16AddDoctorDailyOverride\x12&.storage.AddDoctorDailyOverrideRequest\x1a\x18.storage.DefaultResponse\x12Z\n" +
 	"\x11GetClinicOverride\x12!.storage.GetClinicOverrideRequest\x1a\".storage.GetClinicOverrideResponse\x12Z\n" +
@@ -6341,9 +6528,7 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\x13GetPatientDiagnoses\x12\x17.storage.GetByIdRequest\x1a$.storage.GetPatientDiagnosesResponse\x12N\n" +
 	"\x10GetPatientVisits\x12\x17.storage.GetByIdRequest\x1a!.storage.GetPatientVisitsResponse\x12d\n" +
 	"\x1bGetPatientAllergiesChronics\x12\x17.storage.GetByIdRequest\x1a,.storage.GetPatientAllergiesChronicsResponse\x12B\n" +
-	"\vGetICDCodes\x12\x15.storage.EmptyRequest\x1a\x1c.storage.GetICDCodesResponse\x12J\n" +
-	"\x0eGetPatientByID\x12\x17.storage.GetByIDRequest\x1a\x1f.storage.GetPatientByIDResponse\x12R\n" +
-	"\x12GetAppointmentByID\x12\x17.storage.GetByIDRequest\x1a#.storage.GetAppointmentByIDResponse\x12d\n" +
+	"\vGetICDCodes\x12\x15.storage.EmptyRequest\x1a\x1c.storage.GetICDCodesResponse\x12d\n" +
 	"\x1bAddPatientAllergiesChronics\x12+.storage.AddPatientAllergiesChronicsRequest\x1a\x18.storage.DefaultResponse\x12M\n" +
 	"\x0fAddPatientVisit\x12\x1f.storage.AddPatientVisitRequest\x1a\x19.storage.AddVisitResponse\x12P\n" +
 	"\x11AddVisitMaterials\x12!.storage.AddVisitMaterialsRequest\x1a\x18.storage.DefaultResponse\x12N\n" +
@@ -6354,7 +6539,9 @@ const file_proto_storage_proto_rawDesc = "" +
 	"\fGetVisitByID\x12\x17.storage.GetByIdRequest\x1a\x1d.storage.GetVisitByIDResponse\x12`\n" +
 	"\x13CalculateVisitTotal\x12#.storage.CalculateVisitTotalRequest\x1a$.storage.CalculateVisitTotalResponse\x12\\\n" +
 	"\x17AddOrUpdateVisitPayment\x12'.storage.AddOrUpdateVisitPaymentRequest\x1a\x18.storage.DefaultResponse\x12N\n" +
-	"\x11GetVisitsPayments\x12\x15.storage.EmptyRequest\x1a\".storage.GetVisitsPaymentsResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
+	"\x11GetVisitsPayments\x12\x15.storage.EmptyRequest\x1a\".storage.GetVisitsPaymentsResponse\x12P\n" +
+	"\x12GetClinicOverrides\x12\x15.storage.EmptyRequest\x1a#.storage.GetClinicOverridesResponse\x12J\n" +
+	"\x0fGetAppointments\x12\x15.storage.EmptyRequest\x1a .storage.GetAppointmentsResponseB\x19Z\x17storage/proto;storagepbb\x06proto3"
 
 var (
 	file_proto_storage_proto_rawDescOnce sync.Once
@@ -6368,7 +6555,7 @@ func file_proto_storage_proto_rawDescGZIP() []byte {
 	return file_proto_storage_proto_rawDescData
 }
 
-var file_proto_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 102)
+var file_proto_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 105)
 var file_proto_storage_proto_goTypes = []any{
 	(*AddUserRequest)(nil),                      // 0: storage.AddUserRequest
 	(*AddUserResponse)(nil),                     // 1: storage.AddUserResponse
@@ -6472,36 +6659,39 @@ var file_proto_storage_proto_goTypes = []any{
 	(*CalculateVisitTotalResponse)(nil),         // 99: storage.CalculateVisitTotalResponse
 	(*AddOrUpdateVisitPaymentRequest)(nil),      // 100: storage.AddOrUpdateVisitPaymentRequest
 	(*GetVisitByIDResponse)(nil),                // 101: storage.GetVisitByIDResponse
-	(*timestamppb.Timestamp)(nil),               // 102: google.protobuf.Timestamp
+	(*ClinicOverride)(nil),                      // 102: storage.ClinicOverride
+	(*GetClinicOverridesResponse)(nil),          // 103: storage.GetClinicOverridesResponse
+	(*GetAppointmentsResponse)(nil),             // 104: storage.GetAppointmentsResponse
+	(*timestamppb.Timestamp)(nil),               // 105: google.protobuf.Timestamp
 }
 var file_proto_storage_proto_depIdxs = []int32{
-	102, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
+	105, // 0: storage.AddPatientRequest.birth_date:type_name -> google.protobuf.Timestamp
 	9,   // 1: storage.GetAllSpecsResponse.specs:type_name -> storage.Specialization
-	102, // 2: storage.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
-	102, // 3: storage.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
+	105, // 2: storage.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
+	105, // 3: storage.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
 	13,  // 4: storage.GetScheduleByDoctorIdResponse.doctor_schedule:type_name -> storage.WeeklyDoctorSchedule
 	20,  // 5: storage.GetDoctorsResponse.doctors:type_name -> storage.Doctor
 	26,  // 6: storage.GetAdminsResponse.admins:type_name -> storage.Admin
-	102, // 7: storage.Patient.birth_date:type_name -> google.protobuf.Timestamp
-	102, // 8: storage.UpdatePatientRequest.birth_date:type_name -> google.protobuf.Timestamp
+	105, // 7: storage.Patient.birth_date:type_name -> google.protobuf.Timestamp
+	105, // 8: storage.UpdatePatientRequest.birth_date:type_name -> google.protobuf.Timestamp
 	30,  // 9: storage.GetPatientsResponse.patients:type_name -> storage.Patient
-	102, // 10: storage.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
-	102, // 11: storage.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
+	105, // 10: storage.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
+	105, // 11: storage.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
 	33,  // 12: storage.GetClinicWeeklyScheduleResponse.clinic_schedule:type_name -> storage.WeeklyClinicSchedule
 	33,  // 13: storage.UpdateClinicWeeklyScheduleRequest.clinic_schedule:type_name -> storage.WeeklyClinicSchedule
 	13,  // 14: storage.AddDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> storage.WeeklyDoctorSchedule
 	13,  // 15: storage.UpdateDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> storage.WeeklyDoctorSchedule
-	102, // 16: storage.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	102, // 17: storage.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	102, // 18: storage.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
-	102, // 19: storage.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	102, // 20: storage.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	102, // 21: storage.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
-	102, // 22: storage.Appointment.date:type_name -> google.protobuf.Timestamp
-	102, // 23: storage.Appointment.time:type_name -> google.protobuf.Timestamp
-	102, // 24: storage.Appointment.birth_date:type_name -> google.protobuf.Timestamp
-	102, // 25: storage.Appointment.created_at:type_name -> google.protobuf.Timestamp
-	102, // 26: storage.Appointment.updated_at:type_name -> google.protobuf.Timestamp
+	105, // 16: storage.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	105, // 17: storage.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	105, // 18: storage.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	105, // 19: storage.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	105, // 20: storage.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	105, // 21: storage.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	105, // 22: storage.Appointment.date:type_name -> google.protobuf.Timestamp
+	105, // 23: storage.Appointment.time:type_name -> google.protobuf.Timestamp
+	105, // 24: storage.Appointment.birth_date:type_name -> google.protobuf.Timestamp
+	105, // 25: storage.Appointment.created_at:type_name -> google.protobuf.Timestamp
+	105, // 26: storage.Appointment.updated_at:type_name -> google.protobuf.Timestamp
 	45,  // 27: storage.GetAppointmentsByDoctorIDResponse.appointments:type_name -> storage.Appointment
 	30,  // 28: storage.GetPatientByIDResponse.patient:type_name -> storage.Patient
 	45,  // 29: storage.AddAppointmentRequest.appointment:type_name -> storage.Appointment
@@ -6509,26 +6699,26 @@ var file_proto_storage_proto_depIdxs = []int32{
 	45,  // 31: storage.GetAppointmentsByUserIDResponse.appointment:type_name -> storage.Appointment
 	45,  // 32: storage.GetAppointmentByIDResponse.appointment:type_name -> storage.Appointment
 	20,  // 33: storage.GetDoctorByIDResponse.doctor:type_name -> storage.Doctor
-	102, // 34: storage.GetClinicOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	102, // 35: storage.GetClinicOverrideResponse.date:type_name -> google.protobuf.Timestamp
-	102, // 36: storage.GetClinicOverrideResponse.start_time:type_name -> google.protobuf.Timestamp
-	102, // 37: storage.GetClinicOverrideResponse.end_time:type_name -> google.protobuf.Timestamp
-	102, // 38: storage.GetDoctorOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	102, // 39: storage.GetDoctorOverrideResponse.date:type_name -> google.protobuf.Timestamp
-	102, // 40: storage.GetDoctorOverrideResponse.start_time:type_name -> google.protobuf.Timestamp
-	102, // 41: storage.GetDoctorOverrideResponse.end_time:type_name -> google.protobuf.Timestamp
-	102, // 42: storage.DoctorOverride.date:type_name -> google.protobuf.Timestamp
-	102, // 43: storage.DoctorOverride.start_time:type_name -> google.protobuf.Timestamp
-	102, // 44: storage.DoctorOverride.end_time:type_name -> google.protobuf.Timestamp
+	105, // 34: storage.GetClinicOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	105, // 35: storage.GetClinicOverrideResponse.date:type_name -> google.protobuf.Timestamp
+	105, // 36: storage.GetClinicOverrideResponse.start_time:type_name -> google.protobuf.Timestamp
+	105, // 37: storage.GetClinicOverrideResponse.end_time:type_name -> google.protobuf.Timestamp
+	105, // 38: storage.GetDoctorOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	105, // 39: storage.GetDoctorOverrideResponse.date:type_name -> google.protobuf.Timestamp
+	105, // 40: storage.GetDoctorOverrideResponse.start_time:type_name -> google.protobuf.Timestamp
+	105, // 41: storage.GetDoctorOverrideResponse.end_time:type_name -> google.protobuf.Timestamp
+	105, // 42: storage.DoctorOverride.date:type_name -> google.protobuf.Timestamp
+	105, // 43: storage.DoctorOverride.start_time:type_name -> google.protobuf.Timestamp
+	105, // 44: storage.DoctorOverride.end_time:type_name -> google.protobuf.Timestamp
 	59,  // 45: storage.GetDoctorOverridesResponse.override:type_name -> storage.DoctorOverride
 	65,  // 46: storage.GetMaterialsResponse.materials:type_name -> storage.Material
 	66,  // 47: storage.GetServicesResponse.services:type_name -> storage.Service
 	74,  // 48: storage.GetServicesTypesResponse.types:type_name -> storage.ServiceType
-	102, // 49: storage.Visit.created_at:type_name -> google.protobuf.Timestamp
+	105, // 49: storage.Visit.created_at:type_name -> google.protobuf.Timestamp
 	83,  // 50: storage.AddVisitMaterialsRequest.materials:type_name -> storage.AddVisitMaterials
 	85,  // 51: storage.AddVisitServicesRequest.services:type_name -> storage.AddVisitServices
 	82,  // 52: storage.AddPatientAllergiesChronicsRequest.notes:type_name -> storage.PatientAllergiesChronics
-	102, // 53: storage.AddPatientVisitRequest.created_at:type_name -> google.protobuf.Timestamp
+	105, // 53: storage.AddPatientVisitRequest.created_at:type_name -> google.protobuf.Timestamp
 	80,  // 54: storage.AddPatientDiagnosesRequest.diagnoses:type_name -> storage.Diagnose
 	80,  // 55: storage.GetPatientDiagnosesResponse.diagnoses:type_name -> storage.Diagnose
 	81,  // 56: storage.GetPatientVisitsResponse.visits:type_name -> storage.Visit
@@ -6537,143 +6727,152 @@ var file_proto_storage_proto_depIdxs = []int32{
 	95,  // 59: storage.GetVisitsPaymentsResponse.visit_payment:type_name -> storage.VisitPayment
 	95,  // 60: storage.AddOrUpdateVisitPaymentRequest.payment:type_name -> storage.VisitPayment
 	81,  // 61: storage.GetVisitByIDResponse.visit:type_name -> storage.Visit
-	0,   // 62: storage.StorageService.AddUser:input_type -> storage.AddUserRequest
-	2,   // 63: storage.StorageService.AddDoctor:input_type -> storage.AddDoctorRequest
-	4,   // 64: storage.StorageService.AddAdmin:input_type -> storage.AddAdminRequest
-	6,   // 65: storage.StorageService.AddPatient:input_type -> storage.AddPatientRequest
-	8,   // 66: storage.StorageService.GetDoctors:input_type -> storage.EmptyRequest
-	8,   // 67: storage.StorageService.GetAdmins:input_type -> storage.EmptyRequest
-	8,   // 68: storage.StorageService.GetPatients:input_type -> storage.EmptyRequest
-	70,  // 69: storage.StorageService.GetDoctorSpecsByDoctorId:input_type -> storage.GetByIdRequest
-	21,  // 70: storage.StorageService.UpdateDoctor:input_type -> storage.UpdateDoctorRequest
-	22,  // 71: storage.StorageService.AddDoctorSpec:input_type -> storage.AddDoctorSpecRequest
-	23,  // 72: storage.StorageService.DeleteDoctorSpec:input_type -> storage.DeleteDoctorSpecRequest
-	27,  // 73: storage.StorageService.UpdateAdmin:input_type -> storage.UpdateAdminRequest
-	28,  // 74: storage.StorageService.UpdateAdminRole:input_type -> storage.UpdateAdminRoleRequest
-	31,  // 75: storage.StorageService.UpdatePatient:input_type -> storage.UpdatePatientRequest
-	73,  // 76: storage.StorageService.DeleteUser:input_type -> storage.DeleteRequest
-	78,  // 77: storage.StorageService.UpdateUserLogin:input_type -> storage.UpdateUserLoginRequest
-	8,   // 78: storage.StorageService.GetAllSpecs:input_type -> storage.EmptyRequest
-	11,  // 79: storage.StorageService.AddUserRole:input_type -> storage.AddUserRoleRequest
-	16,  // 80: storage.StorageService.GetUserByLogin:input_type -> storage.GetUserByLoginRequest
-	18,  // 81: storage.StorageService.UpdateUserPassword:input_type -> storage.UpdateUserPasswordRequest
-	8,   // 82: storage.StorageService.GetClinicWeeklySchedule:input_type -> storage.EmptyRequest
-	35,  // 83: storage.StorageService.GetUserRole:input_type -> storage.GetUserRoleRequest
-	14,  // 84: storage.StorageService.GetDoctorWeeklySchedule:input_type -> storage.GetScheduleByDoctorIdRequest
-	37,  // 85: storage.StorageService.UpdateClinicWeeklySchedule:input_type -> storage.UpdateClinicWeeklyScheduleRequest
-	38,  // 86: storage.StorageService.AddDoctorWeeklySchedule:input_type -> storage.AddDoctorWeeklyScheduleRequest
-	39,  // 87: storage.StorageService.UpdateDoctorWeeklySchedule:input_type -> storage.UpdateDoctorWeeklyScheduleRequest
-	40,  // 88: storage.StorageService.GetRolePermission:input_type -> storage.GetRolePermissionRequest
-	43,  // 89: storage.StorageService.GetDoctorsBySpecID:input_type -> storage.GetDoctorBySpecIDRequest
-	44,  // 90: storage.StorageService.GetAppointmentsByDoctorID:input_type -> storage.GetAppointmentsByDoctorIDRequest
-	49,  // 91: storage.StorageService.AddAppointment:input_type -> storage.AddAppointmentRequest
-	47,  // 92: storage.StorageService.GetAppointmentsByUserID:input_type -> storage.GetByIDRequest
-	47,  // 93: storage.StorageService.GetSpecsByDoctorID:input_type -> storage.GetByIDRequest
-	47,  // 94: storage.StorageService.GetDoctorByID:input_type -> storage.GetByIDRequest
-	50,  // 95: storage.StorageService.UpdateAppointment:input_type -> storage.UpdateAppointmentRequest
-	41,  // 96: storage.StorageService.AddClinicDailyOverride:input_type -> storage.AddClinicDailyOverrideRequest
-	42,  // 97: storage.StorageService.AddDoctorDailyOverride:input_type -> storage.AddDoctorDailyOverrideRequest
-	55,  // 98: storage.StorageService.GetClinicOverride:input_type -> storage.GetClinicOverrideRequest
-	57,  // 99: storage.StorageService.GetDoctorOverride:input_type -> storage.GetDoctorOverrideRequest
-	61,  // 100: storage.StorageService.AddMaterial:input_type -> storage.AddMaterialRequest
-	62,  // 101: storage.StorageService.AddService:input_type -> storage.AddServiceRequest
-	63,  // 102: storage.StorageService.UpdateMaterial:input_type -> storage.UpdateMaterialRequest
-	64,  // 103: storage.StorageService.UpdateService:input_type -> storage.UpdateServiceRequest
-	8,   // 104: storage.StorageService.GetMaterials:input_type -> storage.EmptyRequest
-	8,   // 105: storage.StorageService.GetServices:input_type -> storage.EmptyRequest
-	8,   // 106: storage.StorageService.GetServicesTypes:input_type -> storage.EmptyRequest
-	76,  // 107: storage.StorageService.GetServiceTypeById:input_type -> storage.GetServiceTypeByIdRequest
-	73,  // 108: storage.StorageService.DeleteMaterial:input_type -> storage.DeleteRequest
-	73,  // 109: storage.StorageService.DeleteService:input_type -> storage.DeleteRequest
-	47,  // 110: storage.StorageService.GetDoctorOverrides:input_type -> storage.GetByIDRequest
-	70,  // 111: storage.StorageService.GetPatientDiagnoses:input_type -> storage.GetByIdRequest
-	70,  // 112: storage.StorageService.GetPatientVisits:input_type -> storage.GetByIdRequest
-	70,  // 113: storage.StorageService.GetPatientAllergiesChronics:input_type -> storage.GetByIdRequest
-	8,   // 114: storage.StorageService.GetICDCodes:input_type -> storage.EmptyRequest
-	47,  // 115: storage.StorageService.GetPatientByID:input_type -> storage.GetByIDRequest
-	47,  // 116: storage.StorageService.GetAppointmentByID:input_type -> storage.GetByIDRequest
-	87,  // 117: storage.StorageService.AddPatientAllergiesChronics:input_type -> storage.AddPatientAllergiesChronicsRequest
-	88,  // 118: storage.StorageService.AddPatientVisit:input_type -> storage.AddPatientVisitRequest
-	84,  // 119: storage.StorageService.AddVisitMaterials:input_type -> storage.AddVisitMaterialsRequest
-	86,  // 120: storage.StorageService.AddVisitServices:input_type -> storage.AddVisitServicesRequest
-	89,  // 121: storage.StorageService.AddPatientDiagnoses:input_type -> storage.AddPatientDiagnosesRequest
-	96,  // 122: storage.StorageService.AddVisitPayment:input_type -> storage.VisitPaymentRequest
-	96,  // 123: storage.StorageService.UpdateVisitPayment:input_type -> storage.VisitPaymentRequest
-	70,  // 124: storage.StorageService.GetVisitByID:input_type -> storage.GetByIdRequest
-	98,  // 125: storage.StorageService.CalculateVisitTotal:input_type -> storage.CalculateVisitTotalRequest
-	100, // 126: storage.StorageService.AddOrUpdateVisitPayment:input_type -> storage.AddOrUpdateVisitPaymentRequest
-	8,   // 127: storage.StorageService.GetVisitsPayments:input_type -> storage.EmptyRequest
-	1,   // 128: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
-	3,   // 129: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
-	5,   // 130: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
-	7,   // 131: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
-	24,  // 132: storage.StorageService.GetDoctors:output_type -> storage.GetDoctorsResponse
-	29,  // 133: storage.StorageService.GetAdmins:output_type -> storage.GetAdminsResponse
-	32,  // 134: storage.StorageService.GetPatients:output_type -> storage.GetPatientsResponse
-	25,  // 135: storage.StorageService.GetDoctorSpecsByDoctorId:output_type -> storage.GetDoctorSpecsByDoctorIdResponse
-	19,  // 136: storage.StorageService.UpdateDoctor:output_type -> storage.DefaultResponse
-	19,  // 137: storage.StorageService.AddDoctorSpec:output_type -> storage.DefaultResponse
-	19,  // 138: storage.StorageService.DeleteDoctorSpec:output_type -> storage.DefaultResponse
-	19,  // 139: storage.StorageService.UpdateAdmin:output_type -> storage.DefaultResponse
-	19,  // 140: storage.StorageService.UpdateAdminRole:output_type -> storage.DefaultResponse
-	19,  // 141: storage.StorageService.UpdatePatient:output_type -> storage.DefaultResponse
-	19,  // 142: storage.StorageService.DeleteUser:output_type -> storage.DefaultResponse
-	19,  // 143: storage.StorageService.UpdateUserLogin:output_type -> storage.DefaultResponse
-	10,  // 144: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
-	12,  // 145: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
-	17,  // 146: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
-	19,  // 147: storage.StorageService.UpdateUserPassword:output_type -> storage.DefaultResponse
-	34,  // 148: storage.StorageService.GetClinicWeeklySchedule:output_type -> storage.GetClinicWeeklyScheduleResponse
-	36,  // 149: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
-	15,  // 150: storage.StorageService.GetDoctorWeeklySchedule:output_type -> storage.GetScheduleByDoctorIdResponse
-	19,  // 151: storage.StorageService.UpdateClinicWeeklySchedule:output_type -> storage.DefaultResponse
-	19,  // 152: storage.StorageService.AddDoctorWeeklySchedule:output_type -> storage.DefaultResponse
-	19,  // 153: storage.StorageService.UpdateDoctorWeeklySchedule:output_type -> storage.DefaultResponse
-	19,  // 154: storage.StorageService.GetRolePermission:output_type -> storage.DefaultResponse
-	24,  // 155: storage.StorageService.GetDoctorsBySpecID:output_type -> storage.GetDoctorsResponse
-	46,  // 156: storage.StorageService.GetAppointmentsByDoctorID:output_type -> storage.GetAppointmentsByDoctorIDResponse
-	19,  // 157: storage.StorageService.AddAppointment:output_type -> storage.DefaultResponse
-	51,  // 158: storage.StorageService.GetAppointmentsByUserID:output_type -> storage.GetAppointmentsByUserIDResponse
-	54,  // 159: storage.StorageService.GetSpecsByDoctorID:output_type -> storage.GetSpecsByDoctorIDResponse
-	53,  // 160: storage.StorageService.GetDoctorByID:output_type -> storage.GetDoctorByIDResponse
-	19,  // 161: storage.StorageService.UpdateAppointment:output_type -> storage.DefaultResponse
-	19,  // 162: storage.StorageService.AddClinicDailyOverride:output_type -> storage.DefaultResponse
-	19,  // 163: storage.StorageService.AddDoctorDailyOverride:output_type -> storage.DefaultResponse
-	56,  // 164: storage.StorageService.GetClinicOverride:output_type -> storage.GetClinicOverrideResponse
-	58,  // 165: storage.StorageService.GetDoctorOverride:output_type -> storage.GetDoctorOverrideResponse
-	19,  // 166: storage.StorageService.AddMaterial:output_type -> storage.DefaultResponse
-	19,  // 167: storage.StorageService.AddService:output_type -> storage.DefaultResponse
-	19,  // 168: storage.StorageService.UpdateMaterial:output_type -> storage.DefaultResponse
-	19,  // 169: storage.StorageService.UpdateService:output_type -> storage.DefaultResponse
-	67,  // 170: storage.StorageService.GetMaterials:output_type -> storage.GetMaterialsResponse
-	68,  // 171: storage.StorageService.GetServices:output_type -> storage.GetServicesResponse
-	75,  // 172: storage.StorageService.GetServicesTypes:output_type -> storage.GetServicesTypesResponse
-	77,  // 173: storage.StorageService.GetServiceTypeById:output_type -> storage.GetServiceTypeByIdResponse
-	19,  // 174: storage.StorageService.DeleteMaterial:output_type -> storage.DefaultResponse
-	19,  // 175: storage.StorageService.DeleteService:output_type -> storage.DefaultResponse
-	60,  // 176: storage.StorageService.GetDoctorOverrides:output_type -> storage.GetDoctorOverridesResponse
-	90,  // 177: storage.StorageService.GetPatientDiagnoses:output_type -> storage.GetPatientDiagnosesResponse
-	91,  // 178: storage.StorageService.GetPatientVisits:output_type -> storage.GetPatientVisitsResponse
-	92,  // 179: storage.StorageService.GetPatientAllergiesChronics:output_type -> storage.GetPatientAllergiesChronicsResponse
-	93,  // 180: storage.StorageService.GetICDCodes:output_type -> storage.GetICDCodesResponse
-	48,  // 181: storage.StorageService.GetPatientByID:output_type -> storage.GetPatientByIDResponse
-	52,  // 182: storage.StorageService.GetAppointmentByID:output_type -> storage.GetAppointmentByIDResponse
-	19,  // 183: storage.StorageService.AddPatientAllergiesChronics:output_type -> storage.DefaultResponse
-	94,  // 184: storage.StorageService.AddPatientVisit:output_type -> storage.AddVisitResponse
-	19,  // 185: storage.StorageService.AddVisitMaterials:output_type -> storage.DefaultResponse
-	19,  // 186: storage.StorageService.AddVisitServices:output_type -> storage.DefaultResponse
-	19,  // 187: storage.StorageService.AddPatientDiagnoses:output_type -> storage.DefaultResponse
-	19,  // 188: storage.StorageService.AddVisitPayment:output_type -> storage.DefaultResponse
-	19,  // 189: storage.StorageService.UpdateVisitPayment:output_type -> storage.DefaultResponse
-	101, // 190: storage.StorageService.GetVisitByID:output_type -> storage.GetVisitByIDResponse
-	99,  // 191: storage.StorageService.CalculateVisitTotal:output_type -> storage.CalculateVisitTotalResponse
-	19,  // 192: storage.StorageService.AddOrUpdateVisitPayment:output_type -> storage.DefaultResponse
-	97,  // 193: storage.StorageService.GetVisitsPayments:output_type -> storage.GetVisitsPaymentsResponse
-	128, // [128:194] is the sub-list for method output_type
-	62,  // [62:128] is the sub-list for method input_type
-	62,  // [62:62] is the sub-list for extension type_name
-	62,  // [62:62] is the sub-list for extension extendee
-	0,   // [0:62] is the sub-list for field type_name
+	105, // 62: storage.ClinicOverride.date:type_name -> google.protobuf.Timestamp
+	105, // 63: storage.ClinicOverride.start_time:type_name -> google.protobuf.Timestamp
+	105, // 64: storage.ClinicOverride.end_time:type_name -> google.protobuf.Timestamp
+	102, // 65: storage.GetClinicOverridesResponse.overrides:type_name -> storage.ClinicOverride
+	45,  // 66: storage.GetAppointmentsResponse.appointments:type_name -> storage.Appointment
+	0,   // 67: storage.StorageService.AddUser:input_type -> storage.AddUserRequest
+	2,   // 68: storage.StorageService.AddDoctor:input_type -> storage.AddDoctorRequest
+	4,   // 69: storage.StorageService.AddAdmin:input_type -> storage.AddAdminRequest
+	6,   // 70: storage.StorageService.AddPatient:input_type -> storage.AddPatientRequest
+	8,   // 71: storage.StorageService.GetDoctors:input_type -> storage.EmptyRequest
+	8,   // 72: storage.StorageService.GetAdmins:input_type -> storage.EmptyRequest
+	8,   // 73: storage.StorageService.GetPatients:input_type -> storage.EmptyRequest
+	70,  // 74: storage.StorageService.GetDoctorSpecsByDoctorId:input_type -> storage.GetByIdRequest
+	21,  // 75: storage.StorageService.UpdateDoctor:input_type -> storage.UpdateDoctorRequest
+	22,  // 76: storage.StorageService.AddDoctorSpec:input_type -> storage.AddDoctorSpecRequest
+	23,  // 77: storage.StorageService.DeleteDoctorSpec:input_type -> storage.DeleteDoctorSpecRequest
+	27,  // 78: storage.StorageService.UpdateAdmin:input_type -> storage.UpdateAdminRequest
+	28,  // 79: storage.StorageService.UpdateAdminRole:input_type -> storage.UpdateAdminRoleRequest
+	31,  // 80: storage.StorageService.UpdatePatient:input_type -> storage.UpdatePatientRequest
+	73,  // 81: storage.StorageService.DeleteUser:input_type -> storage.DeleteRequest
+	78,  // 82: storage.StorageService.UpdateUserLogin:input_type -> storage.UpdateUserLoginRequest
+	8,   // 83: storage.StorageService.GetAllSpecs:input_type -> storage.EmptyRequest
+	11,  // 84: storage.StorageService.AddUserRole:input_type -> storage.AddUserRoleRequest
+	16,  // 85: storage.StorageService.GetUserByLogin:input_type -> storage.GetUserByLoginRequest
+	18,  // 86: storage.StorageService.UpdateUserPassword:input_type -> storage.UpdateUserPasswordRequest
+	8,   // 87: storage.StorageService.GetClinicWeeklySchedule:input_type -> storage.EmptyRequest
+	35,  // 88: storage.StorageService.GetUserRole:input_type -> storage.GetUserRoleRequest
+	14,  // 89: storage.StorageService.GetDoctorWeeklySchedule:input_type -> storage.GetScheduleByDoctorIdRequest
+	37,  // 90: storage.StorageService.UpdateClinicWeeklySchedule:input_type -> storage.UpdateClinicWeeklyScheduleRequest
+	38,  // 91: storage.StorageService.AddDoctorWeeklySchedule:input_type -> storage.AddDoctorWeeklyScheduleRequest
+	39,  // 92: storage.StorageService.UpdateDoctorWeeklySchedule:input_type -> storage.UpdateDoctorWeeklyScheduleRequest
+	40,  // 93: storage.StorageService.GetRolePermission:input_type -> storage.GetRolePermissionRequest
+	43,  // 94: storage.StorageService.GetDoctorsBySpecID:input_type -> storage.GetDoctorBySpecIDRequest
+	44,  // 95: storage.StorageService.GetAppointmentsByDoctorID:input_type -> storage.GetAppointmentsByDoctorIDRequest
+	47,  // 96: storage.StorageService.GetPatientByID:input_type -> storage.GetByIDRequest
+	49,  // 97: storage.StorageService.AddAppointment:input_type -> storage.AddAppointmentRequest
+	47,  // 98: storage.StorageService.GetAppointmentsByUserID:input_type -> storage.GetByIDRequest
+	47,  // 99: storage.StorageService.GetSpecsByDoctorID:input_type -> storage.GetByIDRequest
+	47,  // 100: storage.StorageService.GetDoctorByID:input_type -> storage.GetByIDRequest
+	50,  // 101: storage.StorageService.UpdateAppointment:input_type -> storage.UpdateAppointmentRequest
+	47,  // 102: storage.StorageService.GetAppointmentByID:input_type -> storage.GetByIDRequest
+	41,  // 103: storage.StorageService.AddClinicDailyOverride:input_type -> storage.AddClinicDailyOverrideRequest
+	42,  // 104: storage.StorageService.AddDoctorDailyOverride:input_type -> storage.AddDoctorDailyOverrideRequest
+	55,  // 105: storage.StorageService.GetClinicOverride:input_type -> storage.GetClinicOverrideRequest
+	57,  // 106: storage.StorageService.GetDoctorOverride:input_type -> storage.GetDoctorOverrideRequest
+	61,  // 107: storage.StorageService.AddMaterial:input_type -> storage.AddMaterialRequest
+	62,  // 108: storage.StorageService.AddService:input_type -> storage.AddServiceRequest
+	63,  // 109: storage.StorageService.UpdateMaterial:input_type -> storage.UpdateMaterialRequest
+	64,  // 110: storage.StorageService.UpdateService:input_type -> storage.UpdateServiceRequest
+	8,   // 111: storage.StorageService.GetMaterials:input_type -> storage.EmptyRequest
+	8,   // 112: storage.StorageService.GetServices:input_type -> storage.EmptyRequest
+	8,   // 113: storage.StorageService.GetServicesTypes:input_type -> storage.EmptyRequest
+	76,  // 114: storage.StorageService.GetServiceTypeById:input_type -> storage.GetServiceTypeByIdRequest
+	73,  // 115: storage.StorageService.DeleteMaterial:input_type -> storage.DeleteRequest
+	73,  // 116: storage.StorageService.DeleteService:input_type -> storage.DeleteRequest
+	47,  // 117: storage.StorageService.GetDoctorOverrides:input_type -> storage.GetByIDRequest
+	70,  // 118: storage.StorageService.GetPatientDiagnoses:input_type -> storage.GetByIdRequest
+	70,  // 119: storage.StorageService.GetPatientVisits:input_type -> storage.GetByIdRequest
+	70,  // 120: storage.StorageService.GetPatientAllergiesChronics:input_type -> storage.GetByIdRequest
+	8,   // 121: storage.StorageService.GetICDCodes:input_type -> storage.EmptyRequest
+	87,  // 122: storage.StorageService.AddPatientAllergiesChronics:input_type -> storage.AddPatientAllergiesChronicsRequest
+	88,  // 123: storage.StorageService.AddPatientVisit:input_type -> storage.AddPatientVisitRequest
+	84,  // 124: storage.StorageService.AddVisitMaterials:input_type -> storage.AddVisitMaterialsRequest
+	86,  // 125: storage.StorageService.AddVisitServices:input_type -> storage.AddVisitServicesRequest
+	89,  // 126: storage.StorageService.AddPatientDiagnoses:input_type -> storage.AddPatientDiagnosesRequest
+	96,  // 127: storage.StorageService.AddVisitPayment:input_type -> storage.VisitPaymentRequest
+	96,  // 128: storage.StorageService.UpdateVisitPayment:input_type -> storage.VisitPaymentRequest
+	70,  // 129: storage.StorageService.GetVisitByID:input_type -> storage.GetByIdRequest
+	98,  // 130: storage.StorageService.CalculateVisitTotal:input_type -> storage.CalculateVisitTotalRequest
+	100, // 131: storage.StorageService.AddOrUpdateVisitPayment:input_type -> storage.AddOrUpdateVisitPaymentRequest
+	8,   // 132: storage.StorageService.GetVisitsPayments:input_type -> storage.EmptyRequest
+	8,   // 133: storage.StorageService.GetClinicOverrides:input_type -> storage.EmptyRequest
+	8,   // 134: storage.StorageService.GetAppointments:input_type -> storage.EmptyRequest
+	1,   // 135: storage.StorageService.AddUser:output_type -> storage.AddUserResponse
+	3,   // 136: storage.StorageService.AddDoctor:output_type -> storage.AddDoctorResponse
+	5,   // 137: storage.StorageService.AddAdmin:output_type -> storage.AddAdminResponse
+	7,   // 138: storage.StorageService.AddPatient:output_type -> storage.AddPatientResponse
+	24,  // 139: storage.StorageService.GetDoctors:output_type -> storage.GetDoctorsResponse
+	29,  // 140: storage.StorageService.GetAdmins:output_type -> storage.GetAdminsResponse
+	32,  // 141: storage.StorageService.GetPatients:output_type -> storage.GetPatientsResponse
+	25,  // 142: storage.StorageService.GetDoctorSpecsByDoctorId:output_type -> storage.GetDoctorSpecsByDoctorIdResponse
+	19,  // 143: storage.StorageService.UpdateDoctor:output_type -> storage.DefaultResponse
+	19,  // 144: storage.StorageService.AddDoctorSpec:output_type -> storage.DefaultResponse
+	19,  // 145: storage.StorageService.DeleteDoctorSpec:output_type -> storage.DefaultResponse
+	19,  // 146: storage.StorageService.UpdateAdmin:output_type -> storage.DefaultResponse
+	19,  // 147: storage.StorageService.UpdateAdminRole:output_type -> storage.DefaultResponse
+	19,  // 148: storage.StorageService.UpdatePatient:output_type -> storage.DefaultResponse
+	19,  // 149: storage.StorageService.DeleteUser:output_type -> storage.DefaultResponse
+	19,  // 150: storage.StorageService.UpdateUserLogin:output_type -> storage.DefaultResponse
+	10,  // 151: storage.StorageService.GetAllSpecs:output_type -> storage.GetAllSpecsResponse
+	12,  // 152: storage.StorageService.AddUserRole:output_type -> storage.AddUserRoleResponse
+	17,  // 153: storage.StorageService.GetUserByLogin:output_type -> storage.GetUserByLoginResponse
+	19,  // 154: storage.StorageService.UpdateUserPassword:output_type -> storage.DefaultResponse
+	34,  // 155: storage.StorageService.GetClinicWeeklySchedule:output_type -> storage.GetClinicWeeklyScheduleResponse
+	36,  // 156: storage.StorageService.GetUserRole:output_type -> storage.GetUserRoleResponse
+	15,  // 157: storage.StorageService.GetDoctorWeeklySchedule:output_type -> storage.GetScheduleByDoctorIdResponse
+	19,  // 158: storage.StorageService.UpdateClinicWeeklySchedule:output_type -> storage.DefaultResponse
+	19,  // 159: storage.StorageService.AddDoctorWeeklySchedule:output_type -> storage.DefaultResponse
+	19,  // 160: storage.StorageService.UpdateDoctorWeeklySchedule:output_type -> storage.DefaultResponse
+	19,  // 161: storage.StorageService.GetRolePermission:output_type -> storage.DefaultResponse
+	24,  // 162: storage.StorageService.GetDoctorsBySpecID:output_type -> storage.GetDoctorsResponse
+	46,  // 163: storage.StorageService.GetAppointmentsByDoctorID:output_type -> storage.GetAppointmentsByDoctorIDResponse
+	48,  // 164: storage.StorageService.GetPatientByID:output_type -> storage.GetPatientByIDResponse
+	19,  // 165: storage.StorageService.AddAppointment:output_type -> storage.DefaultResponse
+	51,  // 166: storage.StorageService.GetAppointmentsByUserID:output_type -> storage.GetAppointmentsByUserIDResponse
+	54,  // 167: storage.StorageService.GetSpecsByDoctorID:output_type -> storage.GetSpecsByDoctorIDResponse
+	53,  // 168: storage.StorageService.GetDoctorByID:output_type -> storage.GetDoctorByIDResponse
+	19,  // 169: storage.StorageService.UpdateAppointment:output_type -> storage.DefaultResponse
+	52,  // 170: storage.StorageService.GetAppointmentByID:output_type -> storage.GetAppointmentByIDResponse
+	19,  // 171: storage.StorageService.AddClinicDailyOverride:output_type -> storage.DefaultResponse
+	19,  // 172: storage.StorageService.AddDoctorDailyOverride:output_type -> storage.DefaultResponse
+	56,  // 173: storage.StorageService.GetClinicOverride:output_type -> storage.GetClinicOverrideResponse
+	58,  // 174: storage.StorageService.GetDoctorOverride:output_type -> storage.GetDoctorOverrideResponse
+	19,  // 175: storage.StorageService.AddMaterial:output_type -> storage.DefaultResponse
+	19,  // 176: storage.StorageService.AddService:output_type -> storage.DefaultResponse
+	19,  // 177: storage.StorageService.UpdateMaterial:output_type -> storage.DefaultResponse
+	19,  // 178: storage.StorageService.UpdateService:output_type -> storage.DefaultResponse
+	67,  // 179: storage.StorageService.GetMaterials:output_type -> storage.GetMaterialsResponse
+	68,  // 180: storage.StorageService.GetServices:output_type -> storage.GetServicesResponse
+	75,  // 181: storage.StorageService.GetServicesTypes:output_type -> storage.GetServicesTypesResponse
+	77,  // 182: storage.StorageService.GetServiceTypeById:output_type -> storage.GetServiceTypeByIdResponse
+	19,  // 183: storage.StorageService.DeleteMaterial:output_type -> storage.DefaultResponse
+	19,  // 184: storage.StorageService.DeleteService:output_type -> storage.DefaultResponse
+	60,  // 185: storage.StorageService.GetDoctorOverrides:output_type -> storage.GetDoctorOverridesResponse
+	90,  // 186: storage.StorageService.GetPatientDiagnoses:output_type -> storage.GetPatientDiagnosesResponse
+	91,  // 187: storage.StorageService.GetPatientVisits:output_type -> storage.GetPatientVisitsResponse
+	92,  // 188: storage.StorageService.GetPatientAllergiesChronics:output_type -> storage.GetPatientAllergiesChronicsResponse
+	93,  // 189: storage.StorageService.GetICDCodes:output_type -> storage.GetICDCodesResponse
+	19,  // 190: storage.StorageService.AddPatientAllergiesChronics:output_type -> storage.DefaultResponse
+	94,  // 191: storage.StorageService.AddPatientVisit:output_type -> storage.AddVisitResponse
+	19,  // 192: storage.StorageService.AddVisitMaterials:output_type -> storage.DefaultResponse
+	19,  // 193: storage.StorageService.AddVisitServices:output_type -> storage.DefaultResponse
+	19,  // 194: storage.StorageService.AddPatientDiagnoses:output_type -> storage.DefaultResponse
+	19,  // 195: storage.StorageService.AddVisitPayment:output_type -> storage.DefaultResponse
+	19,  // 196: storage.StorageService.UpdateVisitPayment:output_type -> storage.DefaultResponse
+	101, // 197: storage.StorageService.GetVisitByID:output_type -> storage.GetVisitByIDResponse
+	99,  // 198: storage.StorageService.CalculateVisitTotal:output_type -> storage.CalculateVisitTotalResponse
+	19,  // 199: storage.StorageService.AddOrUpdateVisitPayment:output_type -> storage.DefaultResponse
+	97,  // 200: storage.StorageService.GetVisitsPayments:output_type -> storage.GetVisitsPaymentsResponse
+	103, // 201: storage.StorageService.GetClinicOverrides:output_type -> storage.GetClinicOverridesResponse
+	104, // 202: storage.StorageService.GetAppointments:output_type -> storage.GetAppointmentsResponse
+	135, // [135:203] is the sub-list for method output_type
+	67,  // [67:135] is the sub-list for method input_type
+	67,  // [67:67] is the sub-list for extension type_name
+	67,  // [67:67] is the sub-list for extension extendee
+	0,   // [0:67] is the sub-list for field type_name
 }
 
 func init() { file_proto_storage_proto_init() }
@@ -6687,7 +6886,7 @@ func file_proto_storage_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_storage_proto_rawDesc), len(file_proto_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   102,
+			NumMessages:   105,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -5,6 +5,7 @@ import (
 	patientpb "github.com/DariaTarasek/diplom/services/api-gateway/proto/patient"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/protobuf/types/known/timestamppb"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -52,6 +53,7 @@ func (h *PatientHandler) addAppointment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	log.Println("dr: " + req.PatientBirthDate)
 	birthDate, err := time.Parse("2006-01-02", req.PatientBirthDate)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

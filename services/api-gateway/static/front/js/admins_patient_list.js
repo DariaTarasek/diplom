@@ -263,6 +263,8 @@ createApp({
         isSwitchingModals.value = true;
       modalChoice.hide();
 
+        Object.assign(form, selectedPatient.value);
+
       if (!modalLogin) {
         modalLogin = new bootstrap.Modal(document.getElementById('changeLoginModal'));
       }

@@ -137,6 +137,7 @@ createApp({
         },
     },
 
+<<<<<<< HEAD
     methods: {
         async loadData() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -306,6 +307,92 @@ createApp({
             this.tempSelectedMaterials = [];
             this.showMaterialModal = false;
         },
+=======
+  combinedAllergies() {
+    return [...this.patient.allergies, ...this.newAllergies];
+  },
+  combinedChronics() {
+    return [...this.patient.chronics, ...this.newChronics];
+  },
+  },
+
+  methods: {
+      async loadData() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const appointmentId = urlParams.get('appointment_id') || 0;
+
+          try {
+              const res = await fetch(`/api/appointments/${appointmentId}`);
+              const data = await res.json();
+              this.patient = data.patient || {};
+          } catch (err) {
+              console.error('Ошибка загрузки пациента:', err);
+          }
+
+          // Загружаем аллергии и хронические заболевания (в одной таблице)
+          try {
+              const condRes = await fetch(`/api/patients/${this.patient.id}/conditions`);
+              const conditions = await condRes.json();
+
+              this.patient.allergies = conditions.filter(c => c.type === 'allergy').map(c => c.name);
+              this.patient.chronics = conditions.filter(c => c.type === 'chronic').map(c => c.name);
+          } catch (err) {
+              console.error('Ошибка загрузки аллергий и хронических заболеваний:', err);
+          }
+
+          // Загружаем историю
+          try {
+              const historyRes = await fetch(`/api/patients/${this.patient.id}/history`);
+              this.history = await historyRes.json();
+          } catch (err) {
+              console.error('Ошибка загрузки анамнеза пациента:', err);
+          }
+
+          // Загружаем услуги и материалы
+          try {
+              const [servicesRes, materialsRes] = await Promise.all([
+                  fetch('/api/services'),
+                  fetch('/api/materials')
+              ]);
+
+              const rawServices = await servicesRes.json();
+              const rawMaterials = await materialsRes.json();
+
+              this.services = Array.isArray(rawServices.services) ? rawServices.services : [];
+              this.materials = Array.isArray(rawMaterials.materials) ? rawMaterials.materials : [];
+
+              this.services.forEach(s => {
+                  this.serviceQuantities[s.id] = 1;
+              });
+
+              this.materials.forEach(mat => {
+                  this.materialQuantities[mat.id] = 0;
+              });
+
+          } catch (err) {
+              console.error('Ошибка загрузки услуг или материалов:', err);
+          }
+      },
+
+
+      fetchDoctorData() {
+      fetch('/doctor-data')
+        .then(res => {
+          if (!res.ok) throw new Error('Ошибка загрузки');
+          return res.json();
+        })
+        .then(json => {
+          this.doctor.first_name = json.first_name;
+          this.doctor.second_name = json.second_name;
+        })
+        .catch(err => {
+          console.error('Ошибка при получении данных:', err);
+        });
+    },
+      toggleMaterial(mat) {
+    if (this.materialQuantities[mat.id] > 0) {
+      this.materialQuantities[mat.id] = 0;
+>>>>>>> master
 
         selectMaterial(mat) {
             if (!this.selectedMaterialIds.includes(mat.id)) {
@@ -314,6 +401,7 @@ createApp({
             }
         },
 
+<<<<<<< HEAD
         addNewAllergy() {
             const trimmed = this.newAllergy.trim();
             if (
@@ -336,6 +424,86 @@ createApp({
                 this.newChronic = '';
             }
         },
+=======
+    }
+  },
+  isMaterialSelected(id) {
+    return this.materialQuantities[id] > 0;
+  },
+
+  removeService(id) {
+  this.currentVisit.selectedServices = this.currentVisit.selectedServices.filter(sid => sid !== id);
+},
+removeNewAllergyByValue(allergy) {
+  this.newAllergies = this.newAllergies.filter(a => a !== allergy);
+},
+ removeNewChronicByValue(chronic) {
+    this.newChronics = this.newChronics.filter(c => c !== chronic);
+  },
+onMaterialToggle(mat) {
+    if (this.selectedMaterialIds.includes(mat.id)) {
+        this.materialQuantities[mat.id] = 1;
+    } else {
+        this.materialQuantities[mat.id] = 0;
+    }
+  },
+  removeMaterial(id) {
+    this.selectedMaterialIds = this.selectedMaterialIds.filter(mid => mid !== id);
+    this.materialQuantities[id] = 0;
+  },
+
+addICDCode(icd) {
+  if (!this.selectedICD.some(item => item.code === icd.code)) {
+    this.selectedICD.push({ code: icd.code, description: icd.description, comment: '' });
+  }
+},
+
+removeICDCode(code) {
+  this.selectedICD = this.selectedICD.filter(item => item.code !== code);
+},
+async fetchICDCodes() {
+    try {
+      const res = await fetch('/api/icd-codes');
+      this.icdCodes = await res.json();
+    } catch (err) {
+      console.error('Ошибка загрузки МКБ кодов:', err);
+    }
+  },
+  applySelectedServices() {
+    this.tempSelectedServices.forEach(id => {
+      if (!this.currentVisit.selectedServices.includes(id)) {
+        this.currentVisit.selectedServices.push(id);
+      }
+    });
+    this.tempSelectedServices = [];
+    this.showServiceModal = false;
+  },
+  applySelectedMaterials() {
+    this.tempSelectedMaterials.forEach(id => {
+      if (!this.selectedMaterialIds.includes(id)) {
+        this.selectedMaterialIds.push(id);
+        const mat = this.materials.find(m => m.id === id);
+        this.selectedMaterials.push(mat);
+        this.materialQuantities[id] = 1;
+      }
+    });
+    this.tempSelectedMaterials = [];
+    this.showMaterialModal = false;
+  },
+  selectMaterial(mat) {
+  if (!this.selectedMaterialIds.includes(mat.id)) {
+    this.selectedMaterialIds.push(mat.id);
+    this.materialQuantities[mat.id] = 1;
+  }
+},
+  addNewAllergy() {
+        const trimmed = this.newAllergy.trim();
+        if (trimmed && !this.patient.allergies.includes(trimmed) && !this.newAllergies.includes(trimmed)) {
+            this.newAllergies.push(trimmed);
+            this.newAllergy = '';
+        }
+    },
+>>>>>>> master
 
         selectService(service) {
             if (!this.currentVisit.selectedServices.includes(service.id)) {
@@ -368,6 +536,7 @@ createApp({
                 errors.push('Выберите хотя бы одну услугу.');
             }
 
+<<<<<<< HEAD
             for (const materialId of this.selectedMaterialIds) {
                 const qty = this.materialQuantities[materialId];
                 if (!Number.isInteger(qty) || qty <= 0) {
@@ -375,12 +544,51 @@ createApp({
                     break;
                 }
             }
+=======
+        for (const materialId of this.selectedMaterialIds) {
+    const qty = this.materialQuantities[materialId];
+    if (!Number.isInteger(qty) || qty <= 0) {
+        errors.push('Количество для выбранных материалов должно быть больше 0');
+        break;
+    }
+}
+
+if (errors.length) {
+    alert('Пожалуйста, исправьте ошибки:\n\n' + errors.join('\n'));
+    return;
+}
+
+try {
+    const payload = {
+        patient_id: this.patient.id,
+        complaints: this.currentVisit.complaints,
+        treatment: this.currentVisit.treatment,
+        manipulations: this.currentVisit.selectedServices,
+        materials: this.selectedMaterialIds.map(id => ({
+            id,
+            quantity: this.materialQuantities[id]
+        }))
+    };
+
+    payload.icd_codes = this.selectedICD.map(item => ({
+        code: item.code,
+        comment: item.comment
+    }));
+
+
+    const res = await fetch(`/api/visits`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+            });
+>>>>>>> master
 
             if (errors.length) {
                 alert('Пожалуйста, исправьте ошибки:\n\n' + errors.join('\n'));
                 return;
             }
 
+<<<<<<< HEAD
             try {
                 const payload = {
                     appointment_id: this.appointment_id || 19,
@@ -403,17 +611,31 @@ createApp({
                 };
 
                 const res = await fetch(`/api/visits`, {
+=======
+    
+            if (this.newAllergies.length > 0) {
+                await fetch(`/api/patients/${this.patient.id}/allergies`, {
+>>>>>>> master
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
+<<<<<<< HEAD
                 if (!res.ok) throw new Error('Ошибка при сохранении приема');
 
                 const newConditions = [];
 
                 this.newAllergies.forEach(title => {
                     newConditions.push({ type: 'allergy', title });
+=======
+    
+            if (this.newChronics.length > 0) {
+                await fetch(`/api/patients/${this.patient.id}/chronics`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chronics: this.newChronics })
+>>>>>>> master
                 });
 
                 this.newChronics.forEach(title => {

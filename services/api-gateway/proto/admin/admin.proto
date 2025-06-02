@@ -218,6 +218,38 @@ message UnconfirmedVisitPaymentsResponse {
   repeated UnconfirmedVisitPayment visit_payments = 1;
 }
 
+message AdminScheduleOverview {
+  repeated ScheduleDay days = 1;
+  repeated string time_slots = 2;
+  repeated AppointmentEntry appointments = 3;
+}
+
+message ScheduleDay {
+  string date = 1;       // формат: "02.01.2006"
+  string weekday = 2;    // "Пн", "Вт", и т.д.
+}
+
+message AppointmentEntry {
+  int32 id = 1;
+  string date = 2;       // "02.01.2006"
+  string time = 3;       // "15:00"
+  Person doctor = 4;
+  Person patient = 5;
+}
+
+message Person {
+  int64 id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string birth_date = 5;
+  string gender = 6;
+  string phone = 7;
+  string specialty = 8;
+}
+
+
+
 service AdminService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // изменение постоянного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
@@ -244,4 +276,5 @@ service AdminService {
   rpc UpdatePatientLogin(UpdateUserLoginRequest) returns (DefaultResponse);
   rpc GetUnconfirmedVisitPayments(EmptyRequest) returns (UnconfirmedVisitPaymentsResponse);
 
+  rpc GetClinicScheduleGrid(EmptyRequest) returns (AdminScheduleOverview);
 }
