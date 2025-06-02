@@ -1,76 +1,94 @@
 const { createApp, ref, reactive, watch, onMounted, computed } = Vue;
 
-
 createApp({
-  setup() {
-    const search = ref('');
-    const filters = reactive({ specialty: '' });
-    const staff = ref([]);
-    const specialties = ref([]);
-    const form = reactive({
-      id: '',
-      second_name: '',
-      first_name: '',
-      surname: '',
-      email: '',
-      specialty: [],
-      gender: '',
-      phone: '',
-      experience: '',
-      education: ''
-    });
+    setup() {
+        const search = ref('');
+        const filters = reactive({ specialty: '' });
+        const staff = ref([]);
+        const allStaff = ref([]); // <-- Список всех сотрудников
+        const specialties = ref([]);
 
-    const admin = ref({
-    second_name: '',
-    first_name: ''
-    })
-    const fullName = computed(() => {
-  return [admin.value.first_name, admin.value.second_name].filter(Boolean).join(' ');
-    });
-    const isPopoverVisible = ref(false);
+        const form = reactive({
+            user_id: '',
+            secondName: '',
+            firstName: '',
+            surname: '',
+            email: '',
+            specialty: [],
+            gender: '',
+            phone: '',
+            experience: '',
+            education: ''
+        });
 
-    const emailError = ref('');
-    const phoneError = ref('');
-    const specError = ref('');
-    const selectedDoctor = ref(null);
-    const selectedDoctorId = ref(null);
+        const admin = ref({
+            second_name: '',
+            first_name: '',
+            role: ''
+        });
 
-    const firstNameError = ref('');
-    const secondNameError = ref('');
+        const fullName = computed(() =>
+            [admin.value.first_name, admin.value.second_name].filter(Boolean).join(' ')
+        );
 
-    const isSwitchingModals = ref(false);
+        const isPopoverVisible = ref(false);
+        const emailError = ref('');
+        const phoneError = ref('');
+        const specError = ref('');
+        const selectedDoctor = ref(null);
+        const selectedDoctorId = ref(null);
+        const firstNameError = ref('');
+        const secondNameError = ref('');
+        const isSwitchingModals = ref(false);
 
-    let modalEdit = null;
-    let modalLogin = null;
-    let modalChoice = null;
+        let modalEdit = null;
+        let modalLogin = null;
+        let modalChoice = null;
 
-
-    function togglePopover() {
+        function togglePopover() {
             isPopoverVisible.value = !isPopoverVisible.value;
         }
 
-    function handleClickOutside(event) {
+        function handleClickOutside(event) {
             const popover = document.getElementById('admin-profile');
             if (popover && !popover.contains(event.target)) {
                 isPopoverVisible.value = false;
             }
         }
 
-    async function loadSpecialties() {
-      specialties.value = await (await fetch('http://192.168.1.207:8080/api/admin/specialties')).json();
-    }
+        async function loadSpecialties() {
+            specialties.value = await (await fetch('/api/specialties')).json();
+        }
 
-    async function loadStaff() {
-      const params = new URLSearchParams();
-      if (search.value) params.append('search', search.value);
-      if (filters.specialty) params.append('specialty', filters.specialty);
-    
+        async function loadStaff() {
+            const res = await fetch('/api/staff-doctors');
+            allStaff.value = await res.json();
+            applyFilters();
+        }
 
-      const res = await fetch(`http://192.168.1.207:8080/api/staff-doctors?${params}`);
-      staff.value = await res.json();
-    }
+        function applyFilters() {
+            const searchTerm = search.value.trim().toLowerCase();
+            const selectedSpecialty = filters.specialty;
 
-    function formatPhone(phone) {
+            staff.value = allStaff.value.filter(s => {
+                const fullName = `${s.secondName} ${s.firstName} ${s.surname}`.toLowerCase();
+                const email = (s.email || '').toLowerCase();
+
+                const matchesSearch =
+                    !searchTerm ||
+                    fullName.includes(searchTerm) ||
+                    email.includes(searchTerm);
+
+                const matchesSpecialty =
+                    !selectedSpecialty ||
+                    s.specialty.includes(Number(selectedSpecialty));
+
+                return matchesSearch && matchesSpecialty;
+            });
+        }
+
+
+        function formatPhone(phone) {
             const digits = phone.replace(/\D/g, '');
             if (digits.length !== 11 || (!digits.startsWith('7') && !digits.startsWith('8'))) return phone;
 
@@ -80,25 +98,23 @@ createApp({
             const part3 = digits.slice(9, 11);
 
             return `+7 (${code}) ${part1}-${part2}-${part3}`;
-            }
+        }
 
-    function getSpecialtyName(id) {
-        return specialties.value.find(s => s.id === id)?.name || '-';
-    }
+        function getSpecialtyName(id) {
+            return specialties.value.find(s => s.id === id)?.name || '-';
+        }
 
-    function getSpecialtyNames(ids) {
-        if (!Array.isArray(ids)) ids = [ids];
-        return specialties.value
-            .filter(s => ids.includes(s.id))
-            .map(s => s.name)
-            .join(', ') || '-';
-}
+        function getSpecialtyNames(ids) {
+            if (!Array.isArray(ids)) ids = [ids];
+            return specialties.value
+                .filter(s => ids.includes(s.id))
+                .map(s => s.name)
+                .join(', ') || '-';
+        }
 
-    loadStaff();
-
-       function onRowClick(s) {
+        function onRowClick(s) {
             selectedDoctor.value = s;
-            selectedDoctorId.value = s.id;
+            selectedDoctorId.value = s.user_id;
 
             const modalElement = document.getElementById('actionsModal');
             if (modalElement) {
@@ -107,17 +123,18 @@ createApp({
             }
         }
 
-  function openEdit(s) {
-        isSwitchingModals.value = true;
+        function openEdit(s) {
+            isSwitchingModals.value = true;
             modalChoice?.hide();
-            Object.assign(form, s);   
-            form.gender = s.gender === 'м' ? 'male' : 'female';
+            Object.assign(form, s);
+            form.gender = s.gender === "м" ? "м" : "ж";
             form.specialty = Array.isArray(s.specialty)
-            ? s.specialty
-            : String(s.specialty).split(',').map(Number);
+                ? s.specialty
+                : String(s.specialty).split(',').map(Number);
             emailError.value = '';
             phoneError.value = '';
             specError.value = '';
+
             if (!modalEdit) {
                 modalEdit = new bootstrap.Modal(document.getElementById('editModal'));
             }
@@ -126,260 +143,222 @@ createApp({
             setTimeout(() => {
                 const phoneInput = document.getElementById('phoneLogin');
                 if (phoneInput) {
-                // Удаляем старую маску, если была
-                if (phoneInput.maskRef?.destroy) {
-                    phoneInput.maskRef.destroy();
-                }
+                    if (phoneInput.maskRef?.destroy) phoneInput.maskRef.destroy();
 
-                // Нормализация номера
-                let digits = (form.phone || '').replace(/\D/g, '');
+                    let digits = (form.phone || '').replace(/\D/g, '').slice(1);
 
-                digits = digits.slice(1);
+                    const mask = IMask(phoneInput, {
+                        mask: '+7 (000) 000-00-00',
+                        lazy: false,
+                        overwrite: true
+                    });
 
-                // Создаем маску
-                const mask = IMask(phoneInput, {
-                    mask: '+7 (000) 000-00-00',
-                    lazy: false,
-                    overwrite: true
-                });
+                    phoneInput.maskRef = mask;
 
-                // Привязываем маску к элементу
-                phoneInput.maskRef = mask;
+                    mask.on('accept', () => {
+                        const digits = mask.value.replace(/\D/g, '');
+                        const valid = digits.length === 11 && digits.startsWith('7');
+                        phoneError.value = digits && !valid ? 'Неверный формат телефона' : '';
+                        form.phone = mask.value;
+                    });
 
-                mask.on('accept', () => {
-                    const digits = mask.value.replace(/\D/g, ''); // Удаляем все кроме цифр
-                    const valid = digits.length === 11 && digits.startsWith('7');
-                    phoneError.value = digits && !valid ? 'Неверный формат телефона' : '';
+                    mask.unmaskedValue = digits;
                     form.phone = mask.value;
-                });
-
-                // Устанавливаем значение без потерь
-                mask.unmaskedValue = digits;
-                form.phone = mask.value;
                 }
             }, 300);
         }
 
-    function saveStaff() {
-      const phoneValid = !phoneError.value && form.phone;
+        function saveStaff() {
+            const phoneValid = !phoneError.value && form.phone;
 
-      if (!phoneValid) {
-        return;
-      }
+            if (!phoneValid || specError.value) return;
 
-      if (specError.value) {
-        return;
-  }
+            secondNameError.value = '';
+            firstNameError.value = '';
 
-    secondNameError.value = '';
-    firstNameError.value = '';
+            if (!form.secondName?.trim()) secondNameError.value = 'Фамилия не может быть пустой';
+            if (!form.firstName?.trim()) firstNameError.value = 'Имя не может быть пустым';
+            if (secondNameError.value || firstNameError.value) return;
 
-    const isSecondNameEmpty = !form.second_name || form.second_name.trim() === '';
-    const isFirstNameEmpty = !form.first_name || form.first_name.trim() === '';
+            const payload = {
+                user_id: form.user_id,
+                firstName: form.firstName,
+                secondName: form.secondName,
+                surname: form.surname,
+                phone: form.phone.replace(/\D/g, '').trim(),
+                email: form.email,
+                specialty: Array.isArray(form.specialty) ? form.specialty : [form.specialty],
+                experience: form.experience,
+                education: form.education,
+                gender: form.gender
+            };
 
-    if (isSecondNameEmpty) {
-        secondNameError.value = 'Фамилия не может быть пустой';
-    }
-    if (isFirstNameEmpty) {
-        firstNameError.value = 'Имя не может быть пустым';
-    }
+            fetch('/api/save-doctor', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(response => {
+                if (response.ok) {
+                    loadStaff();
+                    modalEdit?.hide();
+                    selectedDoctorId.value = null;
+                    selectedDoctor.value = null;
+                } else {
+                    alert('Ошибка при сохранении (код ' + response.status + ')');
+                }
+            });
+        }
 
+        function isSelected(s) {
+            return selectedDoctorId.value === s.user_id;
+        }
 
-    if (isSecondNameEmpty || isFirstNameEmpty) {
-        return;
-    }
+        function openLoginChange() {
+            isSwitchingModals.value = true;
+            modalChoice.hide();
 
-      const payload = {
-        id: form.id,
-        first_name: form.first_name,
-        second_name: form.second_name,
-        surname: form.surname,
-        phone: form.phone,
-        email: form.email,
-        specialty: Array.isArray(form.specialty) ? form.specialty : [form.specialty],
-        experience: form.experience,
-        education:form.education
-      };
-
-      fetch('http://192.168.1.207:8080/api/save-staff', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            loadStaff();
-            if (modalEdit) {
-                modalEdit.hide();
-                selectedDoctorId.value = null;
-                selectedDoctor.value = null;
+            if (!modalLogin) {
+                modalLogin = new bootstrap.Modal(document.getElementById('changeLoginModal'));
             }
-          } else {
-            alert('Ошибка при сохранении');
-          }
-        });
-    }
 
-     function isSelected(s) {
-        return selectedDoctorId.value === s.id;
-    }
+            if (selectedDoctor.value) {
+                form.user_id = selectedDoctor.value.user_id;
+                form.email = selectedDoctor.value.email;
+            }
 
-     function openLoginChange() {
-        isSwitchingModals.value = true;
-        modalChoice.hide();
 
-        if (!modalLogin) {
-            modalLogin = new bootstrap.Modal(document.getElementById('changeLoginModal'));
+            modalLogin.show();
         }
 
-      modalLogin.show();
-    }
-
-     function onModalHidden() {
-        if (isSwitchingModals.value) {
-            isSwitchingModals.value = false;
-            return;
-        }
-        selectedDoctorId.value = null;
-        selectedDoctor.value = null;
-    }
-
-     async function saveLogin() {
-        const emailValid = !emailError.value && form.email;
-
-        if (!emailValid || form.email.length === 0) {
-            emailError.value = 'Некорректный email';
-            return;
+        function onModalHidden() {
+            if (isSwitchingModals.value) {
+                isSwitchingModals.value = false;
+                return;
+            }
+            selectedDoctorId.value = null;
+            selectedDoctor.value = null;
         }
 
-        await fetch(`http://192.168.1.207:8080/api/doctors/${form.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone: form.phone })
-        });
+        async function saveLogin() {
+            const emailValid = !emailError.value && form.email;
+            if (!emailValid || form.email.length === 0) {
+                emailError.value = 'Некорректный email';
+                return;
+            }
 
-      modalLogin.hide();
-      selectedDoctorId.value = null;
-      selectedDoctor.value = null;
-      await loadStaff();
-    }
+            await fetch(`/api/doctors-login/${form.user_id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: form.email })
+            });
 
-    async function fetchAdminData() {
-  try {
-    const res = await fetch('http://192.168.1.207:8080/api/admin-data');
-    const data = await res.json();
+            modalLogin.hide();
+            selectedDoctorId.value = null;
+            selectedDoctor.value = null;
+            await loadStaff();
+        }
 
-    admin.value.first_name = data.first_name || '';
-    admin.value.second_name = data.second_name || '';
+        async function fetchAdminData() {
+            try {
+                const res = await fetch('/api/admin-data');
+                const data = await res.json();
 
-  } catch (err) {
-    console.error('Ошибка при загрузке данных:', err);
-  }
-}
+                admin.value.first_name = data.first_name || '';
+                admin.value.second_name = data.second_name || '';
+            } catch (err) {
+                console.error('Ошибка при загрузке данных:', err);
+            }
+        }
 
-      async function deleteDoctor() {
+        async function deleteDoctor() {
             if (!selectedDoctor.value) return;
 
-            const confirmed = confirm(`Вы уверены, что хотите удалить пользователя: ${selectedDoctor.value.first_name} ${selectedDoctor.value.second_name}?`);
+            const confirmed = confirm(`Вы уверены, что хотите удалить пользователя: ${selectedDoctor.value.firstName} ${selectedDoctor.value.secondName}?`);
             if (!confirmed) return;
 
             try {
-                const res = await fetch(`http://192.168.1.207:8080/api/doctors/${selectedDoctor.value.id}`, {
-                method: 'DELETE'
+                const res = await fetch(`/api/doctors/${selectedDoctor.value.user_id}`, {
+                    method: 'DELETE'
                 });
 
                 if (res.ok) {
-                modalChoice?.hide();
-                await loadStaff();
-                alert('Пользователь удалён.');
+                    modalChoice?.hide();
+                    await loadStaff();
+                    alert('Пользователь удалён.');
                 } else {
-                alert('Ошибка при удалении пользователя.');
+                    alert('Ошибка при удалении пользователя.');
                 }
             } catch (e) {
                 console.error(e);
                 alert('Произошла ошибка.');
             }
-            }
-
-    watch(() => form.email, (val) => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      emailError.value = val && !emailRegex.test(val) ? 'Неверный формат email' : '';
-    });
-
-     watch(() => form.specialty, (val) => {
-      if (val.length === 0) {
-        specError.value = "Выберите хотя бы одну специализацию";
-        } else {
-            specError.value = '';
         }
-    });
 
-    watch(() => filters.specialty, () => {
-        loadStaff();
+        // === WATCH ===
+
+        watch(() => form.email, (val) => {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            emailError.value = val && !emailRegex.test(val) ? 'Неверный формат email' : '';
         });
 
+        watch(() => form.specialty, (val) => {
+            specError.value = val.length === 0 ? 'Выберите хотя бы одну специализацию' : '';
+        });
 
-    watch(() => form.first_name, (val) => {
-        if (val.trim().length === 0) firstNameError.value = 'Имя не может быть пустым'
-        else firstNameError.value = '';
-    });
+        watch(() => form.firstName, (val) => {
+            firstNameError.value = val.trim().length === 0 ? 'Имя не может быть пустым' : '';
+        });
 
-    watch(() => form.second_name, (val) => {
-        if (val.trim().length === 0) secondNameError.value = 'Фамилия не может быть пустой'
-        else secondNameError.value = '';
-    });
+        watch(() => form.secondName, (val) => {
+            secondNameError.value = val.trim().length === 0 ? 'Фамилия не может быть пустой' : '';
+        });
 
+        watch([search, () => filters.specialty], applyFilters);
 
-      onMounted(async () => {
-        const editEl = document.getElementById('editModal');
-        const loginEl = document.getElementById('changeLoginModal');
-        const actionsEl = document.getElementById('actionsModal');
+        onMounted(async () => {
+            const editEl = document.getElementById('editModal');
+            const loginEl = document.getElementById('changeLoginModal');
+            const actionsEl = document.getElementById('actionsModal');
 
-        if (editEl) {
-            editEl.addEventListener('hidden.bs.modal', onModalHidden);
-        }
-        if (loginEl) {
-            loginEl.addEventListener('hidden.bs.modal', onModalHidden);
-        }
-        if (actionsEl) {
-            actionsEl.addEventListener('hidden.bs.modal', onModalHidden);
-        }
-            loadSpecialties();
-            loadStaff();
+            if (editEl) editEl.addEventListener('hidden.bs.modal', onModalHidden);
+            if (loginEl) loginEl.addEventListener('hidden.bs.modal', onModalHidden);
+            if (actionsEl) actionsEl.addEventListener('hidden.bs.modal', onModalHidden);
+
             document.addEventListener('click', handleClickOutside);
-        await fetchAdminData();
-    });
 
+            await loadSpecialties();
+            await loadStaff();
+            await fetchAdminData();
+        });
 
-    return {
-      search,
-      filters,
-      staff,
-      specialties,
-      form,
-      emailError,
-      phoneError,
-      specError,
-      firstNameError,
-      secondNameError,
-      loadStaff,
-      getSpecialtyName,
-      getSpecialtyNames,
-      openEdit,
-      saveStaff,
-      onRowClick,
-      openLoginChange,
-      saveLogin,
-      selectedDoctor,
-      selectedDoctorId,
-      isSelected,
-      onModalHidden,
-      deleteDoctor, 
-      formatPhone,
-        isPopoverVisible,
-      fullName
-    };
-  }
+        return {
+            search,
+            filters,
+            staff,
+            specialties,
+            form,
+            emailError,
+            phoneError,
+            specError,
+            firstNameError,
+            secondNameError,
+            loadStaff,
+            getSpecialtyName,
+            getSpecialtyNames,
+            openEdit,
+            saveStaff,
+            onRowClick,
+            openLoginChange,
+            saveLogin,
+            selectedDoctor,
+            selectedDoctorId,
+            isSelected,
+            onModalHidden,
+            deleteDoctor,
+            formatPhone,
+            isPopoverVisible,
+            fullName,
+            admin
+        };
+    }
 }).mount('#app');

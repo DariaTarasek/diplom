@@ -35,7 +35,7 @@ createApp({
         second_name: '',
         first_name: '',
         surname: '',
-        birth_date: '',
+        birthDate: '',
         gender: '',
         phone: ''
       },
@@ -64,6 +64,8 @@ createApp({
         },
 
       currentWeekStartIndex: 0,  // индекс начала текущей видимой недели
+        currentPage: 0,
+
 
     };
   },
@@ -74,31 +76,45 @@ createApp({
     },
     visibleWeekDays() {
         return this.schedule.days.slice(this.currentWeekStartIndex, this.currentWeekStartIndex + 7);
-    }
+    },
+      paginatedSchedule() {
+          const start = this.currentPage * 7;
+          const end = start + 7;
+          return this.appointmentSchedule.slice(start, end);
+      },
+      totalPages() {
+          return Math.ceil(this.appointmentSchedule.length / 7);
+      }
+
+
   },
 
   methods: {
-    async fetchData() {
-      try {
-        const res = await fetch('http://192.168.1.207:8080/api/admin-data');
-        const data = await res.json();
-        this.appointments = data.appointments || {};
-        this.pending = data.pending || [];
-        this.first_name = data.first_name || '';
-        this.second_name = data.second_name || '';
+      async fetchData() {
+          try {
+              // Загружаем данные для таблицы — дни, слоты и приёмы
+              const scheduleRes = await fetch('/api/schedule-admin');
+              const scheduleData = await scheduleRes.json();
+              this.schedule = {
+                  days: scheduleData.schedule?.days || [],
+                  timeSlots: scheduleData.schedule?.timeSlots || []
+              };
+              this.appointments = scheduleData.appointments || {};
 
-        const scheduleRes = await fetch('http://192.168.1.207:8080/api/schedule-admin');
-        const scheduleData = await scheduleRes.json();
-        this.schedule = {
-          days: scheduleData.days || [],
-          timeSlots: scheduleData.timeSlots || []
-        };
-      } catch (err) {
-        console.error('Ошибка при загрузке данных:', err);
-      }
-    },
+              // Загружаем остальные данные: имя админа, неподтверждённые записи и т.п.
+              const res = await fetch('/api/admin-data');
+              const data = await res.json();
+              this.pending = data.pending || [];
+              this.first_name = data.first_name || '';
+              this.second_name = data.second_name || '';
 
-    confirmEntry(index) {
+          } catch (err) {
+              console.error('Ошибка при загрузке данных:', err);
+          }
+      },
+
+
+      confirmEntry(index) {
       const entry = this.pending[index];
       this.pending.splice(index, 1);
     },
@@ -131,28 +147,48 @@ createApp({
     },
 
     async fetchSpecialties() {
-      const res = await fetch('http://192.168.1.207:8080/api/specialties');
+      const res = await fetch('/api/specialties');
       this.specialties = await res.json();
     },
 
    async fetchDoctors(specialtyId) {
-  const res = await fetch(`http://192.168.1.207:8080/api/doctors?specialty=${specialtyId}`);
+  const res = await fetch(`/api/doctors/${specialtyId}`);
   const rawDoctors = await res.json();
   this.doctors = rawDoctors.map(doc => ({
     ...doc,
-    fullName: `${doc.second_name} ${doc.first_name} ${doc.surname}`.trim()
+    fullName: `${doc.secondName} ${doc.firstName} ${doc.surname}`.trim()
   }));
 },
 
-async fetchDoctorSchedule(doctorId) {
-  const res = await fetch(`http://192.168.1.207:8080/api/schedule?doctor_id=${doctorId}`);
-  this.appointmentSchedule = await res.json();
-  this.maxSlots = Math.max(...Object.values(this.appointmentSchedule).map(day => day.length));
-},
+      async fetchDoctorSchedule(doctorId) {
+          const res = await fetch(`/api/appointment-doctor-schedule/${doctorId}`);
+          const data = await res.json();
+
+          data.forEach(day => {
+              if (!Array.isArray(day.slots)) {
+                  day.slots = [];
+              }
+          });
+
+          console.log('Загружено расписание:', data); // <--- ДОБАВЬ ЭТО
+
+          if (!Array.isArray(data)) {
+              this.appointmentSchedule = [];
+              this.maxSlots = 0;
+              return;
+          }
+
+          this.appointmentSchedule = data;
+          this.maxSlots = Math.max(...data.map(d => d.slots?.length || 0));
+      },
 
 
-    selectSlot(slot) {
-      this.selectedSlot = slot;
+
+
+
+      selectSlot(slot) {
+            console.log(`Вы выбрали слот: ${slot}, день: ${label}`);
+        this.selectedSlot = slot;
       this.step = 2;
       this.$nextTick(() => this.initPhoneMask());
     },
@@ -172,11 +208,13 @@ async fetchDoctorSchedule(doctorId) {
 
       const payload = {
         doctor_id: this.selectedDoctorId,
-        slot: this.selectedSlot,
-        patient: { ...this.patient, phone: this.patient.phone.replace(/\D/g, '') }
+        date: this.selectedSlot.date,
+          time: this.selectedSlot.time,
+        ...this.patient,
+          phone: this.patient.phone.replace(/\D/g, '')
       };
 
-      const res = await fetch('http://192.168.1.207:8080/api/appointments', {
+      const res = await fetch('/api/appointments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -240,7 +278,7 @@ async fetchDoctorSchedule(doctorId) {
             second_name: '',
             first_name: '',
             surname: '',
-            birth_date: '',
+            birthDate: '',
             gender: '',
             phone: ''
         };
@@ -335,10 +373,9 @@ async fetchDoctorSchedule(doctorId) {
         time: this.selectedAppt.time
     };
 
-    const res = await fetch('http://192.168.1.207:8080/api/cancel-appointment', {
-        method: 'POST',
+    const res = await fetch(`/api/appointments/cancel/${this.selectedAppt.id}`, {
+        method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
     });
 
     if (res.ok) {
@@ -348,7 +385,28 @@ async fetchDoctorSchedule(doctorId) {
         alert('Ошибка отмены записи');
     }
     },
-     },
+      prevPage() {
+          if (this.currentPage > 0) {
+              this.currentPage--;
+          }
+      },
+      nextPage() {
+          if ((this.currentPage + 1) * 7 < this.appointmentSchedule.length) {
+              this.currentPage++;
+          }
+      },
+      selectDateSlot(daySchedule, slot) {
+          this.selectedSlot = {
+              date: daySchedule.label,
+              time: slot
+          };
+          this.step = 2;
+
+          this.$nextTick(() => this.initPhoneMask());
+      }
+
+
+  },
 
   watch: {
     'patient.first_name': 'validateFirstName',

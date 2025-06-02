@@ -6,6 +6,8 @@ import (
 	"github.com/DariaTarasek/diplom/services/admin/model"
 	pb "github.com/DariaTarasek/diplom/services/admin/proto/admin"
 	"github.com/DariaTarasek/diplom/services/admin/service"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type Server struct {
@@ -322,4 +324,62 @@ func (s *Server) UpdatePatientLogin(ctx context.Context, req *pb.UpdateUserLogin
 		return nil, fmt.Errorf("не удалось обновить логин пациента: %w", err)
 	}
 	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) GetClinicScheduleGrid(
+	ctx context.Context,
+	req *pb.EmptyRequest,
+) (*pb.AdminScheduleOverview, error) {
+
+	// Получаем данные из сервиса
+	schedule, err := s.Service.GetClinicScheduleGrid(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "ошибка получения сетки: %v", err)
+	}
+
+	// Конвертируем в proto-ответ
+	return convertToProto(schedule), nil
+}
+
+func convertToProto(resp model.AdminScheduleOverview) *pb.AdminScheduleOverview {
+	protoResp := &pb.AdminScheduleOverview{
+		TimeSlots: resp.Schedule.TimeSlots,
+	}
+
+	for _, day := range resp.Schedule.Days {
+		protoResp.Days = append(protoResp.Days, &pb.ScheduleDay{
+			Date:    day.Date,
+			Weekday: day.Weekday,
+		})
+	}
+
+	for date, timeMap := range resp.Appointments {
+		for timeStr, entries := range timeMap {
+			for _, entry := range entries {
+				protoResp.Appointments = append(protoResp.Appointments, &pb.AppointmentEntry{
+					Id:   int32(entry.ID),
+					Date: date,
+					Time: timeStr,
+					Doctor: &pb.Person{
+						Id:         int64(entry.Doctor.ID),
+						FirstName:  entry.Doctor.FirstName,
+						SecondName: entry.Doctor.SecondName,
+						Surname:    entry.Doctor.Surname,
+						Specialty:  entry.Doctor.Specialty,
+					},
+					Patient: &pb.Person{
+						Id:         int64(entry.Patient.ID),
+						FirstName:  entry.Patient.FirstName,
+						SecondName: entry.Patient.SecondName,
+						Surname:    entry.Patient.Surname,
+						BirthDate:  entry.Patient.BirthDate,
+						Gender:     entry.Patient.Gender,
+						Phone:      entry.Patient.Phone,
+					},
+				})
+			}
+		}
+	}
+
+	return protoResp
 }

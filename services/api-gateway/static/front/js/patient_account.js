@@ -48,11 +48,11 @@ createApp({
   },
   methods: {
     fetchPatientInfo() {
-      fetch('/api/patient/info', { method: 'GET', credentials: 'include' })
+      fetch('/api/patient/me', { method: 'GET', credentials: 'include' })
           .then(res => res.json())
           .then(json => {
-            this.patient.secondName = json.second_name;
-            this.patient.firstName = json.first_name;
+            this.patient.secondName = json.secondName;
+            this.patient.firstName = json.firstName;
             this.patient.surname = json.surname;
           })
           .catch(err => console.error('Ошибка при получении информации о пациенте:', err));

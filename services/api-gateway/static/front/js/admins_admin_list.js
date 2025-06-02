@@ -55,24 +55,9 @@ createApp({
             }
         }
 
-    async function fetchUserRole() {
-        try {
-            const res = await fetch('http://192.168.1.207:8080/api/user-role'); 
-            if (res.ok) {
-            const data = await res.json();
-            userRole.value = data.role;
-            } else {
-            console.error('Ошибка получения роли пользователя');
-            userRole.value = 'admin';
-            }
-        } catch (err) {
-            console.error('Ошибка запроса роли:', err);
-            userRole.value = 'admin'; 
-        }
-        }
 
-    async function loadRoles() {
-      roles.value = await (await fetch('http://192.168.1.207:8080/api/roles')).json();
+      async function loadRoles() {
+      roles.value = await (await fetch('/api/roles')).json();
     }
 
 
@@ -80,11 +65,23 @@ createApp({
       const params = new URLSearchParams();
       if (search.value) params.append('search', search.value);
       if (filters.role) params.append('role', filters.role);
-    
 
-      const res = await fetch(`http://192.168.1.207:8080/api/staff-admins?${params}`);
+      // ?${params}
+      const res = await fetch(`/api/staff-admins`);
       staff.value = await res.json();
     }
+
+    const filteredStaff = computed(() => {
+          const searchText = search.value.toLowerCase().trim();
+          const selectedRole = filters.role;
+
+          return staff.value.filter(s => {
+              const fullName = `${s.second_name} ${s.first_name} ${s.surname}`.toLowerCase();
+              const matchesSearch = !searchText || fullName.includes(searchText) || s.email.toLowerCase().includes(searchText);
+              const matchesRole = !selectedRole || s.role === selectedRole;
+              return matchesSearch && matchesRole;
+          });
+      });
 
     function formatPhone(phone) {
             const digits = phone.replace(/\D/g, '');
@@ -116,7 +113,7 @@ createApp({
     }
 
     function onRoleChange() {
-      loadStaff();
+      filteredStaff();
     }
 
 
@@ -126,7 +123,7 @@ createApp({
         modalChoice?.hide();
         Object.assign(form, s);
         
-         form.gender = s.gender === 'м' ? 'male' : 'female';
+         form.gender = s.gender === 'м' ? 'м' : 'ж';
         emailError.value = '';
         phoneError.value = '';
         if (!modalEdit) {
@@ -183,29 +180,29 @@ createApp({
         first_name: form.first_name,
         second_name: form.second_name,
         surname: form.surname,
-        phone: form.phone,
+        phone: form.phone.replace(/\D/g, '').trim(),
         email: form.email,
-        role: form.role
+        role: form.role,
+          gender: form.gender
       };
 
-      fetch('http://192.168.1.207:8080/api/save-staff', {
+      fetch('/api/save-admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            loadStaff();
-            if (modalEdit) {
-                modalEdit.hide();
-                selectedAdminId.value = null;
-                selectedAdmin.value = null;
+    .then(response => {
+            if (response.ok) {
+                loadStaff();
+                if (modalEdit) {
+                    modalEdit.hide();
+                    selectedAdminId.value = null;
+                    selectedAdmin.value = null;
+                }
+            } else {
+                alert('Ошибка при сохранении (код ' + response.status + ')');
             }
-          } else {
-            alert('Ошибка при сохранении');
-          }
-        });
+        })
     }
 
      function isSelected(s) {
@@ -220,6 +217,10 @@ createApp({
         if (!modalLogin) {
             modalLogin = new bootstrap.Modal(document.getElementById('changeLoginModal'));
         }
+         if (selectedAdmin.value) {
+             form.id = selectedAdmin.value.id;
+             form.email = selectedAdmin.value.email;
+         }
 
       modalLogin.show();
     }
@@ -241,10 +242,10 @@ createApp({
             return;
         }
 
-        await fetch(`http://192.168.1.207:8080/api/admins/${form.id}`, {
+        await fetch(`/api/admins-login/${form.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone: form.phone })
+            body: JSON.stringify({ email: form.email })
         });
 
       modalLogin.hide();
@@ -255,11 +256,12 @@ createApp({
 
     async function fetchAdminData() {
   try {
-    const res = await fetch('http://192.168.1.207:8080/api/admin-data');
+    const res = await fetch('/api/admin-data');
     const data = await res.json();
 
     admin.value.first_name = data.first_name || '';
     admin.value.second_name = data.second_name || '';
+    userRole.value = data.role || '';
 
   } catch (err) {
     console.error('Ошибка при загрузке данных:', err);
@@ -273,7 +275,7 @@ createApp({
             if (!confirmed) return;
 
             try {
-                const res = await fetch(`http://192.168.1.207:8080/api/admins/${selectedAdmin.value.id}`, {
+                const res = await fetch(`/api/admins/${selectedAdmin.value.id}`, {
                 method: 'DELETE'
                 });
 
@@ -291,16 +293,12 @@ createApp({
             }
 
 
+
     watch(() => form.email, (val) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       emailError.value = val && !emailRegex.test(val) ? 'Неверный формат email' : '';
     });
-
-    watch(() => filters.role, (val) => {
-        console.log('Выбрана роль:', val);
-        loadStaff();
-        });
 
       watch(() => form.first_name, (val) => {
         if (val.trim().length === 0) firstNameError.value = 'Имя не может быть пустым'
@@ -329,7 +327,6 @@ createApp({
             loadRoles();
             loadStaff();
             document.addEventListener('click', this.handleClickOutside);
-            await fetchUserRole();
         await fetchAdminData();
     });
 
@@ -348,7 +345,6 @@ createApp({
       saveStaff,
       onRoleChange,
       userRole,
-      fetchUserRole,
       onRowClick,
       openLoginChange,
       saveLogin,
@@ -361,7 +357,8 @@ createApp({
       firstNameError,
       secondNameError,
       isPopoverVisible,
-      fullName
+      fullName,
+        filteredStaff
     };
   }
 }).mount('#app');

@@ -121,58 +121,66 @@ selectedMaterials() {
   },
 
   methods: {
-    async loadData() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const appointmentId = urlParams.get('appointment_id') || 1;
+      async loadData() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const appointmentId = urlParams.get('appointment_id') || 0;
 
-        try {
-            const res = await fetch(`http://192.168.1.207:8080/api/appointments/${appointmentId}`);
-            const data = await res.json();
-            this.patient = data.patient || {};
-            this.patient.allergies = this.patient.allergies || [];
-            this.patient.chronics = this.patient.chronics || [];
-            this.history = data.history || [];
-        } catch (err) {
-            console.error('Ошибка загрузки пациента:', err);
-        }
+          try {
+              const res = await fetch(`/api/appointments/${appointmentId}`);
+              const data = await res.json();
+              this.patient = data.patient || {};
+          } catch (err) {
+              console.error('Ошибка загрузки пациента:', err);
+          }
 
-        try {
-            const [servicesRes, materialsRes] = await Promise.all([
-            fetch('http://192.168.1.207:8080/api/services'),
-            fetch('http://192.168.1.207:8080/api/materials')
-            ]);
+          // Загружаем аллергии и хронические заболевания (в одной таблице)
+          try {
+              const condRes = await fetch(`/api/patients/${this.patient.id}/conditions`);
+              const conditions = await condRes.json();
 
-            const rawServices = await servicesRes.json();
-            const rawMaterials = await materialsRes.json();
+              this.patient.allergies = conditions.filter(c => c.type === 'allergy').map(c => c.name);
+              this.patient.chronics = conditions.filter(c => c.type === 'chronic').map(c => c.name);
+          } catch (err) {
+              console.error('Ошибка загрузки аллергий и хронических заболеваний:', err);
+          }
 
-            this.services = Array.isArray(rawServices.services) ? rawServices.services : [];
+          // Загружаем историю
+          try {
+              const historyRes = await fetch(`/api/patients/${this.patient.id}/history`);
+              this.history = await historyRes.json();
+          } catch (err) {
+              console.error('Ошибка загрузки анамнеза пациента:', err);
+          }
 
-            this.materials = Array.isArray(rawMaterials.materials) ? rawMaterials.materials : [];
+          // Загружаем услуги и материалы
+          try {
+              const [servicesRes, materialsRes] = await Promise.all([
+                  fetch('/api/services'),
+                  fetch('/api/materials')
+              ]);
 
-            if (!Array.isArray(this.services)) {
-            console.error('services не массив:', this.services);
-            }
+              const rawServices = await servicesRes.json();
+              const rawMaterials = await materialsRes.json();
 
-            if (!Array.isArray(this.materials)) {
-            console.error('materials не массив:', this.materials);
-            }
+              this.services = Array.isArray(rawServices.services) ? rawServices.services : [];
+              this.materials = Array.isArray(rawMaterials.materials) ? rawMaterials.materials : [];
 
-            this.services.forEach(s => {
-                this.serviceQuantities[s.id] = 1; 
-                });
+              this.services.forEach(s => {
+                  this.serviceQuantities[s.id] = 1;
+              });
+
+              this.materials.forEach(mat => {
+                  this.materialQuantities[mat.id] = 0;
+              });
+
+          } catch (err) {
+              console.error('Ошибка загрузки услуг или материалов:', err);
+          }
+      },
 
 
-            this.materials.forEach(mat => {
-                this.materialQuantities[mat.id] = 0;
-            });
-
-        } catch (err) {
-            console.error('Ошибка загрузки услуг или материалов:', err);
-        }
-        },
-
-     fetchDoctorData() {
-      fetch('http://192.168.1.207:8080/api/doctor-data')
+      fetchDoctorData() {
+      fetch('/doctor-data')
         .then(res => {
           if (!res.ok) throw new Error('Ошибка загрузки');
           return res.json();
@@ -230,7 +238,7 @@ removeICDCode(code) {
 },
 async fetchICDCodes() {
     try {
-      const res = await fetch('http://192.168.1.207:8080/api/icd-codes');
+      const res = await fetch('/api/icd-codes');
       this.icdCodes = await res.json();
     } catch (err) {
       console.error('Ошибка загрузки МКБ кодов:', err);
@@ -347,7 +355,7 @@ try {
     }));
 
 
-    const res = await fetch(`http://192.168.1.207:8080/api/visits`, {
+    const res = await fetch(`/api/visits`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -357,7 +365,7 @@ try {
 
     
             if (this.newAllergies.length > 0) {
-                await fetch(`http://192.168.1.207:8080/api/patients/${this.patient.id}/allergies`, {
+                await fetch(`/api/patients/${this.patient.id}/allergies`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ allergies: this.newAllergies })
@@ -366,7 +374,7 @@ try {
 
     
             if (this.newChronics.length > 0) {
-                await fetch(`http://192.168.1.207:8080/api/patients/${this.patient.id}/chronics`, {
+                await fetch(`/api/patients/${this.patient.id}/chronics`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ chronics: this.newChronics })

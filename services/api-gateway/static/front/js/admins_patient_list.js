@@ -5,19 +5,20 @@ createApp({
     const patients = ref([]);
     const search = ref('');
     const form = reactive({
-      id: null,
-      second_name: '',
-      first_name: '',
+      user_id: null,
+      secondName: '',
+      firstName: '',
       birthDate: '',
       gender: '',
       surname: '',
       phone: '',
       email: ''
     });
-
-    const admin = ref({
+      const allPatients = ref([]);
+      const admin = ref({
     second_name: '',
-    first_name: ''
+    first_name: '',
+        role: ''
     })
     const fullName = computed(() => {
   return [admin.value.first_name, admin.value.second_name].filter(Boolean).join(' ');
@@ -51,7 +52,6 @@ createApp({
     const phoneSectionDisabled = ref(false);
     const codeSended = ref(false);
 
-    const userRole = ref(null);
 
         function togglePopover() {
             isPopoverVisible.value = !isPopoverVisible.value;
@@ -66,10 +66,10 @@ createApp({
 
     function formatDate(dateStr) {
         if (!dateStr) return '';
-        const parts = dateStr.split('.');
+        const parts = dateStr.split('-');
         if (parts.length !== 3) return '';
         const [day, month, year] = parts;
-        return `${day.padStart(2, '0')}.${month.padStart(2, '0')}.${year}`;
+        return `${year}.${month.padStart(2, '0')}.${day.padStart(2, '0')}`;
         }
 
        function formatPhone(phone) {
@@ -85,31 +85,34 @@ createApp({
             }
 
 
-    async function fetchUserRole() {
-        try {
-            const res = await fetch('http://192.168.1.207:8080/api/user-role'); 
-            if (res.ok) {
-            const data = await res.json();
-            userRole.value = data.role;
-            } else {
-            console.error('Ошибка получения роли пользователя');
-            userRole.value = 'admin';
-            }
-        } catch (err) {
-            console.error('Ошибка запроса роли:', err);
-            userRole.value = 'admin'; 
-        }
-        }
-
 
     async function loadPatients() {
-      const res = await fetch(`http://192.168.1.207:8080/api/patients?search=${encodeURIComponent(search.value)}`);
-      patients.value = await res.json();
+            const res = await fetch(`/api/patients`);
+            allPatients.value = await res.json();
+            applyFilters();
     }
 
-    function onRowClick(p) {
+      function applyFilters() {
+          const searchTerm = search.value.trim().toLowerCase();
+
+          patients.value = allPatients.value.filter(s => {
+              const fullName = `${s.secondName} ${s.firstName} ${s.surname}`.toLowerCase();
+              const phone = (s.phone || '').trim().replace(/\\D/g, '');
+
+              const matchesSearch =
+                  !searchTerm ||
+                  fullName.includes(searchTerm) ||
+                  phone.includes(searchTerm);
+
+
+              return matchesSearch;
+          });
+      }
+
+
+      function onRowClick(p) {
         selectedPatient.value = p;
-        selectedPatientId.value = p.id;
+        selectedPatientId.value = p.user_id;
 
         const modalElement = document.getElementById('actionsModal');
         if (modalElement) {
@@ -147,7 +150,7 @@ createApp({
     phoneSectionDisabled.value = true;
     codeSended.value = true;
 
-    const res = await fetch('http://192.168.1.207:8080/api/request-code', {
+    const res = await fetch('api/request-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone })
@@ -173,7 +176,7 @@ createApp({
         return;
     }
 
-    const res = await fetch('http://192.168.1.207:8080/api/verify-code', {
+    const res = await fetch('/api/verify-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone: verifiedPhoneNumber.value, code: smsCode.value })
@@ -227,14 +230,14 @@ createApp({
         isSwitchingModals.value = true;
         modalChoice?.hide();
 
-        Object.assign(form, selectedPatient.value); // копируем данные пациента
+        Object.assign(form, selectedPatient.value);
 
-         form.gender = selectedPatient.value.gender === 'м' ? 'male' : 'female';
+         form.gender = selectedPatient.value.gender === 'м' ? 'м' : 'ж';
          console.log(selectedPatient.value.birthDate);
 
          //  Преобразование даты из ДД.ММ.ГГГГ в ГГГГ-MM-ДД
         if (selectedPatient.value.birthDate) {
-            const parts = selectedPatient.value.birthDate.split('.');
+            const parts = selectedPatient.value.birthDate.split('-');
             if (parts.length === 3) {
                 const [day, month, year] = parts;
                 form.birthDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
@@ -251,7 +254,7 @@ createApp({
     }
 
     function isSelected(p) {
-        return selectedPatientId.value === p.id;
+        return selectedPatientId.value === p.user_id;
     }
 
 
@@ -259,6 +262,8 @@ createApp({
     function openLoginChange() {
         isSwitchingModals.value = true;
       modalChoice.hide();
+
+        Object.assign(form, selectedPatient.value);
 
       if (!modalLogin) {
         modalLogin = new bootstrap.Modal(document.getElementById('changeLoginModal'));
@@ -318,7 +323,7 @@ createApp({
         return;
       }
 
-      await fetch(`http://192.168.1.207:8080/api/patients/${form.id}`, {
+      await fetch(`/api/patients/${form.user_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
@@ -336,10 +341,10 @@ createApp({
             return;
         }
 
-        await fetch(`http://192.168.1.207:8080/api/patients/${form.id}`, {
+        await fetch(`/api/patients-login/${form.user_id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone: form.phone })
+            body: JSON.stringify({ phone: form.phone.trim().replace(/\D/g,'') })
         });
 
       modalLogin.hide();
@@ -350,11 +355,12 @@ createApp({
 
         async function fetchAdminData() {
   try {
-    const res = await fetch('http://192.168.1.207:8080/api/admin-data');
+    const res = await fetch('/api/admin-data');
     const data = await res.json();
 
     admin.value.first_name = data.first_name || '';
     admin.value.second_name = data.second_name || '';
+    admin.value.role = data.role || '';
 
   } catch (err) {
     console.error('Ошибка при загрузке данных:', err);
@@ -364,11 +370,11 @@ createApp({
     async function deletePatient() {
   if (!selectedPatient.value) return;
 
-  const confirmed = confirm(`Вы уверены, что хотите удалить пользователя: ${selectedPatient.value.first_name} ${selectedPatient.value.second_name}?`);
+  const confirmed = confirm(`Вы уверены, что хотите удалить пользователя: ${selectedPatient.value.firstName} ${selectedPatient.value.secondName}?`);
   if (!confirmed) return;
 
   try {
-    const res = await fetch(`http://192.168.1.207:8080/api/patients/${selectedPatient.value.id}`, {
+    const res = await fetch(`/api/patients/${selectedPatient.value.user_id}`, {
       method: 'DELETE'
     });
 
@@ -393,12 +399,12 @@ createApp({
       emailError.value = val && !emailRegex.test(val) ? 'Неверный формат email' : '';
     });
 
-    watch(() => form.first_name, (val) => {
+    watch(() => form.firstName, (val) => {
         if (val.trim().length === 0) firstNameError.value = 'Имя не может быть пустым'
         else firstNameError.value = '';
     });
 
-    watch(() => form.second_name, (val) => {
+    watch(() => form.secondName, (val) => {
         if (val.trim().length === 0) secondNameError.value = 'Фамилия не может быть пустой'
         else secondNameError.value = '';
     });
@@ -419,7 +425,6 @@ createApp({
   }
 
   loadPatients();
-  await fetchUserRole();
   document.addEventListener('click', handleClickOutside);
     await fetchAdminData();
 });
@@ -455,13 +460,12 @@ createApp({
       requestButtonDisabled,
       phoneSectionDisabled,
       codeSended,
-      userRole,
-      fetchUserRole,
       deletePatient, 
       firstNameError,
       secondNameError,
       isPopoverVisible,
-      fullName
+      fullName,
+        admin
     };
   }
 }).mount('#app');

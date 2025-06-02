@@ -70,6 +70,8 @@ const (
 	StorageService_DeleteMaterial_FullMethodName             = "/storage.StorageService/DeleteMaterial"
 	StorageService_DeleteService_FullMethodName              = "/storage.StorageService/DeleteService"
 	StorageService_GetDoctorOverrides_FullMethodName         = "/storage.StorageService/GetDoctorOverrides"
+	StorageService_GetClinicOverrides_FullMethodName         = "/storage.StorageService/GetClinicOverrides"
+	StorageService_GetAppointments_FullMethodName            = "/storage.StorageService/GetAppointments"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -129,6 +131,8 @@ type StorageServiceClient interface {
 	DeleteMaterial(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	DeleteService(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetDoctorOverrides(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetDoctorOverridesResponse, error)
+	GetClinicOverrides(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicOverridesResponse, error)
+	GetAppointments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAppointmentsResponse, error)
 }
 
 type storageServiceClient struct {
@@ -649,6 +653,26 @@ func (c *storageServiceClient) GetDoctorOverrides(ctx context.Context, in *GetBy
 	return out, nil
 }
 
+func (c *storageServiceClient) GetClinicOverrides(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicOverridesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetClinicOverridesResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetClinicOverrides_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetAppointments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAppointmentsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAppointmentsResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetAppointments_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -706,6 +730,8 @@ type StorageServiceServer interface {
 	DeleteMaterial(context.Context, *DeleteRequest) (*DefaultResponse, error)
 	DeleteService(context.Context, *DeleteRequest) (*DefaultResponse, error)
 	GetDoctorOverrides(context.Context, *GetByIDRequest) (*GetDoctorOverridesResponse, error)
+	GetClinicOverrides(context.Context, *EmptyRequest) (*GetClinicOverridesResponse, error)
+	GetAppointments(context.Context, *EmptyRequest) (*GetAppointmentsResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -868,6 +894,12 @@ func (UnimplementedStorageServiceServer) DeleteService(context.Context, *DeleteR
 }
 func (UnimplementedStorageServiceServer) GetDoctorOverrides(context.Context, *GetByIDRequest) (*GetDoctorOverridesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDoctorOverrides not implemented")
+}
+func (UnimplementedStorageServiceServer) GetClinicOverrides(context.Context, *EmptyRequest) (*GetClinicOverridesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetClinicOverrides not implemented")
+}
+func (UnimplementedStorageServiceServer) GetAppointments(context.Context, *EmptyRequest) (*GetAppointmentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAppointments not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -1808,6 +1840,42 @@ func _StorageService_GetDoctorOverrides_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_GetClinicOverrides_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetClinicOverrides(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetClinicOverrides_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetClinicOverrides(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetAppointments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetAppointments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetAppointments_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetAppointments(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2018,6 +2086,14 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDoctorOverrides",
 			Handler:    _StorageService_GetDoctorOverrides_Handler,
+		},
+		{
+			MethodName: "GetClinicOverrides",
+			Handler:    _StorageService_GetClinicOverrides_Handler,
+		},
+		{
+			MethodName: "GetAppointments",
+			Handler:    _StorageService_GetAppointments_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

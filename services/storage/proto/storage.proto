@@ -360,7 +360,8 @@ message DoctorOverride {
   google.protobuf.Timestamp date = 2;
   google.protobuf.Timestamp start_time = 3;
   google.protobuf.Timestamp end_time = 4;
-  bool is_day_off = 5;
+  int32 slot_duration_minutes = 5;
+  bool is_day_off = 6;
 }
 
 message GetDoctorOverridesResponse {
@@ -462,6 +463,23 @@ message UpdateUserLoginRequest {
   string login = 2;
 }
 
+message ClinicOverride {
+  google.protobuf.Timestamp date = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 slot_duration_minutes = 4;
+  bool is_day_off = 5;
+}
+
+message GetClinicOverridesResponse {
+  repeated ClinicOverride overrides = 1;
+}
+
+message GetAppointmentsResponse {
+  repeated Appointment appointments = 1;
+}
+
+
 service StorageService {
   // управление аккаунтами
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
@@ -524,4 +542,6 @@ service StorageService {
   rpc DeleteService(DeleteRequest) returns (DefaultResponse);
 
   rpc GetDoctorOverrides(GetByIDRequest) returns (GetDoctorOverridesResponse);
+  rpc GetClinicOverrides(EmptyRequest) returns (GetClinicOverridesResponse);
+  rpc GetAppointments(EmptyRequest) returns (GetAppointmentsResponse);
 }

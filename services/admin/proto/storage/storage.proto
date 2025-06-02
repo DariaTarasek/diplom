@@ -274,6 +274,62 @@ message GetDoctorBySpecIDRequest {
   int32 spec_id = 1;
 }
 
+message GetAppointmentsByDoctorIDRequest {
+  int32 doctor_id = 1;
+}
+
+message Appointment {
+  int32 id = 1;
+  int32 doctor_id = 2;
+  google.protobuf.Timestamp date = 3;
+  google.protobuf.Timestamp time = 4;
+  int32 patient_id = 5;
+  string second_name = 6;
+  string first_name = 7;
+  string surname = 8;
+  google.protobuf.Timestamp birth_date = 9;
+  string gender = 10;
+  string phone_number = 11;
+  string status = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp updated_at = 14;
+}
+
+message GetAppointmentsByDoctorIDResponse {
+  repeated Appointment appointments = 1;
+}
+
+message GetByIDRequest {
+  int32 id = 1;
+}
+
+message GetPatientByIDResponse {
+  Patient patient = 1;
+}
+
+message AddAppointmentRequest {
+  Appointment appointment = 1;
+}
+
+message UpdateAppointmentRequest {
+  Appointment appointment = 1;
+}
+
+message GetAppointmentsByUserIDResponse {
+  repeated Appointment appointment = 1;
+}
+
+message GetAppointmentByIDResponse {
+  Appointment appointment = 1;
+}
+
+message GetDoctorByIDResponse {
+  Doctor doctor = 1;
+}
+
+message GetSpecsByDoctorIDResponse {
+  repeated int32 spec_id = 1;
+}
 message GetClinicOverrideRequest {
   google.protobuf.Timestamp date = 1;
 }
@@ -290,6 +346,7 @@ message GetDoctorOverrideRequest {
   google.protobuf.Timestamp date = 2;
 }
 
+
 message GetDoctorOverrideResponse {
   int32 doctor_id = 1;
   google.protobuf.Timestamp date = 2;
@@ -298,6 +355,18 @@ message GetDoctorOverrideResponse {
   bool is_day_off = 5;
 }
 
+message DoctorOverride {
+  int32 doctor_id = 1;
+  google.protobuf.Timestamp date = 2;
+  google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Timestamp end_time = 4;
+  int32 slot_duration_minutes = 5;
+  bool is_day_off = 6;
+}
+
+message GetDoctorOverridesResponse {
+  repeated DoctorOverride override = 1;
+}
 
 message AddMaterialRequest {
   string name = 1;
@@ -394,6 +463,23 @@ message UpdateUserLoginRequest {
   string login = 2;
 }
 
+message ClinicOverride {
+  google.protobuf.Timestamp date = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 slot_duration_minutes = 4;
+  bool is_day_off = 5;
+}
+
+message GetClinicOverridesResponse {
+  repeated ClinicOverride overrides = 1;
+}
+
+message GetAppointmentsResponse {
+  repeated Appointment appointments = 1;
+}
+
+
 service StorageService {
   // управление аккаунтами
   rpc AddUser(AddUserRequest) returns (AddUserResponse); // добавление пользователя
@@ -414,7 +500,7 @@ service StorageService {
   rpc UpdateAdminRole(UpdateAdminRoleRequest) returns (DefaultResponse);
 
   rpc UpdatePatient(UpdatePatientRequest) returns (DefaultResponse);
-  
+
   rpc DeleteUser(DeleteRequest) returns (DefaultResponse);
   rpc UpdateUserLogin(UpdateUserLoginRequest) returns (DefaultResponse);
 
@@ -428,8 +514,16 @@ service StorageService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // обновление постояенного расписания клиники
   rpc AddDoctorWeeklySchedule(AddDoctorWeeklyScheduleRequest) returns (DefaultResponse); // добавление постоянного расписания врача
   rpc UpdateDoctorWeeklySchedule(UpdateDoctorWeeklyScheduleRequest) returns (DefaultResponse); // обновление постоянного расписания врача
-  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse); // получение прав для роли
-  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse); // получение врачей по специализации
+  rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse);
+  rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse);
+  rpc GetAppointmentsByDoctorID(GetAppointmentsByDoctorIDRequest) returns (GetAppointmentsByDoctorIDResponse);
+  rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse);
+  rpc AddAppointment(AddAppointmentRequest) returns (DefaultResponse);
+  rpc GetAppointmentsByUserID(GetByIDRequest) returns (GetAppointmentsByUserIDResponse);
+  rpc GetSpecsByDoctorID(GetByIDRequest) returns (GetSpecsByDoctorIDResponse);
+  rpc GetDoctorByID(GetByIDRequest) returns (GetDoctorByIDResponse);
+  rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
+  rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse);
   rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
   rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
   rpc GetClinicOverride(GetClinicOverrideRequest) returns (GetClinicOverrideResponse); // получение переопределения дня клиники
@@ -446,4 +540,8 @@ service StorageService {
   rpc GetServiceTypeById(GetServiceTypeByIdRequest) returns (GetServiceTypeByIdResponse);
   rpc DeleteMaterial(DeleteRequest) returns (DefaultResponse);
   rpc DeleteService(DeleteRequest) returns (DefaultResponse);
+
+  rpc GetDoctorOverrides(GetByIDRequest) returns (GetDoctorOverridesResponse);
+  rpc GetClinicOverrides(EmptyRequest) returns (GetClinicOverridesResponse);
+  rpc GetAppointments(EmptyRequest) returns (GetAppointmentsResponse);
 }

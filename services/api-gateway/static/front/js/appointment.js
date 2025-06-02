@@ -149,7 +149,7 @@ patient.phone = patient.phone.replace(/\D/g, '')
         doctor_id: selectedDoctorId.value,
         date: selectedDate.value,
         time: selectedSlot.value,
-        ...patient
+      ...patient
       };
 
       const res = await fetch('/api/appointments', {
