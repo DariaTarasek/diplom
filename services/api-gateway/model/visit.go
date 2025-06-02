@@ -49,3 +49,9 @@ type VisitPayment struct {
 	CreatedAt string `json:"created_at"`
 	Price     int    `json:"price"`
 }
+
+type VisitPaymentUpdate struct {
+	VisitID int    `json:"visit_id"`
+	Price   int    `json:"price"`
+	Status  string `json:"status"`
+}

@@ -70,7 +70,17 @@
                     </button>
                     <div class="collapse navbar-collapse w-100" id="navbarToggler11">
                         <div class="container my-2">
-                            <div class="d-flex flex-wrap gap-3 justify-content-center"><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="administrator_account.html"> <i class="bi bi-display"></i> Главная </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_schedule_management.html"> <i class="bi bi-calendar3"></i> Управление расписанием </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_patient_list.html"> <i class="bi bi-person-fill-gear"></i>Список пациентов </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="static/img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a><a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Аналитика </a>
+                            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="administrator_account.html">
+                                    <i class="bi bi-display"></i> Главная </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_schedule_management.html"> <i class="bi bi-calendar3"></i> Управление расписанием </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_patient_list.html"> <i class="bi bi-person-fill-gear"></i>Список пациентов </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a>
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="static/img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
+                                <div v-if="admin.role === 'superadmin'">
+                                    <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Статистика </a>
+                                </div>
                             </div>
                         </div>                         
                     </div>                     
@@ -79,7 +89,8 @@
             <main> 
                 <div class="container my-4">
                     <h2 class="text-center mb-3">Список администраторов</h2>
-                    <div class="mb-3 text-center"><a class="btn btn-primary bi-plus-lg" href="employee_registration.html"> Добавить нового сотрудника</a>
+                    <div v-if="admin.role === 'superadmin'">
+                    <div class="mb-3 text-center"><a class="btn btn-primary bi-plus-lg" href="employee_registration.html"> Добавить нового сотрудника</a></div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">

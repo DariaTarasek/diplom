@@ -4,7 +4,9 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/model"
 	adminpb "github.com/DariaTarasek/diplom/services/api-gateway/proto/admin"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
+	"strconv"
 )
 
 func (h *Handler) GetVisitPayments(c *gin.Context) {
@@ -25,4 +27,35 @@ func (h *Handler) GetVisitPayments(c *gin.Context) {
 		visitPayments = append(visitPayments, payment)
 	}
 	c.JSON(http.StatusOK, visitPayments)
+}
+
+func (h *Handler) UpdateVisitPayment(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+
+	var payment model.VisitPaymentUpdate
+	if err := c.ShouldBindJSON(&payment); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	updateVisitPayment := &adminpb.VisitPayment{
+		VisitId: int32(id),
+		Price:   int32(payment.Price),
+		Status:  payment.Status,
+	}
+
+	updateReq := &adminpb.UpdateVisitPaymentRequest{Payment: updateVisitPayment}
+
+	_, err = h.AdminClient.Client.UpdateVisitPayment(c.Request.Context(), updateReq)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{})
 }

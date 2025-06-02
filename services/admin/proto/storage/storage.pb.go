@@ -3539,14 +3539,15 @@ func (x *GetDoctorOverrideResponse) GetIsDayOff() bool {
 }
 
 type DoctorOverride struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	DoctorId      int32                  `protobuf:"varint,1,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
-	Date          *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=date,proto3" json:"date,omitempty"`
-	StartTime     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
-	EndTime       *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
-	IsDayOff      bool                   `protobuf:"varint,5,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	DoctorId            int32                  `protobuf:"varint,1,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
+	Date                *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=date,proto3" json:"date,omitempty"`
+	StartTime           *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime             *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	SlotDurationMinutes int32                  `protobuf:"varint,5,opt,name=slot_duration_minutes,json=slotDurationMinutes,proto3" json:"slot_duration_minutes,omitempty"`
+	IsDayOff            bool                   `protobuf:"varint,6,opt,name=is_day_off,json=isDayOff,proto3" json:"is_day_off,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *DoctorOverride) Reset() {
@@ -3605,6 +3606,13 @@ func (x *DoctorOverride) GetEndTime() *timestamppb.Timestamp {
 		return x.EndTime
 	}
 	return nil
+}
+
+func (x *DoctorOverride) GetSlotDurationMinutes() int32 {
+	if x != nil {
+		return x.SlotDurationMinutes
+	}
+	return 0
 }
 
 func (x *DoctorOverride) GetIsDayOff() bool {
@@ -6296,15 +6304,16 @@ const file_proto_storage_storage_proto_rawDesc = "" +
 	"start_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
 	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x12\x1c\n" +
 	"\n" +
-	"is_day_off\x18\x05 \x01(\bR\bisDayOff\"\xed\x01\n" +
+	"is_day_off\x18\x05 \x01(\bR\bisDayOff\"\xa1\x02\n" +
 	"\x0eDoctorOverride\x12\x1b\n" +
 	"\tdoctor_id\x18\x01 \x01(\x05R\bdoctorId\x12.\n" +
 	"\x04date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\x129\n" +
 	"\n" +
 	"start_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
-	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x12\x1c\n" +
+	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x122\n" +
+	"\x15slot_duration_minutes\x18\x05 \x01(\x05R\x13slotDurationMinutes\x12\x1c\n" +
 	"\n" +
-	"is_day_off\x18\x05 \x01(\bR\bisDayOff\"Q\n" +
+	"is_day_off\x18\x06 \x01(\bR\bisDayOff\"Q\n" +
 	"\x1aGetDoctorOverridesResponse\x123\n" +
 	"\boverride\x18\x01 \x03(\v2\x17.storage.DoctorOverrideR\boverride\">\n" +
 	"\x12AddMaterialRequest\x12\x12\n" +
@@ -6493,12 +6502,12 @@ const file_proto_storage_storage_proto_rawDesc = "" +
 	"\x11GetRolePermission\x12!.storage.GetRolePermissionRequest\x1a\x18.storage.DefaultResponse\x12T\n" +
 	"\x12GetDoctorsBySpecID\x12!.storage.GetDoctorBySpecIDRequest\x1a\x1b.storage.GetDoctorsResponse\x12r\n" +
 	"\x19GetAppointmentsByDoctorID\x12).storage.GetAppointmentsByDoctorIDRequest\x1a*.storage.GetAppointmentsByDoctorIDResponse\x12J\n" +
+	"\x0eGetPatientByID\x12\x17.storage.GetByIDRequest\x1a\x1f.storage.GetPatientByIDResponse\x12J\n" +
 	"\x0eAddAppointment\x12\x1e.storage.AddAppointmentRequest\x1a\x18.storage.DefaultResponse\x12\\\n" +
 	"\x17GetAppointmentsByUserID\x12\x17.storage.GetByIDRequest\x1a(.storage.GetAppointmentsByUserIDResponse\x12R\n" +
 	"\x12GetSpecsByDoctorID\x12\x17.storage.GetByIDRequest\x1a#.storage.GetSpecsByDoctorIDResponse\x12H\n" +
 	"\rGetDoctorByID\x12\x17.storage.GetByIDRequest\x1a\x1e.storage.GetDoctorByIDResponse\x12P\n" +
-	"\x11UpdateAppointment\x12!.storage.UpdateAppointmentRequest\x1a\x18.storage.DefaultResponse\x12J\n" +
-	"\x0eGetPatientByID\x12\x17.storage.GetByIDRequest\x1a\x1f.storage.GetPatientByIDResponse\x12R\n" +
+	"\x11UpdateAppointment\x12!.storage.UpdateAppointmentRequest\x1a\x18.storage.DefaultResponse\x12R\n" +
 	"\x12GetAppointmentByID\x12\x17.storage.GetByIDRequest\x1a#.storage.GetAppointmentByIDResponse\x12Z\n" +
 	"\x16AddClinicDailyOverride\x12&.storage.AddClinicDailyOverrideRequest\x1a\x18.storage.DefaultResponse\x12Z\n" +
 	"\x16AddDoctorDailyOverride\x12&.storage.AddDoctorDailyOverrideRequest\x1a\x18.storage.DefaultResponse\x12Z\n" +
@@ -6752,12 +6761,12 @@ var file_proto_storage_storage_proto_depIdxs = []int32{
 	40,  // 93: storage.StorageService.GetRolePermission:input_type -> storage.GetRolePermissionRequest
 	43,  // 94: storage.StorageService.GetDoctorsBySpecID:input_type -> storage.GetDoctorBySpecIDRequest
 	44,  // 95: storage.StorageService.GetAppointmentsByDoctorID:input_type -> storage.GetAppointmentsByDoctorIDRequest
-	49,  // 96: storage.StorageService.AddAppointment:input_type -> storage.AddAppointmentRequest
-	47,  // 97: storage.StorageService.GetAppointmentsByUserID:input_type -> storage.GetByIDRequest
-	47,  // 98: storage.StorageService.GetSpecsByDoctorID:input_type -> storage.GetByIDRequest
-	47,  // 99: storage.StorageService.GetDoctorByID:input_type -> storage.GetByIDRequest
-	50,  // 100: storage.StorageService.UpdateAppointment:input_type -> storage.UpdateAppointmentRequest
-	47,  // 101: storage.StorageService.GetPatientByID:input_type -> storage.GetByIDRequest
+	47,  // 96: storage.StorageService.GetPatientByID:input_type -> storage.GetByIDRequest
+	49,  // 97: storage.StorageService.AddAppointment:input_type -> storage.AddAppointmentRequest
+	47,  // 98: storage.StorageService.GetAppointmentsByUserID:input_type -> storage.GetByIDRequest
+	47,  // 99: storage.StorageService.GetSpecsByDoctorID:input_type -> storage.GetByIDRequest
+	47,  // 100: storage.StorageService.GetDoctorByID:input_type -> storage.GetByIDRequest
+	50,  // 101: storage.StorageService.UpdateAppointment:input_type -> storage.UpdateAppointmentRequest
 	47,  // 102: storage.StorageService.GetAppointmentByID:input_type -> storage.GetByIDRequest
 	41,  // 103: storage.StorageService.AddClinicDailyOverride:input_type -> storage.AddClinicDailyOverrideRequest
 	42,  // 104: storage.StorageService.AddDoctorDailyOverride:input_type -> storage.AddDoctorDailyOverrideRequest
@@ -6820,12 +6829,12 @@ var file_proto_storage_storage_proto_depIdxs = []int32{
 	19,  // 161: storage.StorageService.GetRolePermission:output_type -> storage.DefaultResponse
 	24,  // 162: storage.StorageService.GetDoctorsBySpecID:output_type -> storage.GetDoctorsResponse
 	46,  // 163: storage.StorageService.GetAppointmentsByDoctorID:output_type -> storage.GetAppointmentsByDoctorIDResponse
-	19,  // 164: storage.StorageService.AddAppointment:output_type -> storage.DefaultResponse
-	51,  // 165: storage.StorageService.GetAppointmentsByUserID:output_type -> storage.GetAppointmentsByUserIDResponse
-	54,  // 166: storage.StorageService.GetSpecsByDoctorID:output_type -> storage.GetSpecsByDoctorIDResponse
-	53,  // 167: storage.StorageService.GetDoctorByID:output_type -> storage.GetDoctorByIDResponse
-	19,  // 168: storage.StorageService.UpdateAppointment:output_type -> storage.DefaultResponse
-	48,  // 169: storage.StorageService.GetPatientByID:output_type -> storage.GetPatientByIDResponse
+	48,  // 164: storage.StorageService.GetPatientByID:output_type -> storage.GetPatientByIDResponse
+	19,  // 165: storage.StorageService.AddAppointment:output_type -> storage.DefaultResponse
+	51,  // 166: storage.StorageService.GetAppointmentsByUserID:output_type -> storage.GetAppointmentsByUserIDResponse
+	54,  // 167: storage.StorageService.GetSpecsByDoctorID:output_type -> storage.GetSpecsByDoctorIDResponse
+	53,  // 168: storage.StorageService.GetDoctorByID:output_type -> storage.GetDoctorByIDResponse
+	19,  // 169: storage.StorageService.UpdateAppointment:output_type -> storage.DefaultResponse
 	52,  // 170: storage.StorageService.GetAppointmentByID:output_type -> storage.GetAppointmentByIDResponse
 	19,  // 171: storage.StorageService.AddClinicDailyOverride:output_type -> storage.DefaultResponse
 	19,  // 172: storage.StorageService.AddDoctorDailyOverride:output_type -> storage.DefaultResponse

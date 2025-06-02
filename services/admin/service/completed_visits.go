@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/DariaTarasek/diplom/services/admin/model"
 	storagepb "github.com/DariaTarasek/diplom/services/admin/proto/storage"
+	"github.com/DariaTarasek/diplom/services/admin/sharederrors"
 )
 
 func (s *AdminService) GetUnconfirmedVisitsPayments(ctx context.Context) ([]model.UnconfirmedVisitPayment, error) {
@@ -59,4 +60,21 @@ func (s *AdminService) GetUnconfirmedVisitsPayments(ctx context.Context) ([]mode
 		unconfirmedVisitPayments = append(unconfirmedVisitPayments, unconfVP)
 	}
 	return unconfirmedVisitPayments, nil
+}
+
+func (s *AdminService) UpdateVisitPayment(ctx context.Context, payment model.VisitPayment) error {
+	price := payment.Price
+	if price < 0 || price > 1000000 {
+		return fmt.Errorf("некорректное значение стоимости: %w", sharederrors.ErrInvalidValue)
+	}
+	paymentReq := &storagepb.VisitPayment{
+		VisitId: int32(payment.VisitID),
+		Price:   int32(payment.Price),
+		Status:  payment.Status,
+	}
+	_, err := s.StorageClient.Client.AddOrUpdateVisitPayment(ctx, &storagepb.AddOrUpdateVisitPaymentRequest{Payment: paymentReq})
+	if err != nil {
+		return fmt.Errorf("не удалось подтвердить стоимость приема: %w", err)
+	}
+	return nil
 }

@@ -44,6 +44,7 @@ const (
 	AdminService_UpdatePatientLogin_FullMethodName          = "/admin.AdminService/UpdatePatientLogin"
 	AdminService_GetUnconfirmedVisitPayments_FullMethodName = "/admin.AdminService/GetUnconfirmedVisitPayments"
 	AdminService_GetClinicScheduleGrid_FullMethodName       = "/admin.AdminService/GetClinicScheduleGrid"
+	AdminService_UpdateVisitPayment_FullMethodName          = "/admin.AdminService/UpdateVisitPayment"
 )
 
 // AdminServiceClient is the client API for AdminService service.
@@ -73,6 +74,7 @@ type AdminServiceClient interface {
 	UpdatePatientLogin(ctx context.Context, in *UpdateUserLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetUnconfirmedVisitPayments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*UnconfirmedVisitPaymentsResponse, error)
 	GetClinicScheduleGrid(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*AdminScheduleOverview, error)
+	UpdateVisitPayment(ctx context.Context, in *UpdateVisitPaymentRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 }
 
 type adminServiceClient struct {
@@ -313,6 +315,16 @@ func (c *adminServiceClient) GetClinicScheduleGrid(ctx context.Context, in *Empt
 	return out, nil
 }
 
+func (c *adminServiceClient) UpdateVisitPayment(ctx context.Context, in *UpdateVisitPaymentRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateVisitPayment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility.
@@ -340,6 +352,7 @@ type AdminServiceServer interface {
 	UpdatePatientLogin(context.Context, *UpdateUserLoginRequest) (*DefaultResponse, error)
 	GetUnconfirmedVisitPayments(context.Context, *EmptyRequest) (*UnconfirmedVisitPaymentsResponse, error)
 	GetClinicScheduleGrid(context.Context, *EmptyRequest) (*AdminScheduleOverview, error)
+	UpdateVisitPayment(context.Context, *UpdateVisitPaymentRequest) (*DefaultResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -418,6 +431,9 @@ func (UnimplementedAdminServiceServer) GetUnconfirmedVisitPayments(context.Conte
 }
 func (UnimplementedAdminServiceServer) GetClinicScheduleGrid(context.Context, *EmptyRequest) (*AdminScheduleOverview, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetClinicScheduleGrid not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateVisitPayment(context.Context, *UpdateVisitPaymentRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateVisitPayment not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 func (UnimplementedAdminServiceServer) testEmbeddedByValue()                      {}
@@ -854,6 +870,24 @@ func _AdminService_GetClinicScheduleGrid_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_UpdateVisitPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVisitPaymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateVisitPayment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateVisitPayment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateVisitPayment(ctx, req.(*UpdateVisitPaymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -952,6 +986,10 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetClinicScheduleGrid",
 			Handler:    _AdminService_GetClinicScheduleGrid_Handler,
+		},
+		{
+			MethodName: "UpdateVisitPayment",
+			Handler:    _AdminService_UpdateVisitPayment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

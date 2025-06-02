@@ -248,6 +248,15 @@ message Person {
   string specialty = 8;
 }
 
+message VisitPayment {
+  int32 visit_id = 1;
+  int32 price = 2;
+  string status = 3;
+}
+
+message UpdateVisitPaymentRequest {
+  VisitPayment payment = 1;
+}
 
 
 service AdminService {
@@ -277,4 +286,6 @@ service AdminService {
   rpc GetUnconfirmedVisitPayments(EmptyRequest) returns (UnconfirmedVisitPaymentsResponse);
 
   rpc GetClinicScheduleGrid(EmptyRequest) returns (AdminScheduleOverview);
+
+  rpc UpdateVisitPayment(UpdateVisitPaymentRequest) returns (DefaultResponse);
 }

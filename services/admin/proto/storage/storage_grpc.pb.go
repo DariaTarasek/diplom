@@ -48,12 +48,12 @@ const (
 	StorageService_GetRolePermission_FullMethodName           = "/storage.StorageService/GetRolePermission"
 	StorageService_GetDoctorsBySpecID_FullMethodName          = "/storage.StorageService/GetDoctorsBySpecID"
 	StorageService_GetAppointmentsByDoctorID_FullMethodName   = "/storage.StorageService/GetAppointmentsByDoctorID"
+	StorageService_GetPatientByID_FullMethodName              = "/storage.StorageService/GetPatientByID"
 	StorageService_AddAppointment_FullMethodName              = "/storage.StorageService/AddAppointment"
 	StorageService_GetAppointmentsByUserID_FullMethodName     = "/storage.StorageService/GetAppointmentsByUserID"
 	StorageService_GetSpecsByDoctorID_FullMethodName          = "/storage.StorageService/GetSpecsByDoctorID"
 	StorageService_GetDoctorByID_FullMethodName               = "/storage.StorageService/GetDoctorByID"
 	StorageService_UpdateAppointment_FullMethodName           = "/storage.StorageService/UpdateAppointment"
-	StorageService_GetPatientByID_FullMethodName              = "/storage.StorageService/GetPatientByID"
 	StorageService_GetAppointmentByID_FullMethodName          = "/storage.StorageService/GetAppointmentByID"
 	StorageService_AddClinicDailyOverride_FullMethodName      = "/storage.StorageService/AddClinicDailyOverride"
 	StorageService_AddDoctorDailyOverride_FullMethodName      = "/storage.StorageService/AddDoctorDailyOverride"
@@ -123,12 +123,12 @@ type StorageServiceClient interface {
 	GetRolePermission(ctx context.Context, in *GetRolePermissionRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetDoctorsBySpecID(ctx context.Context, in *GetDoctorBySpecIDRequest, opts ...grpc.CallOption) (*GetDoctorsResponse, error)
 	GetAppointmentsByDoctorID(ctx context.Context, in *GetAppointmentsByDoctorIDRequest, opts ...grpc.CallOption) (*GetAppointmentsByDoctorIDResponse, error)
+	GetPatientByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetPatientByIDResponse, error)
 	AddAppointment(ctx context.Context, in *AddAppointmentRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetAppointmentsByUserID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetAppointmentsByUserIDResponse, error)
 	GetSpecsByDoctorID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetSpecsByDoctorIDResponse, error)
 	GetDoctorByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetDoctorByIDResponse, error)
 	UpdateAppointment(ctx context.Context, in *UpdateAppointmentRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
-	GetPatientByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetPatientByIDResponse, error)
 	GetAppointmentByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetAppointmentByIDResponse, error)
 	AddClinicDailyOverride(ctx context.Context, in *AddClinicDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	AddDoctorDailyOverride(ctx context.Context, in *AddDoctorDailyOverrideRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
@@ -464,6 +464,16 @@ func (c *storageServiceClient) GetAppointmentsByDoctorID(ctx context.Context, in
 	return out, nil
 }
 
+func (c *storageServiceClient) GetPatientByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetPatientByIDResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetPatientByIDResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetPatientByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *storageServiceClient) AddAppointment(ctx context.Context, in *AddAppointmentRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DefaultResponse)
@@ -508,16 +518,6 @@ func (c *storageServiceClient) UpdateAppointment(ctx context.Context, in *Update
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DefaultResponse)
 	err := c.cc.Invoke(ctx, StorageService_UpdateAppointment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *storageServiceClient) GetPatientByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetPatientByIDResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetPatientByIDResponse)
-	err := c.cc.Invoke(ctx, StorageService_GetPatientByID_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -888,12 +888,12 @@ type StorageServiceServer interface {
 	GetRolePermission(context.Context, *GetRolePermissionRequest) (*DefaultResponse, error)
 	GetDoctorsBySpecID(context.Context, *GetDoctorBySpecIDRequest) (*GetDoctorsResponse, error)
 	GetAppointmentsByDoctorID(context.Context, *GetAppointmentsByDoctorIDRequest) (*GetAppointmentsByDoctorIDResponse, error)
+	GetPatientByID(context.Context, *GetByIDRequest) (*GetPatientByIDResponse, error)
 	AddAppointment(context.Context, *AddAppointmentRequest) (*DefaultResponse, error)
 	GetAppointmentsByUserID(context.Context, *GetByIDRequest) (*GetAppointmentsByUserIDResponse, error)
 	GetSpecsByDoctorID(context.Context, *GetByIDRequest) (*GetSpecsByDoctorIDResponse, error)
 	GetDoctorByID(context.Context, *GetByIDRequest) (*GetDoctorByIDResponse, error)
 	UpdateAppointment(context.Context, *UpdateAppointmentRequest) (*DefaultResponse, error)
-	GetPatientByID(context.Context, *GetByIDRequest) (*GetPatientByIDResponse, error)
 	GetAppointmentByID(context.Context, *GetByIDRequest) (*GetAppointmentByIDResponse, error)
 	AddClinicDailyOverride(context.Context, *AddClinicDailyOverrideRequest) (*DefaultResponse, error)
 	AddDoctorDailyOverride(context.Context, *AddDoctorDailyOverrideRequest) (*DefaultResponse, error)
@@ -1026,6 +1026,9 @@ func (UnimplementedStorageServiceServer) GetDoctorsBySpecID(context.Context, *Ge
 func (UnimplementedStorageServiceServer) GetAppointmentsByDoctorID(context.Context, *GetAppointmentsByDoctorIDRequest) (*GetAppointmentsByDoctorIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAppointmentsByDoctorID not implemented")
 }
+func (UnimplementedStorageServiceServer) GetPatientByID(context.Context, *GetByIDRequest) (*GetPatientByIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPatientByID not implemented")
+}
 func (UnimplementedStorageServiceServer) AddAppointment(context.Context, *AddAppointmentRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAppointment not implemented")
 }
@@ -1040,9 +1043,6 @@ func (UnimplementedStorageServiceServer) GetDoctorByID(context.Context, *GetByID
 }
 func (UnimplementedStorageServiceServer) UpdateAppointment(context.Context, *UpdateAppointmentRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAppointment not implemented")
-}
-func (UnimplementedStorageServiceServer) GetPatientByID(context.Context, *GetByIDRequest) (*GetPatientByIDResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPatientByID not implemented")
 }
 func (UnimplementedStorageServiceServer) GetAppointmentByID(context.Context, *GetByIDRequest) (*GetAppointmentByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAppointmentByID not implemented")
@@ -1686,6 +1686,24 @@ func _StorageService_GetAppointmentsByDoctorID_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_GetPatientByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetPatientByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetPatientByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetPatientByID(ctx, req.(*GetByIDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _StorageService_AddAppointment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddAppointmentRequest)
 	if err := dec(in); err != nil {
@@ -1772,24 +1790,6 @@ func _StorageService_UpdateAppointment_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StorageServiceServer).UpdateAppointment(ctx, req.(*UpdateAppointmentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _StorageService_GetPatientByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetByIDRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StorageServiceServer).GetPatientByID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StorageService_GetPatientByID_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StorageServiceServer).GetPatientByID(ctx, req.(*GetByIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2512,6 +2512,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StorageService_GetAppointmentsByDoctorID_Handler,
 		},
 		{
+			MethodName: "GetPatientByID",
+			Handler:    _StorageService_GetPatientByID_Handler,
+		},
+		{
 			MethodName: "AddAppointment",
 			Handler:    _StorageService_AddAppointment_Handler,
 		},
@@ -2530,10 +2534,6 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAppointment",
 			Handler:    _StorageService_UpdateAppointment_Handler,
-		},
-		{
-			MethodName: "GetPatientByID",
-			Handler:    _StorageService_GetPatientByID_Handler,
 		},
 		{
 			MethodName: "GetAppointmentByID",

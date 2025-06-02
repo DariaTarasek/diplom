@@ -402,3 +402,15 @@ func (s *Server) GetUnconfirmedVisitPayments(ctx context.Context, req *pb.EmptyR
 	}
 	return &pb.UnconfirmedVisitPaymentsResponse{VisitPayments: visitsResp}, nil
 }
+
+func (s *Server) UpdateVisitPayment(ctx context.Context, req *pb.UpdateVisitPaymentRequest) (*pb.DefaultResponse, error) {
+	err := s.Service.UpdateVisitPayment(ctx, model.VisitPayment{
+		VisitID: int(req.Payment.VisitId),
+		Price:   int(req.Payment.Price),
+		Status:  req.Payment.Status,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("не удалось подтвердить цену приема: %w", err)
+	}
+	return &pb.DefaultResponse{}, nil
+}
