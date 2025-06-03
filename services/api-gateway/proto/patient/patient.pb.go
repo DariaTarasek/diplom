@@ -650,6 +650,178 @@ func (x *GetByIDRequest) GetId() int32 {
 	return 0
 }
 
+type GetHistoryVisitsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHistoryVisitsRequest) Reset() {
+	*x = GetHistoryVisitsRequest{}
+	mi := &file_proto_patient_patient_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHistoryVisitsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHistoryVisitsRequest) ProtoMessage() {}
+
+func (x *GetHistoryVisitsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHistoryVisitsRequest.ProtoReflect.Descriptor instead.
+func (*GetHistoryVisitsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetHistoryVisitsRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+type HistoryVisit struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Date          string                 `protobuf:"bytes,2,opt,name=date,proto3" json:"date,omitempty"`
+	DoctorId      int32                  `protobuf:"varint,3,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
+	Doctor        string                 `protobuf:"bytes,4,opt,name=doctor,proto3" json:"doctor,omitempty"`
+	Diagnose      string                 `protobuf:"bytes,5,opt,name=diagnose,proto3" json:"diagnose,omitempty"`
+	Treatment     string                 `protobuf:"bytes,6,opt,name=treatment,proto3" json:"treatment,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HistoryVisit) Reset() {
+	*x = HistoryVisit{}
+	mi := &file_proto_patient_patient_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HistoryVisit) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HistoryVisit) ProtoMessage() {}
+
+func (x *HistoryVisit) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HistoryVisit.ProtoReflect.Descriptor instead.
+func (*HistoryVisit) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *HistoryVisit) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *HistoryVisit) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+func (x *HistoryVisit) GetDoctorId() int32 {
+	if x != nil {
+		return x.DoctorId
+	}
+	return 0
+}
+
+func (x *HistoryVisit) GetDoctor() string {
+	if x != nil {
+		return x.Doctor
+	}
+	return ""
+}
+
+func (x *HistoryVisit) GetDiagnose() string {
+	if x != nil {
+		return x.Diagnose
+	}
+	return ""
+}
+
+func (x *HistoryVisit) GetTreatment() string {
+	if x != nil {
+		return x.Treatment
+	}
+	return ""
+}
+
+type GetHistoryVisitsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Visits        []*HistoryVisit        `protobuf:"bytes,1,rep,name=visits,proto3" json:"visits,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHistoryVisitsResponse) Reset() {
+	*x = GetHistoryVisitsResponse{}
+	mi := &file_proto_patient_patient_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHistoryVisitsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHistoryVisitsResponse) ProtoMessage() {}
+
+func (x *GetHistoryVisitsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHistoryVisitsResponse.ProtoReflect.Descriptor instead.
+func (*GetHistoryVisitsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetHistoryVisitsResponse) GetVisits() []*HistoryVisit {
+	if x != nil {
+		return x.Visits
+	}
+	return nil
+}
+
 var File_proto_patient_patient_proto protoreflect.FileDescriptor
 
 const file_proto_patient_patient_proto_rawDesc = "" +
@@ -701,13 +873,25 @@ const file_proto_patient_patient_proto_rawDesc = "" +
 	"\x1fGetUpcomingAppointmentsResponse\x12A\n" +
 	"\fappointments\x18\x01 \x03(\v2\x1d.patient.UpcomingAppointmentsR\fappointments\" \n" +
 	"\x0eGetByIDRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id2\xc6\x03\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"/\n" +
+	"\x17GetHistoryVisitsRequest\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"\xa1\x01\n" +
+	"\fHistoryVisit\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04date\x18\x02 \x01(\tR\x04date\x12\x1b\n" +
+	"\tdoctor_id\x18\x03 \x01(\x05R\bdoctorId\x12\x16\n" +
+	"\x06doctor\x18\x04 \x01(\tR\x06doctor\x12\x1a\n" +
+	"\bdiagnose\x18\x05 \x01(\tR\bdiagnose\x12\x1c\n" +
+	"\ttreatment\x18\x06 \x01(\tR\ttreatment\"I\n" +
+	"\x18GetHistoryVisitsResponse\x12-\n" +
+	"\x06visits\x18\x01 \x03(\v2\x15.patient.HistoryVisitR\x06visits2\x9f\x04\n" +
 	"\x0ePatientService\x12`\n" +
 	"\x13GetAppointmentSlots\x12#.patient.GetAppointmentSlotsRequest\x1a$.patient.GetAppointmentSlotsResponse\x12J\n" +
 	"\x0eAddAppointment\x12\x1e.patient.AddAppointmentRequest\x1a\x18.patient.DefaultResponse\x12l\n" +
 	"\x17GetUpcomingAppointments\x12'.patient.GetUpcomingAppointmentsRequest\x1a(.patient.GetUpcomingAppointmentsResponse\x12P\n" +
 	"\x11UpdateAppointment\x12!.patient.UpdateAppointmentRequest\x1a\x18.patient.DefaultResponse\x12F\n" +
-	"\x11CancelAppointment\x12\x17.patient.GetByIDRequest\x1a\x18.patient.DefaultResponseB\x19Z\x17patient/proto;patientpbb\x06proto3"
+	"\x11CancelAppointment\x12\x17.patient.GetByIDRequest\x1a\x18.patient.DefaultResponse\x12W\n" +
+	"\x10GetHistoryVisits\x12 .patient.GetHistoryVisitsRequest\x1a!.patient.GetHistoryVisitsResponseB\x19Z\x17patient/proto;patientpbb\x06proto3"
 
 var (
 	file_proto_patient_patient_proto_rawDescOnce sync.Once
@@ -721,7 +905,7 @@ func file_proto_patient_patient_proto_rawDescGZIP() []byte {
 	return file_proto_patient_patient_proto_rawDescData
 }
 
-var file_proto_patient_patient_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_proto_patient_patient_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_proto_patient_patient_proto_goTypes = []any{
 	(*GetAppointmentSlotsRequest)(nil),      // 0: patient.GetAppointmentSlotsRequest
 	(*GetAppointmentSlotsResponse)(nil),     // 1: patient.GetAppointmentSlotsResponse
@@ -734,33 +918,39 @@ var file_proto_patient_patient_proto_goTypes = []any{
 	(*GetUpcomingAppointmentsRequest)(nil),  // 8: patient.GetUpcomingAppointmentsRequest
 	(*GetUpcomingAppointmentsResponse)(nil), // 9: patient.GetUpcomingAppointmentsResponse
 	(*GetByIDRequest)(nil),                  // 10: patient.GetByIDRequest
-	(*timestamppb.Timestamp)(nil),           // 11: google.protobuf.Timestamp
+	(*GetHistoryVisitsRequest)(nil),         // 11: patient.GetHistoryVisitsRequest
+	(*HistoryVisit)(nil),                    // 12: patient.HistoryVisit
+	(*GetHistoryVisitsResponse)(nil),        // 13: patient.GetHistoryVisitsResponse
+	(*timestamppb.Timestamp)(nil),           // 14: google.protobuf.Timestamp
 }
 var file_proto_patient_patient_proto_depIdxs = []int32{
 	2,  // 0: patient.GetAppointmentSlotsResponse.slots:type_name -> patient.DaySlots
-	11, // 1: patient.Appointment.date:type_name -> google.protobuf.Timestamp
-	11, // 2: patient.Appointment.time:type_name -> google.protobuf.Timestamp
-	11, // 3: patient.Appointment.birth_date:type_name -> google.protobuf.Timestamp
-	11, // 4: patient.Appointment.created_at:type_name -> google.protobuf.Timestamp
-	11, // 5: patient.Appointment.updated_at:type_name -> google.protobuf.Timestamp
+	14, // 1: patient.Appointment.date:type_name -> google.protobuf.Timestamp
+	14, // 2: patient.Appointment.time:type_name -> google.protobuf.Timestamp
+	14, // 3: patient.Appointment.birth_date:type_name -> google.protobuf.Timestamp
+	14, // 4: patient.Appointment.created_at:type_name -> google.protobuf.Timestamp
+	14, // 5: patient.Appointment.updated_at:type_name -> google.protobuf.Timestamp
 	3,  // 6: patient.AddAppointmentRequest.appointment:type_name -> patient.Appointment
 	3,  // 7: patient.UpdateAppointmentRequest.appointment:type_name -> patient.Appointment
 	6,  // 8: patient.GetUpcomingAppointmentsResponse.appointments:type_name -> patient.UpcomingAppointments
-	0,  // 9: patient.PatientService.GetAppointmentSlots:input_type -> patient.GetAppointmentSlotsRequest
-	4,  // 10: patient.PatientService.AddAppointment:input_type -> patient.AddAppointmentRequest
-	8,  // 11: patient.PatientService.GetUpcomingAppointments:input_type -> patient.GetUpcomingAppointmentsRequest
-	7,  // 12: patient.PatientService.UpdateAppointment:input_type -> patient.UpdateAppointmentRequest
-	10, // 13: patient.PatientService.CancelAppointment:input_type -> patient.GetByIDRequest
-	1,  // 14: patient.PatientService.GetAppointmentSlots:output_type -> patient.GetAppointmentSlotsResponse
-	5,  // 15: patient.PatientService.AddAppointment:output_type -> patient.DefaultResponse
-	9,  // 16: patient.PatientService.GetUpcomingAppointments:output_type -> patient.GetUpcomingAppointmentsResponse
-	5,  // 17: patient.PatientService.UpdateAppointment:output_type -> patient.DefaultResponse
-	5,  // 18: patient.PatientService.CancelAppointment:output_type -> patient.DefaultResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	12, // 9: patient.GetHistoryVisitsResponse.visits:type_name -> patient.HistoryVisit
+	0,  // 10: patient.PatientService.GetAppointmentSlots:input_type -> patient.GetAppointmentSlotsRequest
+	4,  // 11: patient.PatientService.AddAppointment:input_type -> patient.AddAppointmentRequest
+	8,  // 12: patient.PatientService.GetUpcomingAppointments:input_type -> patient.GetUpcomingAppointmentsRequest
+	7,  // 13: patient.PatientService.UpdateAppointment:input_type -> patient.UpdateAppointmentRequest
+	10, // 14: patient.PatientService.CancelAppointment:input_type -> patient.GetByIDRequest
+	11, // 15: patient.PatientService.GetHistoryVisits:input_type -> patient.GetHistoryVisitsRequest
+	1,  // 16: patient.PatientService.GetAppointmentSlots:output_type -> patient.GetAppointmentSlotsResponse
+	5,  // 17: patient.PatientService.AddAppointment:output_type -> patient.DefaultResponse
+	9,  // 18: patient.PatientService.GetUpcomingAppointments:output_type -> patient.GetUpcomingAppointmentsResponse
+	5,  // 19: patient.PatientService.UpdateAppointment:output_type -> patient.DefaultResponse
+	5,  // 20: patient.PatientService.CancelAppointment:output_type -> patient.DefaultResponse
+	13, // 21: patient.PatientService.GetHistoryVisits:output_type -> patient.GetHistoryVisitsResponse
+	16, // [16:22] is the sub-list for method output_type
+	10, // [10:16] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_proto_patient_patient_proto_init() }
@@ -774,7 +964,7 @@ func file_proto_patient_patient_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_patient_patient_proto_rawDesc), len(file_proto_patient_patient_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

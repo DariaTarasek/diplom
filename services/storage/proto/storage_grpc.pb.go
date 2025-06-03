@@ -87,6 +87,7 @@ const (
 	StorageService_GetVisitsPayments_FullMethodName           = "/storage.StorageService/GetVisitsPayments"
 	StorageService_GetClinicOverrides_FullMethodName          = "/storage.StorageService/GetClinicOverrides"
 	StorageService_GetAppointments_FullMethodName             = "/storage.StorageService/GetAppointments"
+	StorageService_GetDiagnoseByVisitID_FullMethodName        = "/storage.StorageService/GetDiagnoseByVisitID"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -164,6 +165,7 @@ type StorageServiceClient interface {
 	GetVisitsPayments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetVisitsPaymentsResponse, error)
 	GetClinicOverrides(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicOverridesResponse, error)
 	GetAppointments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAppointmentsResponse, error)
+	GetDiagnoseByVisitID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetDiagnoseByVisitIDResponse, error)
 }
 
 type storageServiceClient struct {
@@ -854,6 +856,16 @@ func (c *storageServiceClient) GetAppointments(ctx context.Context, in *EmptyReq
 	return out, nil
 }
 
+func (c *storageServiceClient) GetDiagnoseByVisitID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetDiagnoseByVisitIDResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDiagnoseByVisitIDResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetDiagnoseByVisitID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -929,6 +941,7 @@ type StorageServiceServer interface {
 	GetVisitsPayments(context.Context, *EmptyRequest) (*GetVisitsPaymentsResponse, error)
 	GetClinicOverrides(context.Context, *EmptyRequest) (*GetClinicOverridesResponse, error)
 	GetAppointments(context.Context, *EmptyRequest) (*GetAppointmentsResponse, error)
+	GetDiagnoseByVisitID(context.Context, *GetByIDRequest) (*GetDiagnoseByVisitIDResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -1142,6 +1155,9 @@ func (UnimplementedStorageServiceServer) GetClinicOverrides(context.Context, *Em
 }
 func (UnimplementedStorageServiceServer) GetAppointments(context.Context, *EmptyRequest) (*GetAppointmentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAppointments not implemented")
+}
+func (UnimplementedStorageServiceServer) GetDiagnoseByVisitID(context.Context, *GetByIDRequest) (*GetDiagnoseByVisitIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDiagnoseByVisitID not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -2388,6 +2404,24 @@ func _StorageService_GetAppointments_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_GetDiagnoseByVisitID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetDiagnoseByVisitID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetDiagnoseByVisitID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetDiagnoseByVisitID(ctx, req.(*GetByIDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2666,6 +2700,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAppointments",
 			Handler:    _StorageService_GetAppointments_Handler,
+		},
+		{
+			MethodName: "GetDiagnoseByVisitID",
+			Handler:    _StorageService_GetDiagnoseByVisitID_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -69,10 +69,28 @@ message GetByIDRequest {
   int32 id = 1;
 }
 
+message GetHistoryVisitsRequest {
+  string token = 1;
+}
+
+message HistoryVisit {
+  int32 id = 1;
+  string date = 2;
+  int32 doctor_id = 3;
+  string doctor = 4;
+  string diagnose = 5;
+  string treatment = 6;
+}
+
+message GetHistoryVisitsResponse {
+  repeated HistoryVisit visits = 1;
+}
+
 service PatientService {
   rpc GetAppointmentSlots(GetAppointmentSlotsRequest) returns (GetAppointmentSlotsResponse);
   rpc AddAppointment(AddAppointmentRequest) returns (DefaultResponse);
   rpc GetUpcomingAppointments(GetUpcomingAppointmentsRequest) returns (GetUpcomingAppointmentsResponse);
   rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
   rpc CancelAppointment(GetByIDRequest) returns (DefaultResponse);
+  rpc GetHistoryVisits(GetHistoryVisitsRequest) returns (GetHistoryVisitsResponse);
 }

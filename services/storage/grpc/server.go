@@ -862,19 +862,6 @@ func (s *Server) AddAppointment(ctx context.Context, request *pb.AddAppointmentR
 	return &pb.DefaultResponse{}, nil
 }
 
-func (s *Server) UpdateAppointment(ctx context.Context, request *pb.UpdateAppointmentRequest) (*pb.DefaultResponse, error) {
-	err := s.Store.UpdateAppointment(ctx, model.AppointmentID(request.Appointment.Id), model.Appointment{
-		Date:      request.Appointment.Date.AsTime(),
-		Time:      request.Appointment.Time.AsTime(),
-		Status:    request.Appointment.Status,
-		UpdatedAt: request.Appointment.UpdatedAt.AsTime(),
-	})
-	if err != nil {
-		return nil, err
-	}
-	return &pb.DefaultResponse{}, nil
-}
-
 func (s *Server) GetAppointmentByID(ctx context.Context, request *pb.GetByIDRequest) (*pb.GetAppointmentByIDResponse, error) {
 	app, err := s.Store.GetAppointmentByID(ctx, model.AppointmentID(request.Id))
 	if err != nil {
@@ -899,25 +886,6 @@ func (s *Server) GetAppointmentByID(ctx context.Context, request *pb.GetByIDRequ
 	return &pb.GetAppointmentByIDResponse{Appointment: appointment}, nil
 }
 
-func (s *Server) GetDoctorByID(ctx context.Context, req *pb.GetByIDRequest) (*pb.GetDoctorByIDResponse, error) {
-	item, err := s.Store.GetDoctorByID(ctx, model.UserID(req.Id))
-	if err != nil {
-		return nil, fmt.Errorf("не удалось получить врача: %w", err)
-	}
-	doctor := &pb.Doctor{
-		UserId:      int32(item.ID),
-		FirstName:   item.FirstName,
-		SecondName:  item.SecondName,
-		Surname:     deref(item.Surname),
-		PhoneNumber: deref(item.PhoneNumber),
-		Email:       item.Email,
-		Education:   deref(item.Education),
-		Experience:  int32(derefInt(item.Experience)),
-		Gender:      item.Gender,
-	}
-	return &pb.GetDoctorByIDResponse{Doctor: doctor}, nil
-}
-
 func derefTime(t *time.Time) time.Time {
 	if t == nil {
 		return time.Time{}
@@ -930,23 +898,6 @@ func derefBool(b *bool) bool {
 		return false
 	}
 	return *b
-}
-func (s *Server) GetPatientByID(ctx context.Context, req *pb.GetByIDRequest) (*pb.GetPatientByIDResponse, error) {
-	patient, err := s.Store.GetPatientByID(ctx, model.UserID(req.Id))
-	if err != nil {
-		return nil, err
-	}
-	pbPatient := &pb.Patient{
-		UserId:      int32(patient.ID),
-		FirstName:   patient.FirstName,
-		SecondName:  patient.SecondName,
-		Surname:     deref(patient.Surname),
-		Email:       deref(patient.Email),
-		BirthDate:   timestamppb.New(patient.BirthDate),
-		PhoneNumber: deref(patient.PhoneNumber),
-		Gender:      patient.Gender,
-	}
-	return &pb.GetPatientByIDResponse{Patient: pbPatient}, nil
 }
 
 //rpc GetPatientDiagnoses(GetByIdRequest) returns (GetPatientDiagnosesResponse);   // получение предыдущих диагнозов пациента
@@ -1031,31 +982,6 @@ func (s *Server) GetPatientAllergiesChronics(ctx context.Context, req *pb.GetByI
 		pbNotes = append(pbNotes, note)
 	}
 	return &pb.GetPatientAllergiesChronicsResponse{PatientAllergiesChronics: pbNotes}, nil
-}
-
-func (s *Server) GetAppointmentByID(ctx context.Context, req *pb.GetByIDRequest) (*pb.GetAppointmentByIDResponse, error) {
-	app, err := s.Store.GetAppointmentByID(ctx, model.AppointmentID(req.Id))
-	if err != nil {
-		return nil, err
-	}
-	patientID := *app.PatientID
-	pbApp := &pb.Appointment{
-		Id:          int32(app.ID),
-		DoctorId:    int32(app.DoctorID),
-		Date:        timestamppb.New(app.Date),
-		Time:        timestamppb.New(app.Time),
-		PatientId:   int32(patientID),
-		SecondName:  app.PatientSecondName,
-		FirstName:   app.PatientFirstName,
-		Surname:     *app.PatientSurname,
-		BirthDate:   timestamppb.New(app.PatientBirthDate),
-		Gender:      app.PatientGender,
-		PhoneNumber: app.PatientPhoneNumber,
-		Status:      app.Status,
-		CreatedAt:   timestamppb.New(app.CreatedAt),
-		UpdatedAt:   timestamppb.New(app.UpdatedAt),
-	}
-	return &pb.GetAppointmentByIDResponse{Appointment: pbApp}, nil
 }
 
 func (s *Server) AddPatientAllergiesChronics(ctx context.Context, req *pb.AddPatientAllergiesChronicsRequest) (*pb.DefaultResponse, error) {
@@ -1228,4 +1154,22 @@ func (s *Server) GetVisitByID(ctx context.Context, request *pb.GetByIdRequest) (
 		CreatedAt:     timestamppb.New(resp.CreatedAt),
 	}
 	return &pb.GetVisitByIDResponse{Visit: visit}, nil
+}
+
+func (s *Server) GetDiagnoseByVisitID(ctx context.Context, request *pb.GetByIDRequest) (*pb.GetDiagnoseByVisitIDResponse, error) {
+	resp, err := s.Store.GetDiagnosesByVisitID(ctx, model.VisitID(request.Id))
+	if err != nil {
+		return nil, err
+	}
+	diagnoses := make([]*pb.Diagnose, 0, len(resp))
+	for _, item := range resp {
+		diagnose := &pb.Diagnose{
+			Id:        int32(item.ID),
+			VisitId:   int32(item.VisitID),
+			IcdCodeId: int32(item.ICDCodeID),
+			Note:      item.DiagnosisNote,
+		}
+		diagnoses = append(diagnoses, diagnose)
+	}
+	return &pb.GetDiagnoseByVisitIDResponse{Diagnose: diagnoses}, nil
 }

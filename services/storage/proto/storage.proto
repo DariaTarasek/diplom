@@ -600,6 +600,10 @@ message GetAppointmentsResponse {
   repeated Appointment appointments = 1;
 }
 
+message GetDiagnoseByVisitIDResponse {
+  repeated Diagnose diagnose = 1;
+}
+
 
 service StorageService {
   // управление аккаунтами
@@ -683,4 +687,5 @@ service StorageService {
   rpc GetVisitsPayments(EmptyRequest) returns (GetVisitsPaymentsResponse);
   rpc GetClinicOverrides(EmptyRequest) returns (GetClinicOverridesResponse);
   rpc GetAppointments(EmptyRequest) returns (GetAppointmentsResponse);
+  rpc GetDiagnoseByVisitID(GetByIDRequest) returns (GetDiagnoseByVisitIDResponse);
 }
