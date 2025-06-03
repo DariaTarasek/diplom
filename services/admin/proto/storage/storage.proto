@@ -600,6 +600,22 @@ message GetAppointmentsResponse {
   repeated Appointment appointments = 1;
 }
 
+message VisitMaterialAndService {
+  int32 id = 1;
+  int32 visit_id = 2;
+  int32 item_id = 3;
+  int32 quantity = 4;
+}
+message GetVisitMaterialsAndServicesResponse {
+  repeated VisitMaterialAndService visit_materials_services = 1;
+}
+
+message GetMaterialServiceByIDResponse {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
 
 service StorageService {
   // управление аккаунтами
@@ -683,4 +699,9 @@ service StorageService {
   rpc GetVisitsPayments(EmptyRequest) returns (GetVisitsPaymentsResponse);
   rpc GetClinicOverrides(EmptyRequest) returns (GetClinicOverridesResponse);
   rpc GetAppointments(EmptyRequest) returns (GetAppointmentsResponse);
+
+  rpc GetVisitMaterials(GetByIdRequest) returns (GetVisitMaterialsAndServicesResponse);
+  rpc GetVisitServices(GetByIdRequest) returns (GetVisitMaterialsAndServicesResponse);
+  rpc GetMaterialByID(GetByIdRequest) returns (GetMaterialServiceByIDResponse);
+  rpc GetServiceByID(GetByIdRequest) returns (GetMaterialServiceByIDResponse);
 }

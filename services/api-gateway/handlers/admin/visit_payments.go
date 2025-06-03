@@ -17,12 +17,23 @@ func (h *Handler) GetVisitPayments(c *gin.Context) {
 	}
 	var visitPayments []model.VisitPayment
 	for _, item := range items.VisitPayments {
+		var materialsAndServices []model.MaterialsAndServices
+		for _, mss := range item.MaterialsAndServices {
+			ms := model.MaterialsAndServices{
+				ID:       int(mss.Id),
+				VisitID:  int(mss.VisitId),
+				Item:     mss.Item,
+				Quantity: int(mss.Quantity),
+			}
+			materialsAndServices = append(materialsAndServices, ms)
+		}
 		payment := model.VisitPayment{
-			VisitID:   int(item.VisitId),
-			Doctor:    item.Doctor,
-			Patient:   item.Patient,
-			CreatedAt: item.CreatedAt,
-			Price:     int(item.Price),
+			VisitID:              int(item.VisitId),
+			Doctor:               item.Doctor,
+			Patient:              item.Patient,
+			CreatedAt:            item.CreatedAt,
+			Price:                int(item.Price),
+			MaterialsAndServices: materialsAndServices,
 		}
 		visitPayments = append(visitPayments, payment)
 	}

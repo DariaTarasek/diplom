@@ -42,12 +42,20 @@ type ICDCodeInput struct {
 	Comment string `json:"comment"`
 }
 
+type MaterialsAndServices struct {
+	ID       int
+	VisitID  int
+	Item     string
+	Quantity int
+}
+
 type VisitPayment struct {
-	VisitID   int    `json:"visit_id"`
-	Doctor    string `json:"doctor"`
-	Patient   string `json:"patient"`
-	CreatedAt string `json:"created_at"`
-	Price     int    `json:"price"`
+	VisitID              int                    `json:"visit_id"`
+	Doctor               string                 `json:"doctor"`
+	Patient              string                 `json:"patient"`
+	CreatedAt            string                 `json:"created_at"`
+	Price                int                    `json:"price"`
+	MaterialsAndServices []MaterialsAndServices `json:"materials_and_services"`
 }
 
 type VisitPaymentUpdate struct {

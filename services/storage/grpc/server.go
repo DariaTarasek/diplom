@@ -867,7 +867,7 @@ func (s *Server) GetAppointmentByID(ctx context.Context, request *pb.GetByIDRequ
 	if err != nil {
 		return nil, err
 	}
-	appointment := &pb.Appointment{
+	Appointment := &pb.Appointment{
 		Id:          int32(app.ID),
 		DoctorId:    int32(app.DoctorID),
 		Date:        timestamppb.New(app.Date),
@@ -883,7 +883,7 @@ func (s *Server) GetAppointmentByID(ctx context.Context, request *pb.GetByIDRequ
 		CreatedAt:   timestamppb.New(app.CreatedAt),
 		UpdatedAt:   timestamppb.New(app.UpdatedAt),
 	}
-	return &pb.GetAppointmentByIDResponse{Appointment: appointment}, nil
+	return &pb.GetAppointmentByIDResponse{Appointment: Appointment}, nil
 }
 
 func derefTime(t *time.Time) time.Time {
@@ -1147,4 +1147,209 @@ func (s *Server) GetVisitByID(ctx context.Context, request *pb.GetByIdRequest) (
 		CreatedAt:     timestamppb.New(resp.CreatedAt),
 	}
 	return &pb.GetVisitByIDResponse{Visit: visit}, nil
+}
+
+func (s *Server) GetVisitMaterials(ctx context.Context, req *pb.GetByIdRequest) (*pb.GetVisitMaterialsAndServicesResponse, error) {
+	resp, err := s.Store.GetAppointmentMaterials(ctx, model.VisitID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	var materials []*pb.VisitMaterialAndService
+	for _, item := range resp {
+		material := &pb.VisitMaterialAndService{
+			Id:       int32(item.ID),
+			VisitId:  int32(item.VisitID),
+			ItemId:   int32(item.MaterialID),
+			Quantity: int32(item.QuantityUsed),
+		}
+		materials = append(materials, material)
+	}
+	return &pb.GetVisitMaterialsAndServicesResponse{VisitMaterialsServices: materials}, nil
+}
+
+func (s *Server) GetVisitServices(ctx context.Context, req *pb.GetByIdRequest) (*pb.GetVisitMaterialsAndServicesResponse, error) {
+	resp, err := s.Store.GetAppointmentServices(ctx, model.VisitID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	var services []*pb.VisitMaterialAndService
+	for _, item := range resp {
+		service := &pb.VisitMaterialAndService{
+			Id:       int32(item.ID),
+			VisitId:  int32(item.VisitID),
+			ItemId:   int32(item.ServiceID),
+			Quantity: int32(item.Quantity),
+		}
+		services = append(services, service)
+	}
+	return &pb.GetVisitMaterialsAndServicesResponse{VisitMaterialsServices: services}, nil
+}
+
+func (s *Server) GetMaterialByID(ctx context.Context, req *pb.GetByIdRequest) (*pb.GetMaterialServiceByIDResponse, error) {
+	resp, err := s.Store.GetMaterialByID(ctx, model.MaterialID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetMaterialServiceByIDResponse{
+		Id:    int32(resp.ID),
+		Name:  resp.Name,
+		Price: int32(resp.Price),
+	}, nil
+}
+
+func (s *Server) GetServiceByID(ctx context.Context, req *pb.GetByIdRequest) (*pb.GetMaterialServiceByIDResponse, error) {
+	resp, err := s.Store.GetServiceByID(ctx, model.ServiceID(req.Id))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetMaterialServiceByIDResponse{
+		Id:    int32(resp.ID),
+		Name:  resp.Name,
+		Price: int32(*resp.Price),
+	}, nil
+}
+
+func (s *Server) GetTotalPatients(ctx context.Context, req *pb.EmptyRequest) (*pb.IntResponse, error) {
+	resp, err := s.Store.GetTotalPatients(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.IntResponse{Int: int32(resp)}, nil
+}
+func (s *Server) GetTotalVisits(ctx context.Context, req *pb.EmptyRequest) (*pb.IntResponse, error) {
+	resp, err := s.Store.GetTotalVisits(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.IntResponse{Int: int32(resp)}, nil
+}
+
+func (s *Server) GetTopServices(ctx context.Context, req *pb.EmptyRequest) (*pb.ServiceStatsResponse, error) {
+	resp, err := s.Store.GetTopServices(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var topServices []*pb.ServiceStats
+	for _, item := range resp {
+		service := &pb.ServiceStats{
+			Name:       item.Name,
+			UsageCount: int32(item.UsageCount),
+		}
+		topServices = append(topServices, service)
+	}
+
+	return &pb.ServiceStatsResponse{ServiceStats: topServices}, nil
+}
+
+func (s *Server) GetDoctorAvgVisit(ctx context.Context, req *pb.EmptyRequest) (*pb.DoctorAvgVisitResponse, error) {
+	resp, err := s.Store.GetDoctorWeeklyAverages(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var doctorAvgVisits []*pb.DoctorAvgVisit
+	for _, item := range resp {
+		avg := &pb.DoctorAvgVisit{
+			DoctorId:        int32(item.DoctorID),
+			AvgWeeklyVisits: float32(item.AvgWeeklyVisits),
+		}
+		doctorAvgVisits = append(doctorAvgVisits, avg)
+	}
+
+	return &pb.DoctorAvgVisitResponse{Visits: doctorAvgVisits}, nil
+}
+
+func (s *Server) GetDoctorAvgCheck(ctx context.Context, req *pb.EmptyRequest) (*pb.DoctorAvgCheckResponse, error) {
+	resp, err := s.Store.GetDoctorAvgCheck(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var doctorAvgChecks []*pb.DoctorCheck
+	for _, item := range resp {
+		avg := &pb.DoctorCheck{
+			DoctorId: int32(item.DoctorID),
+			AvgCheck: float32(item.AvgCheck),
+		}
+		doctorAvgChecks = append(doctorAvgChecks, avg)
+	}
+
+	return &pb.DoctorAvgCheckResponse{Check: doctorAvgChecks}, nil
+}
+
+func (s *Server) GetDoctorUniquePatient(ctx context.Context, req *pb.EmptyRequest) (*pb.DoctorUniquePatientResponse, error) {
+	resp, err := s.Store.GetDoctorUniquePatients(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var uniquePatients []*pb.DoctorUniquePatient
+	for _, item := range resp {
+		p := &pb.DoctorUniquePatient{
+			DoctorId:       int32(item.DoctorID),
+			UniquePatients: int32(item.UniquePatients),
+		}
+		uniquePatients = append(uniquePatients, p)
+	}
+
+	return &pb.DoctorUniquePatientResponse{Patients: uniquePatients}, nil
+}
+
+func (s *Server) GetAgeGroupStat(ctx context.Context, req *pb.EmptyRequest) (*pb.AgeGroupStatResponse, error) {
+	resp, err := s.Store.GetAgeDistribution(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var ageGroupStats []*pb.AgeGroupStat
+	for _, item := range resp {
+		ageGroup := &pb.AgeGroupStat{
+			AgeGroup: int32(item.AgeGroup),
+			Percent:  float32(item.Percent),
+		}
+		ageGroupStats = append(ageGroupStats, ageGroup)
+	}
+
+	return &pb.AgeGroupStatResponse{AgeGroups: ageGroupStats}, nil
+}
+
+func (s *Server) GetNewPatientsThisMonth(ctx context.Context, req *pb.EmptyRequest) (*pb.IntResponse, error) {
+	resp, err := s.Store.GetNewPatientsThisMonth(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.IntResponse{Int: int32(resp)}, nil
+}
+
+func (s *Server) GetAvgVisitsPerPatient(ctx context.Context, req *pb.EmptyRequest) (*pb.FloatResponse, error) {
+	resp, err := s.Store.GetAvgVisitsPerPatient(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.FloatResponse{Float: float32(resp)}, nil
+}
+
+func (s *Server) GetTotalIncome(ctx context.Context, req *pb.EmptyRequest) (*pb.FloatResponse, error) {
+	resp, err := s.Store.GetTotalIncome(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.FloatResponse{Float: float32(resp)}, nil
+}
+
+func (s *Server) GetMonthlyIncome(ctx context.Context, req *pb.EmptyRequest) (*pb.FloatResponse, error) {
+	resp, err := s.Store.GetMonthlyIncome(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.FloatResponse{Float: float32(resp)}, nil
+}
+
+func (s *Server) GetClinicAverageCheck(ctx context.Context, req *pb.EmptyRequest) (*pb.FloatResponse, error) {
+	resp, err := s.Store.GetClinicAverageCheck(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.FloatResponse{Float: float32(resp)}, nil
 }

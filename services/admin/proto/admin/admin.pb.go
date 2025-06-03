@@ -1949,14 +1949,15 @@ func (x *UpdateUserLoginRequest) GetLogin() string {
 }
 
 type UnconfirmedVisitPayment struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	VisitId       int32                  `protobuf:"varint,1,opt,name=visit_id,json=visitId,proto3" json:"visit_id,omitempty"`
-	Doctor        string                 `protobuf:"bytes,2,opt,name=doctor,proto3" json:"doctor,omitempty"`
-	Patient       string                 `protobuf:"bytes,3,opt,name=patient,proto3" json:"patient,omitempty"`
-	CreatedAt     string                 `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	Price         int32                  `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                protoimpl.MessageState          `protogen:"open.v1"`
+	VisitId              int32                           `protobuf:"varint,1,opt,name=visit_id,json=visitId,proto3" json:"visit_id,omitempty"`
+	Doctor               string                          `protobuf:"bytes,2,opt,name=doctor,proto3" json:"doctor,omitempty"`
+	Patient              string                          `protobuf:"bytes,3,opt,name=patient,proto3" json:"patient,omitempty"`
+	CreatedAt            string                          `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	Price                int32                           `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"`
+	MaterialsAndServices []*GetVisitMaterialsAndServices `protobuf:"bytes,6,rep,name=materials_and_services,json=materialsAndServices,proto3" json:"materials_and_services,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *UnconfirmedVisitPayment) Reset() {
@@ -2022,6 +2023,13 @@ func (x *UnconfirmedVisitPayment) GetPrice() int32 {
 		return x.Price
 	}
 	return 0
+}
+
+func (x *UnconfirmedVisitPayment) GetMaterialsAndServices() []*GetVisitMaterialsAndServices {
+	if x != nil {
+		return x.MaterialsAndServices
+	}
+	return nil
 }
 
 type UnconfirmedVisitPaymentsResponse struct {
@@ -2256,6 +2264,198 @@ func (x *AppointmentEntry) GetPatient() *Person {
 	return nil
 }
 
+type Appointment struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	PatientId     int32                  `protobuf:"varint,2,opt,name=patient_id,json=patientId,proto3" json:"patient_id,omitempty"`
+	Doctor        string                 `protobuf:"bytes,3,opt,name=doctor,proto3" json:"doctor,omitempty"`
+	Date          string                 `protobuf:"bytes,4,opt,name=date,proto3" json:"date,omitempty"`
+	Time          string                 `protobuf:"bytes,5,opt,name=time,proto3" json:"time,omitempty"`
+	FirstName     string                 `protobuf:"bytes,6,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	SecondName    string                 `protobuf:"bytes,7,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,8,opt,name=surname,proto3" json:"surname,omitempty"`
+	BirthDate     string                 `protobuf:"bytes,9,opt,name=birth_date,json=birthDate,proto3" json:"birth_date,omitempty"`
+	Gender        string                 `protobuf:"bytes,10,opt,name=gender,proto3" json:"gender,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,11,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Status        string                 `protobuf:"bytes,12,opt,name=status,proto3" json:"status,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,13,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     string                 `protobuf:"bytes,14,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Appointment) Reset() {
+	*x = Appointment{}
+	mi := &file_proto_admin_admin_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Appointment) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Appointment) ProtoMessage() {}
+
+func (x *Appointment) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Appointment.ProtoReflect.Descriptor instead.
+func (*Appointment) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *Appointment) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Appointment) GetPatientId() int32 {
+	if x != nil {
+		return x.PatientId
+	}
+	return 0
+}
+
+func (x *Appointment) GetDoctor() string {
+	if x != nil {
+		return x.Doctor
+	}
+	return ""
+}
+
+func (x *Appointment) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+func (x *Appointment) GetTime() string {
+	if x != nil {
+		return x.Time
+	}
+	return ""
+}
+
+func (x *Appointment) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *Appointment) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *Appointment) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *Appointment) GetBirthDate() string {
+	if x != nil {
+		return x.BirthDate
+	}
+	return ""
+}
+
+func (x *Appointment) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+func (x *Appointment) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *Appointment) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *Appointment) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *Appointment) GetUpdatedAt() string {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return ""
+}
+
+type GetUnconfirmedAppointmentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Appointments  []*Appointment         `protobuf:"bytes,1,rep,name=appointments,proto3" json:"appointments,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUnconfirmedAppointmentResponse) Reset() {
+	*x = GetUnconfirmedAppointmentResponse{}
+	mi := &file_proto_admin_admin_proto_msgTypes[35]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUnconfirmedAppointmentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUnconfirmedAppointmentResponse) ProtoMessage() {}
+
+func (x *GetUnconfirmedAppointmentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[35]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUnconfirmedAppointmentResponse.ProtoReflect.Descriptor instead.
+func (*GetUnconfirmedAppointmentResponse) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{35}
+}
+
+func (x *GetUnconfirmedAppointmentResponse) GetAppointments() []*Appointment {
+	if x != nil {
+		return x.Appointments
+	}
+	return nil
+}
+
 type Person struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -2272,7 +2472,7 @@ type Person struct {
 
 func (x *Person) Reset() {
 	*x = Person{}
-	mi := &file_proto_admin_admin_proto_msgTypes[34]
+	mi := &file_proto_admin_admin_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2284,7 +2484,7 @@ func (x *Person) String() string {
 func (*Person) ProtoMessage() {}
 
 func (x *Person) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_admin_admin_proto_msgTypes[34]
+	mi := &file_proto_admin_admin_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2297,7 +2497,7 @@ func (x *Person) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Person.ProtoReflect.Descriptor instead.
 func (*Person) Descriptor() ([]byte, []int) {
-	return file_proto_admin_admin_proto_rawDescGZIP(), []int{34}
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *Person) GetId() int64 {
@@ -2367,7 +2567,7 @@ type VisitPayment struct {
 
 func (x *VisitPayment) Reset() {
 	*x = VisitPayment{}
-	mi := &file_proto_admin_admin_proto_msgTypes[35]
+	mi := &file_proto_admin_admin_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2379,7 +2579,7 @@ func (x *VisitPayment) String() string {
 func (*VisitPayment) ProtoMessage() {}
 
 func (x *VisitPayment) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_admin_admin_proto_msgTypes[35]
+	mi := &file_proto_admin_admin_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2392,7 +2592,7 @@ func (x *VisitPayment) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VisitPayment.ProtoReflect.Descriptor instead.
 func (*VisitPayment) Descriptor() ([]byte, []int) {
-	return file_proto_admin_admin_proto_rawDescGZIP(), []int{35}
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *VisitPayment) GetVisitId() int32 {
@@ -2425,7 +2625,7 @@ type UpdateVisitPaymentRequest struct {
 
 func (x *UpdateVisitPaymentRequest) Reset() {
 	*x = UpdateVisitPaymentRequest{}
-	mi := &file_proto_admin_admin_proto_msgTypes[36]
+	mi := &file_proto_admin_admin_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2437,7 +2637,7 @@ func (x *UpdateVisitPaymentRequest) String() string {
 func (*UpdateVisitPaymentRequest) ProtoMessage() {}
 
 func (x *UpdateVisitPaymentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_admin_admin_proto_msgTypes[36]
+	mi := &file_proto_admin_admin_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2450,12 +2650,288 @@ func (x *UpdateVisitPaymentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateVisitPaymentRequest.ProtoReflect.Descriptor instead.
 func (*UpdateVisitPaymentRequest) Descriptor() ([]byte, []int) {
-	return file_proto_admin_admin_proto_rawDescGZIP(), []int{36}
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *UpdateVisitPaymentRequest) GetPayment() *VisitPayment {
 	if x != nil {
 		return x.Payment
+	}
+	return nil
+}
+
+type GetVisitMaterialsAndServices struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	VisitId       int32                  `protobuf:"varint,2,opt,name=visit_id,json=visitId,proto3" json:"visit_id,omitempty"`
+	Item          string                 `protobuf:"bytes,3,opt,name=item,proto3" json:"item,omitempty"`
+	Quantity      int32                  `protobuf:"varint,4,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetVisitMaterialsAndServices) Reset() {
+	*x = GetVisitMaterialsAndServices{}
+	mi := &file_proto_admin_admin_proto_msgTypes[39]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetVisitMaterialsAndServices) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetVisitMaterialsAndServices) ProtoMessage() {}
+
+func (x *GetVisitMaterialsAndServices) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[39]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetVisitMaterialsAndServices.ProtoReflect.Descriptor instead.
+func (*GetVisitMaterialsAndServices) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{39}
+}
+
+func (x *GetVisitMaterialsAndServices) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GetVisitMaterialsAndServices) GetVisitId() int32 {
+	if x != nil {
+		return x.VisitId
+	}
+	return 0
+}
+
+func (x *GetVisitMaterialsAndServices) GetItem() string {
+	if x != nil {
+		return x.Item
+	}
+	return ""
+}
+
+func (x *GetVisitMaterialsAndServices) GetQuantity() int32 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+type GetVisitMaterialsAndServicesResponse struct {
+	state                  protoimpl.MessageState          `protogen:"open.v1"`
+	VisitMaterialsServices []*GetVisitMaterialsAndServices `protobuf:"bytes,1,rep,name=visit_materials_services,json=visitMaterialsServices,proto3" json:"visit_materials_services,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *GetVisitMaterialsAndServicesResponse) Reset() {
+	*x = GetVisitMaterialsAndServicesResponse{}
+	mi := &file_proto_admin_admin_proto_msgTypes[40]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetVisitMaterialsAndServicesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetVisitMaterialsAndServicesResponse) ProtoMessage() {}
+
+func (x *GetVisitMaterialsAndServicesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[40]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetVisitMaterialsAndServicesResponse.ProtoReflect.Descriptor instead.
+func (*GetVisitMaterialsAndServicesResponse) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *GetVisitMaterialsAndServicesResponse) GetVisitMaterialsServices() []*GetVisitMaterialsAndServices {
+	if x != nil {
+		return x.VisitMaterialsServices
+	}
+	return nil
+}
+
+type GetByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetByIdRequest) Reset() {
+	*x = GetByIdRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[41]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetByIdRequest) ProtoMessage() {}
+
+func (x *GetByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[41]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetByIdRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{41}
+}
+
+func (x *GetByIdRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type UpdateAppointment struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Date          *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=date,proto3" json:"date,omitempty"`
+	Time          *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=time,proto3" json:"time,omitempty"`
+	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAppointment) Reset() {
+	*x = UpdateAppointment{}
+	mi := &file_proto_admin_admin_proto_msgTypes[42]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAppointment) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAppointment) ProtoMessage() {}
+
+func (x *UpdateAppointment) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[42]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAppointment.ProtoReflect.Descriptor instead.
+func (*UpdateAppointment) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *UpdateAppointment) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpdateAppointment) GetDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Date
+	}
+	return nil
+}
+
+func (x *UpdateAppointment) GetTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Time
+	}
+	return nil
+}
+
+func (x *UpdateAppointment) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *UpdateAppointment) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+type UpdateAppointmentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Appt          *UpdateAppointment     `protobuf:"bytes,1,opt,name=appt,proto3" json:"appt,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAppointmentRequest) Reset() {
+	*x = UpdateAppointmentRequest{}
+	mi := &file_proto_admin_admin_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAppointmentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAppointmentRequest) ProtoMessage() {}
+
+func (x *UpdateAppointmentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_admin_admin_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAppointmentRequest.ProtoReflect.Descriptor instead.
+func (*UpdateAppointmentRequest) Descriptor() ([]byte, []int) {
+	return file_proto_admin_admin_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *UpdateAppointmentRequest) GetAppt() *UpdateAppointment {
+	if x != nil {
+		return x.Appt
 	}
 	return nil
 }
@@ -2631,14 +3107,15 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"\x05specs\x18\x01 \x03(\v2\v.admin.SpecR\x05specs\"G\n" +
 	"\x16UpdateUserLoginRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x14\n" +
-	"\x05login\x18\x02 \x01(\tR\x05login\"\x9b\x01\n" +
+	"\x05login\x18\x02 \x01(\tR\x05login\"\xf6\x01\n" +
 	"\x17UnconfirmedVisitPayment\x12\x19\n" +
 	"\bvisit_id\x18\x01 \x01(\x05R\avisitId\x12\x16\n" +
 	"\x06doctor\x18\x02 \x01(\tR\x06doctor\x12\x18\n" +
 	"\apatient\x18\x03 \x01(\tR\apatient\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\x04 \x01(\tR\tcreatedAt\x12\x14\n" +
-	"\x05price\x18\x05 \x01(\x05R\x05price\"i\n" +
+	"\x05price\x18\x05 \x01(\x05R\x05price\x12Y\n" +
+	"\x16materials_and_services\x18\x06 \x03(\v2#.admin.GetVisitMaterialsAndServicesR\x14materialsAndServices\"i\n" +
 	" UnconfirmedVisitPaymentsResponse\x12E\n" +
 	"\x0evisit_payments\x18\x01 \x03(\v2\x1e.admin.UnconfirmedVisitPaymentR\rvisitPayments\"\x9b\x01\n" +
 	"\x15AdminScheduleOverview\x12&\n" +
@@ -2654,7 +3131,31 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"\x04date\x18\x02 \x01(\tR\x04date\x12\x12\n" +
 	"\x04time\x18\x03 \x01(\tR\x04time\x12%\n" +
 	"\x06doctor\x18\x04 \x01(\v2\r.admin.PersonR\x06doctor\x12'\n" +
-	"\apatient\x18\x05 \x01(\v2\r.admin.PersonR\apatient\"\xdd\x01\n" +
+	"\apatient\x18\x05 \x01(\v2\r.admin.PersonR\apatient\"\x86\x03\n" +
+	"\vAppointment\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1d\n" +
+	"\n" +
+	"patient_id\x18\x02 \x01(\x05R\tpatientId\x12\x16\n" +
+	"\x06doctor\x18\x03 \x01(\tR\x06doctor\x12\x12\n" +
+	"\x04date\x18\x04 \x01(\tR\x04date\x12\x12\n" +
+	"\x04time\x18\x05 \x01(\tR\x04time\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x06 \x01(\tR\tfirstName\x12\x1f\n" +
+	"\vsecond_name\x18\a \x01(\tR\n" +
+	"secondName\x12\x18\n" +
+	"\asurname\x18\b \x01(\tR\asurname\x12\x1d\n" +
+	"\n" +
+	"birth_date\x18\t \x01(\tR\tbirthDate\x12\x16\n" +
+	"\x06gender\x18\n" +
+	" \x01(\tR\x06gender\x12!\n" +
+	"\fphone_number\x18\v \x01(\tR\vphoneNumber\x12\x16\n" +
+	"\x06status\x18\f \x01(\tR\x06status\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\r \x01(\tR\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\x0e \x01(\tR\tupdatedAt\"[\n" +
+	"!GetUnconfirmedAppointmentResponse\x126\n" +
+	"\fappointments\x18\x01 \x03(\v2\x12.admin.AppointmentR\fappointments\"\xdd\x01\n" +
 	"\x06Person\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1d\n" +
 	"\n" +
@@ -2672,7 +3173,25 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"\x05price\x18\x02 \x01(\x05R\x05price\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\"J\n" +
 	"\x19UpdateVisitPaymentRequest\x12-\n" +
-	"\apayment\x18\x01 \x01(\v2\x13.admin.VisitPaymentR\apayment2\xf7\r\n" +
+	"\apayment\x18\x01 \x01(\v2\x13.admin.VisitPaymentR\apayment\"y\n" +
+	"\x1cGetVisitMaterialsAndServices\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x19\n" +
+	"\bvisit_id\x18\x02 \x01(\x05R\avisitId\x12\x12\n" +
+	"\x04item\x18\x03 \x01(\tR\x04item\x12\x1a\n" +
+	"\bquantity\x18\x04 \x01(\x05R\bquantity\"\x85\x01\n" +
+	"$GetVisitMaterialsAndServicesResponse\x12]\n" +
+	"\x18visit_materials_services\x18\x01 \x03(\v2#.admin.GetVisitMaterialsAndServicesR\x16visitMaterialsServices\" \n" +
+	"\x0eGetByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"\xd6\x01\n" +
+	"\x11UpdateAppointment\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12.\n" +
+	"\x04date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\x12.\n" +
+	"\x04time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x04time\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\x129\n" +
+	"\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"H\n" +
+	"\x18UpdateAppointmentRequest\x12,\n" +
+	"\x04appt\x18\x01 \x01(\v2\x18.admin.UpdateAppointmentR\x04appt2\x86\x10\n" +
 	"\fAdminService\x12^\n" +
 	"\x1aUpdateClinicWeeklySchedule\x12(.admin.UpdateClinicWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12X\n" +
 	"\x17AddDoctorWeeklySchedule\x12%.admin.AddDoctorWeeklyScheduleRequest\x1a\x16.admin.DefaultResponse\x12^\n" +
@@ -2700,7 +3219,10 @@ const file_proto_admin_admin_proto_rawDesc = "" +
 	"\x12UpdatePatientLogin\x12\x1d.admin.UpdateUserLoginRequest\x1a\x16.admin.DefaultResponse\x12[\n" +
 	"\x1bGetUnconfirmedVisitPayments\x12\x13.admin.EmptyRequest\x1a'.admin.UnconfirmedVisitPaymentsResponse\x12J\n" +
 	"\x15GetClinicScheduleGrid\x12\x13.admin.EmptyRequest\x1a\x1c.admin.AdminScheduleOverview\x12N\n" +
-	"\x12UpdateVisitPayment\x12 .admin.UpdateVisitPaymentRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
+	"\x12UpdateVisitPayment\x12 .admin.UpdateVisitPaymentRequest\x1a\x16.admin.DefaultResponse\x12b\n" +
+	"\x1cGetVisitMaterialsAndServices\x12\x15.admin.GetByIdRequest\x1a+.admin.GetVisitMaterialsAndServicesResponse\x12[\n" +
+	"\x1aGetUnconfirmedAppointments\x12\x13.admin.EmptyRequest\x1a(.admin.GetUnconfirmedAppointmentResponse\x12L\n" +
+	"\x11UpdateAppointment\x12\x1f.admin.UpdateAppointmentRequest\x1a\x16.admin.DefaultResponseB\x15Z\x13admin/proto;adminpbb\x06proto3"
 
 var (
 	file_proto_admin_admin_proto_rawDescOnce sync.Once
@@ -2714,124 +3236,144 @@ func file_proto_admin_admin_proto_rawDescGZIP() []byte {
 	return file_proto_admin_admin_proto_rawDescData
 }
 
-var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
+var file_proto_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 44)
 var file_proto_admin_admin_proto_goTypes = []any{
-	(*WeeklyClinicSchedule)(nil),              // 0: admin.WeeklyClinicSchedule
-	(*UpdateClinicWeeklyScheduleRequest)(nil), // 1: admin.UpdateClinicWeeklyScheduleRequest
-	(*WeeklyDoctorSchedule)(nil),              // 2: admin.WeeklyDoctorSchedule
-	(*AddDoctorWeeklyScheduleRequest)(nil),    // 3: admin.AddDoctorWeeklyScheduleRequest
-	(*UpdateDoctorWeeklyScheduleRequest)(nil), // 4: admin.UpdateDoctorWeeklyScheduleRequest
-	(*DefaultResponse)(nil),                   // 5: admin.DefaultResponse
-	(*AddClinicDailyOverrideRequest)(nil),     // 6: admin.AddClinicDailyOverrideRequest
-	(*AddDoctorDailyOverrideRequest)(nil),     // 7: admin.AddDoctorDailyOverrideRequest
-	(*AddMaterialRequest)(nil),                // 8: admin.AddMaterialRequest
-	(*AddServiceRequest)(nil),                 // 9: admin.AddServiceRequest
-	(*UpdateMaterialRequest)(nil),             // 10: admin.UpdateMaterialRequest
-	(*UpdateServiceRequest)(nil),              // 11: admin.UpdateServiceRequest
-	(*Material)(nil),                          // 12: admin.Material
-	(*Service)(nil),                           // 13: admin.Service
-	(*DeleteRequest)(nil),                     // 14: admin.DeleteRequest
-	(*ServiceType)(nil),                       // 15: admin.ServiceType
-	(*Admin)(nil),                             // 16: admin.Admin
-	(*GetAdminsResponse)(nil),                 // 17: admin.GetAdminsResponse
-	(*DoctorWithSpecs)(nil),                   // 18: admin.DoctorWithSpecs
-	(*GetDoctorsResponse)(nil),                // 19: admin.GetDoctorsResponse
-	(*UpdateDoctorRequest)(nil),               // 20: admin.UpdateDoctorRequest
-	(*UpdateAdminRequest)(nil),                // 21: admin.UpdateAdminRequest
-	(*UpdatePatientRequest)(nil),              // 22: admin.UpdatePatientRequest
-	(*Patient)(nil),                           // 23: admin.Patient
-	(*GetPatientsResponse)(nil),               // 24: admin.GetPatientsResponse
-	(*EmptyRequest)(nil),                      // 25: admin.EmptyRequest
-	(*Spec)(nil),                              // 26: admin.Spec
-	(*GetSpecsResponse)(nil),                  // 27: admin.GetSpecsResponse
-	(*UpdateUserLoginRequest)(nil),            // 28: admin.UpdateUserLoginRequest
-	(*UnconfirmedVisitPayment)(nil),           // 29: admin.UnconfirmedVisitPayment
-	(*UnconfirmedVisitPaymentsResponse)(nil),  // 30: admin.UnconfirmedVisitPaymentsResponse
-	(*AdminScheduleOverview)(nil),             // 31: admin.AdminScheduleOverview
-	(*ScheduleDay)(nil),                       // 32: admin.ScheduleDay
-	(*AppointmentEntry)(nil),                  // 33: admin.AppointmentEntry
-	(*Person)(nil),                            // 34: admin.Person
-	(*VisitPayment)(nil),                      // 35: admin.VisitPayment
-	(*UpdateVisitPaymentRequest)(nil),         // 36: admin.UpdateVisitPaymentRequest
-	(*timestamppb.Timestamp)(nil),             // 37: google.protobuf.Timestamp
+	(*WeeklyClinicSchedule)(nil),                 // 0: admin.WeeklyClinicSchedule
+	(*UpdateClinicWeeklyScheduleRequest)(nil),    // 1: admin.UpdateClinicWeeklyScheduleRequest
+	(*WeeklyDoctorSchedule)(nil),                 // 2: admin.WeeklyDoctorSchedule
+	(*AddDoctorWeeklyScheduleRequest)(nil),       // 3: admin.AddDoctorWeeklyScheduleRequest
+	(*UpdateDoctorWeeklyScheduleRequest)(nil),    // 4: admin.UpdateDoctorWeeklyScheduleRequest
+	(*DefaultResponse)(nil),                      // 5: admin.DefaultResponse
+	(*AddClinicDailyOverrideRequest)(nil),        // 6: admin.AddClinicDailyOverrideRequest
+	(*AddDoctorDailyOverrideRequest)(nil),        // 7: admin.AddDoctorDailyOverrideRequest
+	(*AddMaterialRequest)(nil),                   // 8: admin.AddMaterialRequest
+	(*AddServiceRequest)(nil),                    // 9: admin.AddServiceRequest
+	(*UpdateMaterialRequest)(nil),                // 10: admin.UpdateMaterialRequest
+	(*UpdateServiceRequest)(nil),                 // 11: admin.UpdateServiceRequest
+	(*Material)(nil),                             // 12: admin.Material
+	(*Service)(nil),                              // 13: admin.Service
+	(*DeleteRequest)(nil),                        // 14: admin.DeleteRequest
+	(*ServiceType)(nil),                          // 15: admin.ServiceType
+	(*Admin)(nil),                                // 16: admin.Admin
+	(*GetAdminsResponse)(nil),                    // 17: admin.GetAdminsResponse
+	(*DoctorWithSpecs)(nil),                      // 18: admin.DoctorWithSpecs
+	(*GetDoctorsResponse)(nil),                   // 19: admin.GetDoctorsResponse
+	(*UpdateDoctorRequest)(nil),                  // 20: admin.UpdateDoctorRequest
+	(*UpdateAdminRequest)(nil),                   // 21: admin.UpdateAdminRequest
+	(*UpdatePatientRequest)(nil),                 // 22: admin.UpdatePatientRequest
+	(*Patient)(nil),                              // 23: admin.Patient
+	(*GetPatientsResponse)(nil),                  // 24: admin.GetPatientsResponse
+	(*EmptyRequest)(nil),                         // 25: admin.EmptyRequest
+	(*Spec)(nil),                                 // 26: admin.Spec
+	(*GetSpecsResponse)(nil),                     // 27: admin.GetSpecsResponse
+	(*UpdateUserLoginRequest)(nil),               // 28: admin.UpdateUserLoginRequest
+	(*UnconfirmedVisitPayment)(nil),              // 29: admin.UnconfirmedVisitPayment
+	(*UnconfirmedVisitPaymentsResponse)(nil),     // 30: admin.UnconfirmedVisitPaymentsResponse
+	(*AdminScheduleOverview)(nil),                // 31: admin.AdminScheduleOverview
+	(*ScheduleDay)(nil),                          // 32: admin.ScheduleDay
+	(*AppointmentEntry)(nil),                     // 33: admin.AppointmentEntry
+	(*Appointment)(nil),                          // 34: admin.Appointment
+	(*GetUnconfirmedAppointmentResponse)(nil),    // 35: admin.GetUnconfirmedAppointmentResponse
+	(*Person)(nil),                               // 36: admin.Person
+	(*VisitPayment)(nil),                         // 37: admin.VisitPayment
+	(*UpdateVisitPaymentRequest)(nil),            // 38: admin.UpdateVisitPaymentRequest
+	(*GetVisitMaterialsAndServices)(nil),         // 39: admin.GetVisitMaterialsAndServices
+	(*GetVisitMaterialsAndServicesResponse)(nil), // 40: admin.GetVisitMaterialsAndServicesResponse
+	(*GetByIdRequest)(nil),                       // 41: admin.GetByIdRequest
+	(*UpdateAppointment)(nil),                    // 42: admin.UpdateAppointment
+	(*UpdateAppointmentRequest)(nil),             // 43: admin.UpdateAppointmentRequest
+	(*timestamppb.Timestamp)(nil),                // 44: google.protobuf.Timestamp
 }
 var file_proto_admin_admin_proto_depIdxs = []int32{
-	37, // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
-	37, // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
+	44, // 0: admin.WeeklyClinicSchedule.start_time:type_name -> google.protobuf.Timestamp
+	44, // 1: admin.WeeklyClinicSchedule.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 2: admin.UpdateClinicWeeklyScheduleRequest.clinic_schedule:type_name -> admin.WeeklyClinicSchedule
-	37, // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
-	37, // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
+	44, // 3: admin.WeeklyDoctorSchedule.start_time:type_name -> google.protobuf.Timestamp
+	44, // 4: admin.WeeklyDoctorSchedule.end_time:type_name -> google.protobuf.Timestamp
 	2,  // 5: admin.AddDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
 	2,  // 6: admin.UpdateDoctorWeeklyScheduleRequest.doctor_schedule:type_name -> admin.WeeklyDoctorSchedule
-	37, // 7: admin.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	37, // 8: admin.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	37, // 9: admin.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
-	37, // 10: admin.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
-	37, // 11: admin.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
-	37, // 12: admin.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	44, // 7: admin.AddClinicDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	44, // 8: admin.AddClinicDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	44, // 9: admin.AddClinicDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
+	44, // 10: admin.AddDoctorDailyOverrideRequest.date:type_name -> google.protobuf.Timestamp
+	44, // 11: admin.AddDoctorDailyOverrideRequest.start_time:type_name -> google.protobuf.Timestamp
+	44, // 12: admin.AddDoctorDailyOverrideRequest.end_time:type_name -> google.protobuf.Timestamp
 	16, // 13: admin.GetAdminsResponse.admins:type_name -> admin.Admin
 	18, // 14: admin.GetDoctorsResponse.doctors:type_name -> admin.DoctorWithSpecs
 	23, // 15: admin.GetPatientsResponse.patients:type_name -> admin.Patient
 	26, // 16: admin.GetSpecsResponse.specs:type_name -> admin.Spec
-	29, // 17: admin.UnconfirmedVisitPaymentsResponse.visit_payments:type_name -> admin.UnconfirmedVisitPayment
-	32, // 18: admin.AdminScheduleOverview.days:type_name -> admin.ScheduleDay
-	33, // 19: admin.AdminScheduleOverview.appointments:type_name -> admin.AppointmentEntry
-	34, // 20: admin.AppointmentEntry.doctor:type_name -> admin.Person
-	34, // 21: admin.AppointmentEntry.patient:type_name -> admin.Person
-	35, // 22: admin.UpdateVisitPaymentRequest.payment:type_name -> admin.VisitPayment
-	1,  // 23: admin.AdminService.UpdateClinicWeeklySchedule:input_type -> admin.UpdateClinicWeeklyScheduleRequest
-	3,  // 24: admin.AdminService.AddDoctorWeeklySchedule:input_type -> admin.AddDoctorWeeklyScheduleRequest
-	4,  // 25: admin.AdminService.UpdateDoctorWeeklySchedule:input_type -> admin.UpdateDoctorWeeklyScheduleRequest
-	6,  // 26: admin.AdminService.AddClinicDailyOverride:input_type -> admin.AddClinicDailyOverrideRequest
-	7,  // 27: admin.AdminService.AddDoctorDailyOverride:input_type -> admin.AddDoctorDailyOverrideRequest
-	8,  // 28: admin.AdminService.AddMaterial:input_type -> admin.AddMaterialRequest
-	9,  // 29: admin.AdminService.AddService:input_type -> admin.AddServiceRequest
-	10, // 30: admin.AdminService.UpdateMaterial:input_type -> admin.UpdateMaterialRequest
-	11, // 31: admin.AdminService.UpdateService:input_type -> admin.UpdateServiceRequest
-	14, // 32: admin.AdminService.DeleteMaterial:input_type -> admin.DeleteRequest
-	14, // 33: admin.AdminService.DeleteService:input_type -> admin.DeleteRequest
-	25, // 34: admin.AdminService.GetAdmins:input_type -> admin.EmptyRequest
-	25, // 35: admin.AdminService.GetPatients:input_type -> admin.EmptyRequest
-	25, // 36: admin.AdminService.GetDoctors:input_type -> admin.EmptyRequest
-	25, // 37: admin.AdminService.GetSpecs:input_type -> admin.EmptyRequest
-	20, // 38: admin.AdminService.UpdateDoctor:input_type -> admin.UpdateDoctorRequest
-	21, // 39: admin.AdminService.UpdateAdmin:input_type -> admin.UpdateAdminRequest
-	22, // 40: admin.AdminService.UpdatePatient:input_type -> admin.UpdatePatientRequest
-	14, // 41: admin.AdminService.DeleteUser:input_type -> admin.DeleteRequest
-	28, // 42: admin.AdminService.UpdateEmployeeLogin:input_type -> admin.UpdateUserLoginRequest
-	28, // 43: admin.AdminService.UpdatePatientLogin:input_type -> admin.UpdateUserLoginRequest
-	25, // 44: admin.AdminService.GetUnconfirmedVisitPayments:input_type -> admin.EmptyRequest
-	25, // 45: admin.AdminService.GetClinicScheduleGrid:input_type -> admin.EmptyRequest
-	36, // 46: admin.AdminService.UpdateVisitPayment:input_type -> admin.UpdateVisitPaymentRequest
-	5,  // 47: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 48: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 49: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
-	5,  // 50: admin.AdminService.AddClinicDailyOverride:output_type -> admin.DefaultResponse
-	5,  // 51: admin.AdminService.AddDoctorDailyOverride:output_type -> admin.DefaultResponse
-	5,  // 52: admin.AdminService.AddMaterial:output_type -> admin.DefaultResponse
-	5,  // 53: admin.AdminService.AddService:output_type -> admin.DefaultResponse
-	5,  // 54: admin.AdminService.UpdateMaterial:output_type -> admin.DefaultResponse
-	5,  // 55: admin.AdminService.UpdateService:output_type -> admin.DefaultResponse
-	5,  // 56: admin.AdminService.DeleteMaterial:output_type -> admin.DefaultResponse
-	5,  // 57: admin.AdminService.DeleteService:output_type -> admin.DefaultResponse
-	17, // 58: admin.AdminService.GetAdmins:output_type -> admin.GetAdminsResponse
-	24, // 59: admin.AdminService.GetPatients:output_type -> admin.GetPatientsResponse
-	19, // 60: admin.AdminService.GetDoctors:output_type -> admin.GetDoctorsResponse
-	27, // 61: admin.AdminService.GetSpecs:output_type -> admin.GetSpecsResponse
-	5,  // 62: admin.AdminService.UpdateDoctor:output_type -> admin.DefaultResponse
-	5,  // 63: admin.AdminService.UpdateAdmin:output_type -> admin.DefaultResponse
-	5,  // 64: admin.AdminService.UpdatePatient:output_type -> admin.DefaultResponse
-	5,  // 65: admin.AdminService.DeleteUser:output_type -> admin.DefaultResponse
-	5,  // 66: admin.AdminService.UpdateEmployeeLogin:output_type -> admin.DefaultResponse
-	5,  // 67: admin.AdminService.UpdatePatientLogin:output_type -> admin.DefaultResponse
-	30, // 68: admin.AdminService.GetUnconfirmedVisitPayments:output_type -> admin.UnconfirmedVisitPaymentsResponse
-	31, // 69: admin.AdminService.GetClinicScheduleGrid:output_type -> admin.AdminScheduleOverview
-	5,  // 70: admin.AdminService.UpdateVisitPayment:output_type -> admin.DefaultResponse
-	47, // [47:71] is the sub-list for method output_type
-	23, // [23:47] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	39, // 17: admin.UnconfirmedVisitPayment.materials_and_services:type_name -> admin.GetVisitMaterialsAndServices
+	29, // 18: admin.UnconfirmedVisitPaymentsResponse.visit_payments:type_name -> admin.UnconfirmedVisitPayment
+	32, // 19: admin.AdminScheduleOverview.days:type_name -> admin.ScheduleDay
+	33, // 20: admin.AdminScheduleOverview.appointments:type_name -> admin.AppointmentEntry
+	36, // 21: admin.AppointmentEntry.doctor:type_name -> admin.Person
+	36, // 22: admin.AppointmentEntry.patient:type_name -> admin.Person
+	34, // 23: admin.GetUnconfirmedAppointmentResponse.appointments:type_name -> admin.Appointment
+	37, // 24: admin.UpdateVisitPaymentRequest.payment:type_name -> admin.VisitPayment
+	39, // 25: admin.GetVisitMaterialsAndServicesResponse.visit_materials_services:type_name -> admin.GetVisitMaterialsAndServices
+	44, // 26: admin.UpdateAppointment.date:type_name -> google.protobuf.Timestamp
+	44, // 27: admin.UpdateAppointment.time:type_name -> google.protobuf.Timestamp
+	44, // 28: admin.UpdateAppointment.updated_at:type_name -> google.protobuf.Timestamp
+	42, // 29: admin.UpdateAppointmentRequest.appt:type_name -> admin.UpdateAppointment
+	1,  // 30: admin.AdminService.UpdateClinicWeeklySchedule:input_type -> admin.UpdateClinicWeeklyScheduleRequest
+	3,  // 31: admin.AdminService.AddDoctorWeeklySchedule:input_type -> admin.AddDoctorWeeklyScheduleRequest
+	4,  // 32: admin.AdminService.UpdateDoctorWeeklySchedule:input_type -> admin.UpdateDoctorWeeklyScheduleRequest
+	6,  // 33: admin.AdminService.AddClinicDailyOverride:input_type -> admin.AddClinicDailyOverrideRequest
+	7,  // 34: admin.AdminService.AddDoctorDailyOverride:input_type -> admin.AddDoctorDailyOverrideRequest
+	8,  // 35: admin.AdminService.AddMaterial:input_type -> admin.AddMaterialRequest
+	9,  // 36: admin.AdminService.AddService:input_type -> admin.AddServiceRequest
+	10, // 37: admin.AdminService.UpdateMaterial:input_type -> admin.UpdateMaterialRequest
+	11, // 38: admin.AdminService.UpdateService:input_type -> admin.UpdateServiceRequest
+	14, // 39: admin.AdminService.DeleteMaterial:input_type -> admin.DeleteRequest
+	14, // 40: admin.AdminService.DeleteService:input_type -> admin.DeleteRequest
+	25, // 41: admin.AdminService.GetAdmins:input_type -> admin.EmptyRequest
+	25, // 42: admin.AdminService.GetPatients:input_type -> admin.EmptyRequest
+	25, // 43: admin.AdminService.GetDoctors:input_type -> admin.EmptyRequest
+	25, // 44: admin.AdminService.GetSpecs:input_type -> admin.EmptyRequest
+	20, // 45: admin.AdminService.UpdateDoctor:input_type -> admin.UpdateDoctorRequest
+	21, // 46: admin.AdminService.UpdateAdmin:input_type -> admin.UpdateAdminRequest
+	22, // 47: admin.AdminService.UpdatePatient:input_type -> admin.UpdatePatientRequest
+	14, // 48: admin.AdminService.DeleteUser:input_type -> admin.DeleteRequest
+	28, // 49: admin.AdminService.UpdateEmployeeLogin:input_type -> admin.UpdateUserLoginRequest
+	28, // 50: admin.AdminService.UpdatePatientLogin:input_type -> admin.UpdateUserLoginRequest
+	25, // 51: admin.AdminService.GetUnconfirmedVisitPayments:input_type -> admin.EmptyRequest
+	25, // 52: admin.AdminService.GetClinicScheduleGrid:input_type -> admin.EmptyRequest
+	38, // 53: admin.AdminService.UpdateVisitPayment:input_type -> admin.UpdateVisitPaymentRequest
+	41, // 54: admin.AdminService.GetVisitMaterialsAndServices:input_type -> admin.GetByIdRequest
+	25, // 55: admin.AdminService.GetUnconfirmedAppointments:input_type -> admin.EmptyRequest
+	43, // 56: admin.AdminService.UpdateAppointment:input_type -> admin.UpdateAppointmentRequest
+	5,  // 57: admin.AdminService.UpdateClinicWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 58: admin.AdminService.AddDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 59: admin.AdminService.UpdateDoctorWeeklySchedule:output_type -> admin.DefaultResponse
+	5,  // 60: admin.AdminService.AddClinicDailyOverride:output_type -> admin.DefaultResponse
+	5,  // 61: admin.AdminService.AddDoctorDailyOverride:output_type -> admin.DefaultResponse
+	5,  // 62: admin.AdminService.AddMaterial:output_type -> admin.DefaultResponse
+	5,  // 63: admin.AdminService.AddService:output_type -> admin.DefaultResponse
+	5,  // 64: admin.AdminService.UpdateMaterial:output_type -> admin.DefaultResponse
+	5,  // 65: admin.AdminService.UpdateService:output_type -> admin.DefaultResponse
+	5,  // 66: admin.AdminService.DeleteMaterial:output_type -> admin.DefaultResponse
+	5,  // 67: admin.AdminService.DeleteService:output_type -> admin.DefaultResponse
+	17, // 68: admin.AdminService.GetAdmins:output_type -> admin.GetAdminsResponse
+	24, // 69: admin.AdminService.GetPatients:output_type -> admin.GetPatientsResponse
+	19, // 70: admin.AdminService.GetDoctors:output_type -> admin.GetDoctorsResponse
+	27, // 71: admin.AdminService.GetSpecs:output_type -> admin.GetSpecsResponse
+	5,  // 72: admin.AdminService.UpdateDoctor:output_type -> admin.DefaultResponse
+	5,  // 73: admin.AdminService.UpdateAdmin:output_type -> admin.DefaultResponse
+	5,  // 74: admin.AdminService.UpdatePatient:output_type -> admin.DefaultResponse
+	5,  // 75: admin.AdminService.DeleteUser:output_type -> admin.DefaultResponse
+	5,  // 76: admin.AdminService.UpdateEmployeeLogin:output_type -> admin.DefaultResponse
+	5,  // 77: admin.AdminService.UpdatePatientLogin:output_type -> admin.DefaultResponse
+	30, // 78: admin.AdminService.GetUnconfirmedVisitPayments:output_type -> admin.UnconfirmedVisitPaymentsResponse
+	31, // 79: admin.AdminService.GetClinicScheduleGrid:output_type -> admin.AdminScheduleOverview
+	5,  // 80: admin.AdminService.UpdateVisitPayment:output_type -> admin.DefaultResponse
+	40, // 81: admin.AdminService.GetVisitMaterialsAndServices:output_type -> admin.GetVisitMaterialsAndServicesResponse
+	35, // 82: admin.AdminService.GetUnconfirmedAppointments:output_type -> admin.GetUnconfirmedAppointmentResponse
+	5,  // 83: admin.AdminService.UpdateAppointment:output_type -> admin.DefaultResponse
+	57, // [57:84] is the sub-list for method output_type
+	30, // [30:57] is the sub-list for method input_type
+	30, // [30:30] is the sub-list for extension type_name
+	30, // [30:30] is the sub-list for extension extendee
+	0,  // [0:30] is the sub-list for field type_name
 }
 
 func init() { file_proto_admin_admin_proto_init() }
@@ -2845,7 +3387,7 @@ func file_proto_admin_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_admin_admin_proto_rawDesc), len(file_proto_admin_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   37,
+			NumMessages:   44,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

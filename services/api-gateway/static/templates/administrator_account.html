@@ -32,7 +32,7 @@
                                             <path d="M21 16.42v3.536a1 1 0 0 1-.93.998c-.437.03-.794.046-1.07.046-8.837 0-16-7.163-16-16 0-.276.015-.633.046-1.07A1 1 0 0 1 4.044 3H7.58a.5.5 0 0 1 .498.45c.023.23.044.413.064.552A13.901 13.901 0 0 0 9.35 8.003c.095.2.033.439-.147.567l-2.158 1.542a13.047 13.047 0 0 0 6.844 6.844l1.54-2.154a.462.462 0 0 1 .573-.149 13.901 13.901 0 0 0 4 1.205c.139.02.322.042.55.064a.5.5 0 0 1 .449.498z"/>
                                         </svg> </span> <div class="d-lg-block d-none">
                                     <div class="mb-1 small text-black">Связаться с нами</div>
-                                    <div class="mb-1 small text-black-50"></div>
+                                    <div class="mb-1 small text-black"></div>
                                     <div class="fw-bold">+7(423)226-54-96</div>
                                 </div> </a> <a class="align-items-center d-inline-flex gap-2 lh-1 text-decoration-none"> <span class="bg-primary lh-1 p-2 rounded text-white"> <svg viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em">
                                             <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
@@ -80,9 +80,9 @@
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="static/img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
-                                <div v-if="admin.role === 'superadmin'">
-                                    <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Статистика </a>
-                                </div>
+                             <!--   <div v-if="admin.role === 'superadmin'"> -->
+                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Статистика </a>
+                               <!--  </div> -->
                             </div>
                         </div>                         
                     </div>                     
@@ -101,7 +101,7 @@
                             <div class="card p-4">
                                 <ul class="nav nav-tabs mb-3 justify-content-center">
                                     <li class="nav-item" v-for="tab in tabs" :key="tab.id">
-                                        <button class="nav-link" :class="{ active: activeTab === tab.id }" @click="activeTab = tab.id">
+                                        <button class="nav-link fs-5" :class="{ active: activeTab === tab.id }" @click="activeTab = tab.id">
                                             {{ tab.label }}
 </button>
                                     </li>
@@ -146,34 +146,51 @@
                                         </div>
                                     </div>
                                     <!-- Неподтвержденные записи -->
-                                    <div v-if="activeTab === 'pending'" class="tab-pane active">
-                                        <h5 class="mb-3">Неподтверждённые записи</h5>
-                                        <ul class="list-group">
-                                            <li v-for="(entry, index) in pending" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <strong>{{ entry.date }} {{ entry.time }}</strong><br>
-                                                    {{ entry.name }}, {{ entry.age }} лет<br>
-                                                    {{ entry.phone }}
-                                                </div>
-                                                <button class="btn btn-success btn-sm" @click="confirmEntry(index)">Подтвердить</button>
-                                            </li>
-                                        </ul>
+                                    <div v-if="activeTab === 'pending'" class="tab-pane active text-black fs-5">
+                                        <h5 class="mb-3 text-black">Неподтверждённые записи</h5>
+                                        <div style="max-height: 500px; overflow-y: auto;">
+                                            <ul class="list-group">
+                                                <li v-for="(entry, index) in pending" :key="entry.id" class="list-group-item d-flex justify-content-between  bg-light flex-column flex-md-row">
+                                                    <div class="mb-2 mb-md-0">
+                                                        <strong>{{ entry.date }}, {{ entry.time }}</strong><br>
+                                                        {{ entry.name }}, {{ entry.birthDate }},  {{ entry.phone }}<br>
+                                                        <span>Врач: {{ entry.doctor }}</span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center mt-1 align-self-auto">
+                                                        <button class="btn btn-success btn-sm fs-5" @click="updateAppointmentStatus(entry)">Подтвердить</button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
+
                                     <!-- Завершенные приемы -->
-                                    <div v-if="activeTab === 'completed'" class="tab-pane active">
-                                        <h5 class="mb-3">Завершённые приёмы</h5>
-                                        <div v-if="completed.length === 0" class="text-muted">Нет завершённых приёмов</div>
-                                        <ul class="list-group" v-else>
-                                            <li v-for="(entry, index) in completed" :key="index" class="list-group-item fs-5">
-                                                <strong>{{ entry.created_at }}</strong><br>
-                                                Врач: {{ entry.doctor }}<br>
-                                                Пациент: {{ entry.patient }}<br>
-                                                <div class="d-flex align-items-center mt-1">
-                                                    <input type="number" v-model.number="entry.price" class="form-control form-control-sm w-auto me-2 fs-5" min="0" max="1000000"/>
-                                                    <button class="btn btn-success btn-sm fs-6" @click="confirmVisit(entry)">Подтвердить</button>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                    <div v-if="activeTab === 'completed'" class="tab-pane active" style="max-height: 650px; overflow-y: auto;">
+                                        <h5 class="mb-3 text-black">Завершённые приёмы</h5>
+                                        <div style="max-height: 500px; overflow-y: auto;">
+                                        <div v-if="completed.length === 0" class="text-black fs-6"></div>
+                                            <ul class="list-unstyled" v-else>
+                                                <li v-for="(entry, index) in completed" :key="index" class="mb-3 p-3 border fs-5 text-black bg-light">
+                                                    <strong>{{ entry.created_at }}</strong><br>
+                                                    Врач: {{ entry.doctor }}<br>
+                                                    Пациент: {{ entry.patient }}<br>
+                                                    <div v-if="entry.materials_and_services?.length" class="mt-2">
+                                                        <strong>Материалы и услуги:</strong>
+                                                        <div style="max-height: 120px; overflow-y: auto; border: 1px solid #ddd; border-radius: 4px;" class="ps-3 pe-2 py-1 mb-2">
+                                                            <ul class="mb-0">
+                                                                <li v-for="(item, idx) in entry.materials_and_services" :key="idx">
+                                                                    {{ item.Item }} — {{ item.Quantity }} шт.
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center mt-1">
+                                                        <input type="number" v-model.number="entry.price" class="form-control form-control-sm w-auto me-2 fs-5" min="0" max="1000000"/>
+                                                        <button class="btn btn-success btn-sm fs-5" @click="confirmVisit(entry)">Подтвердить</button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
 
                                 </div>
