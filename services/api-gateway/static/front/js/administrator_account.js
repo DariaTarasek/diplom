@@ -268,6 +268,29 @@ createApp({
             modal.show();
         },
 
+        async confirmVisit(entry) {
+            try {
+                const res = await fetch(`/api/completed-visits/${entry.visit_id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        price: entry.price,
+                        status: 'confirmed'
+                    })
+                });
+
+                if (!res.ok) throw new Error('Ошибка при подтверждении');
+
+                alert('Приём подтверждён');
+                await this.fetchCompletedVisits(); // Обновить данные
+            } catch (err) {
+                console.error(err);
+                alert('Не удалось подтвердить приём');
+            }
+        },
+
         resetModalData() {
             this.selectedSpecialization = null;
             this.selectedDoctorId = null;
@@ -299,6 +322,60 @@ createApp({
             const modal = new bootstrap.Modal(document.getElementById('manageAppointmentModal'));
             modal.show();
         },
+
+        async fetchUnconfirmedAppointments() {
+            try {
+                const res = await fetch('/api/unconfirmed-appointments');
+                const rawData = await res.json();
+
+                if (!Array.isArray(rawData)) {
+                    this.pending = [];
+                    return;
+                }
+
+                this.pending = rawData.map(entry => {
+                    return {
+                        id: entry.id,
+                        date: entry.date,
+                        time: entry.time,
+                        name: `${entry.patient_second_name} ${entry.patient_first_name} ${entry.patient_surname}`,
+                        birthDate: entry.patient_birth_date,
+                        phone: `+${entry.phone_number}`, // Уже с "7" впереди
+                        doctor: entry.doctor // Строка — ок
+                    };
+                });
+            } catch (err) {
+                console.error('Ошибка при загрузке неподтверждённых записей:', err);
+                this.pending = [];
+            }
+        },
+
+        async updateAppointmentStatus(entry) {
+            const payload = {
+                id: entry.id,
+                date: entry.date,
+                time: entry.time,
+                status: 'confirmed',
+                updated_at: new Date().toISOString()
+            };
+            try {
+                const res = await fetch(`/api/unconfirmed-appointments/${entry.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) throw new Error('Ошибка при подтверждении записи');
+                alert('Запись подтверждена!');
+                await this.fetchUnconfirmedAppointments();
+            } catch (err) {
+                console.error('Ошибка:', err);
+                alert('Не удалось обновить статус записи');
+            }
+        },
+
 
         showTransferModal() {
             if (!this.selectedAppt) return;
@@ -404,6 +481,7 @@ createApp({
     mounted() {
         this.fetchData();
         this.fetchCompletedVisits();
+        this.fetchUnconfirmedAppointments();
         document.addEventListener('click', this.handleClickOutside);
     }
 }).mount('#app');

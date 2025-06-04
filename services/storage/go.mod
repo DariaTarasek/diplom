@@ -2,8 +2,6 @@ module github.com/DariaTarasek/diplom/services/storage
 
 go 1.23.0
 
-toolchain go1.23.9
-
 require (
 	github.com/Masterminds/squirrel v1.5.4
 	github.com/golang-migrate/migrate/v4 v4.18.3
