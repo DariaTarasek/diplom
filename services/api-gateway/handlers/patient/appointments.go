@@ -12,6 +12,15 @@ import (
 	"time"
 )
 
+// @Summary Получить доступные слоты для записи к врачу
+// @Tags Запись
+// @Produce json
+// @Param doctorId path int true "ID врача"
+// @Success 200 {array} model.ScheduleEntry
+// @Failure 400 {object} gin.H "Некорректный ID"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/appointment-doctor-schedule/{doctorId} [get]
 func (h *PatientHandler) getAppointmentSlots(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("doctorId"))
 	if err != nil {
@@ -36,6 +45,16 @@ func (h *PatientHandler) getAppointmentSlots(c *gin.Context) {
 	c.JSON(http.StatusOK, scheduleSlots)
 }
 
+// @Summary Добавить новую запись к врачу
+// @Tags Запись
+// @Accept json
+// @Produce json
+// @Param appointment body model.Appointment true "Данные записи"
+// @Success 200 {object} gin.H "Запись добавлена"
+// @Failure 400 {object} gin.H "Неверные входные данные"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Ошибка при создании записи"
+// @Router /api/appointments [post]
 func (h *PatientHandler) addAppointment(c *gin.Context) {
 	var req model.Appointment
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -81,6 +100,15 @@ func (h *PatientHandler) addAppointment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Вы успешно записаны на прием!"})
 }
 
+// getUpcomingAppointments godoc
+// @Summary Получить список предстоящих записей пациента
+// @Tags Запись
+// @Produce json
+// @Success 200 {array} model.UpcomingAppointment
+// @Failure 401 {object} gin.H "Токен не найден"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Ошибка при получении данных"
+// @Router /api/patient/upcoming [get]
 func (h *PatientHandler) getUpcomingAppointments(c *gin.Context) {
 	token, err := c.Cookie("access_token")
 	if err != nil {
@@ -107,6 +135,17 @@ func (h *PatientHandler) getUpcomingAppointments(c *gin.Context) {
 	c.JSON(http.StatusOK, upcoming)
 }
 
+// UpdateAppointment godoc
+// @Summary Обновить данные записи (перенос)
+// @Tags Запись
+// @Accept json
+// @Produce json
+// @Param appointment body model.Appointment true "Обновленные данные записи"
+// @Success 200 {object} gin.H "Запись успешно обновлена"
+// @Failure 400 {object} gin.H "Неверные входные данные"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Ошибка при обновлении записи"
+// @Router /api/appointments/transfer [put]
 func (h *PatientHandler) UpdateAppointment(c *gin.Context) {
 	var req model.Appointment
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -139,6 +178,16 @@ func (h *PatientHandler) UpdateAppointment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Запись успешно обновлена"})
 }
 
+// CancelAppointment godoc
+// @Summary Отменить запись
+// @Tags Запись
+// @Produce json
+// @Param id path int true "ID записи"
+// @Success 200 {object} gin.H "Запись отменена"
+// @Failure 400 {object} gin.H "Некорректный ID"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Ошибка при отмене записи"
+// @Router /api/appointments/cancel/{id} [get]
 func (h *PatientHandler) CancelAppointment(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

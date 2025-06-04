@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/clients"
+	_ "github.com/DariaTarasek/diplom/services/api-gateway/docs"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/admin"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/auth"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/doctor"
@@ -11,8 +12,16 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/middleware"
 	"github.com/DariaTarasek/diplom/services/api-gateway/perm"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 )
+
+// @title           Примастом API-Gateway
+// @version         1.0
+// @description     ПО для стоматологической клиники
+// @host            localhost:8080
+// @BasePath        /
 
 func main() {
 	r := gin.Default()
@@ -23,6 +32,8 @@ func main() {
 	accessMiddleware := middleware.MakeAccessMiddleware(authClient)
 	// Раздача статики (js/css/images)
 	r.Static("/static", "./static/front")
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Главная страница для пациента
 	r.GET("/", func(c *gin.Context) {
@@ -80,7 +91,6 @@ func main() {
 
 		"doctor_account.html",       // СТРАНИЦА ВРАЧА!
 		"doctors_consultation.html", // СТРАНИЦА ВРАЧА!
-		"administrator_account.html",      // СТРАНИЦА АДМИНА!
 
 	}
 

@@ -1,0 +1,480 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "ПО для стоматологической клиники",
+        "title": "Примастом API-Gateway",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/appointment-doctor-schedule/{doctorId}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Запись"
+                ],
+                "summary": "Получить доступные слоты для записи к врачу",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID врача",
+                        "name": "doctorId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ScheduleEntry"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректный ID",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "403": {
+                        "description": "Недостаточно прав",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/appointments": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Запись"
+                ],
+                "summary": "Добавить новую запись к врачу",
+                "parameters": [
+                    {
+                        "description": "Данные записи",
+                        "name": "appointment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Appointment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запись добавлена",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверные входные данные",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "403": {
+                        "description": "Недостаточно прав",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка при создании записи",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/appointments/cancel/{id}": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Запись"
+                ],
+                "summary": "Отменить запись",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID записи",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запись отменена",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректный ID",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "403": {
+                        "description": "Недостаточно прав",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка при отмене записи",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/appointments/transfer": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Запись"
+                ],
+                "summary": "Обновить данные записи (перенос)",
+                "parameters": [
+                    {
+                        "description": "Обновленные данные записи",
+                        "name": "appointment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Appointment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запись успешно обновлена",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверные входные данные",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "403": {
+                        "description": "Недостаточно прав",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка при обновлении записи",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/patient/upcoming": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Запись"
+                ],
+                "summary": "Получить список предстоящих записей пациента",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.UpcomingAppointment"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Токен не найден",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "403": {
+                        "description": "Недостаточно прав",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка при получении данных",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/statistics": {
+            "get": {
+                "description": "Возвращает агрегированную информацию: общее число пациентов, визитов, топ-услуги, среднюю загруженность и выручку по врачам, распределение по возрастным группам и др.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Статистика"
+                ],
+                "summary": "Получить общую статистику по клинике",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.AllStats"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "gin.H": {
+            "type": "object",
+            "additionalProperties": {}
+        },
+        "model.AgeGroupStat": {
+            "type": "object",
+            "properties": {
+                "ageGroup": {
+                    "type": "string"
+                },
+                "percent": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.AllStats": {
+            "type": "object",
+            "properties": {
+                "ageGroupStat": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.AgeGroupStat"
+                    }
+                },
+                "avgVisitPerPatient": {
+                    "type": "number"
+                },
+                "clinicAvgCheck": {
+                    "type": "number"
+                },
+                "doctorAvgVisit": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DoctorAvgVisit"
+                    }
+                },
+                "doctorCheckStat": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DoctorCheckStat"
+                    }
+                },
+                "doctorUniquePatients": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DoctorUniquePatients"
+                    }
+                },
+                "monthlyIncome": {
+                    "type": "number"
+                },
+                "newPatientsThisMonth": {
+                    "type": "integer"
+                },
+                "topServices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.TopService"
+                    }
+                },
+                "totalIncome": {
+                    "type": "number"
+                },
+                "totalPatients": {
+                    "type": "integer"
+                },
+                "totalVisits": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Appointment": {
+            "type": "object",
+            "properties": {
+                "birthDate": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "doctor_id": {
+                    "type": "integer"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "secondName": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.DoctorAvgVisit": {
+            "type": "object",
+            "properties": {
+                "avgWeeklyVisits": {
+                    "type": "number"
+                },
+                "doctor": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.DoctorCheckStat": {
+            "type": "object",
+            "properties": {
+                "avgCheck": {
+                    "type": "number"
+                },
+                "doctor": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.DoctorUniquePatients": {
+            "type": "object",
+            "properties": {
+                "doctorId": {
+                    "type": "string"
+                },
+                "uniquePatients": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.ScheduleEntry": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "slots": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "model.TopService": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UpcomingAppointment": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "doctor": {
+                    "type": "string"
+                },
+                "doctorId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "specialty": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

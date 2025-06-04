@@ -1,0 +1,315 @@
+basePath: /
+definitions:
+  gin.H:
+    additionalProperties: {}
+    type: object
+  model.AgeGroupStat:
+    properties:
+      ageGroup:
+        type: string
+      percent:
+        type: number
+    type: object
+  model.AllStats:
+    properties:
+      ageGroupStat:
+        items:
+          $ref: '#/definitions/model.AgeGroupStat'
+        type: array
+      avgVisitPerPatient:
+        type: number
+      clinicAvgCheck:
+        type: number
+      doctorAvgVisit:
+        items:
+          $ref: '#/definitions/model.DoctorAvgVisit'
+        type: array
+      doctorCheckStat:
+        items:
+          $ref: '#/definitions/model.DoctorCheckStat'
+        type: array
+      doctorUniquePatients:
+        items:
+          $ref: '#/definitions/model.DoctorUniquePatients'
+        type: array
+      monthlyIncome:
+        type: number
+      newPatientsThisMonth:
+        type: integer
+      topServices:
+        items:
+          $ref: '#/definitions/model.TopService'
+        type: array
+      totalIncome:
+        type: number
+      totalPatients:
+        type: integer
+      totalVisits:
+        type: integer
+    type: object
+  model.Appointment:
+    properties:
+      birthDate:
+        type: string
+      createdAt:
+        type: string
+      date:
+        type: string
+      doctor_id:
+        type: integer
+      firstName:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      phone:
+        type: string
+      secondName:
+        type: string
+      status:
+        type: string
+      surname:
+        type: string
+      time:
+        type: string
+      updatedAt:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.DoctorAvgVisit:
+    properties:
+      avgWeeklyVisits:
+        type: number
+      doctor:
+        type: string
+    type: object
+  model.DoctorCheckStat:
+    properties:
+      avgCheck:
+        type: number
+      doctor:
+        type: string
+    type: object
+  model.DoctorUniquePatients:
+    properties:
+      doctorId:
+        type: string
+      uniquePatients:
+        type: integer
+    type: object
+  model.ScheduleEntry:
+    properties:
+      label:
+        type: string
+      slots:
+        items:
+          type: string
+        type: array
+    type: object
+  model.TopService:
+    properties:
+      count:
+        type: integer
+      name:
+        type: string
+    type: object
+  model.UpcomingAppointment:
+    properties:
+      date:
+        type: string
+      doctor:
+        type: string
+      doctorId:
+        type: integer
+      id:
+        type: integer
+      specialty:
+        type: string
+      time:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: ПО для стоматологической клиники
+  title: Примастом API-Gateway
+  version: "1.0"
+paths:
+  /api/appointment-doctor-schedule/{doctorId}:
+    get:
+      parameters:
+      - description: ID врача
+        in: path
+        name: doctorId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.ScheduleEntry'
+            type: array
+        "400":
+          description: Некорректный ID
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить доступные слоты для записи к врачу
+      tags:
+      - Запись
+  /api/appointments:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные записи
+        in: body
+        name: appointment
+        required: true
+        schema:
+          $ref: '#/definitions/model.Appointment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запись добавлена
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверные входные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Ошибка при создании записи
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Добавить новую запись к врачу
+      tags:
+      - Запись
+  /api/appointments/cancel/{id}:
+    delete:
+      parameters:
+      - description: ID записи
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запись отменена
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Некорректный ID
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Ошибка при отмене записи
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Отменить запись
+      tags:
+      - Запись
+  /api/appointments/transfer:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Обновленные данные записи
+        in: body
+        name: appointment
+        required: true
+        schema:
+          $ref: '#/definitions/model.Appointment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запись успешно обновлена
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверные входные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Ошибка при обновлении записи
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить данные записи (перенос)
+      tags:
+      - Запись
+  /api/patient/upcoming:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.UpcomingAppointment'
+            type: array
+        "401":
+          description: Токен не найден
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Ошибка при получении данных
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить список предстоящих записей пациента
+      tags:
+      - Запись
+  /api/statistics:
+    get:
+      description: 'Возвращает агрегированную информацию: общее число пациентов, визитов,
+        топ-услуги, среднюю загруженность и выручку по врачам, распределение по возрастным
+        группам и др.'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.AllStats'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить общую статистику по клинике
+      tags:
+      - Статистика
+swagger: "2.0"

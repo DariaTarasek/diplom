@@ -7,6 +7,14 @@ import (
 	"net/http"
 )
 
+// GetAllStats godoc
+// @Summary      Получить общую статистику по клинике
+// @Description  Возвращает агрегированную информацию: общее число пациентов, визитов, топ-услуги, среднюю загруженность и выручку по врачам, распределение по возрастным группам и др.
+// @Tags         Статистика
+// @Produce      json
+// @Success      200  {object}  model.AllStats
+// @Failure      500  {object}  map[string]string
+// @Router       /api/statistics [get]
 func (h *Handler) GetAllStats(c *gin.Context) {
 	items, err := h.StatisticsClient.Client.GetAllStats(c.Request.Context(), &statspb.EmptyRequest{})
 	if err != nil {
