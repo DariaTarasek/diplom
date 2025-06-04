@@ -29,6 +29,28 @@ func (s *Store) GetVisits(ctx context.Context) ([]model.Visit, error) {
 	return visits, nil
 }
 
+func (s *Store) GetVisitsByPatientID(ctx context.Context, patientID model.UserID) ([]model.Visit, error) {
+	query, args, err := s.builder.
+		Select("*").
+		From("appointment_visits").
+		Where(squirrel.Eq{"patient_id": patientID}).
+		ToSql()
+	if err != nil {
+		return nil, fmt.Errorf("не удалось сформировать запрос для получения списка приемов: %w", err)
+	}
+
+	dbCtx, cancel := context.WithTimeout(ctx, defaultTimeout)
+	defer cancel()
+
+	var visits []model.Visit
+	err = s.db.SelectContext(dbCtx, &visits, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось выполнить запрос для получения списка приемов: %w", err)
+	}
+
+	return visits, nil
+}
+
 func (s *Store) GetVisitByID(ctx context.Context, id model.VisitID) (model.Visit, error) {
 	query, args, err := s.builder.
 		Select("*").

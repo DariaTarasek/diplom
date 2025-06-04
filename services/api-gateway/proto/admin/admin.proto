@@ -219,6 +219,8 @@ message UnconfirmedVisitPaymentsResponse {
   repeated UnconfirmedVisitPayment visit_payments = 1;
 }
 
+
+
 message AdminScheduleOverview {
   repeated ScheduleDay days = 1;
   repeated string time_slots = 2;

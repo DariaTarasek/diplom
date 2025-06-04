@@ -87,3 +87,23 @@ func (s *Server) CancelAppointment(ctx context.Context, request *pb.GetByIDReque
 	}
 	return &pb.DefaultResponse{}, nil
 }
+
+func (s *Server) GetHistoryVisits(ctx context.Context, request *pb.GetHistoryVisitsRequest) (*pb.GetHistoryVisitsResponse, error) {
+	resp, err := s.Service.GetHistoryVisits(ctx, request.Token)
+	if err != nil {
+		return nil, err
+	}
+	historyVisits := make([]*pb.HistoryVisit, 0, len(resp))
+	for _, item := range resp {
+		historyVisit := &pb.HistoryVisit{
+			Id:        int32(item.ID),
+			Date:      item.Date,
+			DoctorId:  int32(item.DoctorID),
+			Doctor:    item.Doctor,
+			Diagnose:  item.Diagnose,
+			Treatment: item.Treatment,
+		}
+		historyVisits = append(historyVisits, historyVisit)
+	}
+	return &pb.GetHistoryVisitsResponse{Visits: historyVisits}, nil
+}

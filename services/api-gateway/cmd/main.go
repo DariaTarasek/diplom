@@ -80,6 +80,8 @@ func main() {
 
 		"doctor_account.html",       // СТРАНИЦА ВРАЧА!
 		"doctors_consultation.html", // СТРАНИЦА ВРАЧА!
+		"administrator_account.html",      // СТРАНИЦА АДМИНА!
+
 	}
 
 	for _, page := range htmlPages {

@@ -368,6 +368,7 @@ message GetDoctorOverridesResponse {
   repeated DoctorOverride override = 1;
 }
 
+
 message AddMaterialRequest {
   string name = 1;
   int32 price = 2;
@@ -654,12 +655,12 @@ service StorageService {
   rpc GetRolePermission(GetRolePermissionRequest) returns (DefaultResponse);
   rpc GetDoctorsBySpecID(GetDoctorBySpecIDRequest) returns (GetDoctorsResponse);
   rpc GetAppointmentsByDoctorID(GetAppointmentsByDoctorIDRequest) returns (GetAppointmentsByDoctorIDResponse);
-  rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse);
   rpc AddAppointment(AddAppointmentRequest) returns (DefaultResponse);
   rpc GetAppointmentsByUserID(GetByIDRequest) returns (GetAppointmentsByUserIDResponse);
   rpc GetSpecsByDoctorID(GetByIDRequest) returns (GetSpecsByDoctorIDResponse);
   rpc GetDoctorByID(GetByIDRequest) returns (GetDoctorByIDResponse);
   rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
+  rpc GetPatientByID(GetByIDRequest) returns (GetPatientByIDResponse);
   rpc GetAppointmentByID(GetByIDRequest) returns (GetAppointmentByIDResponse);
   rpc AddClinicDailyOverride(AddClinicDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня клиники
   rpc AddDoctorDailyOverride(AddDoctorDailyOverrideRequest) returns (DefaultResponse); // добавление переопределения дня врача
@@ -697,6 +698,9 @@ service StorageService {
   rpc CalculateVisitTotal(CalculateVisitTotalRequest) returns (CalculateVisitTotalResponse);
   rpc AddOrUpdateVisitPayment(AddOrUpdateVisitPaymentRequest) returns (DefaultResponse);
   rpc GetVisitsPayments(EmptyRequest) returns (GetVisitsPaymentsResponse);
+
+  // проведение приема
+
   rpc GetClinicOverrides(EmptyRequest) returns (GetClinicOverridesResponse);
   rpc GetAppointments(EmptyRequest) returns (GetAppointmentsResponse);
 

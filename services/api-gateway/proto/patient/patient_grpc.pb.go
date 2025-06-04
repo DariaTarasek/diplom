@@ -24,6 +24,7 @@ const (
 	PatientService_GetUpcomingAppointments_FullMethodName = "/patient.PatientService/GetUpcomingAppointments"
 	PatientService_UpdateAppointment_FullMethodName       = "/patient.PatientService/UpdateAppointment"
 	PatientService_CancelAppointment_FullMethodName       = "/patient.PatientService/CancelAppointment"
+	PatientService_GetHistoryVisits_FullMethodName        = "/patient.PatientService/GetHistoryVisits"
 )
 
 // PatientServiceClient is the client API for PatientService service.
@@ -35,6 +36,7 @@ type PatientServiceClient interface {
 	GetUpcomingAppointments(ctx context.Context, in *GetUpcomingAppointmentsRequest, opts ...grpc.CallOption) (*GetUpcomingAppointmentsResponse, error)
 	UpdateAppointment(ctx context.Context, in *UpdateAppointmentRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	CancelAppointment(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	GetHistoryVisits(ctx context.Context, in *GetHistoryVisitsRequest, opts ...grpc.CallOption) (*GetHistoryVisitsResponse, error)
 }
 
 type patientServiceClient struct {
@@ -95,6 +97,16 @@ func (c *patientServiceClient) CancelAppointment(ctx context.Context, in *GetByI
 	return out, nil
 }
 
+func (c *patientServiceClient) GetHistoryVisits(ctx context.Context, in *GetHistoryVisitsRequest, opts ...grpc.CallOption) (*GetHistoryVisitsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetHistoryVisitsResponse)
+	err := c.cc.Invoke(ctx, PatientService_GetHistoryVisits_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PatientServiceServer is the server API for PatientService service.
 // All implementations must embed UnimplementedPatientServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type PatientServiceServer interface {
 	GetUpcomingAppointments(context.Context, *GetUpcomingAppointmentsRequest) (*GetUpcomingAppointmentsResponse, error)
 	UpdateAppointment(context.Context, *UpdateAppointmentRequest) (*DefaultResponse, error)
 	CancelAppointment(context.Context, *GetByIDRequest) (*DefaultResponse, error)
+	GetHistoryVisits(context.Context, *GetHistoryVisitsRequest) (*GetHistoryVisitsResponse, error)
 	mustEmbedUnimplementedPatientServiceServer()
 }
 
@@ -128,6 +141,9 @@ func (UnimplementedPatientServiceServer) UpdateAppointment(context.Context, *Upd
 }
 func (UnimplementedPatientServiceServer) CancelAppointment(context.Context, *GetByIDRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelAppointment not implemented")
+}
+func (UnimplementedPatientServiceServer) GetHistoryVisits(context.Context, *GetHistoryVisitsRequest) (*GetHistoryVisitsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHistoryVisits not implemented")
 }
 func (UnimplementedPatientServiceServer) mustEmbedUnimplementedPatientServiceServer() {}
 func (UnimplementedPatientServiceServer) testEmbeddedByValue()                        {}
@@ -240,6 +256,24 @@ func _PatientService_CancelAppointment_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PatientService_GetHistoryVisits_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHistoryVisitsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PatientServiceServer).GetHistoryVisits(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PatientService_GetHistoryVisits_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PatientServiceServer).GetHistoryVisits(ctx, req.(*GetHistoryVisitsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PatientService_ServiceDesc is the grpc.ServiceDesc for PatientService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +300,10 @@ var PatientService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelAppointment",
 			Handler:    _PatientService_CancelAppointment_Handler,
+		},
+		{
+			MethodName: "GetHistoryVisits",
+			Handler:    _PatientService_GetHistoryVisits_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

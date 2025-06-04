@@ -104,19 +104,21 @@
                                     <div v-if="activeTab === 'history'" class="tab-pane active">
                                         <div class="section-title">История посещений</div>
                                         <div class="table-responsive">
-                                            <table class="table table-striped align-middle">
-                                                <thead>
+                                            <table class="table table-striped align-middle table-bordered">
+                                                <thead class="text-center">
                                                     <tr>
                                                         <th>Дата</th>
                                                         <th>Врач</th>
-                                                        <th>Комментарий</th>
+                                                        <th>Диагноз</th>
+                                                        <th>Лечение</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="(item, index) in history" :key="index">
                                                         <td>{{ item.date }}</td>
                                                         <td>{{ item.doctor }}</td>
-                                                        <td>{{ item.notes }}</td>
+                                                        <td>{{ item.diagnose }}</td>
+                                                        <td>{{ item.treatment }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
