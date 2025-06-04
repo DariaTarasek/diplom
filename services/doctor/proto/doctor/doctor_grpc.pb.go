@@ -32,6 +32,8 @@ const (
 	DoctorService_AddVisitPayment_FullMethodName             = "/doctor.DoctorService/AddVisitPayment"
 	DoctorService_UpdateVisitPayment_FullMethodName          = "/doctor.DoctorService/UpdateVisitPayment"
 	DoctorService_AddConsultation_FullMethodName             = "/doctor.DoctorService/AddConsultation"
+	DoctorService_GetDocumentsByPatientID_FullMethodName     = "/doctor.DoctorService/GetDocumentsByPatientID"
+	DoctorService_DownloadDocument_FullMethodName            = "/doctor.DoctorService/DownloadDocument"
 )
 
 // DoctorServiceClient is the client API for DoctorService service.
@@ -51,6 +53,8 @@ type DoctorServiceClient interface {
 	AddVisitPayment(ctx context.Context, in *VisitPaymentRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	UpdateVisitPayment(ctx context.Context, in *VisitPaymentRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	AddConsultation(ctx context.Context, in *AddConsultationRequest, opts ...grpc.CallOption) (*AddConsultationResponse, error)
+	GetDocumentsByPatientID(ctx context.Context, in *GetDocumentsRequest, opts ...grpc.CallOption) (*GetDocumentsResponse, error)
+	DownloadDocument(ctx context.Context, in *DownloadDocumentRequest, opts ...grpc.CallOption) (*DownloadDocumentResponse, error)
 }
 
 type doctorServiceClient struct {
@@ -191,6 +195,26 @@ func (c *doctorServiceClient) AddConsultation(ctx context.Context, in *AddConsul
 	return out, nil
 }
 
+func (c *doctorServiceClient) GetDocumentsByPatientID(ctx context.Context, in *GetDocumentsRequest, opts ...grpc.CallOption) (*GetDocumentsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDocumentsResponse)
+	err := c.cc.Invoke(ctx, DoctorService_GetDocumentsByPatientID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) DownloadDocument(ctx context.Context, in *DownloadDocumentRequest, opts ...grpc.CallOption) (*DownloadDocumentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DownloadDocumentResponse)
+	err := c.cc.Invoke(ctx, DoctorService_DownloadDocument_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DoctorServiceServer is the server API for DoctorService service.
 // All implementations must embed UnimplementedDoctorServiceServer
 // for forward compatibility.
@@ -208,6 +232,8 @@ type DoctorServiceServer interface {
 	AddVisitPayment(context.Context, *VisitPaymentRequest) (*DefaultResponse, error)
 	UpdateVisitPayment(context.Context, *VisitPaymentRequest) (*DefaultResponse, error)
 	AddConsultation(context.Context, *AddConsultationRequest) (*AddConsultationResponse, error)
+	GetDocumentsByPatientID(context.Context, *GetDocumentsRequest) (*GetDocumentsResponse, error)
+	DownloadDocument(context.Context, *DownloadDocumentRequest) (*DownloadDocumentResponse, error)
 	mustEmbedUnimplementedDoctorServiceServer()
 }
 
@@ -256,6 +282,12 @@ func (UnimplementedDoctorServiceServer) UpdateVisitPayment(context.Context, *Vis
 }
 func (UnimplementedDoctorServiceServer) AddConsultation(context.Context, *AddConsultationRequest) (*AddConsultationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddConsultation not implemented")
+}
+func (UnimplementedDoctorServiceServer) GetDocumentsByPatientID(context.Context, *GetDocumentsRequest) (*GetDocumentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDocumentsByPatientID not implemented")
+}
+func (UnimplementedDoctorServiceServer) DownloadDocument(context.Context, *DownloadDocumentRequest) (*DownloadDocumentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DownloadDocument not implemented")
 }
 func (UnimplementedDoctorServiceServer) mustEmbedUnimplementedDoctorServiceServer() {}
 func (UnimplementedDoctorServiceServer) testEmbeddedByValue()                       {}
@@ -512,6 +544,42 @@ func _DoctorService_AddConsultation_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DoctorService_GetDocumentsByPatientID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDocumentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).GetDocumentsByPatientID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_GetDocumentsByPatientID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).GetDocumentsByPatientID(ctx, req.(*GetDocumentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_DownloadDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).DownloadDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DoctorService_DownloadDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).DownloadDocument(ctx, req.(*DownloadDocumentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DoctorService_ServiceDesc is the grpc.ServiceDesc for DoctorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -570,6 +638,14 @@ var DoctorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddConsultation",
 			Handler:    _DoctorService_AddConsultation_Handler,
+		},
+		{
+			MethodName: "GetDocumentsByPatientID",
+			Handler:    _DoctorService_GetDocumentsByPatientID_Handler,
+		},
+		{
+			MethodName: "DownloadDocument",
+			Handler:    _DoctorService_DownloadDocument_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1164,6 +1164,438 @@ func (x *GetPatientResponse) GetPatient() *PatientData {
 	return nil
 }
 
+type Admin struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	SecondName    string                 `protobuf:"bytes,3,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,5,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email         string                 `protobuf:"bytes,6,opt,name=email,proto3" json:"email,omitempty"`
+	Gender        string                 `protobuf:"bytes,7,opt,name=gender,proto3" json:"gender,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Admin) Reset() {
+	*x = Admin{}
+	mi := &file_proto_auth_auth_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Admin) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Admin) ProtoMessage() {}
+
+func (x *Admin) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Admin.ProtoReflect.Descriptor instead.
+func (*Admin) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *Admin) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *Admin) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *Admin) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *Admin) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *Admin) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *Admin) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *Admin) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+type AdminWithRole struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	SecondName    string                 `protobuf:"bytes,3,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,5,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email         string                 `protobuf:"bytes,6,opt,name=email,proto3" json:"email,omitempty"`
+	Gender        string                 `protobuf:"bytes,7,opt,name=gender,proto3" json:"gender,omitempty"`
+	Role          string                 `protobuf:"bytes,8,opt,name=role,proto3" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AdminWithRole) Reset() {
+	*x = AdminWithRole{}
+	mi := &file_proto_auth_auth_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdminWithRole) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminWithRole) ProtoMessage() {}
+
+func (x *AdminWithRole) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminWithRole.ProtoReflect.Descriptor instead.
+func (*AdminWithRole) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *AdminWithRole) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *AdminWithRole) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *AdminWithRole) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *AdminWithRole) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *AdminWithRole) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *AdminWithRole) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *AdminWithRole) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+func (x *AdminWithRole) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+type Doctor struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	SecondName    string                 `protobuf:"bytes,3,opt,name=second_name,json=secondName,proto3" json:"second_name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,5,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email         string                 `protobuf:"bytes,6,opt,name=email,proto3" json:"email,omitempty"`
+	Education     string                 `protobuf:"bytes,7,opt,name=education,proto3" json:"education,omitempty"`
+	Experience    int32                  `protobuf:"varint,8,opt,name=experience,proto3" json:"experience,omitempty"`
+	Gender        string                 `protobuf:"bytes,9,opt,name=gender,proto3" json:"gender,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Doctor) Reset() {
+	*x = Doctor{}
+	mi := &file_proto_auth_auth_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Doctor) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Doctor) ProtoMessage() {}
+
+func (x *Doctor) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Doctor.ProtoReflect.Descriptor instead.
+func (*Doctor) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *Doctor) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *Doctor) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *Doctor) GetSecondName() string {
+	if x != nil {
+		return x.SecondName
+	}
+	return ""
+}
+
+func (x *Doctor) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *Doctor) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *Doctor) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *Doctor) GetEducation() string {
+	if x != nil {
+		return x.Education
+	}
+	return ""
+}
+
+func (x *Doctor) GetExperience() int32 {
+	if x != nil {
+		return x.Experience
+	}
+	return 0
+}
+
+func (x *Doctor) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+type GetDoctorResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Doctor        *Doctor                `protobuf:"bytes,1,opt,name=doctor,proto3" json:"doctor,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDoctorResponse) Reset() {
+	*x = GetDoctorResponse{}
+	mi := &file_proto_auth_auth_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDoctorResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDoctorResponse) ProtoMessage() {}
+
+func (x *GetDoctorResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDoctorResponse.ProtoReflect.Descriptor instead.
+func (*GetDoctorResponse) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetDoctorResponse) GetDoctor() *Doctor {
+	if x != nil {
+		return x.Doctor
+	}
+	return nil
+}
+
+type GetAdminWithRoleResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Admin         *AdminWithRole         `protobuf:"bytes,1,opt,name=admin,proto3" json:"admin,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAdminWithRoleResponse) Reset() {
+	*x = GetAdminWithRoleResponse{}
+	mi := &file_proto_auth_auth_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAdminWithRoleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAdminWithRoleResponse) ProtoMessage() {}
+
+func (x *GetAdminWithRoleResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAdminWithRoleResponse.ProtoReflect.Descriptor instead.
+func (*GetAdminWithRoleResponse) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *GetAdminWithRoleResponse) GetAdmin() *AdminWithRole {
+	if x != nil {
+		return x.Admin
+	}
+	return nil
+}
+
+type GetProfileRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetProfileRequest) Reset() {
+	*x = GetProfileRequest{}
+	mi := &file_proto_auth_auth_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetProfileRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProfileRequest) ProtoMessage() {}
+
+func (x *GetProfileRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_auth_auth_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProfileRequest.ProtoReflect.Descriptor instead.
+func (*GetProfileRequest) Descriptor() ([]byte, []int) {
+	return file_proto_auth_auth_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *GetProfileRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
 var File_proto_auth_auth_proto protoreflect.FileDescriptor
 
 const file_proto_auth_auth_proto_rawDesc = "" +
@@ -1245,7 +1677,48 @@ const file_proto_auth_auth_proto_rawDesc = "" +
 	"\x11GetUserIDResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\"A\n" +
 	"\x12GetPatientResponse\x12+\n" +
-	"\apatient\x18\x01 \x01(\v2\x11.auth.PatientDataR\apatient2\xbf\x06\n" +
+	"\apatient\x18\x01 \x01(\v2\x11.auth.PatientDataR\apatient\"\xcb\x01\n" +
+	"\x05Admin\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x1f\n" +
+	"\vsecond_name\x18\x03 \x01(\tR\n" +
+	"secondName\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12!\n" +
+	"\fphone_number\x18\x05 \x01(\tR\vphoneNumber\x12\x14\n" +
+	"\x05email\x18\x06 \x01(\tR\x05email\x12\x16\n" +
+	"\x06gender\x18\a \x01(\tR\x06gender\"\xe7\x01\n" +
+	"\rAdminWithRole\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x1f\n" +
+	"\vsecond_name\x18\x03 \x01(\tR\n" +
+	"secondName\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12!\n" +
+	"\fphone_number\x18\x05 \x01(\tR\vphoneNumber\x12\x14\n" +
+	"\x05email\x18\x06 \x01(\tR\x05email\x12\x16\n" +
+	"\x06gender\x18\a \x01(\tR\x06gender\x12\x12\n" +
+	"\x04role\x18\b \x01(\tR\x04role\"\x8a\x02\n" +
+	"\x06Doctor\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x1f\n" +
+	"\vsecond_name\x18\x03 \x01(\tR\n" +
+	"secondName\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12!\n" +
+	"\fphone_number\x18\x05 \x01(\tR\vphoneNumber\x12\x14\n" +
+	"\x05email\x18\x06 \x01(\tR\x05email\x12\x1c\n" +
+	"\teducation\x18\a \x01(\tR\teducation\x12\x1e\n" +
+	"\n" +
+	"experience\x18\b \x01(\x05R\n" +
+	"experience\x12\x16\n" +
+	"\x06gender\x18\t \x01(\tR\x06gender\"9\n" +
+	"\x11GetDoctorResponse\x12$\n" +
+	"\x06doctor\x18\x01 \x01(\v2\f.auth.DoctorR\x06doctor\"E\n" +
+	"\x18GetAdminWithRoleResponse\x12)\n" +
+	"\x05admin\x18\x01 \x01(\v2\x13.auth.AdminWithRoleR\x05admin\")\n" +
+	"\x11GetProfileRequest\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token2\xd1\a\n" +
 	"\vAuthService\x12Q\n" +
 	"\x10EmployeeRegister\x12\x1d.auth.EmployeeRegisterRequest\x1a\x1e.auth.EmployeeRegisterResponse\x12N\n" +
 	"\x0fPatientRegister\x12\x1c.auth.PatientRegisterRequest\x1a\x1d.auth.PatientRegisterResponse\x12f\n" +
@@ -1259,7 +1732,9 @@ const file_proto_auth_auth_proto_rawDesc = "" +
 	"\x0fPermissionCheck\x12\x1c.auth.PermissionCheckRequest\x1a\x15.auth.DefaultResponse\x12?\n" +
 	"\n" +
 	"GetPatient\x12\x17.auth.GetPatientRequest\x1a\x18.auth.GetPatientResponse\x12<\n" +
-	"\tGetUserID\x12\x16.auth.GetUserIDRequest\x1a\x17.auth.GetUserIDResponseB\x13Z\x11auth/proto;authpbb\x06proto3"
+	"\tGetUserID\x12\x16.auth.GetUserIDRequest\x1a\x17.auth.GetUserIDResponse\x12D\n" +
+	"\x10GetDoctorProfile\x12\x17.auth.GetProfileRequest\x1a\x17.auth.GetDoctorResponse\x12J\n" +
+	"\x0fGetAdminProfile\x12\x17.auth.GetProfileRequest\x1a\x1e.auth.GetAdminWithRoleResponseB\x13Z\x11auth/proto;authpbb\x06proto3"
 
 var (
 	file_proto_auth_auth_proto_rawDescOnce sync.Once
@@ -1273,7 +1748,7 @@ func file_proto_auth_auth_proto_rawDescGZIP() []byte {
 	return file_proto_auth_auth_proto_rawDescData
 }
 
-var file_proto_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_proto_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_proto_auth_auth_proto_goTypes = []any{
 	(*UserData)(nil),                        // 0: auth.UserData
 	(*EmployeeRegisterResponse)(nil),        // 1: auth.EmployeeRegisterResponse
@@ -1296,44 +1771,56 @@ var file_proto_auth_auth_proto_goTypes = []any{
 	(*GetUserIDRequest)(nil),                // 18: auth.GetUserIDRequest
 	(*GetUserIDResponse)(nil),               // 19: auth.GetUserIDResponse
 	(*GetPatientResponse)(nil),              // 20: auth.GetPatientResponse
-	(*timestamppb.Timestamp)(nil),           // 21: google.protobuf.Timestamp
+	(*Admin)(nil),                           // 21: auth.Admin
+	(*AdminWithRole)(nil),                   // 22: auth.AdminWithRole
+	(*Doctor)(nil),                          // 23: auth.Doctor
+	(*GetDoctorResponse)(nil),               // 24: auth.GetDoctorResponse
+	(*GetAdminWithRoleResponse)(nil),        // 25: auth.GetAdminWithRoleResponse
+	(*GetProfileRequest)(nil),               // 26: auth.GetProfileRequest
+	(*timestamppb.Timestamp)(nil),           // 27: google.protobuf.Timestamp
 }
 var file_proto_auth_auth_proto_depIdxs = []int32{
 	0,  // 0: auth.EmployeeRegisterRequest.user:type_name -> auth.UserData
 	2,  // 1: auth.EmployeeRegisterRequest.employee:type_name -> auth.EmployeeData
-	21, // 2: auth.PatientData.birth_date:type_name -> google.protobuf.Timestamp
+	27, // 2: auth.PatientData.birth_date:type_name -> google.protobuf.Timestamp
 	0,  // 3: auth.PatientRegisterRequest.user:type_name -> auth.UserData
 	4,  // 4: auth.PatientRegisterRequest.patient:type_name -> auth.PatientData
 	0,  // 5: auth.PatientRegisterInClinicRequest.user:type_name -> auth.UserData
 	4,  // 6: auth.PatientRegisterInClinicRequest.patient:type_name -> auth.PatientData
 	4,  // 7: auth.GetPatientResponse.patient:type_name -> auth.PatientData
-	3,  // 8: auth.AuthService.EmployeeRegister:input_type -> auth.EmployeeRegisterRequest
-	5,  // 9: auth.AuthService.PatientRegister:input_type -> auth.PatientRegisterRequest
-	7,  // 10: auth.AuthService.PatientRegisterInClinic:input_type -> auth.PatientRegisterInClinicRequest
-	9,  // 11: auth.AuthService.EmployeePasswordRecovery:input_type -> auth.EmployeePasswordRecoveryRequest
-	10, // 12: auth.AuthService.PatientPasswordRecovery:input_type -> auth.PatientPasswordRecoveryRequest
-	12, // 13: auth.AuthService.RequestCode:input_type -> auth.GenerateCodeRequest
-	13, // 14: auth.AuthService.VerifyCode:input_type -> auth.VerifyCodeRequest
-	14, // 15: auth.AuthService.Auth:input_type -> auth.AuthRequest
-	16, // 16: auth.AuthService.PermissionCheck:input_type -> auth.PermissionCheckRequest
-	17, // 17: auth.AuthService.GetPatient:input_type -> auth.GetPatientRequest
-	18, // 18: auth.AuthService.GetUserID:input_type -> auth.GetUserIDRequest
-	1,  // 19: auth.AuthService.EmployeeRegister:output_type -> auth.EmployeeRegisterResponse
-	6,  // 20: auth.AuthService.PatientRegister:output_type -> auth.PatientRegisterResponse
-	8,  // 21: auth.AuthService.PatientRegisterInClinic:output_type -> auth.PatientRegisterInClinicResponse
-	11, // 22: auth.AuthService.EmployeePasswordRecovery:output_type -> auth.DefaultResponse
-	11, // 23: auth.AuthService.PatientPasswordRecovery:output_type -> auth.DefaultResponse
-	11, // 24: auth.AuthService.RequestCode:output_type -> auth.DefaultResponse
-	11, // 25: auth.AuthService.VerifyCode:output_type -> auth.DefaultResponse
-	15, // 26: auth.AuthService.Auth:output_type -> auth.AuthResponse
-	11, // 27: auth.AuthService.PermissionCheck:output_type -> auth.DefaultResponse
-	20, // 28: auth.AuthService.GetPatient:output_type -> auth.GetPatientResponse
-	19, // 29: auth.AuthService.GetUserID:output_type -> auth.GetUserIDResponse
-	19, // [19:30] is the sub-list for method output_type
-	8,  // [8:19] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	23, // 8: auth.GetDoctorResponse.doctor:type_name -> auth.Doctor
+	22, // 9: auth.GetAdminWithRoleResponse.admin:type_name -> auth.AdminWithRole
+	3,  // 10: auth.AuthService.EmployeeRegister:input_type -> auth.EmployeeRegisterRequest
+	5,  // 11: auth.AuthService.PatientRegister:input_type -> auth.PatientRegisterRequest
+	7,  // 12: auth.AuthService.PatientRegisterInClinic:input_type -> auth.PatientRegisterInClinicRequest
+	9,  // 13: auth.AuthService.EmployeePasswordRecovery:input_type -> auth.EmployeePasswordRecoveryRequest
+	10, // 14: auth.AuthService.PatientPasswordRecovery:input_type -> auth.PatientPasswordRecoveryRequest
+	12, // 15: auth.AuthService.RequestCode:input_type -> auth.GenerateCodeRequest
+	13, // 16: auth.AuthService.VerifyCode:input_type -> auth.VerifyCodeRequest
+	14, // 17: auth.AuthService.Auth:input_type -> auth.AuthRequest
+	16, // 18: auth.AuthService.PermissionCheck:input_type -> auth.PermissionCheckRequest
+	17, // 19: auth.AuthService.GetPatient:input_type -> auth.GetPatientRequest
+	18, // 20: auth.AuthService.GetUserID:input_type -> auth.GetUserIDRequest
+	26, // 21: auth.AuthService.GetDoctorProfile:input_type -> auth.GetProfileRequest
+	26, // 22: auth.AuthService.GetAdminProfile:input_type -> auth.GetProfileRequest
+	1,  // 23: auth.AuthService.EmployeeRegister:output_type -> auth.EmployeeRegisterResponse
+	6,  // 24: auth.AuthService.PatientRegister:output_type -> auth.PatientRegisterResponse
+	8,  // 25: auth.AuthService.PatientRegisterInClinic:output_type -> auth.PatientRegisterInClinicResponse
+	11, // 26: auth.AuthService.EmployeePasswordRecovery:output_type -> auth.DefaultResponse
+	11, // 27: auth.AuthService.PatientPasswordRecovery:output_type -> auth.DefaultResponse
+	11, // 28: auth.AuthService.RequestCode:output_type -> auth.DefaultResponse
+	11, // 29: auth.AuthService.VerifyCode:output_type -> auth.DefaultResponse
+	15, // 30: auth.AuthService.Auth:output_type -> auth.AuthResponse
+	11, // 31: auth.AuthService.PermissionCheck:output_type -> auth.DefaultResponse
+	20, // 32: auth.AuthService.GetPatient:output_type -> auth.GetPatientResponse
+	19, // 33: auth.AuthService.GetUserID:output_type -> auth.GetUserIDResponse
+	24, // 34: auth.AuthService.GetDoctorProfile:output_type -> auth.GetDoctorResponse
+	25, // 35: auth.AuthService.GetAdminProfile:output_type -> auth.GetAdminWithRoleResponse
+	23, // [23:36] is the sub-list for method output_type
+	10, // [10:23] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_proto_auth_auth_proto_init() }
@@ -1347,7 +1834,7 @@ func file_proto_auth_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_auth_auth_proto_rawDesc), len(file_proto_auth_auth_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   27,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

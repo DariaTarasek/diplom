@@ -20,6 +20,9 @@ func RegisterRoutes(rg *gin.RouterGroup, h *PatientHandler) {
 	rg.POST("/appointments", h.addAppointment)
 	rg.GET("/patient/upcoming", h.getUpcomingAppointments)
 	rg.GET("/patient/history", h.getHistoryVisits)
+	rg.GET("/patient/tests", h.getDocuments)
 	rg.PUT("/appointments/transfer", h.UpdateAppointment)
 	rg.GET("/appointments/cancel/:id", h.CancelAppointment)
+	rg.POST("/patient/tests/upload", h.UploadTest)
+	rg.GET("/patient/tests/:id/download", h.DownloadDocument)
 }

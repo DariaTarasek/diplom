@@ -202,3 +202,45 @@ func (h *DoctorHandler) AddConsultation(c *gin.Context) {
 	}
 	c.JSON(http.StatusCreated, gin.H{})
 }
+
+func (h *DoctorHandler) getPatientDocs(c *gin.Context) {
+	patientId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	resp, err := h.DoctorClient.Client.GetDocumentsByPatientID(c.Request.Context(), &doctorpb.GetDocumentsRequest{PatientID: int32(patientId)})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	docs := make([]model.DocumentInfo, 0, len(resp.Documents))
+	for _, item := range resp.Documents {
+		doc := model.DocumentInfo{
+			ID:          item.Id,
+			FileName:    item.FileName,
+			Description: item.Description,
+			CreatedAt:   item.CreatedAt,
+		}
+		docs = append(docs, doc)
+	}
+	c.JSON(http.StatusOK, docs)
+}
+
+func (h *DoctorHandler) DownloadDocument(c *gin.Context) {
+	// Получаем токен и ID документа из запроса
+	documentID := c.Param("id") // например: /documents/:id
+
+	// Получаем файл через gRPC
+	doc, err := h.DoctorClient.Client.DownloadDocument(c.Request.Context(), &doctorpb.DownloadDocumentRequest{DocumentId: documentID})
+	if err != nil {
+		fmt.Println(err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Отдаем файл пользователю
+	c.Header("Content-Disposition", fmt.Sprintf("attachment; filename=%q", doc.FileName))
+	c.Data(http.StatusOK, "application/octet-stream", doc.FileContent)
+}

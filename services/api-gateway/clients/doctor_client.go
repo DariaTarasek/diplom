@@ -11,7 +11,7 @@ type DoctorClient struct {
 }
 
 func NewDoctorClient(address string) (*DoctorClient, error) {
-	conn, err := grpc.NewClient(address, grpc.WithInsecure()) // или grpc.WithTransportCredentials
+	conn, err := grpc.NewClient(address, grpc.WithInsecure(), grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(50*1024*1024), grpc.MaxCallSendMsgSize(50*1024*1024))) // или grpc.WithTransportCredentials
 	if err != nil {
 		return nil, err
 	}

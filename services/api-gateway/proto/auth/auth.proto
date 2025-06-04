@@ -106,8 +106,61 @@ message GetPatientRequest {
   string token = 1;
 }
 
+message GetUserIDRequest {
+  string token = 1;
+}
+
+message GetUserIDResponse {
+  int32 user_id = 1;
+}
+
 message GetPatientResponse {
   PatientData patient = 1;
+}
+
+message Admin {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string gender = 7;
+}
+
+message AdminWithRole {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string gender = 7;
+  string role = 8;
+}
+
+message Doctor {
+  int32 user_id = 1;
+  string first_name = 2;
+  string second_name = 3;
+  string surname = 4;
+  string phone_number = 5;
+  string email = 6;
+  string education = 7;
+  int32 experience = 8;
+  string gender = 9;
+}
+
+message GetDoctorResponse {
+  Doctor doctor = 1;
+}
+
+message GetAdminWithRoleResponse {
+  AdminWithRole admin = 1;
+}
+
+message GetProfileRequest {
+  string token = 1;
 }
 
 service AuthService {
@@ -121,4 +174,8 @@ service AuthService {
   rpc Auth(AuthRequest) returns (AuthResponse); // авторизация
   rpc PermissionCheck(PermissionCheckRequest) returns (DefaultResponse);
   rpc GetPatient(GetPatientRequest) returns (GetPatientResponse);
+  rpc GetUserID(GetUserIDRequest) returns (GetUserIDResponse);
+
+  rpc GetDoctorProfile(GetProfileRequest) returns (GetDoctorResponse);
+  rpc GetAdminProfile(GetProfileRequest) returns (GetAdminWithRoleResponse);
 }

@@ -604,6 +604,64 @@ message GetDiagnoseByVisitIDResponse {
   repeated Diagnose diagnose = 1;
 }
 
+message SaveDocumentRequest {
+  string patient_id = 1;
+  string file_name = 2;
+  bytes file_content = 3;
+
+  string modality = 4;
+  google.protobuf.Timestamp study_date = 5;
+  string description = 6;
+  bytes preview_jpeg = 7;
+  string preview_file_name = 8;
+}
+
+message SaveDocumentResponse {
+  string document_id = 1;
+}
+
+message GetDocumentMetadataRequest {
+  string document_id = 1;
+}
+
+message GetDocumentMetadataResponse {
+  string document_id = 1;
+  string patient_id = 2;
+  string file_name = 3;
+  string modality = 4;
+  google.protobuf.Timestamp study_date = 5;
+  string description = 6;
+  string storage_path = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string preview_path = 9;
+}
+
+message DownloadDocumentRequest {
+  string document_id = 1;
+}
+
+message DownloadDocumentResponse {
+  string file_name = 1;
+  bytes file_content = 2;
+}
+
+message GetDocumentsRequest {
+  string patient_id = 1;
+}
+
+message DocumentInfo {
+  string id = 1;
+  string file_name = 2;
+  string description = 3;
+  string modality = 4;
+  string study_date = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+message GetDocumentsResponse {
+  repeated DocumentInfo documents = 1;
+}
+
 
 service StorageService {
   // управление аккаунтами
@@ -688,4 +746,8 @@ service StorageService {
   rpc GetClinicOverrides(EmptyRequest) returns (GetClinicOverridesResponse);
   rpc GetAppointments(EmptyRequest) returns (GetAppointmentsResponse);
   rpc GetDiagnoseByVisitID(GetByIDRequest) returns (GetDiagnoseByVisitIDResponse);
+  rpc SaveDocument(SaveDocumentRequest) returns (SaveDocumentResponse);
+  rpc GetDocumentMetadata(GetDocumentMetadataRequest) returns (GetDocumentMetadataResponse);
+  rpc DownloadDocument(DownloadDocumentRequest) returns (DownloadDocumentResponse);
+  rpc GetDocumentsByPatientID(GetDocumentsRequest) returns (GetDocumentsResponse);
 }

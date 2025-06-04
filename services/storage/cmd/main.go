@@ -4,6 +4,7 @@ import (
 	"fmt"
 	grpcserver "github.com/DariaTarasek/diplom/services/storage/grpc"
 	"github.com/DariaTarasek/diplom/services/storage/internal/db"
+	"github.com/DariaTarasek/diplom/services/storage/internal/storagefs"
 	"github.com/DariaTarasek/diplom/services/storage/internal/store"
 	pb "github.com/DariaTarasek/diplom/services/storage/proto"
 	"github.com/joho/godotenv"
@@ -37,15 +38,18 @@ func main() {
 		log.Fatalf("не удалось начать слушать: %v", err)
 	}
 
-	s := grpc.NewServer()
+	s := grpc.NewServer(grpc.MaxRecvMsgSize(50*1024*1024),
+		grpc.MaxSendMsgSize(50*1024*1024))
 
 	st := store.NewStore(conn) // инициализация хранилища
 	if err != nil {
 		log.Fatalf("не удалось инициализировать store: %v", err)
 	}
+	fs := storagefs.NewFileStorage("/docs")
 
 	server := &grpcserver.Server{
 		Store: st,
+		FS:    fs,
 	}
 
 	pb.RegisterStorageServiceServer(s, server)

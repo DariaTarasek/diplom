@@ -87,6 +87,7 @@ func main() {
 		//"registration_in_clinic.html",
 		//"admins_doctor_list.html",
 		//"administrator_account.html",
+		"administrator_profile.html",
 	}
 	for _, page := range adminPages {
 		page := page // захват в замыкание
@@ -97,6 +98,7 @@ func main() {
 
 	doctorPages := []string{
 		//"doctor_account.html",
+		"doctor_profile.html",
 	}
 	for _, page := range doctorPages {
 		page := page // захват в замыкание
@@ -107,6 +109,7 @@ func main() {
 
 	patientPages := []string{
 		"patient_account.html",
+		"patient_profile.html",
 	}
 	for _, page := range patientPages {
 		page := page // захват в замыкание
@@ -124,13 +127,13 @@ func main() {
 	infoHandler := info.NewInfoHandler(storageClient)
 	info.RegisterRoutes(api, infoHandler)
 
-	adminHandler := admin.NewHandler(adminClient)
+	adminHandler := admin.NewHandler(adminClient, authClient)
 	admin.RegisterRoutes(api, adminHandler)
 
 	patientHandler := patient.NewHandler(patientClient)
 	patient.RegisterRoutes(api, patientHandler)
 
-	doctorHandler := doctor.NewHandler(doctorClient)
+	doctorHandler := doctor.NewHandler(doctorClient, authClient)
 	doctor.RegisterRoutes(api, doctorHandler)
 
 	log.Println("Api-gateway запущен")

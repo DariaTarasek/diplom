@@ -4,10 +4,9 @@ createApp({
     data() {
         return {
             doctor: {
-                second_name: '',
-                first_name: '',
+                secondName: '',
+                firstName: '',
                 surname: '',
-                birthDate: '',
                 gender: '',
                 education: '',
                 experience: '',
@@ -52,8 +51,8 @@ createApp({
     computed: {
         fullName() {
             return [
-                this.doctor.first_name,
-                this.doctor.second_name
+                this.doctor.firstName,
+                this.doctor.secondName
             ]
             .filter(Boolean)
             .join(' ');
@@ -74,7 +73,7 @@ createApp({
     },
     methods: {
         fetchDoctorData() {
-            fetch('http://192.168.1.207:8080/api/doctor-profile')
+            fetch('/api/doctor/me')
                 .then(response => response.json())
                 .then(data => {
                     this.doctor = data;
@@ -89,7 +88,7 @@ createApp({
             return;
         }
 
-            fetch('http://192.168.1.207:8080/api/change-password', {
+            fetch('/api/change-password', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password: this.newPassword })

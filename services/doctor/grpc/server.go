@@ -226,3 +226,33 @@ func (s *Server) UpdateVisitPayment(ctx context.Context, req *pb.VisitPaymentReq
 	}
 	return &pb.DefaultResponse{}, nil
 }
+
+func (s *Server) GetDocumentsByPatientID(ctx context.Context, request *pb.GetDocumentsRequest) (*pb.GetDocumentsResponse, error) {
+	resp, err := s.Service.GetDocumentsInfo(ctx, int(request.PatientID))
+	if err != nil {
+		return nil, err
+	}
+
+	docs := make([]*pb.DocumentInfo, 0, len(resp))
+	for _, item := range resp {
+		doc := &pb.DocumentInfo{
+			Id:          item.ID,
+			FileName:    item.FileName,
+			Description: item.Description,
+			CreatedAt:   item.CreatedAt,
+		}
+		docs = append(docs, doc)
+	}
+	return &pb.GetDocumentsResponse{Documents: docs}, nil
+}
+
+func (s *Server) DownloadDocument(ctx context.Context, request *pb.DownloadDocumentRequest) (*pb.DownloadDocumentResponse, error) {
+	resp, err := s.Service.DownloadDocument(ctx, request.DocumentId)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DownloadDocumentResponse{
+		FileName:    resp.FileName,
+		FileContent: resp.FileContent,
+	}, nil
+}

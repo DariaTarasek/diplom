@@ -214,9 +214,54 @@ func (s *Server) GetUserID(ctx context.Context, req *pb.GetUserIDRequest) (*pb.G
 	return &pb.GetUserIDResponse{UserId: int32(userId)}, nil
 }
 
+func (s *Server) GetDoctorProfile(ctx context.Context, request *pb.GetProfileRequest) (*pb.GetDoctorResponse, error) {
+	resp, err := s.Service.GetDoctorByID(ctx, request.Token)
+	if err != nil {
+		return nil, err
+	}
+	exp := derefInt(resp.Experience)
+	doc := &pb.Doctor{
+		UserId:      int32(resp.ID),
+		FirstName:   resp.FirstName,
+		SecondName:  resp.SecondName,
+		Surname:     deref(resp.Surname),
+		PhoneNumber: deref(resp.PhoneNumber),
+		Email:       resp.Email,
+		Education:   deref(resp.Education),
+		Experience:  int32(exp),
+		Gender:      resp.Gender,
+	}
+	return &pb.GetDoctorResponse{Doctor: doc}, nil
+}
+
+func (s *Server) GetAdminProfile(ctx context.Context, request *pb.GetProfileRequest) (*pb.GetAdminWithRoleResponse, error) {
+	resp, err := s.Service.GetAdminByID(ctx, request.Token)
+	if err != nil {
+		return nil, err
+	}
+	admin := &pb.AdminWithRole{
+		UserId:      int32(resp.ID),
+		FirstName:   resp.FirstName,
+		SecondName:  resp.SecondName,
+		Surname:     deref(resp.Surname),
+		PhoneNumber: deref(resp.PhoneNumber),
+		Email:       resp.Email,
+		Gender:      resp.Gender,
+		Role:        resp.Role,
+	}
+	return &pb.GetAdminWithRoleResponse{Admin: admin}, nil
+}
+
 func deref(s *string) string {
 	if s == nil {
 		return ""
 	}
 	return *s
+}
+
+func derefInt(i *int) int {
+	if i == nil {
+		return 0
+	}
+	return *i
 }

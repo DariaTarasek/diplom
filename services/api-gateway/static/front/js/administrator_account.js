@@ -1,511 +1,409 @@
 const { createApp } = Vue;
 
 createApp({
-  data() {
-    return {
-      activeTab: 'schedule',
-      second_name: '',
-      first_name: '',
-      tabs: [
-          { id: 'schedule', label: 'Расписание приёмов' },
-          { id: 'pending', label: 'Неподтверждённые записи' },
-          { id: 'completed', label: 'Завершённые приёмы' }
-      ],
-      schedule: {
-        days: [],
-        timeSlots: []
-      },
-      appointments: {},
-      pending: [],
-      isPopoverVisible: false,
+    data() {
+        return {
+            activeTab: 'schedule',
+            secondName: '',
+            firstName: '',
+            tabs: [
+                { id: 'schedule', label: 'Расписание приёмов' },
+                { id: 'pending', label: 'Неподтверждённые записи' },
+                { id: 'completed', label: 'Завершённые приёмы' }
+            ],
+            schedule: {
+                days: [],
+                timeSlots: []
+            },
+            appointments: {},
+            pending: [],
+            isPopoverVisible: false,
 
-      // Модалка записи
-      showModal: false,
-      specialties: [],
-      doctors: [],
-      selectedSpecialization: null,
-      selectedDoctorId: null,
-      selectedDoctor: null,
-      appointmentSchedule: {},
-      maxSlots: 0,
-      selectedSlot: null,
-      step: 1,
+            // Модалка записи
+            showModal: false,
+            specialties: [],
+            doctors: [],
+            selectedSpecialization: null,
+            selectedDoctorId: null,
+            selectedDoctor: null,
+            appointmentSchedule: [],
+            maxSlots: 0,
+            selectedSlot: null,
+            step: 1,
 
-      patient: {
-        id: '',
-        second_name: '',
-        first_name: '',
-        surname: '',
-        birthDate: '',
-        gender: '',
-        phone: ''
-      },
-      doctor: {
-        id: '',
-        second_name: '',
-        first_name: '',
-        surname: '',
-        specialty: ''
-      },
-      errors: {
-        phone: '',
-        first_name: '',
-        second_name: ''
-      },
-      birthDateAttrs: {
-        min: '',
-        max: ''
-      },
+            patient: {
+                id: '',
+                second_name: '',
+                first_name: '',
+                surname: '',
+                birthDate: '',
+                gender: '',
+                phone: ''
+            },
+            doctor: {
+                id: '',
+                second_name: '',
+                first_name: '',
+                surname: '',
+                specialty: ''
+            },
+            errors: {
+                phone: '',
+                first_name: '',
+                second_name: ''
+            },
+            birthDateAttrs: {
+                min: '',
+                max: ''
+            },
 
-      selectedAppt: null,
+            selectedAppt: null,
 
-      selectedTransferSlot: {
-        date: null,
-        time: null
+            selectedTransferSlot: {
+                date: null,
+                time: null
+            },
+
+            currentWeekStartIndex: 0,
+            completed: [],
+            currentPage: 0
+        };
+    },
+
+    computed: {
+        fullName() {
+            return [this.firstName, this.secondName].filter(Boolean).join(' ');
+        },
+        visibleWeekDays() {
+            return this.schedule.days.slice(this.currentWeekStartIndex, this.currentWeekStartIndex + 7);
+        },
+        paginatedSchedule() {
+            const start = this.currentPage * 7;
+            const end = start + 7;
+            return this.appointmentSchedule.slice(start, end);
+        },
+        totalPages() {
+            return Math.ceil(this.appointmentSchedule.length / 7);
+        }
+    },
+
+    methods: {
+        async fetchData() {
+            try {
+                const scheduleRes = await fetch('/api/schedule-admin');
+                const scheduleData = await scheduleRes.json();
+                this.schedule = {
+                    days: scheduleData.schedule?.days || [],
+                    timeSlots: scheduleData.schedule?.timeSlots || []
+                };
+                this.appointments = scheduleData.appointments || {};
+
+                const res = await fetch('/api/admin/me');
+                const data = await res.json();
+                this.firstName = data.firstName || '';
+                this.secondName = data.secondName || '';
+            } catch (err) {
+                console.error('Ошибка при загрузке данных:', err);
+            }
         },
 
-      currentWeekStartIndex: 0,  // индекс начала текущей видимой недели
-<<<<<<< HEAD
-        completed: [],
-=======
-        currentPage: 0,
+        formatDateTime(dt) {
+            const d = new Date(dt);
+            return d.toLocaleString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        },
 
+        async fetchCompletedVisits() {
+            try {
+                const res = await fetch('/api/completed-visits');
+                const data = await res.json();
+                this.completed = data || [];
+            } catch (err) {
+                console.error('Ошибка при загрузке завершённых приёмов:', err);
+            }
+        },
 
->>>>>>> master
-    };
-  },
+        confirmEntry(index) {
+            const entry = this.pending[index];
+            this.pending.splice(index, 1);
+        },
 
-  computed: {
-    fullName() {
-      return [this.first_name, this.second_name].filter(Boolean).join(' ');
-    },
-    visibleWeekDays() {
-        return this.schedule.days.slice(this.currentWeekStartIndex, this.currentWeekStartIndex + 7);
-    },
-      paginatedSchedule() {
-          const start = this.currentPage * 7;
-          const end = start + 7;
-          return this.appointmentSchedule.slice(start, end);
-      },
-      totalPages() {
-          return Math.ceil(this.appointmentSchedule.length / 7);
-      }
+        togglePopover() {
+            this.isPopoverVisible = !this.isPopoverVisible;
+        },
 
+        handleClickOutside(event) {
+            const popover = document.getElementById('admin-profile');
+            if (popover && !popover.contains(event.target)) {
+                this.isPopoverVisible = false;
+            }
+        },
 
-  },
+        validatePhone() {
+            const phone = this.patient.phone.replace(/\D/g, '');
+            this.errors.phone = phone.length === 11 && phone.startsWith('7') ? '' : 'Неверный формат телефона';
+            return !this.errors.phone;
+        },
 
-  methods: {
-<<<<<<< HEAD
-    async fetchData() {
-      try {
-        const res = await fetch('/api/admin-data');
-        const data = await res.json();
-        this.appointments = data.appointments || {};
-        this.pending = data.pending || [];
-        this.first_name = data.first_name || '';
-        this.second_name = data.second_name || '';
+        validateFirstName() {
+            this.errors.first_name = this.patient.first_name.trim() ? '' : 'Имя не может быть пустым';
+            return !this.errors.first_name;
+        },
 
-        const scheduleRes = await fetch('/api/schedule-admin');
-        const scheduleData = await scheduleRes.json();
-        this.schedule = {
-          days: scheduleData.days || [],
-          timeSlots: scheduleData.timeSlots || []
-        };
-      } catch (err) {
-        console.error('Ошибка при загрузке данных:', err);
-      }
-    },
+        validateSecondName() {
+            this.errors.second_name = this.patient.second_name.trim() ? '' : 'Фамилия не может быть пустой';
+            return !this.errors.second_name;
+        },
 
-      formatDateTime(dt) {
-          const d = new Date(dt);
-          return d.toLocaleString('ru-RU', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-          });
-      },
+        async fetchSpecialties() {
+            const res = await fetch('/api/specialties');
+            this.specialties = await res.json();
+        },
 
-      async fetchCompletedVisits() {
-          try {
-              const res = await fetch('/api/completed-visits');
-              const data = await res.json();
-              this.completed = data || [];
-          } catch (err) {
-              console.error('Ошибка при загрузке завершённых приёмов:', err);
-          }
-      },
+        async fetchDoctors(specialtyId) {
+            const res = await fetch(`/api/doctors/${specialtyId}`);
+            const rawDoctors = await res.json();
+            this.doctors = rawDoctors.map(doc => ({
+                ...doc,
+                fullName: `${doc.secondName} ${doc.firstName} ${doc.surname}`.trim()
+            }));
+        },
 
-    confirmEntry(index) {
-=======
-      async fetchData() {
-          try {
-              // Загружаем данные для таблицы — дни, слоты и приёмы
-              const scheduleRes = await fetch('/api/schedule-admin');
-              const scheduleData = await scheduleRes.json();
-              this.schedule = {
-                  days: scheduleData.schedule?.days || [],
-                  timeSlots: scheduleData.schedule?.timeSlots || []
-              };
-              this.appointments = scheduleData.appointments || {};
+        async fetchDoctorSchedule(doctorId) {
+            const res = await fetch(`/api/appointment-doctor-schedule/${doctorId}`);
+            const data = await res.json();
 
-              // Загружаем остальные данные: имя админа, неподтверждённые записи и т.п.
-              const res = await fetch('/api/admin-data');
-              const data = await res.json();
-              this.pending = data.pending || [];
-              this.first_name = data.first_name || '';
-              this.second_name = data.second_name || '';
+            data.forEach(day => {
+                if (!Array.isArray(day.slots)) {
+                    day.slots = [];
+                }
+            });
 
-          } catch (err) {
-              console.error('Ошибка при загрузке данных:', err);
-          }
-      },
+            this.appointmentSchedule = data;
+            this.maxSlots = Math.max(...data.map(d => d.slots?.length || 0));
+        },
 
+        selectSlot(slot) {
+            this.selectedSlot = slot;
+            this.step = 2;
+            this.$nextTick(() => this.initPhoneMask());
+        },
 
-      confirmEntry(index) {
->>>>>>> master
-      const entry = this.pending[index];
-      this.pending.splice(index, 1);
-    },
+        back() {
+            this.step = 1;
+            this.selectedSlot = null;
+        },
 
-    togglePopover() {
-      this.isPopoverVisible = !this.isPopoverVisible;
-    },
+        async submitForm() {
+            if (!this.selectedSlot || !this.selectedDoctorId) {
+                alert('Выберите врача и время');
+                return;
+            }
 
-    handleClickOutside(event) {
-      const popover = document.getElementById('admin-profile');
-      if (popover && !popover.contains(event.target)) {
-        this.isPopoverVisible = false;
-      }
-    },
+            if (!this.validatePhone() || !this.validateFirstName() || !this.validateSecondName()) return;
 
-    validatePhone() {
-      const phone = this.patient.phone.replace(/\D/g, '');
-      this.errors.phone = phone.length === 11 && phone.startsWith('7') ? '' : 'Неверный формат телефона';
-      return !this.errors.phone;
-    },
+            const payload = {
+                doctor_id: this.selectedDoctorId,
+                date: this.selectedSlot.date,
+                time: this.selectedSlot.time,
+                ...this.patient,
+                phone: this.patient.phone.replace(/\D/g, '')
+            };
 
-    validateFirstName() {
-      this.errors.first_name = this.patient.first_name.trim() ? '' : 'Имя не может быть пустым';
-      return !this.errors.first_name;
-    },
+            const res = await fetch('/api/appointments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-    validateSecondName() {
-      this.errors.second_name = this.patient.second_name.trim() ? '' : 'Фамилия не может быть пустой';
-      return !this.errors.second_name;
-    },
+            if (res.ok) {
+                alert('Запись успешно создана!');
+                location.reload();
+            } else {
+                alert('Ошибка при записи. Попробуйте позже.');
+            }
+        },
 
-    async fetchSpecialties() {
-      const res = await fetch('/api/specialties');
-      this.specialties = await res.json();
-    },
+        validateDateRange() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            this.birthDateAttrs.min = `${yyyy - 110}-${mm}-${dd}`;
+            this.birthDateAttrs.max = `${yyyy - 18}-${mm}-${dd}`;
+        },
 
-   async fetchDoctors(specialtyId) {
-<<<<<<< HEAD
-  const res = await fetch(`/api/doctors?specialty=${specialtyId}`);
-=======
-  const res = await fetch(`/api/doctors/${specialtyId}`);
->>>>>>> master
-  const rawDoctors = await res.json();
-  this.doctors = rawDoctors.map(doc => ({
-    ...doc,
-    fullName: `${doc.secondName} ${doc.firstName} ${doc.surname}`.trim()
-  }));
-},
+        initPhoneMask() {
+            const phoneInput = document.getElementById('phone');
+            if (phoneInput && !phoneInput.dataset.masked) {
+                const mask = IMask(phoneInput, {
+                    mask: '+{7} (000) 000-00-00'
+                });
+                phoneInput.dataset.masked = "true";
 
-<<<<<<< HEAD
-async fetchDoctorSchedule(doctorId) {
-  const res = await fetch(`/api/schedule?doctor_id=${doctorId}`);
-  this.appointmentSchedule = await res.json();
-  this.maxSlots = Math.max(...Object.values(this.appointmentSchedule).map(day => day.length));
-},
-      async confirmVisit(entry) {
-          try {
-              const res = await fetch(`/api/visit-payment/${entry.visit_id}`, {
-                  method: 'PUT',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                      price: entry.price,
-                      status: 'confirmed'
-                  })
-              });
+                mask.on('accept', () => {
+                    const digits = mask.value.replace(/\D/g, '');
+                    const valid = digits.length === 11 && digits.startsWith('7');
+                    this.errors.phone = digits && !valid ? 'Неверный формат телефона' : '';
+                });
 
-              if (!res.ok) throw new Error('Ошибка при подтверждении');
+                mask.on('complete', () => {
+                    this.patient.phone = mask.value;
+                });
+            }
+        },
 
-          } catch (err) {
-              console.error('Ошибка подтверждения:', err);
-              alert('Не удалось подтвердить приём');
-          }
-      },
-=======
-      async fetchDoctorSchedule(doctorId) {
-          const res = await fetch(`/api/appointment-doctor-schedule/${doctorId}`);
-          const data = await res.json();
+        openModal() {
+            this.resetModalData();
+            this.fetchSpecialties();
+            this.validateDateRange();
 
-          data.forEach(day => {
-              if (!Array.isArray(day.slots)) {
-                  day.slots = [];
-              }
-          });
+            const modalEl = document.getElementById('appointmentModal');
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
+        },
 
-          console.log('Загружено расписание:', data); // <--- ДОБАВЬ ЭТО
->>>>>>> master
+        resetModalData() {
+            this.selectedSpecialization = null;
+            this.selectedDoctorId = null;
+            this.selectedDoctor = null;
+            this.appointmentSchedule = [];
+            this.selectedSlot = null;
+            this.step = 1;
+            this.patient = {
+                second_name: '',
+                first_name: '',
+                surname: '',
+                birthDate: '',
+                gender: '',
+                phone: ''
+            };
+            this.errors = {
+                phone: '',
+                first_name: '',
+                second_name: ''
+            };
+        },
 
-          if (!Array.isArray(data)) {
-              this.appointmentSchedule = [];
-              this.maxSlots = 0;
-              return;
-          }
+        closeModal() {
+            this.showModal = false;
+        },
 
-<<<<<<< HEAD
-      selectSlot(slot) {
-      this.selectedSlot = slot;
-=======
-          this.appointmentSchedule = data;
-          this.maxSlots = Math.max(...data.map(d => d.slots?.length || 0));
-      },
+        openAppointmentModal(day, time, appt) {
+            this.selectedAppt = { ...appt, day, time };
+            const modal = new bootstrap.Modal(document.getElementById('manageAppointmentModal'));
+            modal.show();
+        },
 
+        showTransferModal() {
+            if (!this.selectedAppt) return;
 
+            this.appointmentSchedule = [];
+            this.selectedTransferSlot = { date: null, time: null };
+            this.fetchDoctorSchedule(this.selectedAppt.doctor.id);
 
+            const manageModal = bootstrap.Modal.getInstance(document.getElementById('manageAppointmentModal'));
+            if (manageModal) manageModal.hide();
 
+            const transferModal = new bootstrap.Modal(document.getElementById('transferAppointmentModal'));
+            transferModal.show();
+        },
 
-      selectSlot(slot) {
-            console.log(`Вы выбрали слот: ${slot}, день: ${label}`);
-        this.selectedSlot = slot;
->>>>>>> master
-      this.step = 2;
-      this.$nextTick(() => this.initPhoneMask());
-    },
+        async rescheduleAppointment(newDate, newTime) {
+            if (!this.selectedAppt) return;
 
-    back() {
-      this.step = 1;
-      this.selectedSlot = null;
-    },
+            const payload = {
+                doctor_id: this.selectedAppt.doctor.id,
+                patient_id: this.selectedAppt.patient.id,
+                old_slot: { day: this.selectedAppt.day, time: this.selectedAppt.time },
+                new_slot: { day: newDate, time: newTime }
+            };
 
-    async submitForm() {
-      if (!this.selectedSlot || !this.selectedDoctorId) {
-        alert('Выберите врача и время');
-        return;
-      }
+            const res = await fetch('/api/reschedule', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-      if (!this.validatePhone() || !this.validateFirstName() || !this.validateSecondName()) return;
+            if (res.ok) {
+                alert('Запись успешно перенесена');
+                location.reload();
+            } else {
+                alert('Ошибка переноса');
+            }
+        },
 
-      const payload = {
-        doctor_id: this.selectedDoctorId,
-        date: this.selectedSlot.date,
-          time: this.selectedSlot.time,
-        ...this.patient,
-          phone: this.patient.phone.replace(/\D/g, '')
-      };
+        confirmTransfer() {
+            if (!this.selectedTransferSlot.date || !this.selectedTransferSlot.time) return;
+            this.rescheduleAppointment(this.selectedTransferSlot.date, this.selectedTransferSlot.time);
+        },
 
-      const res = await fetch('/api/appointments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+        selectTransferSlot(date, time) {
+            this.selectedTransferSlot = { date, time };
+        },
 
-      if (res.ok) {
-        alert('Запись успешно создана!');
-        location.reload();
-      } else {
-        alert('Ошибка при записи. Попробуйте позже.');
-      }
-    },
+        prevWeek() {
+            if (this.currentWeekStartIndex >= 7) {
+                this.currentWeekStartIndex -= 7;
+            }
+        },
+        nextWeek() {
+            if (this.currentWeekStartIndex + 7 < this.schedule.days.length) {
+                this.currentWeekStartIndex += 7;
+            }
+        },
 
-    validateDateRange() {
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, '0');
-      const dd = String(today.getDate()).padStart(2, '0');
-      this.birthDateAttrs.min = `${yyyy - 110}-${mm}-${dd}`;
-      this.birthDateAttrs.max = `${yyyy - 18}-${mm}-${dd}`;
-    },
+        async confirmCancelAppointment() {
+            if (!confirm('Вы уверены, что хотите отменить запись?')) return;
 
-    initPhoneMask() {
-      const phoneInput = document.getElementById('phone');
-      if (phoneInput && !phoneInput.dataset.masked) {
-        const mask = IMask(phoneInput, {
-          mask: '+{7} (000) 000-00-00'
-        });
-        phoneInput.dataset.masked = "true";
+            const res = await fetch(`/api/appointments/cancel/${this.selectedAppt.id}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
 
-        mask.on('accept', () => {
-          const digits = mask.value.replace(/\D/g, '');
-          const valid = digits.length === 11 && digits.startsWith('7');
-          this.errors.phone = digits && !valid ? 'Неверный формат телефона' : '';
-        });
+            if (res.ok) {
+                alert('Запись отменена');
+                location.reload();
+            } else {
+                alert('Ошибка отмены записи');
+            }
+        },
 
-        mask.on('complete', () => {
-          this.patient.phone = mask.value;
-        });
-      }
-    },
+        prevPage() {
+            if (this.currentPage > 0) {
+                this.currentPage--;
+            }
+        },
 
-    openModal() {
-        this.resetModalData();             
-        this.fetchSpecialties();            
-        this.validateDateRange();           
+        nextPage() {
+            if ((this.currentPage + 1) * 7 < this.appointmentSchedule.length) {
+                this.currentPage++;
+            }
+        },
 
-        const modalEl = document.getElementById('appointmentModal');
-        const modal = new bootstrap.Modal(modalEl);
-        modal.show();
-    },
-
-    resetModalData() {
-        this.selectedSpecialization = null;
-        this.selectedDoctorId = null;
-        this.selectedDoctor = null;
-        this.appointmentSchedule = {};
-        this.selectedSlot = null;
-        this.step = 1;
-        this.patient = {
-            second_name: '',
-            first_name: '',
-            surname: '',
-            birthDate: '',
-            gender: '',
-            phone: ''
-        };
-        this.errors = {
-            phone: '',
-            first_name: '',
-            second_name: ''
-        };
-    },
-
-
-    closeModal() {
-      this.showModal = false;
-    },
-
-    openAppointmentModal(day, time, appt) {
-        this.selectedAppt = { ...appt, day, time };
-        const modal = new bootstrap.Modal(document.getElementById('manageAppointmentModal'));
-        modal.show();
-    },
-
-    showTransferModal() {
-    if (!this.selectedAppt) return;
-
-    this.appointmentSchedule = {};
-    this.selectedTransferSlot = { date: null, time: null };
-
-
-    this.fetchDoctorSchedule(this.selectedAppt.doctor.id); // <-- нужен doctor_id в `appt`
-
-    const manageModal = bootstrap.Modal.getInstance(document.getElementById('manageAppointmentModal'));
-    if (manageModal) manageModal.hide();
-
-    const transferModal = new bootstrap.Modal(document.getElementById('transferAppointmentModal'));
-    transferModal.show();
-    },
-
-    async rescheduleAppointment(newDate, newTime) {
-    if (!this.selectedAppt) return;
-
-    const payload = {
-        doctor_id: this.selectedAppt.doctor.id,
-        patient_id: this.selectedAppt.patient.id,
-        old_slot: { day: this.selectedAppt.day, time: this.selectedAppt.time },
-        new_slot: { day: newDate, time: newTime }
-    };
-
-    const res = await fetch('/api/reschedule', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
-
-    if (res.ok) {
-        alert('Запись успешно перенесена');
-        location.reload();
-    } else {
-        alert('Ошибка переноса');
-    }
-    },
-
-    confirmTransfer() {
-        if (!this.selectedTransferSlot.date || !this.selectedTransferSlot.time) return;
-
-        this.rescheduleAppointment(this.selectedTransferSlot.date, this.selectedTransferSlot.time);
-    },
-
-    selectTransferSlot(date, time) {
-        this.selectedTransferSlot = { date, time };
-    },
-
-    prevWeek() {
-        if (this.currentWeekStartIndex >= 7) {
-            this.currentWeekStartIndex -= 7;
-        }
-    },
-    nextWeek() {
-        if (this.currentWeekStartIndex + 7 < this.schedule.days.length) {
-            this.currentWeekStartIndex += 7;
+        selectDateSlot(daySchedule, slot) {
+            this.selectedSlot = {
+                date: daySchedule.label,
+                time: slot
+            };
+            this.step = 2;
+            this.$nextTick(() => this.initPhoneMask());
         }
     },
 
-    
-
-    async confirmCancelAppointment() {
-    if (!confirm('Вы уверены, что хотите отменить запись?')) return;
-
-    const payload = {
-        doctor_id: this.selectedAppt.doctor.id,
-        patient_id: this.selectedAppt.patient.id,
-        day: this.selectedAppt.day,
-        time: this.selectedAppt.time
-    };
-
-<<<<<<< HEAD
-    const res = await fetch('/api/cancel-appointment', {
-        method: 'POST',
-=======
-    const res = await fetch(`/api/appointments/cancel/${this.selectedAppt.id}`, {
-        method: 'GET',
->>>>>>> master
-        headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (res.ok) {
-        alert('Запись отменена');
-        location.reload();
-    } else {
-        alert('Ошибка отмены записи');
-    }
+    watch: {
+        'patient.first_name': 'validateFirstName',
+        'patient.second_name': 'validateSecondName'
     },
-      prevPage() {
-          if (this.currentPage > 0) {
-              this.currentPage--;
-          }
-      },
-      nextPage() {
-          if ((this.currentPage + 1) * 7 < this.appointmentSchedule.length) {
-              this.currentPage++;
-          }
-      },
-      selectDateSlot(daySchedule, slot) {
-          this.selectedSlot = {
-              date: daySchedule.label,
-              time: slot
-          };
-          this.step = 2;
 
-          this.$nextTick(() => this.initPhoneMask());
-      }
-
-
-  },
-
-  watch: {
-    'patient.first_name': 'validateFirstName',
-    'patient.second_name': 'validateSecondName'
-  },
-
-  mounted() {
-    this.fetchData();
-    this.fetchCompletedVisits();
-    document.addEventListener('click', this.handleClickOutside);
-  }
+    mounted() {
+        this.fetchData();
+        this.fetchCompletedVisits();
+        document.addEventListener('click', this.handleClickOutside);
+    }
 }).mount('#app');

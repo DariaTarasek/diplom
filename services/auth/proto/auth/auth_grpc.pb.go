@@ -32,6 +32,8 @@ const (
 	AuthService_PermissionCheck_FullMethodName          = "/auth.AuthService/PermissionCheck"
 	AuthService_GetPatient_FullMethodName               = "/auth.AuthService/GetPatient"
 	AuthService_GetUserID_FullMethodName                = "/auth.AuthService/GetUserID"
+	AuthService_GetDoctorProfile_FullMethodName         = "/auth.AuthService/GetDoctorProfile"
+	AuthService_GetAdminProfile_FullMethodName          = "/auth.AuthService/GetAdminProfile"
 )
 
 // AuthServiceClient is the client API for AuthService service.
@@ -49,6 +51,8 @@ type AuthServiceClient interface {
 	PermissionCheck(ctx context.Context, in *PermissionCheckRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetPatient(ctx context.Context, in *GetPatientRequest, opts ...grpc.CallOption) (*GetPatientResponse, error)
 	GetUserID(ctx context.Context, in *GetUserIDRequest, opts ...grpc.CallOption) (*GetUserIDResponse, error)
+	GetDoctorProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetDoctorResponse, error)
+	GetAdminProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetAdminWithRoleResponse, error)
 }
 
 type authServiceClient struct {
@@ -169,6 +173,26 @@ func (c *authServiceClient) GetUserID(ctx context.Context, in *GetUserIDRequest,
 	return out, nil
 }
 
+func (c *authServiceClient) GetDoctorProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetDoctorResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDoctorResponse)
+	err := c.cc.Invoke(ctx, AuthService_GetDoctorProfile_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GetAdminProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetAdminWithRoleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAdminWithRoleResponse)
+	err := c.cc.Invoke(ctx, AuthService_GetAdminProfile_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServiceServer is the server API for AuthService service.
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility.
@@ -184,6 +208,8 @@ type AuthServiceServer interface {
 	PermissionCheck(context.Context, *PermissionCheckRequest) (*DefaultResponse, error)
 	GetPatient(context.Context, *GetPatientRequest) (*GetPatientResponse, error)
 	GetUserID(context.Context, *GetUserIDRequest) (*GetUserIDResponse, error)
+	GetDoctorProfile(context.Context, *GetProfileRequest) (*GetDoctorResponse, error)
+	GetAdminProfile(context.Context, *GetProfileRequest) (*GetAdminWithRoleResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -226,6 +252,12 @@ func (UnimplementedAuthServiceServer) GetPatient(context.Context, *GetPatientReq
 }
 func (UnimplementedAuthServiceServer) GetUserID(context.Context, *GetUserIDRequest) (*GetUserIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserID not implemented")
+}
+func (UnimplementedAuthServiceServer) GetDoctorProfile(context.Context, *GetProfileRequest) (*GetDoctorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDoctorProfile not implemented")
+}
+func (UnimplementedAuthServiceServer) GetAdminProfile(context.Context, *GetProfileRequest) (*GetAdminWithRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAdminProfile not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 func (UnimplementedAuthServiceServer) testEmbeddedByValue()                     {}
@@ -446,6 +478,42 @@ func _AuthService_GetUserID_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthService_GetDoctorProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProfileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetDoctorProfile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_GetDoctorProfile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetDoctorProfile(ctx, req.(*GetProfileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GetAdminProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProfileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetAdminProfile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_GetAdminProfile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetAdminProfile(ctx, req.(*GetProfileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -496,6 +564,14 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserID",
 			Handler:    _AuthService_GetUserID_Handler,
+		},
+		{
+			MethodName: "GetDoctorProfile",
+			Handler:    _AuthService_GetDoctorProfile_Handler,
+		},
+		{
+			MethodName: "GetAdminProfile",
+			Handler:    _AuthService_GetAdminProfile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

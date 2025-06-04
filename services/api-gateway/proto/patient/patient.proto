@@ -86,6 +86,45 @@ message GetHistoryVisitsResponse {
   repeated HistoryVisit visits = 1;
 }
 
+message UploadTestRequest {
+  string token = 1;         // токен авторизации
+  string file_name = 2;     // имя файла
+  bytes file_content = 3;   // содержимое DICOM-файла
+  string description = 4;
+}
+
+message UploadTestResponse {
+  string document_id = 1;   // UUID созданного документа
+}
+
+message GetDocumentsRequest {
+  string token = 1; // строка, содержащая числовой ID пациента
+}
+
+// Ответ с массивом документов
+message GetDocumentsResponse {
+  repeated DocumentInfo documents = 1;
+}
+
+// Информация о документе
+message DocumentInfo {
+  string id = 1;           // UUID документа
+  string file_name = 2;    // Имя файла
+  string description = 3;  // Описание
+  string created_at = 6;   // Дата создания (формат YYYY-MM-DD HH:MM)
+}
+
+// Запрос на скачивание документа
+message DownloadDocumentRequest {
+  string document_id = 1; // UUID документа
+}
+
+// Ответ со скачанным файлом
+message DownloadDocumentResponse {
+  string file_name = 1;    // Имя файла
+  bytes file_content = 2;  // Содержимое файла
+}
+
 service PatientService {
   rpc GetAppointmentSlots(GetAppointmentSlotsRequest) returns (GetAppointmentSlotsResponse);
   rpc AddAppointment(AddAppointmentRequest) returns (DefaultResponse);
@@ -93,4 +132,7 @@ service PatientService {
   rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
   rpc CancelAppointment(GetByIDRequest) returns (DefaultResponse);
   rpc GetHistoryVisits(GetHistoryVisitsRequest) returns (GetHistoryVisitsResponse);
+  rpc UploadTest(UploadTestRequest) returns (UploadTestResponse);
+  rpc GetDocumentsByPatientID(GetDocumentsRequest) returns (GetDocumentsResponse);
+  rpc DownloadDocument(DownloadDocumentRequest) returns (DownloadDocumentResponse);
 }

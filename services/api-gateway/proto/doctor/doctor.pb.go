@@ -1826,6 +1826,262 @@ func (x *AddConsultationResponse) GetTotalPrice() int32 {
 	return 0
 }
 
+type GetDocumentsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PatientID     int32                  `protobuf:"varint,1,opt,name=patientID,proto3" json:"patientID,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDocumentsRequest) Reset() {
+	*x = GetDocumentsRequest{}
+	mi := &file_proto_doctor_doctor_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDocumentsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDocumentsRequest) ProtoMessage() {}
+
+func (x *GetDocumentsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_doctor_doctor_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDocumentsRequest.ProtoReflect.Descriptor instead.
+func (*GetDocumentsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_doctor_doctor_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *GetDocumentsRequest) GetPatientID() int32 {
+	if x != nil {
+		return x.PatientID
+	}
+	return 0
+}
+
+// Ответ с массивом документов
+type GetDocumentsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Documents     []*DocumentInfo        `protobuf:"bytes,1,rep,name=documents,proto3" json:"documents,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDocumentsResponse) Reset() {
+	*x = GetDocumentsResponse{}
+	mi := &file_proto_doctor_doctor_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDocumentsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDocumentsResponse) ProtoMessage() {}
+
+func (x *GetDocumentsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_doctor_doctor_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDocumentsResponse.ProtoReflect.Descriptor instead.
+func (*GetDocumentsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_doctor_doctor_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *GetDocumentsResponse) GetDocuments() []*DocumentInfo {
+	if x != nil {
+		return x.Documents
+	}
+	return nil
+}
+
+// Информация о документе
+type DocumentInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                // UUID документа
+	FileName      string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`    // Имя файла
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`              // Описание
+	CreatedAt     string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"` // Дата создания (формат YYYY-MM-DD HH:MM)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DocumentInfo) Reset() {
+	*x = DocumentInfo{}
+	mi := &file_proto_doctor_doctor_proto_msgTypes[33]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DocumentInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DocumentInfo) ProtoMessage() {}
+
+func (x *DocumentInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_doctor_doctor_proto_msgTypes[33]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DocumentInfo.ProtoReflect.Descriptor instead.
+func (*DocumentInfo) Descriptor() ([]byte, []int) {
+	return file_proto_doctor_doctor_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *DocumentInfo) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *DocumentInfo) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *DocumentInfo) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *DocumentInfo) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+// Запрос на скачивание документа
+type DownloadDocumentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DocumentId    string                 `protobuf:"bytes,1,opt,name=document_id,json=documentId,proto3" json:"document_id,omitempty"` // UUID документа
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DownloadDocumentRequest) Reset() {
+	*x = DownloadDocumentRequest{}
+	mi := &file_proto_doctor_doctor_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DownloadDocumentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DownloadDocumentRequest) ProtoMessage() {}
+
+func (x *DownloadDocumentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_doctor_doctor_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DownloadDocumentRequest.ProtoReflect.Descriptor instead.
+func (*DownloadDocumentRequest) Descriptor() ([]byte, []int) {
+	return file_proto_doctor_doctor_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *DownloadDocumentRequest) GetDocumentId() string {
+	if x != nil {
+		return x.DocumentId
+	}
+	return ""
+}
+
+// Ответ со скачанным файлом
+type DownloadDocumentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FileName      string                 `protobuf:"bytes,1,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`          // Имя файла
+	FileContent   []byte                 `protobuf:"bytes,2,opt,name=file_content,json=fileContent,proto3" json:"file_content,omitempty"` // Содержимое файла
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DownloadDocumentResponse) Reset() {
+	*x = DownloadDocumentResponse{}
+	mi := &file_proto_doctor_doctor_proto_msgTypes[35]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DownloadDocumentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DownloadDocumentResponse) ProtoMessage() {}
+
+func (x *DownloadDocumentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_doctor_doctor_proto_msgTypes[35]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DownloadDocumentResponse.ProtoReflect.Descriptor instead.
+func (*DownloadDocumentResponse) Descriptor() ([]byte, []int) {
+	return file_proto_doctor_doctor_proto_rawDescGZIP(), []int{35}
+}
+
+func (x *DownloadDocumentResponse) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *DownloadDocumentResponse) GetFileContent() []byte {
+	if x != nil {
+		return x.FileContent
+	}
+	return nil
+}
+
 var File_proto_doctor_doctor_proto protoreflect.FileDescriptor
 
 const file_proto_doctor_doctor_proto_rawDesc = "" +
@@ -1969,7 +2225,24 @@ const file_proto_doctor_doctor_proto_rawDesc = "" +
 	"\x17AddConsultationResponse\x12\x19\n" +
 	"\bvisit_id\x18\x01 \x01(\x05R\avisitId\x12\x1f\n" +
 	"\vtotal_price\x18\x02 \x01(\x05R\n" +
-	"totalPrice2\xee\b\n" +
+	"totalPrice\"3\n" +
+	"\x13GetDocumentsRequest\x12\x1c\n" +
+	"\tpatientID\x18\x01 \x01(\x05R\tpatientID\"J\n" +
+	"\x14GetDocumentsResponse\x122\n" +
+	"\tdocuments\x18\x01 \x03(\v2\x14.doctor.DocumentInfoR\tdocuments\"|\n" +
+	"\fDocumentInfo\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\tR\tcreatedAt\":\n" +
+	"\x17DownloadDocumentRequest\x12\x1f\n" +
+	"\vdocument_id\x18\x01 \x01(\tR\n" +
+	"documentId\"Z\n" +
+	"\x18DownloadDocumentResponse\x12\x1b\n" +
+	"\tfile_name\x18\x01 \x01(\tR\bfileName\x12!\n" +
+	"\ffile_content\x18\x02 \x01(\fR\vfileContent2\x9b\n" +
+	"\n" +
 	"\rDoctorService\x12a\n" +
 	"\x14GetTodayAppointments\x12#.doctor.GetTodayAppointmentsRequest\x1a$.doctor.GetTodayAppointmentsResponse\x12j\n" +
 	"\x17GetUpcomingAppointments\x12&.doctor.GetUpcomingAppointmentsRequest\x1a'.doctor.GetUpcomingAppointmentsResponse\x12b\n" +
@@ -1983,7 +2256,9 @@ const file_proto_doctor_doctor_proto_rawDesc = "" +
 	"\x13AddPatientDiagnoses\x12\".doctor.AddPatientDiagnosesRequest\x1a\x17.doctor.DefaultResponse\x12G\n" +
 	"\x0fAddVisitPayment\x12\x1b.doctor.VisitPaymentRequest\x1a\x17.doctor.DefaultResponse\x12J\n" +
 	"\x12UpdateVisitPayment\x12\x1b.doctor.VisitPaymentRequest\x1a\x17.doctor.DefaultResponse\x12R\n" +
-	"\x0fAddConsultation\x12\x1e.doctor.AddConsultationRequest\x1a\x1f.doctor.AddConsultationResponseB\x17Z\x15doctor/proto;doctorpbb\x06proto3"
+	"\x0fAddConsultation\x12\x1e.doctor.AddConsultationRequest\x1a\x1f.doctor.AddConsultationResponse\x12T\n" +
+	"\x17GetDocumentsByPatientID\x12\x1b.doctor.GetDocumentsRequest\x1a\x1c.doctor.GetDocumentsResponse\x12U\n" +
+	"\x10DownloadDocument\x12\x1f.doctor.DownloadDocumentRequest\x1a .doctor.DownloadDocumentResponseB\x17Z\x15doctor/proto;doctorpbb\x06proto3"
 
 var (
 	file_proto_doctor_doctor_proto_rawDescOnce sync.Once
@@ -1997,7 +2272,7 @@ func file_proto_doctor_doctor_proto_rawDescGZIP() []byte {
 	return file_proto_doctor_doctor_proto_rawDescData
 }
 
-var file_proto_doctor_doctor_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
+var file_proto_doctor_doctor_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
 var file_proto_doctor_doctor_proto_goTypes = []any{
 	(*Appointment)(nil),                         // 0: doctor.Appointment
 	(*GetAppointmentByIDResponse)(nil),          // 1: doctor.GetAppointmentByIDResponse
@@ -2030,14 +2305,19 @@ var file_proto_doctor_doctor_proto_goTypes = []any{
 	(*VisitPaymentRequest)(nil),                 // 28: doctor.VisitPaymentRequest
 	(*AddConsultationRequest)(nil),              // 29: doctor.AddConsultationRequest
 	(*AddConsultationResponse)(nil),             // 30: doctor.AddConsultationResponse
-	(*timestamppb.Timestamp)(nil),               // 31: google.protobuf.Timestamp
+	(*GetDocumentsRequest)(nil),                 // 31: doctor.GetDocumentsRequest
+	(*GetDocumentsResponse)(nil),                // 32: doctor.GetDocumentsResponse
+	(*DocumentInfo)(nil),                        // 33: doctor.DocumentInfo
+	(*DownloadDocumentRequest)(nil),             // 34: doctor.DownloadDocumentRequest
+	(*DownloadDocumentResponse)(nil),            // 35: doctor.DownloadDocumentResponse
+	(*timestamppb.Timestamp)(nil),               // 36: google.protobuf.Timestamp
 }
 var file_proto_doctor_doctor_proto_depIdxs = []int32{
-	31, // 0: doctor.Appointment.date:type_name -> google.protobuf.Timestamp
-	31, // 1: doctor.Appointment.time:type_name -> google.protobuf.Timestamp
-	31, // 2: doctor.Appointment.birth_date:type_name -> google.protobuf.Timestamp
-	31, // 3: doctor.Appointment.created_at:type_name -> google.protobuf.Timestamp
-	31, // 4: doctor.Appointment.updated_at:type_name -> google.protobuf.Timestamp
+	36, // 0: doctor.Appointment.date:type_name -> google.protobuf.Timestamp
+	36, // 1: doctor.Appointment.time:type_name -> google.protobuf.Timestamp
+	36, // 2: doctor.Appointment.birth_date:type_name -> google.protobuf.Timestamp
+	36, // 3: doctor.Appointment.created_at:type_name -> google.protobuf.Timestamp
+	36, // 4: doctor.Appointment.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 5: doctor.GetAppointmentByIDResponse.appt:type_name -> doctor.Appointment
 	5,  // 6: doctor.GetUpcomingAppointmentsResponse.schedule:type_name -> doctor.ScheduleTable
 	6,  // 7: doctor.ScheduleTable.table:type_name -> doctor.ScheduleCell
@@ -2050,42 +2330,47 @@ var file_proto_doctor_doctor_proto_depIdxs = []int32{
 	19, // 14: doctor.AddVisitMaterialsRequest.materials:type_name -> doctor.AddVisitMaterials
 	21, // 15: doctor.AddVisitServicesRequest.services:type_name -> doctor.AddVisitServices
 	11, // 16: doctor.AddPatientAllergiesChronicsRequest.notes:type_name -> doctor.PatientAllergiesChronics
-	31, // 17: doctor.AddPatientVisitRequest.created_at:type_name -> google.protobuf.Timestamp
+	36, // 17: doctor.AddPatientVisitRequest.created_at:type_name -> google.protobuf.Timestamp
 	16, // 18: doctor.AddPatientDiagnosesRequest.diagnoses:type_name -> doctor.VisitDiagnose
 	16, // 19: doctor.AddConsultationRequest.diagnoses:type_name -> doctor.VisitDiagnose
 	21, // 20: doctor.AddConsultationRequest.services:type_name -> doctor.AddVisitServices
 	19, // 21: doctor.AddConsultationRequest.materials:type_name -> doctor.AddVisitMaterials
-	2,  // 22: doctor.DoctorService.GetTodayAppointments:input_type -> doctor.GetTodayAppointmentsRequest
-	3,  // 23: doctor.DoctorService.GetUpcomingAppointments:input_type -> doctor.GetUpcomingAppointmentsRequest
-	13, // 24: doctor.DoctorService.GetPatientAllergiesChronics:input_type -> doctor.GetByIdRequest
-	13, // 25: doctor.DoctorService.GetAppointmentByID:input_type -> doctor.GetByIdRequest
-	13, // 26: doctor.DoctorService.GetPatientVisits:input_type -> doctor.GetByIdRequest
-	23, // 27: doctor.DoctorService.AddPatientAllergiesChronics:input_type -> doctor.AddPatientAllergiesChronicsRequest
-	24, // 28: doctor.DoctorService.AddPatientVisit:input_type -> doctor.AddPatientVisitRequest
-	20, // 29: doctor.DoctorService.AddVisitMaterials:input_type -> doctor.AddVisitMaterialsRequest
-	22, // 30: doctor.DoctorService.AddVisitServices:input_type -> doctor.AddVisitServicesRequest
-	25, // 31: doctor.DoctorService.AddPatientDiagnoses:input_type -> doctor.AddPatientDiagnosesRequest
-	28, // 32: doctor.DoctorService.AddVisitPayment:input_type -> doctor.VisitPaymentRequest
-	28, // 33: doctor.DoctorService.UpdateVisitPayment:input_type -> doctor.VisitPaymentRequest
-	29, // 34: doctor.DoctorService.AddConsultation:input_type -> doctor.AddConsultationRequest
-	10, // 35: doctor.DoctorService.GetTodayAppointments:output_type -> doctor.GetTodayAppointmentsResponse
-	4,  // 36: doctor.DoctorService.GetUpcomingAppointments:output_type -> doctor.GetUpcomingAppointmentsResponse
-	12, // 37: doctor.DoctorService.GetPatientAllergiesChronics:output_type -> doctor.GetPatientAllergiesChronicsResponse
-	1,  // 38: doctor.DoctorService.GetAppointmentByID:output_type -> doctor.GetAppointmentByIDResponse
-	18, // 39: doctor.DoctorService.GetPatientVisits:output_type -> doctor.GetPatientVisitsResponse
-	26, // 40: doctor.DoctorService.AddPatientAllergiesChronics:output_type -> doctor.DefaultResponse
-	27, // 41: doctor.DoctorService.AddPatientVisit:output_type -> doctor.AddVisitResponse
-	26, // 42: doctor.DoctorService.AddVisitMaterials:output_type -> doctor.DefaultResponse
-	26, // 43: doctor.DoctorService.AddVisitServices:output_type -> doctor.DefaultResponse
-	26, // 44: doctor.DoctorService.AddPatientDiagnoses:output_type -> doctor.DefaultResponse
-	26, // 45: doctor.DoctorService.AddVisitPayment:output_type -> doctor.DefaultResponse
-	26, // 46: doctor.DoctorService.UpdateVisitPayment:output_type -> doctor.DefaultResponse
-	30, // 47: doctor.DoctorService.AddConsultation:output_type -> doctor.AddConsultationResponse
-	35, // [35:48] is the sub-list for method output_type
-	22, // [22:35] is the sub-list for method input_type
-	22, // [22:22] is the sub-list for extension type_name
-	22, // [22:22] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	33, // 22: doctor.GetDocumentsResponse.documents:type_name -> doctor.DocumentInfo
+	2,  // 23: doctor.DoctorService.GetTodayAppointments:input_type -> doctor.GetTodayAppointmentsRequest
+	3,  // 24: doctor.DoctorService.GetUpcomingAppointments:input_type -> doctor.GetUpcomingAppointmentsRequest
+	13, // 25: doctor.DoctorService.GetPatientAllergiesChronics:input_type -> doctor.GetByIdRequest
+	13, // 26: doctor.DoctorService.GetAppointmentByID:input_type -> doctor.GetByIdRequest
+	13, // 27: doctor.DoctorService.GetPatientVisits:input_type -> doctor.GetByIdRequest
+	23, // 28: doctor.DoctorService.AddPatientAllergiesChronics:input_type -> doctor.AddPatientAllergiesChronicsRequest
+	24, // 29: doctor.DoctorService.AddPatientVisit:input_type -> doctor.AddPatientVisitRequest
+	20, // 30: doctor.DoctorService.AddVisitMaterials:input_type -> doctor.AddVisitMaterialsRequest
+	22, // 31: doctor.DoctorService.AddVisitServices:input_type -> doctor.AddVisitServicesRequest
+	25, // 32: doctor.DoctorService.AddPatientDiagnoses:input_type -> doctor.AddPatientDiagnosesRequest
+	28, // 33: doctor.DoctorService.AddVisitPayment:input_type -> doctor.VisitPaymentRequest
+	28, // 34: doctor.DoctorService.UpdateVisitPayment:input_type -> doctor.VisitPaymentRequest
+	29, // 35: doctor.DoctorService.AddConsultation:input_type -> doctor.AddConsultationRequest
+	31, // 36: doctor.DoctorService.GetDocumentsByPatientID:input_type -> doctor.GetDocumentsRequest
+	34, // 37: doctor.DoctorService.DownloadDocument:input_type -> doctor.DownloadDocumentRequest
+	10, // 38: doctor.DoctorService.GetTodayAppointments:output_type -> doctor.GetTodayAppointmentsResponse
+	4,  // 39: doctor.DoctorService.GetUpcomingAppointments:output_type -> doctor.GetUpcomingAppointmentsResponse
+	12, // 40: doctor.DoctorService.GetPatientAllergiesChronics:output_type -> doctor.GetPatientAllergiesChronicsResponse
+	1,  // 41: doctor.DoctorService.GetAppointmentByID:output_type -> doctor.GetAppointmentByIDResponse
+	18, // 42: doctor.DoctorService.GetPatientVisits:output_type -> doctor.GetPatientVisitsResponse
+	26, // 43: doctor.DoctorService.AddPatientAllergiesChronics:output_type -> doctor.DefaultResponse
+	27, // 44: doctor.DoctorService.AddPatientVisit:output_type -> doctor.AddVisitResponse
+	26, // 45: doctor.DoctorService.AddVisitMaterials:output_type -> doctor.DefaultResponse
+	26, // 46: doctor.DoctorService.AddVisitServices:output_type -> doctor.DefaultResponse
+	26, // 47: doctor.DoctorService.AddPatientDiagnoses:output_type -> doctor.DefaultResponse
+	26, // 48: doctor.DoctorService.AddVisitPayment:output_type -> doctor.DefaultResponse
+	26, // 49: doctor.DoctorService.UpdateVisitPayment:output_type -> doctor.DefaultResponse
+	30, // 50: doctor.DoctorService.AddConsultation:output_type -> doctor.AddConsultationResponse
+	32, // 51: doctor.DoctorService.GetDocumentsByPatientID:output_type -> doctor.GetDocumentsResponse
+	35, // 52: doctor.DoctorService.DownloadDocument:output_type -> doctor.DownloadDocumentResponse
+	38, // [38:53] is the sub-list for method output_type
+	23, // [23:38] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_proto_doctor_doctor_proto_init() }
@@ -2099,7 +2384,7 @@ func file_proto_doctor_doctor_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_doctor_doctor_proto_rawDesc), len(file_proto_doctor_doctor_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   31,
+			NumMessages:   36,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

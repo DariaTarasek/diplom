@@ -19,11 +19,11 @@ createApp({
     });
 
     const admin = ref({
-        second_name: '',
-        first_name: ''
+        secondName: '',
+        firstName: ''
     })
     const fullName = computed(() => {
-  return [admin.value.first_name, admin.value.second_name].filter(Boolean).join(' ');
+  return [admin.value.firstName, admin.value.secondName].filter(Boolean).join(' ');
     });
 
 
@@ -256,11 +256,11 @@ createApp({
 
     async function fetchAdminData() {
   try {
-    const res = await fetch('/api/admin-data');
+    const res = await fetch('/api/admin/me');
     const data = await res.json();
 
-    admin.value.first_name = data.first_name || '';
-    admin.value.second_name = data.second_name || '';
+    admin.value.firstName = data.firstName || '';
+    admin.value.secondName = data.secondName || '';
     userRole.value = data.role || '';
 
   } catch (err) {

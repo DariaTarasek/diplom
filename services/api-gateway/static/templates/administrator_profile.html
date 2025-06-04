@@ -8,12 +8,12 @@
         <meta name="author" content="">
         <style>[v-cloak] { display: none !important; }</style>
         <!-- Bootstrap core CSS -->
-        <link href="bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="static/bootstrap_theme/bootstrap.css" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template -->
-        <link rel="stylesheet" href="blocks.css">
-        <link href="style.css" rel="stylesheet">
-        <link href="footer_style.css" rel="stylesheet">
-        <link rel="stylesheet" href="bootstrap_theme/icons.css">
+        <link rel="stylesheet" href="static/blocks.css">
+        <link href="static/style.css" rel="stylesheet">
+        <link href="static/footer_style.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/bootstrap_theme/icons.css">
         <title>Стоматологическая клиника «ПримаСтом»</title>
         <style>.tab-content > .tab-pane { display: none; } .tab-content > .active { display: block; }</style>
         <style>html, body { height: 100%; } body { display: flex; flex-direction: column; } #app { flex: 1 0 auto; display: flex; flex-direction: column; } main { flex: 1 0 auto; display: flex; flex-direction: column; } footer { flex-shrink: 0; }</style>
@@ -102,10 +102,9 @@
                                     <!-- Отображение данных с возможностью редактирования -->
                                     <div v-if="role === 'superadmin'">
                                         <div v-if="!editingInfo">
-                                            <p><strong>Фамилия:</strong> {{ admin.second_name }}</p>
-                                            <p><strong>Имя:</strong> {{ admin.first_name }}</p>
+                                            <p><strong>Фамилия:</strong> {{ admin.secondName }}</p>
+                                            <p><strong>Имя:</strong> {{ admin.firstName }}</p>
                                             <p><strong>Отчество:</strong> {{ admin.surname }}</p>
-                                            <p><strong>Дата рождения:</strong> {{ admin.birthDate }}</p>
                                             <p><strong>Пол:</strong> {{ admin.gender }}</p>
                                             <p><strong>Телефон:</strong> {{ admin.phone }}</p>
                                             <p><strong>Почта:</strong> {{ admin.email }}</p>
@@ -227,10 +226,10 @@
                     </div>
                 </div>                 
             </footer>
-            <script src="assets/js/popper.min.js"></script>
-            <script src="bootstrap/js/bootstrap.min.js"></script>
+            <script src="static/assets/js/popper.min.js"></script>
+            <script src="static/bootstrap/js/bootstrap.min.js"></script>
             <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-            <script src="js/administrator_profile.js"></script>
+            <script src="static/js/administrator_profile.js"></script>
         </div>
     </body>
 </html>

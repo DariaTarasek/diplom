@@ -5,6 +5,8 @@ import (
 	"github.com/DariaTarasek/diplom/services/patient/model"
 	pb "github.com/DariaTarasek/diplom/services/patient/proto/patient"
 	"github.com/DariaTarasek/diplom/services/patient/service"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type Server struct {
@@ -106,4 +108,51 @@ func (s *Server) GetHistoryVisits(ctx context.Context, request *pb.GetHistoryVis
 		historyVisits = append(historyVisits, historyVisit)
 	}
 	return &pb.GetHistoryVisitsResponse{Visits: historyVisits}, nil
+}
+
+func (s *Server) UploadTest(ctx context.Context, req *pb.UploadTestRequest) (*pb.UploadTestResponse, error) {
+	docID, err := s.Service.UploadTest(ctx, model.UploadTestInput{
+		Token:       req.Token,
+		FileName:    req.FileName,
+		FileContent: req.FileContent,
+		Description: req.Description,
+	})
+	if err != nil {
+		// маппинг ошибок в gRPC status
+		return nil, status.Errorf(codes.InvalidArgument, "upload failed: %v", err)
+	}
+
+	return &pb.UploadTestResponse{
+		DocumentId: docID.String(),
+	}, nil
+}
+
+func (s *Server) GetDocumentsByPatientID(ctx context.Context, request *pb.GetDocumentsRequest) (*pb.GetDocumentsResponse, error) {
+	resp, err := s.Service.GetDocumentsInfo(ctx, request.Token)
+	if err != nil {
+		return nil, err
+	}
+
+	docs := make([]*pb.DocumentInfo, 0, len(resp))
+	for _, item := range resp {
+		doc := &pb.DocumentInfo{
+			Id:          item.ID,
+			FileName:    item.FileName,
+			Description: item.Description,
+			CreatedAt:   item.CreatedAt,
+		}
+		docs = append(docs, doc)
+	}
+	return &pb.GetDocumentsResponse{Documents: docs}, nil
+}
+
+func (s *Server) DownloadDocument(ctx context.Context, request *pb.DownloadDocumentRequest) (*pb.DownloadDocumentResponse, error) {
+	resp, err := s.Service.DownloadDocument(ctx, request.DocumentId)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DownloadDocumentResponse{
+		FileName:    resp.FileName,
+		FileContent: resp.FileContent,
+	}, nil
 }
