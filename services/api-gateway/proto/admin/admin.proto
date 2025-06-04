@@ -212,11 +212,14 @@ message UnconfirmedVisitPayment {
   string patient = 3;
   string created_at = 4;
   int32 price = 5;
+  repeated GetVisitMaterialsAndServices materials_and_services = 6;
 }
 
 message UnconfirmedVisitPaymentsResponse {
   repeated UnconfirmedVisitPayment visit_payments = 1;
 }
+
+
 
 message AdminScheduleOverview {
   repeated ScheduleDay days = 1;
@@ -237,6 +240,26 @@ message AppointmentEntry {
   Person patient = 5;
 }
 
+message Appointment {
+  int32 id  = 1;
+  int32 patient_id = 2;
+  string doctor = 3;
+  string date = 4;
+  string time = 5;
+  string first_name = 6;
+  string second_name = 7;
+  string surname = 8;
+  string birth_date = 9;
+  string gender = 10;
+  string phone_number = 11;
+  string status = 12;
+  string created_at = 13;
+  string updated_at = 14;
+}
+
+message GetUnconfirmedAppointmentResponse {
+  repeated Appointment appointments = 1;
+}
 message Person {
   int64 id = 1;
   string first_name = 2;
@@ -248,7 +271,41 @@ message Person {
   string specialty = 8;
 }
 
+message VisitPayment {
+  int32 visit_id = 1;
+  int32 price = 2;
+  string status = 3;
+}
 
+message UpdateVisitPaymentRequest {
+  VisitPayment payment = 1;
+}
+
+message GetVisitMaterialsAndServices {
+  int32 id = 1;
+  int32 visit_id = 2;
+  string item = 3;
+  int32 quantity = 4;
+}
+
+message GetVisitMaterialsAndServicesResponse {
+  repeated GetVisitMaterialsAndServices visit_materials_services = 1;
+}
+
+message GetByIdRequest {
+  int32 id =1;
+}
+
+message UpdateAppointment {
+  int32 id = 1;
+  google.protobuf.Timestamp date = 2;
+  google.protobuf.Timestamp time = 3;
+  string status = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+message UpdateAppointmentRequest{
+  UpdateAppointment appt = 1;
+}
 
 service AdminService {
   rpc UpdateClinicWeeklySchedule(UpdateClinicWeeklyScheduleRequest) returns (DefaultResponse); // изменение постоянного расписания клиники
@@ -277,4 +334,10 @@ service AdminService {
   rpc GetUnconfirmedVisitPayments(EmptyRequest) returns (UnconfirmedVisitPaymentsResponse);
 
   rpc GetClinicScheduleGrid(EmptyRequest) returns (AdminScheduleOverview);
+
+  rpc UpdateVisitPayment(UpdateVisitPaymentRequest) returns (DefaultResponse);
+  rpc GetVisitMaterialsAndServices(GetByIdRequest) returns (GetVisitMaterialsAndServicesResponse);
+
+  rpc GetUnconfirmedAppointments(EmptyRequest) returns (GetUnconfirmedAppointmentResponse);
+  rpc UpdateAppointment(UpdateAppointmentRequest) returns (DefaultResponse);
 }

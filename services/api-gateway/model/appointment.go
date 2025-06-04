@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type (
 	ScheduleEntry struct {
 		Label string   `json:"label"`
@@ -22,6 +24,29 @@ type (
 		Status             string        `json:"status"`
 		CreatedAt          string        `json:"createdAt"`
 		UpdatedAt          string        `json:"updatedAt"`
+	}
+	UnconfirmedAppointment struct {
+		ID                int    `json:"id"`
+		Doctor            string `json:"doctor"`
+		PatientID         int    `json:"patient_id"`
+		Date              string `json:"date"`
+		Time              string `json:"time"`
+		PatientFirstName  string `json:"patient_first_name"`
+		PatientSecondName string `json:"patient_second_name"`
+		PatientSurname    string `json:"patient_surname"`
+		PatientBirthDate  string `json:"patient_birth_date"`
+		Gender            string `json:"gender"`
+		PhoneNumber       string `json:"phone_number"`
+		Status            string `json:"status"`
+		CreatedAt         string `json:"created_at"`
+		UpdatedAt         string `json:"updated_at"`
+	}
+	UpdateAppointment struct {
+		ID        int       `json:"id"`
+		Date      string    `json:"date"`
+		Time      string    `json:"time"`
+		Status    string    `json:"status"`
+		UpdatedAt time.Time `json:"updated_at"`
 	}
 	UpcomingAppointment struct {
 		ID        AppointmentID `json:"id"`

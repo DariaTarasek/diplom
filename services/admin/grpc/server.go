@@ -391,14 +391,102 @@ func (s *Server) GetUnconfirmedVisitPayments(ctx context.Context, req *pb.EmptyR
 	}
 	var visitsResp []*pb.UnconfirmedVisitPayment
 	for _, item := range visits {
+		itemsPerVisit, err := s.Service.GetVisitMaterialsAndServices(ctx, item.VisitID)
+		if err != nil {
+			return &pb.UnconfirmedVisitPaymentsResponse{}, err
+		}
+
+		var servicesAndMaterials []*pb.GetVisitMaterialsAndServices
+		for _, itemPerVisit := range itemsPerVisit {
+			serviceMaterial := &pb.GetVisitMaterialsAndServices{
+				Id:       int32(itemPerVisit.ID),
+				VisitId:  int32(itemPerVisit.VisitID),
+				Item:     itemPerVisit.Item,
+				Quantity: int32(itemPerVisit.Quantity),
+			}
+			servicesAndMaterials = append(servicesAndMaterials, serviceMaterial)
+		}
 		visit := &pb.UnconfirmedVisitPayment{
-			VisitId:   int32(item.VisitID),
-			Doctor:    item.Doctor,
-			Patient:   item.Patient,
-			CreatedAt: item.CreatedAt,
-			Price:     int32(item.Price),
+			VisitId:              int32(item.VisitID),
+			Doctor:               item.Doctor,
+			Patient:              item.Patient,
+			CreatedAt:            item.CreatedAt,
+			Price:                int32(item.Price),
+			MaterialsAndServices: servicesAndMaterials,
 		}
 		visitsResp = append(visitsResp, visit)
 	}
 	return &pb.UnconfirmedVisitPaymentsResponse{VisitPayments: visitsResp}, nil
+}
+
+func (s *Server) UpdateVisitPayment(ctx context.Context, req *pb.UpdateVisitPaymentRequest) (*pb.DefaultResponse, error) {
+	err := s.Service.UpdateVisitPayment(ctx, model.VisitPayment{
+		VisitID: int(req.Payment.VisitId),
+		Price:   int(req.Payment.Price),
+		Status:  req.Payment.Status,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("не удалось подтвердить цену приема: %w", err)
+	}
+	return &pb.DefaultResponse{}, nil
+}
+
+func (s *Server) GetVisitMaterialsAndServices(ctx context.Context, req *pb.GetByIdRequest) (*pb.GetVisitMaterialsAndServicesResponse, error) {
+	resp, err := s.Service.GetVisitMaterialsAndServices(ctx, int(req.Id))
+	if err != nil {
+		return &pb.GetVisitMaterialsAndServicesResponse{}, err
+	}
+	var servicesAndMaterials []*pb.GetVisitMaterialsAndServices
+	for _, item := range resp {
+		serviceMaterial := &pb.GetVisitMaterialsAndServices{
+			Id:       int32(item.ID),
+			VisitId:  int32(item.VisitID),
+			Item:     item.Item,
+			Quantity: int32(item.Quantity),
+		}
+		servicesAndMaterials = append(servicesAndMaterials, serviceMaterial)
+	}
+	return &pb.GetVisitMaterialsAndServicesResponse{VisitMaterialsServices: servicesAndMaterials}, nil
+}
+
+func (s *Server) GetUnconfirmedAppointments(ctx context.Context, req *pb.EmptyRequest) (*pb.GetUnconfirmedAppointmentResponse, error) {
+	resp, err := s.Service.GetUnconfirmedAppointments(ctx)
+	if err != nil {
+		return &pb.GetUnconfirmedAppointmentResponse{}, err
+	}
+	var appointments []*pb.Appointment
+	for _, item := range resp {
+		appt := &pb.Appointment{
+			Id:          int32(item.ID),
+			PatientId:   int32(item.PatientID),
+			Doctor:      item.Doctor,
+			Date:        item.Date,
+			Time:        item.Time,
+			FirstName:   item.PatientFirstName,
+			SecondName:  item.PatientSecondName,
+			Surname:     item.PatientSurname,
+			BirthDate:   item.PatientBirthDate,
+			Gender:      item.Gender,
+			PhoneNumber: item.PhoneNumber,
+			Status:      item.Status,
+			CreatedAt:   item.CreatedAt,
+			UpdatedAt:   item.UpdatedAt,
+		}
+		appointments = append(appointments, appt)
+	}
+	return &pb.GetUnconfirmedAppointmentResponse{Appointments: appointments}, nil
+}
+
+func (s *Server) UpdateAppointment(ctx context.Context, req *pb.UpdateAppointmentRequest) (*pb.DefaultResponse, error) {
+	err := s.Service.UpdateAppointment(ctx, model.UpdateAppointment{
+		ID:        int(req.Appt.Id),
+		Date:      req.Appt.Date.AsTime(),
+		Time:      req.Appt.Time.AsTime(),
+		Status:    req.Appt.Status,
+		UpdatedAt: req.Appt.UpdatedAt.AsTime(),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DefaultResponse{}, nil
 }

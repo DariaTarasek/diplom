@@ -13,3 +13,10 @@ type UnconfirmedVisitPayment struct {
 	CreatedAt string
 	Price     int
 }
+
+type VisitMaterialsServices struct {
+	ID       int
+	VisitID  int
+	Item     string
+	Quantity int
+}

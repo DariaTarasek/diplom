@@ -4623,7 +4623,6 @@ type ICDCode struct {
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4675,13 +4674,6 @@ func (x *ICDCode) GetCode() string {
 func (x *ICDCode) GetName() string {
 	if x != nil {
 		return x.Name
-	}
-	return ""
-}
-
-func (x *ICDCode) GetDescription() string {
-	if x != nil {
-		return x.Description
 	}
 	return ""
 }
@@ -5424,12 +5416,11 @@ const file_proto_storage_storage_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"G\n" +
 	"\x16UpdateUserLoginRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12\x14\n" +
-	"\x05login\x18\x02 \x01(\tR\x05login\"c\n" +
+	"\x05login\x18\x02 \x01(\tR\x05login\"A\n" +
 	"\aICDCode\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04code\x18\x02 \x01(\tR\x04code\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"i\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\"i\n" +
 	"\bDiagnose\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x19\n" +
 	"\bvisit_id\x18\x02 \x01(\x05R\avisitId\x12\x1e\n" +

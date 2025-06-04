@@ -600,6 +600,76 @@ message GetAppointmentsResponse {
   repeated Appointment appointments = 1;
 }
 
+message VisitMaterialAndService {
+  int32 id = 1;
+  int32 visit_id = 2;
+  int32 item_id = 3;
+  int32 quantity = 4;
+}
+message GetVisitMaterialsAndServicesResponse {
+  repeated VisitMaterialAndService visit_materials_services = 1;
+}
+
+message GetMaterialServiceByIDResponse {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message IntResponse {
+  int32 int = 1;
+}
+
+message FloatResponse {
+  float float = 1;
+}
+
+message ServiceStats {
+  string name = 1;
+  int32 usage_count = 2;
+}
+
+message ServiceStatsResponse {
+  repeated ServiceStats service_stats = 1;
+}
+
+message DoctorAvgVisit {
+  int32 doctor_id = 1;
+  float avg_weekly_visits = 2;
+}
+
+message DoctorAvgVisitResponse {
+  repeated DoctorAvgVisit visits = 1;
+}
+
+message DoctorCheck {
+  int32 doctor_id = 1;
+  float avg_check = 2;
+}
+
+message DoctorAvgCheckResponse {
+  repeated DoctorCheck check = 1;
+}
+
+message DoctorUniquePatient {
+  int32 doctor_id = 1;
+  int32 unique_patients = 2;
+}
+
+message DoctorUniquePatientResponse{
+  repeated DoctorUniquePatient patients = 1;
+}
+
+message AgeGroupStat {
+  int32 age_group = 1;
+  float percent = 2;
+}
+
+message AgeGroupStatResponse {
+  repeated AgeGroupStat age_groups = 1;
+}
+
+
 message GetDiagnoseByVisitIDResponse {
   repeated Diagnose diagnose = 1;
 }
@@ -687,5 +757,26 @@ service StorageService {
   rpc GetVisitsPayments(EmptyRequest) returns (GetVisitsPaymentsResponse);
   rpc GetClinicOverrides(EmptyRequest) returns (GetClinicOverridesResponse);
   rpc GetAppointments(EmptyRequest) returns (GetAppointmentsResponse);
+
+  rpc GetVisitMaterials(GetByIdRequest) returns (GetVisitMaterialsAndServicesResponse);
+  rpc GetVisitServices(GetByIdRequest) returns (GetVisitMaterialsAndServicesResponse);
+  rpc GetMaterialByID(GetByIdRequest) returns (GetMaterialServiceByIDResponse);
+  rpc GetServiceByID(GetByIdRequest) returns (GetMaterialServiceByIDResponse);
+
+  // статистика
+  rpc GetTotalPatients(EmptyRequest) returns (IntResponse);
+  rpc GetTotalVisits(EmptyRequest) returns (IntResponse);
+  rpc GetTopServices(EmptyRequest) returns (ServiceStatsResponse);
+  rpc GetDoctorAvgVisit(EmptyRequest) returns (DoctorAvgVisitResponse);
+  rpc GetDoctorAvgCheck(EmptyRequest) returns (DoctorAvgCheckResponse);
+  rpc GetDoctorUniquePatient(EmptyRequest) returns (DoctorUniquePatientResponse);
+  rpc GetAgeGroupStat(EmptyRequest) returns (AgeGroupStatResponse);
+  rpc GetNewPatientsThisMonth(EmptyRequest) returns (IntResponse);
+  rpc GetAvgVisitsPerPatient(EmptyRequest) returns (FloatResponse);
+  rpc GetTotalIncome(EmptyRequest) returns (FloatResponse);
+  rpc GetMonthlyIncome(EmptyRequest) returns (FloatResponse);
+  rpc GetClinicAverageCheck(EmptyRequest) returns (FloatResponse);
+
   rpc GetDiagnoseByVisitID(GetByIDRequest) returns (GetDiagnoseByVisitIDResponse);
 }
+
