@@ -6,6 +6,7 @@ createApp({
       activeTab: 'today',
       first_name: '',
       second_name: '',
+      doctorProfile: null, // добавлено
       tabs: [
         { id: 'today', label: 'Записи на сегодня' },
         { id: 'upcoming', label: 'Расписание' },
@@ -27,7 +28,10 @@ createApp({
       return (this.data.today || []).slice().sort((a, b) => a.time.localeCompare(b.time));
     },
     fullName() {
-      return [this.first_name, this.second_name].filter(Boolean).join(' ');
+      if (this.doctorProfile) {
+        return [this.doctorProfile.firstName, this.doctorProfile.secondName].filter(Boolean).join(' ');
+      }
+      return [this.firstName, this.secondName].filter(Boolean).join(' ');
     },
     paginatedDates() {
       const start = (this.currentPageX - 1) * this.pageSizeX;
@@ -44,6 +48,16 @@ createApp({
     }
   },
   methods: {
+    fetchDoctorProfile() {
+      fetch('/api/doctor/me')
+          .then(res => res.json())
+          .then(data => {
+            this.doctorProfile = data;
+            this.first_name = data.firstName;
+            this.second_name = data.secondName;
+          })
+          .catch(err => console.error('Ошибка при получении профиля врача:', err));
+    },
     fetchTodayAppointments() {
       fetch('/api/appointments-today')
           .then(res => res.json())
@@ -60,7 +74,6 @@ createApp({
           })
           .catch(err => console.error('Ошибка при загрузке расписания:', err));
     },
-
     getPatientByDateTime(date, time) {
       return (this.data.upcoming || []).find(x => x.date === date && x.time === time);
     },
@@ -68,12 +81,10 @@ createApp({
       const [day, month, year] = dateStr.split('.');
       return `${year}-${month}-${day}`;
     },
-
     isToday(dateStr) {
       const today = new Date().toISOString().split('T')[0];
       return this.formatDateToIso(dateStr) === today;
     },
-
     startConsultation(appointmentId) {
       if (appointmentId) {
         window.location.href = `doctors_consultation.html?appointment_id=${appointmentId}`;
@@ -98,8 +109,8 @@ createApp({
     }
   },
   mounted() {
-    // подгружаем только первую вкладку
-    this.fetchTodayAppointments();
+    this.fetchDoctorProfile(); // вызываем при инициализации
+    this.fetchTodayAppointments(); // подгружаем первую вкладку
     document.addEventListener('click', this.handleClickOutside);
   }
 }).mount('#app');

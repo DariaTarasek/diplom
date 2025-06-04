@@ -4,8 +4,8 @@ createApp({
     data() {
         return {
             patient: {
-                second_name: '',
-                first_name: '',
+                secondName: '',
+                firstName: '',
                 surname: '',
                 birthDate: '',
                 gender: '',
@@ -63,8 +63,8 @@ createApp({
     computed: {
         fullName() {
             return [
-                this.patient.first_name,
-                this.patient.second_name,
+                this.patient.firstName,
+                this.patient.secondName,
             ]
             .filter(Boolean)
             .join(' ');
@@ -85,7 +85,7 @@ createApp({
     },
     methods: {
         fetchPatientData() {
-            fetch('http://192.168.1.207:8080/api/patient-profile')
+            fetch('/api/patient/me')
                 .then(response => response.json())
                 .then(data => {
                     this.patient = data;
@@ -95,7 +95,7 @@ createApp({
                 });
         },
         changeEmail() {
-            fetch('http://192.168.1.207:8080/api/change-email', {
+            fetch('/api/change-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: this.newEmail })
@@ -114,7 +114,7 @@ createApp({
             if (this.newPassword !== this.confirmPassword) {
                 return;
             }
-            fetch('http://192.168.1.207:8080/api/change-password', {
+            fetch('/api/change-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password: this.newPassword })

@@ -115,7 +115,17 @@
                     </div>
                     <!-- Анамнез -->
                     <div v-if="activeTab === 'history'">
-                        <h4 class="mb-3 text-black">Анамнез</h4>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-black mb-0">Анамнез</h4>
+                            <button
+                                    v-if="documents.length"
+                                    @click="showDocumentsModal = true"
+                                    class="btn btn-sm btn-outline-primary d-flex align-items-center"
+                            >
+                                <i class="bi bi-paperclip me-1"></i>
+                                Документы ({{ documents.length }})
+                            </button>
+                        </div>
                         <table class="table table-sm table-bordered fs-5">
                             <thead class="table-light">
                                 <tr>
@@ -312,11 +322,54 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Модалка документов -->
+                    <div v-cloak v-if="showDocumentsModal" class="modal d-block" @click.self="showDocumentsModal = false">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Загруженные документы</h5>
+                                    <button type="button" class="btn-close" @click="showDocumentsModal = false"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="list-group">
+                                        <li
+                                                class="list-group-item d-flex justify-content-between align-items-center"
+                                                v-for="doc in documents"
+                                                :key="doc.id"
+                                        >
+                                            <div>
+                                                <strong>{{ doc.date }}</strong> — {{ doc.description }}
+                                            </div>
+                                            <a
+                                                    :href="`/api/doctor/consultation/patient-tests/download/${doc.id}`"
+                                                    class="btn btn-sm btn-primary"
+                                                    download
+                                            >
+                                                Скачать
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backdrop -->
+                    <div
+                            class="modal-backdrop fade show"
+                            v-if="showDocumentsModal"
+                            style="z-index: 1040;"
+                    ></div>
+
+
+                </div>
                     <!-- сохранение -->
                     <div class="mt-4 text-center">
                         <button class="btn btn-primary" @click="submitVisit" v-if="activeTab === 'materials'"> Сохранить прием
 </button>
                     </div>
+
+
                 </div>
                 <!-- Vue 3 -->
                 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>

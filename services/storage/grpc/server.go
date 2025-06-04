@@ -4,17 +4,21 @@ import (
 	"context"
 	"fmt"
 	"github.com/DariaTarasek/diplom/services/storage/internal/model"
+	"github.com/DariaTarasek/diplom/services/storage/internal/storagefs"
 	"github.com/DariaTarasek/diplom/services/storage/internal/store"
 	pb "github.com/DariaTarasek/diplom/services/storage/proto"
+	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
+	"strconv"
 	"time"
 )
 
 type Server struct {
 	pb.UnimplementedStorageServiceServer
 	Store *store.Store
+	FS    *storagefs.FileStorage
 }
 
 func deref(s *string) string {
@@ -1626,4 +1630,105 @@ func (s *Server) GetDiagnoseByVisitID(ctx context.Context, request *pb.GetByIDRe
 		diagnoses = append(diagnoses, diagnose)
 	}
 	return &pb.GetDiagnoseByVisitIDResponse{Diagnose: diagnoses}, nil
+}
+
+func (s *Server) SaveDocument(ctx context.Context, req *pb.SaveDocumentRequest) (*pb.SaveDocumentResponse, error) {
+	docID := uuid.New()
+
+	// Сохраняем файл
+	storagePath, err := s.FS.SaveFile(req.PatientId, req.FileName, req.FileContent)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось сохранить файл: %w", err)
+	}
+	jpgPath, err := s.FS.SaveFile(req.PatientId, req.PreviewFileName, req.PreviewJpeg)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось сохранить файл предпросмотра: %w", err)
+	}
+
+	// Сохраняем метаданные
+	patientID, _ := strconv.Atoi(req.PatientId)
+	studyDate := req.StudyDate.AsTime()
+	doc := model.PatientDocument{
+		ID:          docID,
+		PatientID:   model.UserID(patientID),
+		FileName:    req.FileName,
+		Modality:    req.Modality,
+		StudyDate:   &studyDate,
+		Description: req.Description,
+		StoragePath: storagePath,
+		PreviewPath: jpgPath,
+		CreatedAt:   time.Now(),
+	}
+	if err := s.Store.SaveDocument(ctx, &doc); err != nil {
+		return nil, fmt.Errorf("не удалось сохранить метаданные документа: %w", err)
+	}
+
+	return &pb.SaveDocumentResponse{DocumentId: docID.String()}, nil
+}
+
+func (s *Server) DownloadDocument(ctx context.Context, req *pb.DownloadDocumentRequest) (*pb.DownloadDocumentResponse, error) {
+	docID, err := uuid.Parse(req.DocumentId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "невалидный UUID: %v", err)
+	}
+
+	doc, err := s.Store.GetDocumentByID(ctx, docID)
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, "документ не найден: %v", err)
+	}
+
+	data, fileName, err := s.FS.GetDocumentFile(doc)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "не удалось прочитать файл: %v", err)
+	}
+
+	return &pb.DownloadDocumentResponse{
+		FileName:    fileName,
+		FileContent: data,
+	}, nil
+}
+
+func (s *Server) GetDocumentsByPatientID(ctx context.Context, req *pb.GetDocumentsRequest) (*pb.GetDocumentsResponse, error) {
+	patientID, err := strconv.Atoi(req.PatientId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "невалидный UUID пациента: %v", err)
+	}
+
+	docs, err := s.Store.GetDocumentsByPatient(ctx, model.UserID(patientID))
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "не удалось получить документы: %v", err)
+	}
+
+	var pbDocs []*pb.DocumentInfo
+	for _, doc := range docs {
+		pbDocs = append(pbDocs, &pb.DocumentInfo{
+			Id:          doc.ID.String(),
+			FileName:    doc.FileName,
+			Description: doc.Description,
+			Modality:    doc.Modality,
+			StudyDate:   doc.StudyDate.Format("2006-01-02"),
+			CreatedAt:   timestamppb.New(doc.CreatedAt),
+		})
+	}
+
+	return &pb.GetDocumentsResponse{
+		Documents: pbDocs,
+	}, nil
+}
+
+func (s *Server) GetAdminByID(ctx context.Context, request *pb.GetByIDRequest) (*pb.GetAdminByIDResponse, error) {
+	resp, err := s.Store.GetAdminByID(ctx, model.UserID(request.Id))
+	if err != nil {
+		return nil, err
+	}
+	admin := &pb.Admin{
+		UserId:      int32(resp.ID),
+		FirstName:   resp.FirstName,
+		SecondName:  resp.SecondName,
+		Surname:     deref(resp.Surname),
+		PhoneNumber: deref(resp.PhoneNumber),
+		Email:       resp.Email,
+		Gender:      resp.Gender,
+	}
+	return &pb.GetAdminByIDResponse{Admin: admin}, nil
 }

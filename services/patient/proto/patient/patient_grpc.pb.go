@@ -25,6 +25,9 @@ const (
 	PatientService_UpdateAppointment_FullMethodName       = "/patient.PatientService/UpdateAppointment"
 	PatientService_CancelAppointment_FullMethodName       = "/patient.PatientService/CancelAppointment"
 	PatientService_GetHistoryVisits_FullMethodName        = "/patient.PatientService/GetHistoryVisits"
+	PatientService_UploadTest_FullMethodName              = "/patient.PatientService/UploadTest"
+	PatientService_GetDocumentsByPatientID_FullMethodName = "/patient.PatientService/GetDocumentsByPatientID"
+	PatientService_DownloadDocument_FullMethodName        = "/patient.PatientService/DownloadDocument"
 )
 
 // PatientServiceClient is the client API for PatientService service.
@@ -37,6 +40,9 @@ type PatientServiceClient interface {
 	UpdateAppointment(ctx context.Context, in *UpdateAppointmentRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	CancelAppointment(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	GetHistoryVisits(ctx context.Context, in *GetHistoryVisitsRequest, opts ...grpc.CallOption) (*GetHistoryVisitsResponse, error)
+	UploadTest(ctx context.Context, in *UploadTestRequest, opts ...grpc.CallOption) (*UploadTestResponse, error)
+	GetDocumentsByPatientID(ctx context.Context, in *GetDocumentsRequest, opts ...grpc.CallOption) (*GetDocumentsResponse, error)
+	DownloadDocument(ctx context.Context, in *DownloadDocumentRequest, opts ...grpc.CallOption) (*DownloadDocumentResponse, error)
 }
 
 type patientServiceClient struct {
@@ -107,6 +113,36 @@ func (c *patientServiceClient) GetHistoryVisits(ctx context.Context, in *GetHist
 	return out, nil
 }
 
+func (c *patientServiceClient) UploadTest(ctx context.Context, in *UploadTestRequest, opts ...grpc.CallOption) (*UploadTestResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UploadTestResponse)
+	err := c.cc.Invoke(ctx, PatientService_UploadTest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *patientServiceClient) GetDocumentsByPatientID(ctx context.Context, in *GetDocumentsRequest, opts ...grpc.CallOption) (*GetDocumentsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDocumentsResponse)
+	err := c.cc.Invoke(ctx, PatientService_GetDocumentsByPatientID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *patientServiceClient) DownloadDocument(ctx context.Context, in *DownloadDocumentRequest, opts ...grpc.CallOption) (*DownloadDocumentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DownloadDocumentResponse)
+	err := c.cc.Invoke(ctx, PatientService_DownloadDocument_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PatientServiceServer is the server API for PatientService service.
 // All implementations must embed UnimplementedPatientServiceServer
 // for forward compatibility.
@@ -117,6 +153,9 @@ type PatientServiceServer interface {
 	UpdateAppointment(context.Context, *UpdateAppointmentRequest) (*DefaultResponse, error)
 	CancelAppointment(context.Context, *GetByIDRequest) (*DefaultResponse, error)
 	GetHistoryVisits(context.Context, *GetHistoryVisitsRequest) (*GetHistoryVisitsResponse, error)
+	UploadTest(context.Context, *UploadTestRequest) (*UploadTestResponse, error)
+	GetDocumentsByPatientID(context.Context, *GetDocumentsRequest) (*GetDocumentsResponse, error)
+	DownloadDocument(context.Context, *DownloadDocumentRequest) (*DownloadDocumentResponse, error)
 	mustEmbedUnimplementedPatientServiceServer()
 }
 
@@ -144,6 +183,15 @@ func (UnimplementedPatientServiceServer) CancelAppointment(context.Context, *Get
 }
 func (UnimplementedPatientServiceServer) GetHistoryVisits(context.Context, *GetHistoryVisitsRequest) (*GetHistoryVisitsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetHistoryVisits not implemented")
+}
+func (UnimplementedPatientServiceServer) UploadTest(context.Context, *UploadTestRequest) (*UploadTestResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadTest not implemented")
+}
+func (UnimplementedPatientServiceServer) GetDocumentsByPatientID(context.Context, *GetDocumentsRequest) (*GetDocumentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDocumentsByPatientID not implemented")
+}
+func (UnimplementedPatientServiceServer) DownloadDocument(context.Context, *DownloadDocumentRequest) (*DownloadDocumentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DownloadDocument not implemented")
 }
 func (UnimplementedPatientServiceServer) mustEmbedUnimplementedPatientServiceServer() {}
 func (UnimplementedPatientServiceServer) testEmbeddedByValue()                        {}
@@ -274,6 +322,60 @@ func _PatientService_GetHistoryVisits_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PatientService_UploadTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadTestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PatientServiceServer).UploadTest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PatientService_UploadTest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PatientServiceServer).UploadTest(ctx, req.(*UploadTestRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PatientService_GetDocumentsByPatientID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDocumentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PatientServiceServer).GetDocumentsByPatientID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PatientService_GetDocumentsByPatientID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PatientServiceServer).GetDocumentsByPatientID(ctx, req.(*GetDocumentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PatientService_DownloadDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PatientServiceServer).DownloadDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PatientService_DownloadDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PatientServiceServer).DownloadDocument(ctx, req.(*DownloadDocumentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PatientService_ServiceDesc is the grpc.ServiceDesc for PatientService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -304,6 +406,18 @@ var PatientService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetHistoryVisits",
 			Handler:    _PatientService_GetHistoryVisits_Handler,
+		},
+		{
+			MethodName: "UploadTest",
+			Handler:    _PatientService_UploadTest_Handler,
+		},
+		{
+			MethodName: "GetDocumentsByPatientID",
+			Handler:    _PatientService_GetDocumentsByPatientID_Handler,
+		},
+		{
+			MethodName: "DownloadDocument",
+			Handler:    _PatientService_DownloadDocument_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

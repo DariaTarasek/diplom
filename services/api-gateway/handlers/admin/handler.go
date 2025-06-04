@@ -7,11 +7,13 @@ import (
 
 type Handler struct {
 	AdminClient *clients.AdminClient
+	AuthClient  *clients.AuthClient
 }
 
-func NewHandler(adminClient *clients.AdminClient) *Handler {
+func NewHandler(adminClient *clients.AdminClient, authClient *clients.AuthClient) *Handler {
 	return &Handler{
 		AdminClient: adminClient,
+		AuthClient:  authClient,
 	}
 }
 
@@ -41,6 +43,7 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.PUT("/patients-login/:id", h.UpdatePatientLogin)
 	rg.GET("/completed-visits", h.GetVisitPayments)
 	rg.GET("/schedule-admin", h.GetScheduleGrid)
+	rg.GET("/admin/me", h.getAdminProfile)
 	rg.GET("/unconfirmed-appointments", h.GetUnconfirmedAppointments)
 	rg.PUT("/completed-visits/:id", h.UpdateVisitPayment)
 	rg.PUT("/unconfirmed-appointments/:id", h.UpdateAppointment)

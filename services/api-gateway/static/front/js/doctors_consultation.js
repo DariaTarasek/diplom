@@ -21,8 +21,8 @@ createApp({
                 chronics: []
             },
             doctor: {
-                first_name: '',
-                second_name: ''
+                firstName: '',
+                secondName: ''
             },
             newAllergy: '',
             newAllergies: [],
@@ -52,6 +52,8 @@ createApp({
             showICDModal: false,
             tempSelectedServices: [],
             tempSelectedMaterials: [],
+            documents: [],
+            showDocumentsModal: false,
         };
     },
 
@@ -109,7 +111,7 @@ createApp({
             return this.materials.filter(m => this.selectedMaterialIds.includes(m.id));
         },
         accountName() {
-            return [this.doctor.first_name, this.doctor.second_name].filter(Boolean).join(' ');
+            return [this.doctor.firstName, this.doctor.secondName].filter(Boolean).join(' ');
         },
         visibleICDCodes() {
             return this.icdCodes;
@@ -160,7 +162,7 @@ createApp({
             }
 
             try {
-                this.patient.id = 57;
+                //this.patient.id = 20;
                 const condRes = await fetch(`/api/patient-notes/${this.patient.id}`);
                 const conditions = await condRes.json();
                 this.patient.allergies = conditions.filter(c => c.type === 'allergy');
@@ -221,19 +223,37 @@ createApp({
         },
 
         fetchDoctorData() {
-            fetch('/doctor-data')
+            fetch('/api/doctor/me')
                 .then(res => {
                     if (!res.ok) throw new Error('Ошибка загрузки');
                     return res.json();
                 })
                 .then(json => {
-                    this.doctor.first_name = json.first_name;
-                    this.doctor.second_name = json.second_name;
+                    this.doctor.firstName = json.firstName;
+                    this.doctor.secondName = json.secondName;
                 })
                 .catch(err => {
                     console.error('Ошибка при получении данных:', err);
                 });
         },
+
+        async fetchDocuments() {
+            if (!this.patient.id) return;
+            try {
+                const res = await fetch(`/api/doctor/consultation/patient-tests/${this.patient.id}`);
+                const rawDocs = await res.json();
+                this.documents = Array.isArray(rawDocs)
+                    ? rawDocs.map(doc => ({
+                        id: doc.id,
+                        date: doc.date || doc.created_at || '—',
+                        description: doc.description || 'Без описания'
+                    }))
+                    : [];
+            } catch (err) {
+                console.error('Ошибка загрузки документов:', err);
+            }
+        },
+
 
         toggleMaterial(mat) {
             this.materialQuantities[mat.id] = this.materialQuantities[mat.id] > 0 ? 0 : 1;
@@ -430,9 +450,10 @@ createApp({
         }
     },
 
-    mounted() {
-        this.loadData();
+    async mounted() {
+        await this.loadData();
         this.fetchDoctorData();
         this.fetchICDCodes();
+        this.fetchDocuments();
     },
 }).mount('#app');

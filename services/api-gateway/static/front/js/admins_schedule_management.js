@@ -20,8 +20,8 @@ createApp({
         },
     isPopoverVisible: false,
     admin: {
-        first_name: '',
-        second_name: '',
+        firstName: '',
+        secondName: '',
         role: '',
         },
     invalidDays: [],
@@ -49,7 +49,7 @@ createApp({
 },
   computed: {
     fullName() {
-      return [this.admin.first_name, this.admin.second_name].filter(Boolean).join(' ');
+      return [this.admin.firstName, this.admin.secondName].filter(Boolean).join(' ');
         },
     isSuperAdmin() {
          return this.admin.role === "superadmin";
@@ -102,11 +102,11 @@ createApp({
     },
       async fetchData() {
       try {
-        const res = await fetch('/api/admin-data');
+        const res = await fetch('/api/admin/me');
         const data = await res.json();
 
-        this.admin.first_name = data.first_name || '';
-        this.admin.second_name = data.second_name || '';
+        this.admin.firstName = data.firstName || '';
+        this.admin.secondName = data.secondName || '';
         this.admin.role = data.role || '';
         }
         catch (err) {

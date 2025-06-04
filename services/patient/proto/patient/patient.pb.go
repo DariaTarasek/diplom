@@ -822,6 +822,374 @@ func (x *GetHistoryVisitsResponse) GetVisits() []*HistoryVisit {
 	return nil
 }
 
+type UploadTestRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`                                // токен авторизации
+	FileName      string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`          // имя файла
+	FileContent   []byte                 `protobuf:"bytes,3,opt,name=file_content,json=fileContent,proto3" json:"file_content,omitempty"` // содержимое DICOM-файла
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadTestRequest) Reset() {
+	*x = UploadTestRequest{}
+	mi := &file_proto_patient_patient_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadTestRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadTestRequest) ProtoMessage() {}
+
+func (x *UploadTestRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadTestRequest.ProtoReflect.Descriptor instead.
+func (*UploadTestRequest) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *UploadTestRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *UploadTestRequest) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *UploadTestRequest) GetFileContent() []byte {
+	if x != nil {
+		return x.FileContent
+	}
+	return nil
+}
+
+func (x *UploadTestRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type UploadTestResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DocumentId    string                 `protobuf:"bytes,1,opt,name=document_id,json=documentId,proto3" json:"document_id,omitempty"` // UUID созданного документа
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadTestResponse) Reset() {
+	*x = UploadTestResponse{}
+	mi := &file_proto_patient_patient_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadTestResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadTestResponse) ProtoMessage() {}
+
+func (x *UploadTestResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadTestResponse.ProtoReflect.Descriptor instead.
+func (*UploadTestResponse) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *UploadTestResponse) GetDocumentId() string {
+	if x != nil {
+		return x.DocumentId
+	}
+	return ""
+}
+
+type GetDocumentsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"` // строка, содержащая числовой ID пациента
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDocumentsRequest) Reset() {
+	*x = GetDocumentsRequest{}
+	mi := &file_proto_patient_patient_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDocumentsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDocumentsRequest) ProtoMessage() {}
+
+func (x *GetDocumentsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDocumentsRequest.ProtoReflect.Descriptor instead.
+func (*GetDocumentsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetDocumentsRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+// Ответ с массивом документов
+type GetDocumentsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Documents     []*DocumentInfo        `protobuf:"bytes,1,rep,name=documents,proto3" json:"documents,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDocumentsResponse) Reset() {
+	*x = GetDocumentsResponse{}
+	mi := &file_proto_patient_patient_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDocumentsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDocumentsResponse) ProtoMessage() {}
+
+func (x *GetDocumentsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDocumentsResponse.ProtoReflect.Descriptor instead.
+func (*GetDocumentsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetDocumentsResponse) GetDocuments() []*DocumentInfo {
+	if x != nil {
+		return x.Documents
+	}
+	return nil
+}
+
+// Информация о документе
+type DocumentInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                // UUID документа
+	FileName      string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`    // Имя файла
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`              // Описание
+	CreatedAt     string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"` // Дата создания (формат YYYY-MM-DD HH:MM)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DocumentInfo) Reset() {
+	*x = DocumentInfo{}
+	mi := &file_proto_patient_patient_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DocumentInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DocumentInfo) ProtoMessage() {}
+
+func (x *DocumentInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DocumentInfo.ProtoReflect.Descriptor instead.
+func (*DocumentInfo) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *DocumentInfo) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *DocumentInfo) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *DocumentInfo) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *DocumentInfo) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+// Запрос на скачивание документа
+type DownloadDocumentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DocumentId    string                 `protobuf:"bytes,1,opt,name=document_id,json=documentId,proto3" json:"document_id,omitempty"` // UUID документа
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DownloadDocumentRequest) Reset() {
+	*x = DownloadDocumentRequest{}
+	mi := &file_proto_patient_patient_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DownloadDocumentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DownloadDocumentRequest) ProtoMessage() {}
+
+func (x *DownloadDocumentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DownloadDocumentRequest.ProtoReflect.Descriptor instead.
+func (*DownloadDocumentRequest) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *DownloadDocumentRequest) GetDocumentId() string {
+	if x != nil {
+		return x.DocumentId
+	}
+	return ""
+}
+
+// Ответ со скачанным файлом
+type DownloadDocumentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FileName      string                 `protobuf:"bytes,1,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`          // Имя файла
+	FileContent   []byte                 `protobuf:"bytes,2,opt,name=file_content,json=fileContent,proto3" json:"file_content,omitempty"` // Содержимое файла
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DownloadDocumentResponse) Reset() {
+	*x = DownloadDocumentResponse{}
+	mi := &file_proto_patient_patient_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DownloadDocumentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DownloadDocumentResponse) ProtoMessage() {}
+
+func (x *DownloadDocumentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_patient_patient_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DownloadDocumentResponse.ProtoReflect.Descriptor instead.
+func (*DownloadDocumentResponse) Descriptor() ([]byte, []int) {
+	return file_proto_patient_patient_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *DownloadDocumentResponse) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *DownloadDocumentResponse) GetFileContent() []byte {
+	if x != nil {
+		return x.FileContent
+	}
+	return nil
+}
+
 var File_proto_patient_patient_proto protoreflect.FileDescriptor
 
 const file_proto_patient_patient_proto_rawDesc = "" +
@@ -884,14 +1252,42 @@ const file_proto_patient_patient_proto_rawDesc = "" +
 	"\bdiagnose\x18\x05 \x01(\tR\bdiagnose\x12\x1c\n" +
 	"\ttreatment\x18\x06 \x01(\tR\ttreatment\"I\n" +
 	"\x18GetHistoryVisitsResponse\x12-\n" +
-	"\x06visits\x18\x01 \x03(\v2\x15.patient.HistoryVisitR\x06visits2\x9f\x04\n" +
+	"\x06visits\x18\x01 \x03(\v2\x15.patient.HistoryVisitR\x06visits\"\x8b\x01\n" +
+	"\x11UploadTestRequest\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\x12\x1b\n" +
+	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12!\n" +
+	"\ffile_content\x18\x03 \x01(\fR\vfileContent\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"5\n" +
+	"\x12UploadTestResponse\x12\x1f\n" +
+	"\vdocument_id\x18\x01 \x01(\tR\n" +
+	"documentId\"+\n" +
+	"\x13GetDocumentsRequest\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"K\n" +
+	"\x14GetDocumentsResponse\x123\n" +
+	"\tdocuments\x18\x01 \x03(\v2\x15.patient.DocumentInfoR\tdocuments\"|\n" +
+	"\fDocumentInfo\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\tR\tcreatedAt\":\n" +
+	"\x17DownloadDocumentRequest\x12\x1f\n" +
+	"\vdocument_id\x18\x01 \x01(\tR\n" +
+	"documentId\"Z\n" +
+	"\x18DownloadDocumentResponse\x12\x1b\n" +
+	"\tfile_name\x18\x01 \x01(\tR\bfileName\x12!\n" +
+	"\ffile_content\x18\x02 \x01(\fR\vfileContent2\x97\x06\n" +
 	"\x0ePatientService\x12`\n" +
 	"\x13GetAppointmentSlots\x12#.patient.GetAppointmentSlotsRequest\x1a$.patient.GetAppointmentSlotsResponse\x12J\n" +
 	"\x0eAddAppointment\x12\x1e.patient.AddAppointmentRequest\x1a\x18.patient.DefaultResponse\x12l\n" +
 	"\x17GetUpcomingAppointments\x12'.patient.GetUpcomingAppointmentsRequest\x1a(.patient.GetUpcomingAppointmentsResponse\x12P\n" +
 	"\x11UpdateAppointment\x12!.patient.UpdateAppointmentRequest\x1a\x18.patient.DefaultResponse\x12F\n" +
 	"\x11CancelAppointment\x12\x17.patient.GetByIDRequest\x1a\x18.patient.DefaultResponse\x12W\n" +
-	"\x10GetHistoryVisits\x12 .patient.GetHistoryVisitsRequest\x1a!.patient.GetHistoryVisitsResponseB\x19Z\x17patient/proto;patientpbb\x06proto3"
+	"\x10GetHistoryVisits\x12 .patient.GetHistoryVisitsRequest\x1a!.patient.GetHistoryVisitsResponse\x12E\n" +
+	"\n" +
+	"UploadTest\x12\x1a.patient.UploadTestRequest\x1a\x1b.patient.UploadTestResponse\x12V\n" +
+	"\x17GetDocumentsByPatientID\x12\x1c.patient.GetDocumentsRequest\x1a\x1d.patient.GetDocumentsResponse\x12W\n" +
+	"\x10DownloadDocument\x12 .patient.DownloadDocumentRequest\x1a!.patient.DownloadDocumentResponseB\x19Z\x17patient/proto;patientpbb\x06proto3"
 
 var (
 	file_proto_patient_patient_proto_rawDescOnce sync.Once
@@ -905,7 +1301,7 @@ func file_proto_patient_patient_proto_rawDescGZIP() []byte {
 	return file_proto_patient_patient_proto_rawDescData
 }
 
-var file_proto_patient_patient_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_proto_patient_patient_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_proto_patient_patient_proto_goTypes = []any{
 	(*GetAppointmentSlotsRequest)(nil),      // 0: patient.GetAppointmentSlotsRequest
 	(*GetAppointmentSlotsResponse)(nil),     // 1: patient.GetAppointmentSlotsResponse
@@ -921,36 +1317,50 @@ var file_proto_patient_patient_proto_goTypes = []any{
 	(*GetHistoryVisitsRequest)(nil),         // 11: patient.GetHistoryVisitsRequest
 	(*HistoryVisit)(nil),                    // 12: patient.HistoryVisit
 	(*GetHistoryVisitsResponse)(nil),        // 13: patient.GetHistoryVisitsResponse
-	(*timestamppb.Timestamp)(nil),           // 14: google.protobuf.Timestamp
+	(*UploadTestRequest)(nil),               // 14: patient.UploadTestRequest
+	(*UploadTestResponse)(nil),              // 15: patient.UploadTestResponse
+	(*GetDocumentsRequest)(nil),             // 16: patient.GetDocumentsRequest
+	(*GetDocumentsResponse)(nil),            // 17: patient.GetDocumentsResponse
+	(*DocumentInfo)(nil),                    // 18: patient.DocumentInfo
+	(*DownloadDocumentRequest)(nil),         // 19: patient.DownloadDocumentRequest
+	(*DownloadDocumentResponse)(nil),        // 20: patient.DownloadDocumentResponse
+	(*timestamppb.Timestamp)(nil),           // 21: google.protobuf.Timestamp
 }
 var file_proto_patient_patient_proto_depIdxs = []int32{
 	2,  // 0: patient.GetAppointmentSlotsResponse.slots:type_name -> patient.DaySlots
-	14, // 1: patient.Appointment.date:type_name -> google.protobuf.Timestamp
-	14, // 2: patient.Appointment.time:type_name -> google.protobuf.Timestamp
-	14, // 3: patient.Appointment.birth_date:type_name -> google.protobuf.Timestamp
-	14, // 4: patient.Appointment.created_at:type_name -> google.protobuf.Timestamp
-	14, // 5: patient.Appointment.updated_at:type_name -> google.protobuf.Timestamp
+	21, // 1: patient.Appointment.date:type_name -> google.protobuf.Timestamp
+	21, // 2: patient.Appointment.time:type_name -> google.protobuf.Timestamp
+	21, // 3: patient.Appointment.birth_date:type_name -> google.protobuf.Timestamp
+	21, // 4: patient.Appointment.created_at:type_name -> google.protobuf.Timestamp
+	21, // 5: patient.Appointment.updated_at:type_name -> google.protobuf.Timestamp
 	3,  // 6: patient.AddAppointmentRequest.appointment:type_name -> patient.Appointment
 	3,  // 7: patient.UpdateAppointmentRequest.appointment:type_name -> patient.Appointment
 	6,  // 8: patient.GetUpcomingAppointmentsResponse.appointments:type_name -> patient.UpcomingAppointments
 	12, // 9: patient.GetHistoryVisitsResponse.visits:type_name -> patient.HistoryVisit
-	0,  // 10: patient.PatientService.GetAppointmentSlots:input_type -> patient.GetAppointmentSlotsRequest
-	4,  // 11: patient.PatientService.AddAppointment:input_type -> patient.AddAppointmentRequest
-	8,  // 12: patient.PatientService.GetUpcomingAppointments:input_type -> patient.GetUpcomingAppointmentsRequest
-	7,  // 13: patient.PatientService.UpdateAppointment:input_type -> patient.UpdateAppointmentRequest
-	10, // 14: patient.PatientService.CancelAppointment:input_type -> patient.GetByIDRequest
-	11, // 15: patient.PatientService.GetHistoryVisits:input_type -> patient.GetHistoryVisitsRequest
-	1,  // 16: patient.PatientService.GetAppointmentSlots:output_type -> patient.GetAppointmentSlotsResponse
-	5,  // 17: patient.PatientService.AddAppointment:output_type -> patient.DefaultResponse
-	9,  // 18: patient.PatientService.GetUpcomingAppointments:output_type -> patient.GetUpcomingAppointmentsResponse
-	5,  // 19: patient.PatientService.UpdateAppointment:output_type -> patient.DefaultResponse
-	5,  // 20: patient.PatientService.CancelAppointment:output_type -> patient.DefaultResponse
-	13, // 21: patient.PatientService.GetHistoryVisits:output_type -> patient.GetHistoryVisitsResponse
-	16, // [16:22] is the sub-list for method output_type
-	10, // [10:16] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	18, // 10: patient.GetDocumentsResponse.documents:type_name -> patient.DocumentInfo
+	0,  // 11: patient.PatientService.GetAppointmentSlots:input_type -> patient.GetAppointmentSlotsRequest
+	4,  // 12: patient.PatientService.AddAppointment:input_type -> patient.AddAppointmentRequest
+	8,  // 13: patient.PatientService.GetUpcomingAppointments:input_type -> patient.GetUpcomingAppointmentsRequest
+	7,  // 14: patient.PatientService.UpdateAppointment:input_type -> patient.UpdateAppointmentRequest
+	10, // 15: patient.PatientService.CancelAppointment:input_type -> patient.GetByIDRequest
+	11, // 16: patient.PatientService.GetHistoryVisits:input_type -> patient.GetHistoryVisitsRequest
+	14, // 17: patient.PatientService.UploadTest:input_type -> patient.UploadTestRequest
+	16, // 18: patient.PatientService.GetDocumentsByPatientID:input_type -> patient.GetDocumentsRequest
+	19, // 19: patient.PatientService.DownloadDocument:input_type -> patient.DownloadDocumentRequest
+	1,  // 20: patient.PatientService.GetAppointmentSlots:output_type -> patient.GetAppointmentSlotsResponse
+	5,  // 21: patient.PatientService.AddAppointment:output_type -> patient.DefaultResponse
+	9,  // 22: patient.PatientService.GetUpcomingAppointments:output_type -> patient.GetUpcomingAppointmentsResponse
+	5,  // 23: patient.PatientService.UpdateAppointment:output_type -> patient.DefaultResponse
+	5,  // 24: patient.PatientService.CancelAppointment:output_type -> patient.DefaultResponse
+	13, // 25: patient.PatientService.GetHistoryVisits:output_type -> patient.GetHistoryVisitsResponse
+	15, // 26: patient.PatientService.UploadTest:output_type -> patient.UploadTestResponse
+	17, // 27: patient.PatientService.GetDocumentsByPatientID:output_type -> patient.GetDocumentsResponse
+	20, // 28: patient.PatientService.DownloadDocument:output_type -> patient.DownloadDocumentResponse
+	20, // [20:29] is the sub-list for method output_type
+	11, // [11:20] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_proto_patient_patient_proto_init() }
@@ -964,7 +1374,7 @@ func file_proto_patient_patient_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_patient_patient_proto_rawDesc), len(file_proto_patient_patient_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

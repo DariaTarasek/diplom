@@ -4,10 +4,9 @@ createApp({
     data() {
         return {
             admin: {
-                second_name: '',
-                first_name: '',
+                secondName: '',
+                firstName: '',
                 surname: '',
-                birthDate: '',
                 gender: '',
                 phone: '',
                 email: '',
@@ -33,11 +32,11 @@ createApp({
     computed: {
         fullName() {
             return [
-                this.admin.first_name,
-                this.admin.second_name
+                this.admin.firstName,
+                this.admin.secondName
             ]
-            .filter(Boolean)
-            .join(' ');
+                .filter(Boolean)
+                .join(' ');
         }
     },
     mounted() {
@@ -91,66 +90,74 @@ createApp({
     },
     methods: {
         fetchAdminData() {
-            fetch('http://192.168.1.207:8080/api/admin-profile')
+            fetch('/api/admin/me')
                 .then(response => response.json())
                 .then(data => {
-                    this.admin = data.admin;
-                    this.role = data.role;
+                    // Если поля приходят "плоско", то разбираем вручную
+                    this.admin = {
+                        firstName: data.firstName || '',
+                        secondName: data.secondName || '',
+                        surname: data.surname || '',
+                        gender: data.gender || '',
+                        phone: data.phone || '',
+                        email: data.email || ''
+                    };
+                    this.role = data.role || '';
                 })
                 .catch(error => {
                     console.error('Ошибка загрузки профиля администратора:', error);
                 });
         },
         changeEmail() {
-            fetch('http://192.168.1.207:8080/api/change-email', {
+            fetch('/api/change-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: this.newEmail })
             })
-            .then(response => {
-                if (response.ok) {
-                    this.admin.email = this.newEmail;
-                    this.showEmailModal = false;
-                    this.newEmail = '';
-                } else {
-                    alert('Ошибка при смене email');
-                }
-            });
+                .then(response => {
+                    if (response.ok) {
+                        this.admin.email = this.newEmail;
+                        this.showEmailModal = false;
+                        this.newEmail = '';
+                    } else {
+                        alert('Ошибка при смене email');
+                    }
+                });
         },
         changePassword() {
             if (this.newPassword !== this.confirmPassword) return;
 
-            fetch('http://192.168.1.207:8080/api/change-password', {
+            fetch('/api/change-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password: this.newPassword })
             })
-            .then(response => {
-                if (response.ok) {
-                    this.showPasswordModal = false;
-                    this.newPassword = '';
-                    this.confirmPassword = '';
-                } else {
-                    alert('Ошибка при смене пароля');
-                }
-            });
+                .then(response => {
+                    if (response.ok) {
+                        this.showPasswordModal = false;
+                        this.newPassword = '';
+                        this.confirmPassword = '';
+                    } else {
+                        alert('Ошибка при смене пароля');
+                    }
+                });
         },
         saveAdminData() {
-            fetch('http://192.168.1.207:8080/api/update-admin-profile', {
+            fetch('/api/update-admin-profile', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(this.admin)
             })
-            .then(response => {
-                if (!response.ok) {
-                    alert('Ошибка при сохранении профиля');
-                } else {
-                    this.editingInfo = false;
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при сохранении профиля:', error);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        alert('Ошибка при сохранении профиля');
+                    } else {
+                        this.editingInfo = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при сохранении профиля:', error);
+                });
         },
         togglePopover() {
             this.isPopoverVisible = !this.isPopoverVisible;

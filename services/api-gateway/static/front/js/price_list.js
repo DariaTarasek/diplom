@@ -14,8 +14,8 @@ createApp({
             selectedCategory: '',
             serviceCategories: [],
             isPopoverVisible: false,
-            first_name: '',
-            second_name: '',
+            firstName: '',
+            secondName: '',
             selectedService: null,
             hoveredServiceId: null,
             isEditingService: false,
@@ -41,7 +41,7 @@ createApp({
 
     computed: {
         fullName() {
-            return [this.first_name, this.second_name].filter(Boolean).join(' ');
+            return [this.firstName, this.secondName].filter(Boolean).join(' ');
         },
         filteredServices() {
             return this.services.filter(service => {
@@ -60,10 +60,10 @@ createApp({
     methods: {
         async fetchData() {
             try {
-                const userRes = await fetch('/api/admin-data');
+                const userRes = await fetch('/api/admin/me');
                 const userData = await userRes.json();
-                this.first_name = userData.first_name || '';
-                this.second_name = userData.second_name || '';
+                this.firstName = userData.firstName || '';
+                this.secondName = userData.secondName || '';
                 this.userRole = userData.role || '';
 
                 await this.fetchServices();

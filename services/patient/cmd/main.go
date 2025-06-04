@@ -26,7 +26,8 @@ func main() {
 		log.Fatalf("Не удалось начать слушать: %v", err)
 	}
 
-	s := grpc.NewServer()
+	s := grpc.NewServer(grpc.MaxRecvMsgSize(50*1024*1024),
+		grpc.MaxSendMsgSize(50*1024*1024))
 
 	server := &grpcserver.Server{
 		Service: patientService,

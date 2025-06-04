@@ -25,6 +25,7 @@ createApp({
       maxSlots: 0,
       currentPage: 0,
       daysPerPage: 7,
+      dicomDescription: '',
     };
   },
 
@@ -187,6 +188,39 @@ createApp({
       return this.selectedTransferSlot &&
           this.selectedTransferSlot.date === date &&
           this.selectedTransferSlot.time === time;
+    },
+    handleDICOMUpload(event) {
+      const files = event.target.files;
+      if (!files.length) return;
+
+      const formData = new FormData();
+      const file = files[0];
+      if (!file) {
+        console.error('Файл не выбран');
+        return;
+      }
+
+      formData.append('file', file); // правильно: ключ 'file' для одного файла
+      formData.append('description', this.dicomDescription || '');
+
+      // 🔍 для отладки
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      fetch('/api/patient/tests/upload', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData // НЕ УСТАНАВЛИВАЙ Content-Type!
+      })
+          .then(res => res.json())
+          .then(() => {
+            this.fetchTests();
+          })
+          .catch(err => {
+            console.error('Ошибка при загрузке DICOM-файла:', err);
+          });
     }
+
   }
 }).mount('#app');

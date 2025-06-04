@@ -4,8 +4,8 @@ createApp({
     data() {
         return {
             activeTab: 'schedule',
-            second_name: '',
-            first_name: '',
+            secondName: '',
+            firstName: '',
             tabs: [
                 { id: 'schedule', label: 'Расписание приёмов' },
                 { id: 'pending', label: 'Неподтверждённые записи' },
@@ -72,7 +72,7 @@ createApp({
 
     computed: {
         fullName() {
-            return [this.first_name, this.second_name].filter(Boolean).join(' ');
+            return [this.firstName, this.secondName].filter(Boolean).join(' ');
         },
         visibleWeekDays() {
             return this.schedule.days.slice(this.currentWeekStartIndex, this.currentWeekStartIndex + 7);
@@ -98,10 +98,10 @@ createApp({
                 };
                 this.appointments = scheduleData.appointments || {};
 
-                const res = await fetch('/api/admin-data');
+                const res = await fetch('/api/admin/me');
                 const data = await res.json();
-                this.first_name = data.first_name || '';
-                this.second_name = data.second_name || '';
+                this.firstName = data.firstName || '';
+                this.secondName = data.secondName || '';
             } catch (err) {
                 console.error('Ошибка при загрузке данных:', err);
             }

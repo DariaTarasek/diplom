@@ -100,52 +100,82 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <!-- История посещений -->
                                     <div v-if="activeTab === 'history'" class="tab-pane active">
                                         <div class="section-title">История посещений</div>
                                         <div class="table-responsive">
                                             <table class="table table-striped align-middle table-bordered">
                                                 <thead class="text-center">
-                                                    <tr>
-                                                        <th>Дата</th>
-                                                        <th>Врач</th>
-                                                        <th>Диагноз</th>
-                                                        <th>Лечение</th>
-                                                    </tr>
+                                                <tr>
+                                                    <th>Дата</th>
+                                                    <th>Врач</th>
+                                                    <th>Диагноз</th>
+                                                    <th>Лечение</th>
+                                                </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item, index) in history" :key="index">
-                                                        <td>{{ item.date }}</td>
-                                                        <td>{{ item.doctor }}</td>
-                                                        <td>{{ item.diagnose }}</td>
-                                                        <td>{{ item.treatment }}</td>
-                                                    </tr>
+                                                <tr v-for="(item, index) in history" :key="index">
+                                                    <td>{{ item.date }}</td>
+                                                    <td>{{ item.doctor }}</td>
+                                                    <td>{{ item.diagnose }}</td>
+                                                    <td>{{ item.treatment }}</td>
+                                                </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    <!-- Анализы -->
+                                    <!-- История посещений -->
                                     <div v-if="activeTab === 'tests'" class="tab-pane active">
                                         <div class="section-title">Анализы / Исследования</div>
+
+                                        <!-- ⬇⬇⬇ Новый аккуратный блок для загрузки и описания ⬇⬇⬇ -->
+                                        <div class="card mb-4">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-3">Загрузка DICOM-файла</h5>
+
+                                                <div class="mb-3">
+                                                    <label for="dicomDescription" class="form-label">Описание исследования</label>
+                                                    <input type="text" id="dicomDescription" v-model="dicomDescription" class="form-control" placeholder="Например: Рентген челюсти">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="dicomUpload" class="form-label">Выберите DICOM-файл</label>
+                                                    <input type="file" id="dicomUpload" @change="handleDICOMUpload" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- ⬆⬆⬆ Конец блока ⬆⬆⬆ -->
+
+                                        <!-- Таблица -->
+                                        <div class="section-title">Загруженные документы</div>
+
                                         <div class="table-responsive">
                                             <table class="table table-striped align-middle">
                                                 <thead>
-                                                    <tr>
-                                                        <th>Название</th>
-                                                        <th>Дата</th>
-                                                        <th>Результат</th>
-                                                    </tr>
+                                                <tr>
+                                                    <th>Описание</th>
+                                                    <th>Дата загрузки</th>
+                                                    <th>Действия</th>
+                                                </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item, index) in tests" :key="index">
-                                                        <td>{{ item.name }}</td>
-                                                        <td>{{ item.date }}</td>
-                                                        <td>{{ item.result }}</td>
-                                                    </tr>
+                                                <tr v-for="(doc, index) in tests" :key="index">
+                                                    <td>{{ doc.description || 'Без описания' }}</td>
+                                                    <td>{{ doc.created_at }}</td>
+                                                    <td>
+                                                        <a
+                                                                :href="`/api/patient/tests/${doc.id}/download`"
+                                                                class="btn btn-sm btn-outline-primary"
+                                                                target="_blank"
+                                                        >
+                                                            Скачать
+                                                        </a>
+                                                    </td>
+                                                </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

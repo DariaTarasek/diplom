@@ -3,6 +3,8 @@ module github.com/DariaTarasek/diplom/services/patient
 go 1.23.2
 
 require (
+	github.com/google/uuid v1.6.0
+	github.com/suyashkumar/dicom v1.0.7
 	google.golang.org/grpc v1.72.2
 	google.golang.org/protobuf v1.36.6
 )

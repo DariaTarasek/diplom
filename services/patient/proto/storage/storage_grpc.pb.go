@@ -88,6 +88,10 @@ const (
 	StorageService_GetClinicOverrides_FullMethodName          = "/storage.StorageService/GetClinicOverrides"
 	StorageService_GetAppointments_FullMethodName             = "/storage.StorageService/GetAppointments"
 	StorageService_GetDiagnoseByVisitID_FullMethodName        = "/storage.StorageService/GetDiagnoseByVisitID"
+	StorageService_SaveDocument_FullMethodName                = "/storage.StorageService/SaveDocument"
+	StorageService_GetDocumentMetadata_FullMethodName         = "/storage.StorageService/GetDocumentMetadata"
+	StorageService_DownloadDocument_FullMethodName            = "/storage.StorageService/DownloadDocument"
+	StorageService_GetDocumentsByPatientID_FullMethodName     = "/storage.StorageService/GetDocumentsByPatientID"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -166,6 +170,10 @@ type StorageServiceClient interface {
 	GetClinicOverrides(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicOverridesResponse, error)
 	GetAppointments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAppointmentsResponse, error)
 	GetDiagnoseByVisitID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetDiagnoseByVisitIDResponse, error)
+	SaveDocument(ctx context.Context, in *SaveDocumentRequest, opts ...grpc.CallOption) (*SaveDocumentResponse, error)
+	GetDocumentMetadata(ctx context.Context, in *GetDocumentMetadataRequest, opts ...grpc.CallOption) (*GetDocumentMetadataResponse, error)
+	DownloadDocument(ctx context.Context, in *DownloadDocumentRequest, opts ...grpc.CallOption) (*DownloadDocumentResponse, error)
+	GetDocumentsByPatientID(ctx context.Context, in *GetDocumentsRequest, opts ...grpc.CallOption) (*GetDocumentsResponse, error)
 }
 
 type storageServiceClient struct {
@@ -866,6 +874,46 @@ func (c *storageServiceClient) GetDiagnoseByVisitID(ctx context.Context, in *Get
 	return out, nil
 }
 
+func (c *storageServiceClient) SaveDocument(ctx context.Context, in *SaveDocumentRequest, opts ...grpc.CallOption) (*SaveDocumentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SaveDocumentResponse)
+	err := c.cc.Invoke(ctx, StorageService_SaveDocument_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetDocumentMetadata(ctx context.Context, in *GetDocumentMetadataRequest, opts ...grpc.CallOption) (*GetDocumentMetadataResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDocumentMetadataResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetDocumentMetadata_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) DownloadDocument(ctx context.Context, in *DownloadDocumentRequest, opts ...grpc.CallOption) (*DownloadDocumentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DownloadDocumentResponse)
+	err := c.cc.Invoke(ctx, StorageService_DownloadDocument_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetDocumentsByPatientID(ctx context.Context, in *GetDocumentsRequest, opts ...grpc.CallOption) (*GetDocumentsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDocumentsResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetDocumentsByPatientID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -942,6 +990,10 @@ type StorageServiceServer interface {
 	GetClinicOverrides(context.Context, *EmptyRequest) (*GetClinicOverridesResponse, error)
 	GetAppointments(context.Context, *EmptyRequest) (*GetAppointmentsResponse, error)
 	GetDiagnoseByVisitID(context.Context, *GetByIDRequest) (*GetDiagnoseByVisitIDResponse, error)
+	SaveDocument(context.Context, *SaveDocumentRequest) (*SaveDocumentResponse, error)
+	GetDocumentMetadata(context.Context, *GetDocumentMetadataRequest) (*GetDocumentMetadataResponse, error)
+	DownloadDocument(context.Context, *DownloadDocumentRequest) (*DownloadDocumentResponse, error)
+	GetDocumentsByPatientID(context.Context, *GetDocumentsRequest) (*GetDocumentsResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -1158,6 +1210,18 @@ func (UnimplementedStorageServiceServer) GetAppointments(context.Context, *Empty
 }
 func (UnimplementedStorageServiceServer) GetDiagnoseByVisitID(context.Context, *GetByIDRequest) (*GetDiagnoseByVisitIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDiagnoseByVisitID not implemented")
+}
+func (UnimplementedStorageServiceServer) SaveDocument(context.Context, *SaveDocumentRequest) (*SaveDocumentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveDocument not implemented")
+}
+func (UnimplementedStorageServiceServer) GetDocumentMetadata(context.Context, *GetDocumentMetadataRequest) (*GetDocumentMetadataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDocumentMetadata not implemented")
+}
+func (UnimplementedStorageServiceServer) DownloadDocument(context.Context, *DownloadDocumentRequest) (*DownloadDocumentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DownloadDocument not implemented")
+}
+func (UnimplementedStorageServiceServer) GetDocumentsByPatientID(context.Context, *GetDocumentsRequest) (*GetDocumentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDocumentsByPatientID not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -2422,6 +2486,78 @@ func _StorageService_GetDiagnoseByVisitID_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_SaveDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).SaveDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_SaveDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).SaveDocument(ctx, req.(*SaveDocumentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetDocumentMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDocumentMetadataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetDocumentMetadata(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetDocumentMetadata_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetDocumentMetadata(ctx, req.(*GetDocumentMetadataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_DownloadDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).DownloadDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_DownloadDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).DownloadDocument(ctx, req.(*DownloadDocumentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetDocumentsByPatientID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDocumentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetDocumentsByPatientID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetDocumentsByPatientID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetDocumentsByPatientID(ctx, req.(*GetDocumentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2704,6 +2840,22 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDiagnoseByVisitID",
 			Handler:    _StorageService_GetDiagnoseByVisitID_Handler,
+		},
+		{
+			MethodName: "SaveDocument",
+			Handler:    _StorageService_SaveDocument_Handler,
+		},
+		{
+			MethodName: "GetDocumentMetadata",
+			Handler:    _StorageService_GetDocumentMetadata_Handler,
+		},
+		{
+			MethodName: "DownloadDocument",
+			Handler:    _StorageService_DownloadDocument_Handler,
+		},
+		{
+			MethodName: "GetDocumentsByPatientID",
+			Handler:    _StorageService_GetDocumentsByPatientID_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
