@@ -6685,12 +6685,12 @@ const file_proto_storage_storage_proto_rawDesc = "" +
 	"\x11GetRolePermission\x12!.storage.GetRolePermissionRequest\x1a\x18.storage.DefaultResponse\x12T\n" +
 	"\x12GetDoctorsBySpecID\x12!.storage.GetDoctorBySpecIDRequest\x1a\x1b.storage.GetDoctorsResponse\x12r\n" +
 	"\x19GetAppointmentsByDoctorID\x12).storage.GetAppointmentsByDoctorIDRequest\x1a*.storage.GetAppointmentsByDoctorIDResponse\x12J\n" +
-	"\x0eGetPatientByID\x12\x17.storage.GetByIDRequest\x1a\x1f.storage.GetPatientByIDResponse\x12J\n" +
 	"\x0eAddAppointment\x12\x1e.storage.AddAppointmentRequest\x1a\x18.storage.DefaultResponse\x12\\\n" +
 	"\x17GetAppointmentsByUserID\x12\x17.storage.GetByIDRequest\x1a(.storage.GetAppointmentsByUserIDResponse\x12R\n" +
 	"\x12GetSpecsByDoctorID\x12\x17.storage.GetByIDRequest\x1a#.storage.GetSpecsByDoctorIDResponse\x12H\n" +
 	"\rGetDoctorByID\x12\x17.storage.GetByIDRequest\x1a\x1e.storage.GetDoctorByIDResponse\x12P\n" +
-	"\x11UpdateAppointment\x12!.storage.UpdateAppointmentRequest\x1a\x18.storage.DefaultResponse\x12R\n" +
+	"\x11UpdateAppointment\x12!.storage.UpdateAppointmentRequest\x1a\x18.storage.DefaultResponse\x12J\n" +
+	"\x0eGetPatientByID\x12\x17.storage.GetByIDRequest\x1a\x1f.storage.GetPatientByIDResponse\x12R\n" +
 	"\x12GetAppointmentByID\x12\x17.storage.GetByIDRequest\x1a#.storage.GetAppointmentByIDResponse\x12Z\n" +
 	"\x16AddClinicDailyOverride\x12&.storage.AddClinicDailyOverrideRequest\x1a\x18.storage.DefaultResponse\x12Z\n" +
 	"\x16AddDoctorDailyOverride\x12&.storage.AddDoctorDailyOverrideRequest\x1a\x18.storage.DefaultResponse\x12Z\n" +
@@ -6952,12 +6952,12 @@ var file_proto_storage_storage_proto_depIdxs = []int32{
 	40,  // 94: storage.StorageService.GetRolePermission:input_type -> storage.GetRolePermissionRequest
 	43,  // 95: storage.StorageService.GetDoctorsBySpecID:input_type -> storage.GetDoctorBySpecIDRequest
 	44,  // 96: storage.StorageService.GetAppointmentsByDoctorID:input_type -> storage.GetAppointmentsByDoctorIDRequest
-	47,  // 97: storage.StorageService.GetPatientByID:input_type -> storage.GetByIDRequest
-	49,  // 98: storage.StorageService.AddAppointment:input_type -> storage.AddAppointmentRequest
-	47,  // 99: storage.StorageService.GetAppointmentsByUserID:input_type -> storage.GetByIDRequest
-	47,  // 100: storage.StorageService.GetSpecsByDoctorID:input_type -> storage.GetByIDRequest
-	47,  // 101: storage.StorageService.GetDoctorByID:input_type -> storage.GetByIDRequest
-	50,  // 102: storage.StorageService.UpdateAppointment:input_type -> storage.UpdateAppointmentRequest
+	49,  // 97: storage.StorageService.AddAppointment:input_type -> storage.AddAppointmentRequest
+	47,  // 98: storage.StorageService.GetAppointmentsByUserID:input_type -> storage.GetByIDRequest
+	47,  // 99: storage.StorageService.GetSpecsByDoctorID:input_type -> storage.GetByIDRequest
+	47,  // 100: storage.StorageService.GetDoctorByID:input_type -> storage.GetByIDRequest
+	50,  // 101: storage.StorageService.UpdateAppointment:input_type -> storage.UpdateAppointmentRequest
+	47,  // 102: storage.StorageService.GetPatientByID:input_type -> storage.GetByIDRequest
 	47,  // 103: storage.StorageService.GetAppointmentByID:input_type -> storage.GetByIDRequest
 	41,  // 104: storage.StorageService.AddClinicDailyOverride:input_type -> storage.AddClinicDailyOverrideRequest
 	42,  // 105: storage.StorageService.AddDoctorDailyOverride:input_type -> storage.AddDoctorDailyOverrideRequest
@@ -7024,12 +7024,12 @@ var file_proto_storage_storage_proto_depIdxs = []int32{
 	19,  // 166: storage.StorageService.GetRolePermission:output_type -> storage.DefaultResponse
 	24,  // 167: storage.StorageService.GetDoctorsBySpecID:output_type -> storage.GetDoctorsResponse
 	46,  // 168: storage.StorageService.GetAppointmentsByDoctorID:output_type -> storage.GetAppointmentsByDoctorIDResponse
-	48,  // 169: storage.StorageService.GetPatientByID:output_type -> storage.GetPatientByIDResponse
-	19,  // 170: storage.StorageService.AddAppointment:output_type -> storage.DefaultResponse
-	51,  // 171: storage.StorageService.GetAppointmentsByUserID:output_type -> storage.GetAppointmentsByUserIDResponse
-	54,  // 172: storage.StorageService.GetSpecsByDoctorID:output_type -> storage.GetSpecsByDoctorIDResponse
-	53,  // 173: storage.StorageService.GetDoctorByID:output_type -> storage.GetDoctorByIDResponse
-	19,  // 174: storage.StorageService.UpdateAppointment:output_type -> storage.DefaultResponse
+	19,  // 169: storage.StorageService.AddAppointment:output_type -> storage.DefaultResponse
+	51,  // 170: storage.StorageService.GetAppointmentsByUserID:output_type -> storage.GetAppointmentsByUserIDResponse
+	54,  // 171: storage.StorageService.GetSpecsByDoctorID:output_type -> storage.GetSpecsByDoctorIDResponse
+	53,  // 172: storage.StorageService.GetDoctorByID:output_type -> storage.GetDoctorByIDResponse
+	19,  // 173: storage.StorageService.UpdateAppointment:output_type -> storage.DefaultResponse
+	48,  // 174: storage.StorageService.GetPatientByID:output_type -> storage.GetPatientByIDResponse
 	52,  // 175: storage.StorageService.GetAppointmentByID:output_type -> storage.GetAppointmentByIDResponse
 	19,  // 176: storage.StorageService.AddClinicDailyOverride:output_type -> storage.DefaultResponse
 	19,  // 177: storage.StorageService.AddDoctorDailyOverride:output_type -> storage.DefaultResponse

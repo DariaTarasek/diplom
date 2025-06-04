@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"net/http"
 )
 
 func (h *Handler) GetVisitPayments(c *gin.Context) {

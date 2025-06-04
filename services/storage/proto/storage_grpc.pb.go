@@ -103,6 +103,7 @@ const (
 	StorageService_GetTotalIncome_FullMethodName              = "/storage.StorageService/GetTotalIncome"
 	StorageService_GetMonthlyIncome_FullMethodName            = "/storage.StorageService/GetMonthlyIncome"
 	StorageService_GetClinicAverageCheck_FullMethodName       = "/storage.StorageService/GetClinicAverageCheck"
+	StorageService_GetDiagnoseByVisitID_FullMethodName        = "/storage.StorageService/GetDiagnoseByVisitID"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -197,6 +198,7 @@ type StorageServiceClient interface {
 	GetTotalIncome(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*FloatResponse, error)
 	GetMonthlyIncome(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*FloatResponse, error)
 	GetClinicAverageCheck(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*FloatResponse, error)
+	GetDiagnoseByVisitID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetDiagnoseByVisitIDResponse, error)
 }
 
 type storageServiceClient struct {
@@ -1047,6 +1049,16 @@ func (c *storageServiceClient) GetClinicAverageCheck(ctx context.Context, in *Em
 	return out, nil
 }
 
+func (c *storageServiceClient) GetDiagnoseByVisitID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*GetDiagnoseByVisitIDResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDiagnoseByVisitIDResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetDiagnoseByVisitID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -1139,6 +1151,7 @@ type StorageServiceServer interface {
 	GetTotalIncome(context.Context, *EmptyRequest) (*FloatResponse, error)
 	GetMonthlyIncome(context.Context, *EmptyRequest) (*FloatResponse, error)
 	GetClinicAverageCheck(context.Context, *EmptyRequest) (*FloatResponse, error)
+	GetDiagnoseByVisitID(context.Context, *GetByIDRequest) (*GetDiagnoseByVisitIDResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -1400,6 +1413,9 @@ func (UnimplementedStorageServiceServer) GetMonthlyIncome(context.Context, *Empt
 }
 func (UnimplementedStorageServiceServer) GetClinicAverageCheck(context.Context, *EmptyRequest) (*FloatResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetClinicAverageCheck not implemented")
+}
+func (UnimplementedStorageServiceServer) GetDiagnoseByVisitID(context.Context, *GetByIDRequest) (*GetDiagnoseByVisitIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDiagnoseByVisitID not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -2934,6 +2950,24 @@ func _StorageService_GetClinicAverageCheck_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_GetDiagnoseByVisitID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetDiagnoseByVisitID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetDiagnoseByVisitID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetDiagnoseByVisitID(ctx, req.(*GetByIDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -3276,6 +3310,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetClinicAverageCheck",
 			Handler:    _StorageService_GetClinicAverageCheck_Handler,
+		},
+		{
+			MethodName: "GetDiagnoseByVisitID",
+			Handler:    _StorageService_GetDiagnoseByVisitID_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
