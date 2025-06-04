@@ -193,23 +193,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Завершенные приемы -->
-                                    <div v-if="activeTab === 'completed'" class="tab-pane active">
-                                        <h5 class="mb-3">Завершённые приёмы</h5>
-                                        <div v-if="completed.length === 0" class="text-muted">Нет завершённых приёмов</div>
-                                        <ul class="list-group" v-else>
-                                            <li v-for="(entry, index) in completed" :key="index" class="list-group-item fs-5">
-                                                <strong>{{ entry.created_at }}</strong><br>
-                                                Врач: {{ entry.doctor }}<br>
-                                                Пациент: {{ entry.patient }}<br>
-                                                <div class="d-flex align-items-center mt-1">
-                                                    <input type="number" v-model.number="entry.price" class="form-control form-control-sm w-auto me-2 fs-5" min="0" max="1000000"/>
-                                                    <button class="btn btn-success btn-sm fs-6" @click="confirmVisit(entry)">Подтвердить</button>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>

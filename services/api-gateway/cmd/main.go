@@ -75,13 +75,11 @@ func main() {
 		"admins_patient_list.html",        // СТРАНИЦА АДМИНА!
 		"employee_registration.html",      // СТРАНИЦА АДМИНА!
 		"registration_in_clinic.html",     // СТРАНИЦА АДМИНА!
-		"administrator_account.html",      // СТРАНИЦА АДМИНА!
-		"analytics.html",                  // СТРАНИЦА АДМИНА!
+		// "administrator_account.html",      // СТРАНИЦА АДМИНА!
+		"analytics.html", // СТРАНИЦА АДМИНА!
 
 		"doctor_account.html",       // СТРАНИЦА ВРАЧА!
 		"doctors_consultation.html", // СТРАНИЦА ВРАЧА!
-		"administrator_account.html",      // СТРАНИЦА АДМИНА!
-
 	}
 
 	for _, page := range htmlPages {
@@ -95,7 +93,7 @@ func main() {
 		//"employee_registration.html",
 		//"registration_in_clinic.html",
 		//"admins_doctor_list.html",
-		//"administrator_account.html",
+		"administrator_account.html",
 	}
 	for _, page := range adminPages {
 		page := page // захват в замыкание
