@@ -87,6 +87,10 @@ const (
 	StorageService_GetVisitsPayments_FullMethodName           = "/storage.StorageService/GetVisitsPayments"
 	StorageService_GetClinicOverrides_FullMethodName          = "/storage.StorageService/GetClinicOverrides"
 	StorageService_GetAppointments_FullMethodName             = "/storage.StorageService/GetAppointments"
+	StorageService_GetVisitMaterials_FullMethodName           = "/storage.StorageService/GetVisitMaterials"
+	StorageService_GetVisitServices_FullMethodName            = "/storage.StorageService/GetVisitServices"
+	StorageService_GetMaterialByID_FullMethodName             = "/storage.StorageService/GetMaterialByID"
+	StorageService_GetServiceByID_FullMethodName              = "/storage.StorageService/GetServiceByID"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -164,6 +168,10 @@ type StorageServiceClient interface {
 	GetVisitsPayments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetVisitsPaymentsResponse, error)
 	GetClinicOverrides(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetClinicOverridesResponse, error)
 	GetAppointments(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetAppointmentsResponse, error)
+	GetVisitMaterials(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetVisitMaterialsAndServicesResponse, error)
+	GetVisitServices(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetVisitMaterialsAndServicesResponse, error)
+	GetMaterialByID(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetMaterialServiceByIDResponse, error)
+	GetServiceByID(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetMaterialServiceByIDResponse, error)
 }
 
 type storageServiceClient struct {
@@ -854,6 +862,46 @@ func (c *storageServiceClient) GetAppointments(ctx context.Context, in *EmptyReq
 	return out, nil
 }
 
+func (c *storageServiceClient) GetVisitMaterials(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetVisitMaterialsAndServicesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetVisitMaterialsAndServicesResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetVisitMaterials_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetVisitServices(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetVisitMaterialsAndServicesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetVisitMaterialsAndServicesResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetVisitServices_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetMaterialByID(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetMaterialServiceByIDResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMaterialServiceByIDResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetMaterialByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) GetServiceByID(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetMaterialServiceByIDResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMaterialServiceByIDResponse)
+	err := c.cc.Invoke(ctx, StorageService_GetServiceByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
@@ -929,6 +977,10 @@ type StorageServiceServer interface {
 	GetVisitsPayments(context.Context, *EmptyRequest) (*GetVisitsPaymentsResponse, error)
 	GetClinicOverrides(context.Context, *EmptyRequest) (*GetClinicOverridesResponse, error)
 	GetAppointments(context.Context, *EmptyRequest) (*GetAppointmentsResponse, error)
+	GetVisitMaterials(context.Context, *GetByIdRequest) (*GetVisitMaterialsAndServicesResponse, error)
+	GetVisitServices(context.Context, *GetByIdRequest) (*GetVisitMaterialsAndServicesResponse, error)
+	GetMaterialByID(context.Context, *GetByIdRequest) (*GetMaterialServiceByIDResponse, error)
+	GetServiceByID(context.Context, *GetByIdRequest) (*GetMaterialServiceByIDResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -1142,6 +1194,18 @@ func (UnimplementedStorageServiceServer) GetClinicOverrides(context.Context, *Em
 }
 func (UnimplementedStorageServiceServer) GetAppointments(context.Context, *EmptyRequest) (*GetAppointmentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAppointments not implemented")
+}
+func (UnimplementedStorageServiceServer) GetVisitMaterials(context.Context, *GetByIdRequest) (*GetVisitMaterialsAndServicesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetVisitMaterials not implemented")
+}
+func (UnimplementedStorageServiceServer) GetVisitServices(context.Context, *GetByIdRequest) (*GetVisitMaterialsAndServicesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetVisitServices not implemented")
+}
+func (UnimplementedStorageServiceServer) GetMaterialByID(context.Context, *GetByIdRequest) (*GetMaterialServiceByIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMaterialByID not implemented")
+}
+func (UnimplementedStorageServiceServer) GetServiceByID(context.Context, *GetByIdRequest) (*GetMaterialServiceByIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetServiceByID not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -2388,6 +2452,78 @@ func _StorageService_GetAppointments_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_GetVisitMaterials_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetVisitMaterials(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetVisitMaterials_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetVisitMaterials(ctx, req.(*GetByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetVisitServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetVisitServices(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetVisitServices_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetVisitServices(ctx, req.(*GetByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetMaterialByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetMaterialByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetMaterialByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetMaterialByID(ctx, req.(*GetByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StorageService_GetServiceByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).GetServiceByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_GetServiceByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).GetServiceByID(ctx, req.(*GetByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2666,6 +2802,22 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAppointments",
 			Handler:    _StorageService_GetAppointments_Handler,
+		},
+		{
+			MethodName: "GetVisitMaterials",
+			Handler:    _StorageService_GetVisitMaterials_Handler,
+		},
+		{
+			MethodName: "GetVisitServices",
+			Handler:    _StorageService_GetVisitServices_Handler,
+		},
+		{
+			MethodName: "GetMaterialByID",
+			Handler:    _StorageService_GetMaterialByID_Handler,
+		},
+		{
+			MethodName: "GetServiceByID",
+			Handler:    _StorageService_GetServiceByID_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

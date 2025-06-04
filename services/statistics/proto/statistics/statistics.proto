@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package statistics;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "statistics/proto;statspb";
+
+message TopService {
+  string name = 1;
+  int32 count = 2;
+}
+
+
+message DoctorAvgVisit {
+  string doctor= 1;
+  float avg_weekly_visits = 2;
+}
+
+message DoctorAvgVisitResponse {
+  repeated DoctorAvgVisit visits = 1;
+}
+
+message DoctorCheck {
+  string doctor = 1;
+  float avg_check = 2;
+}
+
+message DoctorAvgCheckResponse {
+  repeated DoctorCheck check = 1;
+}
+
+message DoctorUniquePatient {
+  string doctor = 1;
+  int32 unique_patients = 2;
+}
+
+message DoctorUniquePatientResponse{
+  repeated DoctorUniquePatient patients = 1;
+}
+
+message AgeGroupStat {
+  string age_group = 1;
+  float percent = 2;
+}
+
+message AgeGroupStatResponse {
+  repeated AgeGroupStat age_groups = 1;
+}
+
+message FloatResponse {
+  float float = 1;
+}
+
+message GetByIdRequest {
+  int32 id = 1;
+}
+
+message GetDoctorResponse {
+  string first_name = 1;
+  string second_name = 2;
+  string surname = 3;
+}
+
+message AllStatsResponse {
+  int32 total_patients = 1;
+  int32 total_visits = 2;
+  repeated TopService top_services = 3;
+  repeated DoctorAvgVisit doc_avg_visits = 4;
+  repeated DoctorCheck doctor_check = 5;
+  repeated DoctorUniquePatient doctor_patients = 6;
+  repeated AgeGroupStat age_groups = 7;
+  int32 NewPatientsThisMonth = 8;
+  float AvgVisitPerPatient = 9;
+  float TotalIncome = 10;
+  float MonthlyIncome = 11;
+  float ClinicAvgCheck = 12;
+}
+
+message EmptyRequest{}
+
+service StatisticsService {
+  rpc GetAllStats(EmptyRequest) returns (AllStatsResponse);
+}

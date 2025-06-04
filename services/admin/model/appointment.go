@@ -1,8 +1,35 @@
 package model
 
+import (
+	"time"
+)
+
 type (
-	AppointmentID    int
-	UserID           int
+	AppointmentID int
+	UserID        int
+	Appointment   struct {
+		ID                int
+		Doctor            string
+		PatientID         int
+		Date              string
+		Time              string
+		PatientFirstName  string
+		PatientSecondName string
+		PatientSurname    string
+		PatientBirthDate  string
+		Gender            string
+		PhoneNumber       string
+		Status            string
+		CreatedAt         string
+		UpdatedAt         string
+	}
+	UpdateAppointment struct {
+		ID        int
+		Date      time.Time
+		Time      time.Time
+		Status    string
+		UpdatedAt time.Time
+	}
 	TodayAppointment struct {
 		ID        AppointmentID
 		Date      string
@@ -40,10 +67,10 @@ type (
 		SecondName string `json:"second_name"`
 		FirstName  string `json:"first_name"`
 		Surname    string `json:"surname"`
-		BirthDate  string // либо time.Time, но строкой для фронта
+		BirthDate  string
 		Gender     string
 		Phone      string
-		Specialty  string // для Doctor
+		Specialty  string
 	}
 
 	AdminAppointment struct {

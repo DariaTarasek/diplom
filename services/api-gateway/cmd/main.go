@@ -7,6 +7,7 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/doctor"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/info"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/patient"
+	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/statistics"
 	"github.com/DariaTarasek/diplom/services/api-gateway/middleware"
 	"github.com/DariaTarasek/diplom/services/api-gateway/perm"
 	"github.com/gin-gonic/gin"
@@ -53,6 +54,11 @@ func main() {
 		log.Fatalf("Не удалось создать doctor клиент: %s", err.Error())
 	}
 
+	statisticsClient, err := clients.NewStatisticsClient("localhost:50056")
+	if err != nil {
+		log.Fatalf("Не удалось создать statistics клиент: %s", err.Error())
+	}
+
 	htmlPages := []string{
 		"index.html",
 		"auth_doc.html",
@@ -70,9 +76,12 @@ func main() {
 		"employee_registration.html",      // СТРАНИЦА АДМИНА!
 		"registration_in_clinic.html",     // СТРАНИЦА АДМИНА!
 		"administrator_account.html",      // СТРАНИЦА АДМИНА!
+		"analytics.html",                  // СТРАНИЦА АДМИНА!
 
 		"doctor_account.html",       // СТРАНИЦА ВРАЧА!
 		"doctors_consultation.html", // СТРАНИЦА ВРАЧА!
+		"administrator_account.html",      // СТРАНИЦА АДМИНА!
+
 	}
 
 	for _, page := range htmlPages {
@@ -135,6 +144,9 @@ func main() {
 
 	doctorHandler := doctor.NewHandler(doctorClient, authClient)
 	doctor.RegisterRoutes(api, doctorHandler)
+
+	statisticsHandler := statistics.NewHandler(statisticsClient)
+	statistics.RegisterRoutes(api, statisticsHandler)
 
 	log.Println("Api-gateway запущен")
 	if err := r.Run(":8080"); err != nil {

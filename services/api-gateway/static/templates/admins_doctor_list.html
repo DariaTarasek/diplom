@@ -74,53 +74,56 @@
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_doctor_list.html"><i class="bi bi-person-badge"></i> Список врачей </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="admins_admin_list.html"><i class="bi bi-person-lines-fill"></i> Список администраторов </a>
                                 <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="price_list.html"> <img src="static/img/ruble-sign-solid.svg" style="width: 18px; height: 18px"></img> Прейскурант </a>
-                                <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Аналитика </a>
-                            </div>
-                        </div>                         
-                    </div>                     
-                </nav>                 
-            </header>
-            <main> 
-                <div class="container my-4">
-                    <h2 class="text-center mb-3">Список врачей</h2>
-                    <div class="mb-3 text-center"><a class="btn btn-primary bi-plus-lg" href="employee_registration.html"> Добавить нового сотрудника</a>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <input v-model="search" @input="loadStaff" class="form-control" placeholder="Поиск по ФИО или email">
-                        </div>
-                        <div class="col-md-3">
-                            <select v-model="filters.specialty" class="form-select">
-                                <option value="">Все специализации</option>
-                                <option v-for="s in specialties" :key="s.id" :value="s.id">{{ s.name }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>ФИО</th>
-                                <th>Email</th>
-                                <th>Телефон</th>
-                                <th>Пол</th>
-                                <th>Специализация</th>
-                                <th>Образование</th>
-                                <th>Стаж</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="s in staff" :key="s.user_id" @click="onRowClick(s)" :class="{ 'table-active': isSelected(s) }" style="cursor: pointer;">
-                                <td>{{ s.secondName }} {{ s.firstName }} {{ s.surname }}</td>
-                                <td>{{ s.email }}</td>
-                                <td>{{ formatPhone(s.phone) }}</td>
-                                <td>{{ s.gender }}</td>
-                                <td>{{ getSpecialtyNames(s.specialty) }}</td>
-                                <td>{{ s.education }}</td>
-                                <td>{{ s.experience }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!-- Модальное окно -->
+                                <!--    <div v-if="admin.role === 'superadmin'"> -->
+                                      <a class="btn btn-lg btn-light border shadow-sm px-4 py-2 d-flex align-items-center gap-2" href="analytics.html"> <i class="bi bi-graph-up"></i> Статистика </a>
+                                  <!--  </div> -->
+                              </div>
+                          </div>
+                      </div>
+                  </nav>
+              </header>
+              <main>
+                  <div class="container my-4">
+                      <h2 class="text-center mb-3">Список врачей</h2>
+                      <div class="mb-3 text-start" v-if="admin.role === 'superadmin'">
+                      <div class="mb-3 text-center"><a class="btn btn-primary bi-plus-lg" href="employee_registration.html"> Добавить нового сотрудника</a></div>
+                      </div>
+                      <div class="row mb-3">
+                          <div class="col-md-4">
+                              <input v-model="search" @input="loadStaff" class="form-control" placeholder="Поиск по ФИО или email">
+                          </div>
+                          <div class="col-md-3">
+                              <select v-model="filters.specialty" class="form-select">
+                                  <option value="">Все специализации</option>
+                                  <option v-for="s in specialties" :key="s.id" :value="s.id">{{ s.name }}</option>
+                              </select>
+                          </div>
+                      </div>
+                      <table class="table table-bordered table-hover">
+                          <thead>
+                              <tr>
+                                  <th>ФИО</th>
+                                  <th>Email</th>
+                                  <th>Телефон</th>
+                                  <th>Пол</th>
+                                  <th>Специализация</th>
+                                  <th>Образование</th>
+                                  <th>Стаж</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr v-for="s in staff" :key="s.user_id" @click="onRowClick(s)" :class="{ 'table-active': isSelected(s) }" style="cursor: pointer;">
+                                  <td>{{ s.secondName }} {{ s.firstName }} {{ s.surname }}</td>
+                                  <td>{{ s.email }}</td>
+                                  <td>{{ formatPhone(s.phone) }}</td>
+                                  <td>{{ s.gender }}</td>
+                                  <td>{{ getSpecialtyNames(s.specialty) }}</td>
+                                  <td>{{ s.education }}</td>
+                                  <td>{{ s.experience }}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      <!-- Модальное окно -->
                     <div class="modal fade" id="editModal" tabindex="-1" @hidden.bs.modal="onModalHidden">
                         <div class="modal-dialog">
                             <div class="modal-content">
