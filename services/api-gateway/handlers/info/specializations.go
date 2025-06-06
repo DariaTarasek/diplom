@@ -7,6 +7,13 @@ import (
 	"net/http"
 )
 
+// GetAllSpecs godoc
+// @Summary Получить список всех специализаций
+// @Tags info
+// @Produce json
+// @Success 200 {array} model.Specialization
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /api/specialties [get]
 func (h *InfoHandler) GetAllSpecs(c *gin.Context) {
 	items, err := h.store.Client.GetAllSpecs(c.Request.Context(), &storagepb.EmptyRequest{})
 	if err != nil {

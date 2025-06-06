@@ -9,6 +9,13 @@ import (
 	"strconv"
 )
 
+// GetServices godoc
+// @Summary Получить список услуг
+// @Tags info
+// @Produce json
+// @Success 200 {object} map[string][]model.Service
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /api/services [get]
 func (h *InfoHandler) GetServices(c *gin.Context) {
 	items, err := h.store.Client.GetServices(c.Request.Context(), &storagepb.EmptyRequest{})
 	if err != nil {
@@ -28,6 +35,13 @@ func (h *InfoHandler) GetServices(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"services": services})
 }
 
+// GetServicesTypes godoc
+// @Summary Получить список категорий услуг
+// @Tags info
+// @Produce json
+// @Success 200 {object} map[string][]model.ServiceType
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /api/service-categories [get]
 func (h *InfoHandler) GetServicesTypes(c *gin.Context) {
 	items, err := h.store.Client.GetServicesTypes(c.Request.Context(), &storagepb.EmptyRequest{})
 	if err != nil {

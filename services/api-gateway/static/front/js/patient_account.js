@@ -62,7 +62,16 @@ createApp({
       fetch('/api/patient/upcoming', { method: 'GET', credentials: 'include' })
           .then(res => res.json())
           .then(json => {
-            this.upcoming = json || [];
+            const parseDate = str => {
+              const [day, month, year] = str.trim().split('.').map(Number);
+              return new Date(year, month - 1, day).getTime(); // timestamp
+            };
+
+            this.upcoming = (json || []).sort((a, b) => {
+              return parseDate(a.date) - parseDate(b.date);
+            });
+
+            console.log('Sorted upcoming:', this.upcoming.map(a => a.date)); // ✅ ДОЛЖЕН быть: ["06.06.2025", "11.06.2025"]
           })
           .catch(err => console.error('Ошибка при получении предстоящих записей:', err));
     },

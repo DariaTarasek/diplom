@@ -84,3 +84,72 @@ func TestEmployeeRegister_BadRequest(t *testing.T) {
 		t.Errorf("Ожидается код 400, получен код %d", resp.StatusCode)
 	}
 }
+
+func TestAddAppointment_Success(t *testing.T) {
+	payload := map[string]interface{}{
+		"doctor_id":  18,
+		"user_id":    20,
+		"date":       "05.06.2025\n", // ожидается формат "дд.мм.гггг"
+		"time":       "10:00",        // ожидается формат "чч:мм"
+		"secondName": "Иванов",
+		"firstName":  "Иван",
+		"surname":    "Иванович",
+		"birthDate":  "1990-01-01", // ожидается формат "гггг-мм-дд"
+		"gender":     "м",
+		"phone":      "79998887766",
+		"status":     "pending",
+		"createdAt":  time.Now().Format(time.RFC3339),
+		"updatedAt":  time.Now().Format(time.RFC3339),
+	}
+
+	body, err := json.Marshal(payload)
+	require.NoError(t, err)
+
+	req, err := http.NewRequest(http.MethodPost, baseURL+"/api/appointments", bytes.NewBuffer(body))
+	require.NoError(t, err)
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	//respBody, _ := io.ReadAll(resp.Body)
+	//t.Log(string(respBody))
+	t.Logf("Ожидается код 201, получен код %d", resp.StatusCode)
+	require.NoError(t, err)
+	defer resp.Body.Close()
+
+	require.Equal(t, http.StatusCreated, resp.StatusCode)
+}
+
+func TestAddAppointment_BadRequest(t *testing.T) {
+	// Ошибка в дате (невалидный формат)
+	payload := map[string]interface{}{
+		"doctor_id":  1,
+		"user_id":    2,
+		"date":       "invalid-date", // некорректная дата
+		"time":       "10:00",
+		"secondName": "Иванов",
+		"firstName":  "Иван",
+		"surname":    "Иванович",
+		"birthDate":  "1990-01-01",
+		"gender":     "male",
+		"phone":      "+79998887766",
+		"status":     "pending",
+		"createdAt":  time.Now().Format(time.RFC3339),
+		"updatedAt":  time.Now().Format(time.RFC3339),
+	}
+
+	body, err := json.Marshal(payload)
+	require.NoError(t, err)
+
+	req, err := http.NewRequest(http.MethodPost, baseURL+"/api/appointments", bytes.NewBuffer(body))
+	require.NoError(t, err)
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	t.Logf("Ожидается код 400, получен код %d", resp.StatusCode)
+	require.NoError(t, err)
+	defer resp.Body.Close()
+
+	require.Equal(t, http.StatusBadRequest, resp.StatusCode)
+}

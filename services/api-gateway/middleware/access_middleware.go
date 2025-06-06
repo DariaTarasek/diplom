@@ -21,7 +21,7 @@ func MakeAccessMiddleware(authClient *clients.AuthClient) func(requiredPermissio
 			})
 
 			if err != nil {
-				c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Недостаточно прав " + err.Error()})
+				c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Недостаточно прав"})
 				return
 			}
 			c.Next()

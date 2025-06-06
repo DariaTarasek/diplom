@@ -7,6 +7,13 @@ import (
 	"net/http"
 )
 
+// GetMaterials godoc
+// @Summary Получить список материалов
+// @Tags info
+// @Produce json
+// @Success 200 {object} map[string][]model.Material
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /api/materials [get]
 func (h *InfoHandler) GetMaterials(c *gin.Context) {
 	items, err := h.store.Client.GetMaterials(c.Request.Context(), &storagepb.EmptyRequest{})
 	if err != nil {

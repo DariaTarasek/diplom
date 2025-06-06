@@ -97,7 +97,7 @@ func (h *PatientHandler) addAppointment(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Вы успешно записаны на прием!"})
+	c.JSON(http.StatusCreated, gin.H{"message": "Вы успешно записаны на прием!"})
 }
 
 // getUpcomingAppointments godoc
