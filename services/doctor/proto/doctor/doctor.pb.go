@@ -1684,6 +1684,7 @@ type AddConsultationRequest struct {
 	Diagnoses     []*VisitDiagnose       `protobuf:"bytes,6,rep,name=diagnoses,proto3" json:"diagnoses,omitempty"`
 	Services      []*AddVisitServices    `protobuf:"bytes,7,rep,name=services,proto3" json:"services,omitempty"`
 	Materials     []*AddVisitMaterials   `protobuf:"bytes,8,rep,name=materials,proto3" json:"materials,omitempty"`
+	Token         string                 `protobuf:"bytes,9,opt,name=token,proto3" json:"token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1772,6 +1773,13 @@ func (x *AddConsultationRequest) GetMaterials() []*AddVisitMaterials {
 		return x.Materials
 	}
 	return nil
+}
+
+func (x *AddConsultationRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
 }
 
 type AddConsultationResponse struct {
@@ -2209,7 +2217,7 @@ const file_proto_doctor_doctor_proto_rawDesc = "" +
 	"\x13VisitPaymentRequest\x12\x19\n" +
 	"\bvisit_id\x18\x01 \x01(\x05R\avisitId\x12\x14\n" +
 	"\x05price\x18\x02 \x01(\x05R\x05price\x12\x16\n" +
-	"\x06status\x18\x03 \x01(\tR\x06status\"\xdd\x02\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\"\xf3\x02\n" +
 	"\x16AddConsultationRequest\x12%\n" +
 	"\x0eappointment_id\x18\x01 \x01(\x05R\rappointmentId\x12\x1d\n" +
 	"\n" +
@@ -2221,7 +2229,8 @@ const file_proto_doctor_doctor_proto_rawDesc = "" +
 	"\ttreatment\x18\x05 \x01(\tR\ttreatment\x123\n" +
 	"\tdiagnoses\x18\x06 \x03(\v2\x15.doctor.VisitDiagnoseR\tdiagnoses\x124\n" +
 	"\bservices\x18\a \x03(\v2\x18.doctor.AddVisitServicesR\bservices\x127\n" +
-	"\tmaterials\x18\b \x03(\v2\x19.doctor.AddVisitMaterialsR\tmaterials\"U\n" +
+	"\tmaterials\x18\b \x03(\v2\x19.doctor.AddVisitMaterialsR\tmaterials\x12\x14\n" +
+	"\x05token\x18\t \x01(\tR\x05token\"U\n" +
 	"\x17AddConsultationResponse\x12\x19\n" +
 	"\bvisit_id\x18\x01 \x01(\x05R\avisitId\x12\x1f\n" +
 	"\vtotal_price\x18\x02 \x01(\x05R\n" +

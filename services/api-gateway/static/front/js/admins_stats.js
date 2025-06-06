@@ -16,7 +16,9 @@ createApp({
                 totalIncome: 0,
                 monthlyIncome: 0,
                 clinicAvgCheck: 0
-            }
+            },
+            fullName: '',
+            isPopoverVisible: false
         };
     },
 
@@ -33,10 +35,24 @@ createApp({
             } catch (err) {
                 console.error('Ошибка при загрузке статистики:', err);
             }
+        },
+
+        async fetchAdminData() {
+            try {
+                const res = await fetch('/api/admin/me');
+                const data = await res.json();
+
+                const firstName = data.firstName || '';
+                const secondName = data.secondName || '';
+                this.fullName = `${firstName} ${secondName}`.trim();
+            } catch (err) {
+                console.error('Ошибка при загрузке данных администратора:', err);
+            }
         }
     },
 
     mounted() {
         this.fetchStats();
+        this.fetchAdminData();
     }
 }).mount('#app');

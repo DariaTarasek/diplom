@@ -99,8 +99,8 @@ func (s *AuthService) DoctorRegister(ctx context.Context, user model.User, docto
 		return 0, fmt.Errorf("не удалось добавить роль врачу через gRPC: %w", err)
 	}
 
-	// message := fmt.Sprintf("Subject: Регистрация в системе клиники!\r\n\r\nВы зарегистрированы в системе клиники!\nВаш пароль для входа: %s", password)
-	//err = utils.SendPassword(doctor.Email, password, message)
+	message := fmt.Sprintf("Subject: Регистрация в системе клиники!\r\n\r\nВы зарегистрированы в системе клиники!\nВаш пароль для входа: %s", password)
+	err = utils.SendPassword(doctor.Email, password, message)
 	if err != nil {
 		return 0, fmt.Errorf("не удалось отправить пароль на email: %w", err)
 	}
@@ -166,10 +166,11 @@ func (s *AuthService) AdminRegister(ctx context.Context, user model.User, admin 
 		return 0, fmt.Errorf("не удалось добавить роль админу через gRPC: %w", err)
 	}
 
-	//err = utils.SendPassword(admin.Email, password)
-	//if err != nil {
-	//	return 0, fmt.Errorf("не удалось отправить пароль на email: %w", err)
-	//}
+	message := fmt.Sprintf("Subject: Регистрация в системе клиники!\r\n\r\nВы зарегистрированы в системе клиники!\nВаш пароль для входа: %s", password)
+	err = utils.SendPassword(admin.Email, password, message)
+	if err != nil {
+		return 0, fmt.Errorf("не удалось отправить пароль на email: %w", err)
+	}
 	fmt.Println(password)
 	return int(respUser.UserId), nil
 }

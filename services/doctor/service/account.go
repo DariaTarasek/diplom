@@ -29,7 +29,7 @@ func (s *DoctorService) GetTodayAppointments(ctx context.Context, token string) 
 	todays := make([]model.TodayAppointment, 0)
 	now := time.Now().Truncate(24 * time.Hour)
 	for _, app := range apps.Appointments {
-		if app.Status == "cancelled" {
+		if app.Status == "cancelled" || app.Status == "completed" {
 			continue
 		}
 		if !app.Date.AsTime().Equal(now) {

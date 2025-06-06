@@ -196,7 +196,7 @@ func (s *Server) AddConsultation(ctx context.Context, req *pb.AddConsultationReq
 		})
 	}
 
-	err := s.Service.AddConsultation(ctx, materials, services, diagnoses, visit)
+	err := s.Service.AddConsultation(ctx, materials, services, diagnoses, visit, req.Token)
 	if err != nil {
 		return nil, fmt.Errorf("не удалось провести приём: %w", err)
 	}

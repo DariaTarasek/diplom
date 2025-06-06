@@ -8,6 +8,7 @@ import (
 	"github.com/DariaTarasek/diplom/services/auth/utils"
 	"github.com/redis/go-redis/v9"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -36,16 +37,16 @@ func (s *AuthService) RequestCode(ctx context.Context, phone string) error {
 	}
 
 	fmt.Printf("Код подтверждения для номера %s: %s", phone, code)
-	//msg := fmt.Sprintf("Код подтверждения: %s", code)
-	//phoneToSMS, err := strconv.Atoi(phone)
-	//if err != nil {
-	//	return fmt.Errorf("не удалось преобразовать номер телефона для отправки СМС: %w", err)
-	//}
-	//smsResponse, err := s.SMSClient.Client.SendSms(phoneToSMS, msg)
-	//fmt.Println(smsResponse)
-	//if err != nil {
-	//	return fmt.Errorf("не удалось отправить СМС с кодом подтверждения: %w", err)
-	//}
+	msg := fmt.Sprintf("Код подтверждения: %s", code)
+	phoneToSMS, err := strconv.Atoi(phone)
+	if err != nil {
+		return fmt.Errorf("не удалось преобразовать номер телефона для отправки СМС: %w", err)
+	}
+	smsResponse, err := s.SMSClient.Client.SendSms(phoneToSMS, msg)
+	fmt.Println(smsResponse)
+	if err != nil {
+		return fmt.Errorf("не удалось отправить СМС с кодом подтверждения: %w", err)
+	}
 	return nil
 }
 
