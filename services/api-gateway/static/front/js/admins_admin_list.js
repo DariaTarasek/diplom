@@ -262,6 +262,7 @@ createApp({
     admin.value.firstName = data.firstName || '';
     admin.value.secondName = data.secondName || '';
     userRole.value = data.role || '';
+    admin.value.role = data.role || 'admin';
 
   } catch (err) {
     console.error('Ошибка при загрузке данных:', err);

@@ -6,12 +6,14 @@ import (
 )
 
 type PatientHandler struct {
-	PatientClient *clients.PatientClient
+	PatientClient    *clients.PatientClient
+	AccessMiddleware func(requiredPermission int32) gin.HandlerFunc
 }
 
-func NewHandler(patientClient *clients.PatientClient) *PatientHandler {
+func NewHandler(patientClient *clients.PatientClient, accessMiddleware func(requiredPermission int32) gin.HandlerFunc) *PatientHandler {
 	return &PatientHandler{
-		PatientClient: patientClient,
+		PatientClient:    patientClient,
+		AccessMiddleware: accessMiddleware,
 	}
 }
 

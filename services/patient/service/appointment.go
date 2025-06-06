@@ -267,13 +267,18 @@ func (s *PatientService) GetUpcomingAppointments(ctx context.Context, token stri
 	}
 	now := time.Now()
 	for _, app := range apps.Appointment {
-		if app.Status == "cancelled" {
+		if app.Status == "cancelled" || app.Status == "completed" {
 			continue
 		}
-		if app.Date.AsTime().Before(now) {
-			continue
-		}
-		if app.Time.AsTime().AddDate(now.Year(), int(now.Month()), now.Day()).Before(now) {
+		appointmentDate := app.Date.AsTime() // например, 06.06.2025 00:00
+		appointmentTime := app.Time.AsTime() // например, 0001-01-01 16:00
+		appointmentDateTime := time.Date(
+			appointmentDate.Year(), appointmentDate.Month(), appointmentDate.Day(),
+			appointmentTime.Hour(), appointmentTime.Minute(), appointmentTime.Second(), 0,
+			time.Local,
+		)
+
+		if appointmentDateTime.Before(now) {
 			continue
 		}
 		doc, err := s.StorageClient.Client.GetDoctorByID(ctx, &storagepb.GetByIDRequest{Id: app.DoctorId})

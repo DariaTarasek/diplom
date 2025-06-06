@@ -54,6 +54,7 @@ createApp({
             tempSelectedMaterials: [],
             documents: [],
             showDocumentsModal: false,
+            appointment_id: null,
         };
     },
 
@@ -143,12 +144,13 @@ createApp({
         async loadData() {
             const urlParams = new URLSearchParams(window.location.search);
             const appointmentId = urlParams.get('appointment_id') || 0;
+            this.appointment_id = parseInt(appointmentId)
 
             try {
                 const res = await fetch(`/api/appointments/${appointmentId}`);
                 const data = await res.json();
                 this.patient = {
-                    id: data.id,
+                    id: data.user_id,
                     first_name: data.firstName,
                     second_name: data.secondName,
                     surname: data.surname,
@@ -401,7 +403,7 @@ createApp({
 
             try {
                 const payload = {
-                    appointment_id: this.appointment_id || 19,
+                    appointment_id: this.appointment_id,
                     patient_id: this.patient.id,
                     doctor_id: this.doctor_id,
                     complaints: this.currentVisit.complaints,

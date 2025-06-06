@@ -69,7 +69,7 @@ func (h *DoctorHandler) GetAppointmentByID(c *gin.Context) {
 	}
 	patientID := model.UserID(apptResp.Appt.PatientId)
 	appt := model.Appointment{
-		ID:                 model.AppointmentID(apptResp.Appt.Id),
+		ID:                 model.AppointmentID(id),
 		DoctorID:           model.UserID(apptResp.Appt.DoctorId),
 		PatientID:          &patientID,
 		Date:               apptResp.Appt.Date.AsTime().Format("02.01.06"),
@@ -193,6 +193,12 @@ func (h *DoctorHandler) AddPatientAllergiesChronics(c *gin.Context) {
 // @Failure 403 {object} gin.H "Недостаточно прав"
 // @Router /api/visits [post]
 func (h *DoctorHandler) AddConsultation(c *gin.Context) {
+	token, err := c.Cookie("access_token")
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Токен не найден"})
+		return
+	}
+
 	var visit model.VisitSaveRequest
 	if err := c.ShouldBindJSON(&visit); err != nil {
 		log.Println(err.Error())
@@ -227,7 +233,7 @@ func (h *DoctorHandler) AddConsultation(c *gin.Context) {
 		diagnosesReq = append(diagnosesReq, diagnose)
 	}
 
-	_, err := h.DoctorClient.Client.AddConsultation(c.Request.Context(), &doctorpb.AddConsultationRequest{
+	_, err = h.DoctorClient.Client.AddConsultation(c.Request.Context(), &doctorpb.AddConsultationRequest{
 		AppointmentId: int32(visit.AppointmentID),
 		PatientId:     int32(visit.PatientID),
 		DoctorId:      int32(visit.DoctorID),
@@ -236,6 +242,7 @@ func (h *DoctorHandler) AddConsultation(c *gin.Context) {
 		Diagnoses:     diagnosesReq,
 		Services:      servicesReq,
 		Materials:     materialsReq,
+		Token:         token,
 	})
 	if err != nil {
 		log.Println(err.Error())

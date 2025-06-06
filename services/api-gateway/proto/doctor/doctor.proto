@@ -177,6 +177,7 @@ message AddConsultationRequest {
   repeated VisitDiagnose diagnoses = 6;
   repeated AddVisitServices services = 7;
   repeated AddVisitMaterials materials = 8;
+  string token = 9;
 }
 
 message AddConsultationResponse {

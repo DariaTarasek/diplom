@@ -149,7 +149,7 @@ func main() {
 	adminHandler := admin.NewHandler(adminClient, authClient)
 	admin.RegisterRoutes(api, adminHandler)
 
-	patientHandler := patient.NewHandler(patientClient)
+	patientHandler := patient.NewHandler(patientClient, accessMiddleware)
 	patient.RegisterRoutes(api, patientHandler)
 
 	doctorHandler := doctor.NewHandler(doctorClient, authClient)

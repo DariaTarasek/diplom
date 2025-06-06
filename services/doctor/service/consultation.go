@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/DariaTarasek/diplom/services/doctor/model"
+	authpb "github.com/DariaTarasek/diplom/services/doctor/proto/auth"
 	storagepb "github.com/DariaTarasek/diplom/services/doctor/proto/storage"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
@@ -107,7 +108,7 @@ func (s *DoctorService) GetPatientVisits(ctx context.Context, id int) ([]model.V
 	return visits, nil
 }
 func (s *DoctorService) AddConsultation(ctx context.Context, materials []model.VisitMaterial,
-	services []model.VisitService, diagnoses []model.VisitDiagnose, visit model.AddVisit) error {
+	services []model.VisitService, diagnoses []model.VisitDiagnose, visit model.AddVisit, token string) error {
 	apptID := visit.AppointmentID
 	appointment, err := s.StorageClient.Client.GetAppointmentByID(ctx, &storagepb.GetByIDRequest{Id: int32(apptID)})
 	appointmentReq := appointment.Appointment
@@ -116,10 +117,15 @@ func (s *DoctorService) AddConsultation(ctx context.Context, materials []model.V
 	appointmentReq.UpdatedAt = timestamppb.New(time.Now())
 	_, err = s.StorageClient.Client.UpdateAppointment(ctx, &storagepb.UpdateAppointmentRequest{Appointment: appointmentReq})
 
+	doctorID, err := s.AuthClient.Client.GetUserID(ctx, &authpb.GetUserIDRequest{Token: token})
+	if err != nil {
+		return fmt.Errorf("не удалось получить доктора, проводившего прием: %w", err)
+	}
+
 	resp, err := s.StorageClient.Client.AddPatientVisit(ctx, &storagepb.AddPatientVisitRequest{
 		AppointmentId: int32(visit.AppointmentID),
 		PatientId:     int32(visit.PatientID),
-		DoctorId:      int32(visit.DoctorID),
+		DoctorId:      doctorID.UserId,
 		Complaints:    visit.Complaints,
 		Treatment:     visit.Treatment,
 	})
