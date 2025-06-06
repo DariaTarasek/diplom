@@ -89,7 +89,7 @@ func main() {
 		"administrator_account.html",      // СТРАНИЦА АДМИНА!
 		"analytics.html",                  // СТРАНИЦА АДМИНА!
 
-		"doctor_account.html",       // СТРАНИЦА ВРАЧА!
+		//"doctor_account.html",       // СТРАНИЦА ВРАЧА!
 		"doctors_consultation.html", // СТРАНИЦА ВРАЧА!
 
 	}
@@ -116,7 +116,7 @@ func main() {
 	}
 
 	doctorPages := []string{
-		//"doctor_account.html",
+		"doctor_account.html",
 		"doctor_profile.html",
 	}
 	for _, page := range doctorPages {

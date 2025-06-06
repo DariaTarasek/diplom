@@ -10,10 +10,28 @@ import (
 	"time"
 )
 
+type (
+	DoctorScheduleResponse struct {
+		Schedule    []model.DoctorWeeklySchedule `json:"schedule"`
+		SlotMinutes int                          `json:"slot_minutes"`
+	}
+	ClinicScheduleResponse struct {
+		Schedule    []model.ClinicWeeklySchedule `json:"schedule"`
+		SlotMinutes int                          `json:"slot_minutes"`
+	}
+)
+
 func FormatTime(t time.Time) string {
 	return t.Format("15:04")
 }
 
+// GetClinicWeeklySchedule godoc
+// @Summary Получить постоянное расписание клиники
+// @Tags info
+// @Produce json
+// @Success 200 {object} ClinicScheduleResponse
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /api/clinic-schedule [get]
 func (h *InfoHandler) GetClinicWeeklySchedule(c *gin.Context) {
 	items, err := h.store.Client.GetClinicWeeklySchedule(c.Request.Context(), &storagepb.EmptyRequest{})
 	if err != nil {
@@ -44,6 +62,14 @@ func (h *InfoHandler) GetClinicWeeklySchedule(c *gin.Context) {
 	})
 }
 
+// GetDoctorWeeklySchedule godoc
+// @Summary Получить постоянное расписание врача
+// @Tags info
+// @Produce json
+// @Param selectedDoctor path int true "ID врача"
+// @Success 200 {object} DoctorScheduleResponse
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /api/doctor-schedule/{selectedDoctor} [get]
 func (h *InfoHandler) GetDoctorWeeklySchedule(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("selectedDoctor"))
 	items, err := h.store.Client.GetDoctorWeeklySchedule(c.Request.Context(), &storagepb.GetScheduleByDoctorIdRequest{DoctorId: int32(id)})
@@ -75,6 +101,15 @@ func (h *InfoHandler) GetDoctorWeeklySchedule(c *gin.Context) {
 	})
 }
 
+// GetClinicOverride godoc
+// @Summary Получить переопределение расписания клиники
+// @Tags info
+// @Produce json
+// @Param date path string true "Дата в формате YYYY-MM-DD"
+// @Success 200 {object} model.ClinicDailyOverride
+// @Failure 400 {object} map[string]string "Неверный формат даты"
+// @Failure 404 {object} map[string]string "Переопределение не найдено"
+// @Router /api/clinic-overrides/{date} [get]
 func (h *InfoHandler) GetClinicOverride(c *gin.Context) {
 	dateStr := c.Param("date")
 	date, err := time.Parse("2006-01-02", dateStr)
@@ -109,6 +144,16 @@ func (h *InfoHandler) GetClinicOverride(c *gin.Context) {
 	c.JSON(http.StatusOK, override)
 }
 
+// GetDoctorOverride godoc
+// @Summary Получить переопределение расписания врача
+// @Tags info
+// @Produce json
+// @Param doctor_id path int true "ID врача"
+// @Param date path string true "Дата в формате YYYY-MM-DD"
+// @Success 200 {object} model.DoctorDailyOverride
+// @Failure 400 {object} map[string]string "Неверный формат даты или ID"
+// @Failure 404 {object} map[string]string "Переопределение не найдено"
+// @Router /api/doctor-overrides/{doctor_id}/{date} [get]
 func (h *InfoHandler) GetDoctorOverride(c *gin.Context) {
 	dateStr := c.Param("date")
 	date, err := time.Parse("2006-01-02", dateStr)

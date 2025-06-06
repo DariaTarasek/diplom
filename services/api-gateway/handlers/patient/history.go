@@ -7,6 +7,15 @@ import (
 	"net/http"
 )
 
+// getHistoryVisits godoc
+// @Summary Получить историю посещений
+// @Tags Пациент
+// @Produce json
+// @Success 200 {array} model.HistoryVisits
+// @Failure 401 {object} map[string]string "Необходима авторизация"
+// @Failure 403 {object} map[string]string "Недостаточно прав"
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /api/patient/history [get]
 func (h *PatientHandler) getHistoryVisits(c *gin.Context) {
 	token, err := c.Cookie("access_token")
 	if err != nil {

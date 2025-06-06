@@ -7,6 +7,13 @@ import (
 	"net/http"
 )
 
+// GetICDCodes godoc
+// @Summary Получить коды МКБ
+// @Tags info
+// @Produce json
+// @Success 200 {array} model.ICDCode
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /api/icd-codes [get]
 func (h *InfoHandler) GetICDCodes(c *gin.Context) {
 	items, err := h.store.Client.GetICDCodes(c.Request.Context(), &storagepb.EmptyRequest{})
 	if err != nil {

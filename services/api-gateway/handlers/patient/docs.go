@@ -10,6 +10,19 @@ import (
 	"net/http"
 )
 
+// UploadTest godoc
+// @Summary Загрузить документ
+// @Tags Пациент
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "Файл документа"
+// @Param description formData string false "Описание файла"
+// @Success 200 {object} map[string]interface{} "Документ добавлен"
+// @Failure 400 {object} map[string]string "Неверный запрос или ошибка файла"
+// @Failure 401 {object} map[string]string "Необходима авторизация"
+// @Failure 403 {object} map[string]string "Недостаточно прав"
+// @Failure 500 {object} map[string]string "Внутренняя ошибка сервера"
+// @Router /api/patient/tests/upload [post]
 func (h *PatientHandler) UploadTest(c *gin.Context) {
 	// 1. Получаем токен из куки
 	token, err := c.Cookie("access_token")
@@ -61,6 +74,15 @@ func (h *PatientHandler) UploadTest(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"document_id": resp.DocumentId})
 }
 
+// getDocuments godoc
+// @Summary Получить документы пациента
+// @Tags Пациент
+// @Produce json
+// @Success 200 {array} model.DocumentInfo
+// @Failure 401 {object} map[string]string "Необходима авторизация"
+// @Failure 403 {object} map[string]string "Недостаточно прав"
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /api/patient/tests [get]
 func (h *PatientHandler) getDocuments(c *gin.Context) {
 	token, err := c.Cookie("access_token")
 	if err != nil || token == "" {
@@ -86,6 +108,16 @@ func (h *PatientHandler) getDocuments(c *gin.Context) {
 	c.JSON(http.StatusOK, docs)
 }
 
+// DownloadDocument godoc
+// @Summary Скачать документ
+// @Tags Пациент
+// @Produce application/octet-stream
+// @Param id path string true "ID документа"
+// @Success 200 {file} file "Файл"
+// @Failure 401 {object} map[string]string "Необходима авторизация"
+// @Failure 403 {object} map[string]string "Доступ запрещён"
+// @Failure 500 {object} map[string]string "Внутренняя ошибка"
+// @Router /patient/tests/{id}/download [get]
 func (h *PatientHandler) DownloadDocument(c *gin.Context) {
 	// Получаем токен и ID документа из запроса
 	documentID := c.Param("id") // например: /documents/:id
