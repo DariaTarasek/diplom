@@ -10,6 +10,14 @@ import (
 	"strconv"
 )
 
+// GetPatientAllergiesChronics godoc
+// @Summary Получение аллергий и хронических заболеваний пациента
+// @Tags Врач
+// @Param id path int true "ID пациента"
+// @Success 200 {array} model.AllergiesChronics
+// @Failure 400 {object} gin.H "Некорректный ввод"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Router /api/patient-notes/{id} [get]
 func (h *DoctorHandler) GetPatientAllergiesChronics(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -37,6 +45,14 @@ func (h *DoctorHandler) GetPatientAllergiesChronics(c *gin.Context) {
 	c.JSON(http.StatusOK, notes)
 }
 
+// GetAppointmentByID godoc
+// @Summary Получение информации о приёме по ID
+// @Tags Врач
+// @Param id path int true "ID приёма"
+// @Success 200 {object} model.Appointment
+// @Failure 400 {object} gin.H "Некорректный ввод"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Router /api/appointments/{id} [get]
 func (h *DoctorHandler) GetAppointmentByID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -72,6 +88,14 @@ func (h *DoctorHandler) GetAppointmentByID(c *gin.Context) {
 	c.JSON(http.StatusOK, appt)
 }
 
+// GetPatientVisits godoc
+// @Summary Получение списка посещений пациента
+// @Tags Врач
+// @Param id path int true "ID пациента"
+// @Success 200 {array} model.Visit
+// @Failure 400 {object} gin.H "Некорректный ввод"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Router /api/patient-history/{id} [get]
 func (h *DoctorHandler) GetPatientVisits(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -117,6 +141,16 @@ func DerefDiagnoses(src []*doctorpb.Diagnose) []model.Diagnose {
 	return result
 }
 
+// AddPatientAllergiesChronics godoc
+// @Summary Добавление аллергий и хронических заболеваний пациенту
+// @Tags Врач
+// @Param id path int true "ID пациента"
+// @Param body body []model.AllergiesChronics true "Список аллергий и хронических заболеваний"
+// @Success 201 {object} gin.H
+// @Failure 400 {object} gin.H "Некорректный ввод"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Ошибка сервера"
+// @Router /api/patient-notes/{id} [post]
 func (h *DoctorHandler) AddPatientAllergiesChronics(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -150,6 +184,14 @@ func (h *DoctorHandler) AddPatientAllergiesChronics(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{})
 }
 
+// AddConsultation godoc
+// @Summary Добавление консультации
+// @Tags Врач
+// @Param body body model.VisitSaveRequest true "Данные консультации"
+// @Success 201 {object} gin.H
+// @Failure 400 {object} gin.H "Некорректный ввод"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Router /api/visits [post]
 func (h *DoctorHandler) AddConsultation(c *gin.Context) {
 	var visit model.VisitSaveRequest
 	if err := c.ShouldBindJSON(&visit); err != nil {
@@ -203,6 +245,15 @@ func (h *DoctorHandler) AddConsultation(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{})
 }
 
+// getPatientDocs godoc
+// @Summary Получение документов пациента
+// @Tags Врач
+// @Param id path int true "ID пациента"
+// @Success 200 {array} model.DocumentInfo
+// @Failure 400 {object} gin.H
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H
+// @Router /admin/patient/{id}/documents [get]
 func (h *DoctorHandler) getPatientDocs(c *gin.Context) {
 	patientId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -228,6 +279,14 @@ func (h *DoctorHandler) getPatientDocs(c *gin.Context) {
 	c.JSON(http.StatusOK, docs)
 }
 
+// DownloadDocument godoc
+// @Summary Скачивание документа пациента
+// @Tags Врач
+// @Param id path string true "ID документа"
+// @Success 200 {file} file
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H
+// @Router /api/doctor/consultation/patient-tests/{id} [get]
 func (h *DoctorHandler) DownloadDocument(c *gin.Context) {
 	// Получаем токен и ID документа из запроса
 	documentID := c.Param("id") // например: /documents/:id

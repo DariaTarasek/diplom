@@ -3,6 +3,111 @@ definitions:
   gin.H:
     additionalProperties: {}
     type: object
+  handlers_admin.employeeLoginRequest:
+    properties:
+      email:
+        type: string
+    type: object
+  handlers_admin.updateClinicScheduleRequest:
+    properties:
+      schedule:
+        items:
+          $ref: '#/definitions/model.ClinicWeeklySchedule'
+        type: array
+      slot_duration_minutes:
+        type: integer
+    type: object
+  handlers_admin.updateDoctorScheduleRequest:
+    properties:
+      schedule:
+        items:
+          $ref: '#/definitions/model.DoctorWeeklySchedule'
+        type: array
+      slot_minutes:
+        type: integer
+    type: object
+  handlers_auth.recoveryRequest:
+    properties:
+      login:
+        type: string
+    type: object
+  handlers_auth.requestCode:
+    properties:
+      phone:
+        type: string
+    type: object
+  handlers_auth.roleResponse:
+    properties:
+      role:
+        type: string
+    type: object
+  handlers_auth.verifyCode:
+    properties:
+      code:
+        type: string
+      phone:
+        type: string
+    type: object
+  model.AdminAppointment:
+    properties:
+      doctor:
+        $ref: '#/definitions/model.Person'
+      id:
+        type: integer
+      patient:
+        $ref: '#/definitions/model.Person'
+    type: object
+  model.AdminForAdminList:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      phone:
+        type: string
+      role:
+        type: string
+      second_name:
+        type: string
+      surname:
+        type: string
+    type: object
+  model.AdminScheduleOverview:
+    properties:
+      appointments:
+        additionalProperties:
+          additionalProperties:
+            items:
+              $ref: '#/definitions/model.AdminAppointment'
+            type: array
+          type: object
+        type: object
+      schedule:
+        $ref: '#/definitions/model.ScheduleMetadata'
+    type: object
+  model.AdminWithRole:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      gender:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      secondName:
+        type: string
+      surname:
+        type: string
+      user_id:
+        type: integer
+    type: object
   model.AgeGroupStat:
     properties:
       ageGroup:
@@ -47,6 +152,17 @@ definitions:
       totalVisits:
         type: integer
     type: object
+  model.AllergiesChronics:
+    properties:
+      id:
+        type: integer
+      patient_id:
+        type: integer
+      title:
+        type: string
+      type:
+        type: string
+    type: object
   model.Appointment:
     properties:
       birthDate:
@@ -78,6 +194,62 @@ definitions:
       user_id:
         type: integer
     type: object
+  model.ClinicDailyOverride:
+    properties:
+      date:
+        type: string
+      end_time:
+        type: string
+      id:
+        type: integer
+      start_time:
+        type: string
+      type:
+        type: string
+    type: object
+  model.ClinicWeeklySchedule:
+    properties:
+      day:
+        type: integer
+      end_time:
+        type: string
+      id:
+        type: integer
+      is_day_off:
+        type: boolean
+      slot_minutes:
+        type: integer
+      start_time:
+        type: string
+    type: object
+  model.Diagnose:
+    properties:
+      icd_code:
+        type: string
+      notes:
+        type: string
+    type: object
+  model.Doctor:
+    properties:
+      education:
+        type: string
+      email:
+        type: string
+      experience:
+        type: integer
+      firstName:
+        type: string
+      gender:
+        type: string
+      phone:
+        type: string
+      secondName:
+        type: string
+      surname:
+        type: string
+      user_id:
+        type: integer
+    type: object
   model.DoctorAvgVisit:
     properties:
       avgWeeklyVisits:
@@ -92,12 +264,212 @@ definitions:
       doctor:
         type: string
     type: object
+  model.DoctorDailyOverride:
+    properties:
+      date:
+        type: string
+      doctor_id:
+        type: integer
+      end_time:
+        type: string
+      id:
+        type: integer
+      start_time:
+        type: string
+      type:
+        type: string
+    type: object
   model.DoctorUniquePatients:
     properties:
       doctorId:
         type: string
       uniquePatients:
         type: integer
+    type: object
+  model.DoctorWeeklySchedule:
+    properties:
+      day:
+        type: integer
+      end_time:
+        type: string
+      id:
+        type: integer
+      is_day_off:
+        type: boolean
+      selectedDoctor:
+        type: integer
+      slot_minutes:
+        type: integer
+      start_time:
+        type: string
+    type: object
+  model.DoctorWithSpecs:
+    properties:
+      education:
+        type: string
+      email:
+        type: string
+      experience:
+        type: integer
+      firstName:
+        type: string
+      gender:
+        type: string
+      phone:
+        type: string
+      secondName:
+        type: string
+      specialty:
+        items:
+          type: integer
+        type: array
+      surname:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.DocumentInfo:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      file_name:
+        type: string
+      id:
+        type: string
+    type: object
+  model.Employee:
+    properties:
+      education:
+        type: string
+      email:
+        type: string
+      experience:
+        type: integer
+      firstName:
+        type: string
+      gender:
+        type: string
+      phone:
+        type: string
+      role:
+        type: integer
+      secondName:
+        type: string
+      specializations:
+        items:
+          type: integer
+        type: array
+      surname:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.ICDCodeInput:
+    properties:
+      code:
+        type: integer
+      comment:
+        type: string
+    type: object
+  model.Material:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+    type: object
+  model.MaterialsAndServices:
+    properties:
+      id:
+        type: integer
+      item:
+        type: string
+      quantity:
+        type: integer
+      visitID:
+        type: integer
+    type: object
+  model.Patient:
+    properties:
+      birthDate:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      gender:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      secondName:
+        type: string
+      surname:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.PatientWithoutPassword:
+    properties:
+      birthDate:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      gender:
+        type: string
+      phone:
+        type: string
+      secondName:
+        type: string
+      surname:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.Person:
+    properties:
+      birthDate:
+        description: либо time.Time, но строкой для фронта
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      phone:
+        type: string
+      second_name:
+        type: string
+      specialty:
+        description: для Doctor
+        type: string
+      surname:
+        type: string
+    type: object
+  model.RegisterRequest:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    required:
+    - login
+    - password
+    type: object
+  model.ScheduleDay:
+    properties:
+      date:
+        type: string
+      weekday:
+        type: string
     type: object
   model.ScheduleEntry:
     properties:
@@ -108,11 +480,104 @@ definitions:
           type: string
         type: array
     type: object
+  model.ScheduleMetadata:
+    properties:
+      days:
+        items:
+          $ref: '#/definitions/model.ScheduleDay'
+        type: array
+      timeSlots:
+        items:
+          type: string
+        type: array
+    type: object
+  model.ScheduleTable:
+    properties:
+      dates:
+        description: '["01.06.2025", "02.06.2025", ...]'
+        items:
+          type: string
+        type: array
+      table:
+        additionalProperties:
+          additionalProperties:
+            $ref: '#/definitions/model.UpcomingDoctorAppointment'
+          type: object
+        description: table[date][time] = запись или nil
+        type: object
+      times:
+        description: '["09:00", "09:30", "10:00", ...]'
+        items:
+          type: string
+        type: array
+    type: object
+  model.Service:
+    properties:
+      category_id:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+    type: object
+  model.Spec:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  model.TodayAppointment:
+    properties:
+      date:
+        type: string
+      id:
+        type: integer
+      patient:
+        type: string
+      patient_id:
+        type: integer
+      time:
+        type: string
+    type: object
   model.TopService:
     properties:
       count:
         type: integer
       name:
+        type: string
+    type: object
+  model.UnconfirmedAppointment:
+    properties:
+      created_at:
+        type: string
+      date:
+        type: string
+      doctor:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      patient_birth_date:
+        type: string
+      patient_first_name:
+        type: string
+      patient_id:
+        type: integer
+      patient_second_name:
+        type: string
+      patient_surname:
+        type: string
+      phone_number:
+        type: string
+      status:
+        type: string
+      time:
+        type: string
+      updated_at:
         type: string
     type: object
   model.UpcomingAppointment:
@@ -130,6 +595,114 @@ definitions:
       time:
         type: string
     type: object
+  model.UpcomingDoctorAppointment:
+    properties:
+      id:
+        type: integer
+      patient:
+        type: string
+      patient_id:
+        type: integer
+    type: object
+  model.UpdateAppointment:
+    properties:
+      date:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      time:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.Visit:
+    properties:
+      appointment_id:
+        type: integer
+      complaints:
+        type: string
+      created_at:
+        type: string
+      diagnoses:
+        items:
+          $ref: '#/definitions/model.Diagnose'
+        type: array
+      doctor:
+        type: string
+      id:
+        type: integer
+      patient_id:
+        type: integer
+      treatment:
+        type: string
+    type: object
+  model.VisitMaterialInput:
+    properties:
+      id:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+  model.VisitPayment:
+    properties:
+      created_at:
+        type: string
+      doctor:
+        type: string
+      materials_and_services:
+        items:
+          $ref: '#/definitions/model.MaterialsAndServices'
+        type: array
+      patient:
+        type: string
+      price:
+        type: integer
+      visit_id:
+        type: integer
+    type: object
+  model.VisitPaymentUpdate:
+    properties:
+      price:
+        type: integer
+      status:
+        type: string
+      visit_id:
+        type: integer
+    type: object
+  model.VisitSaveRequest:
+    properties:
+      appointment_id:
+        type: integer
+      complaints:
+        type: string
+      doctor_id:
+        type: integer
+      icd_codes:
+        items:
+          $ref: '#/definitions/model.ICDCodeInput'
+        type: array
+      manipulations:
+        items:
+          $ref: '#/definitions/model.VisitServiceInput'
+        type: array
+      materials:
+        items:
+          $ref: '#/definitions/model.VisitMaterialInput'
+        type: array
+      patient_id:
+        type: integer
+      treatment:
+        type: string
+    type: object
+  model.VisitServiceInput:
+    properties:
+      id:
+        type: integer
+      quantity:
+        type: integer
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -137,6 +710,92 @@ info:
   title: Примастом API-Gateway
   version: "1.0"
 paths:
+  /admin/patient/{id}/documents:
+    get:
+      parameters:
+      - description: ID пациента
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.DocumentInfo'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получение документов пациента
+      tags:
+      - Врач
+  /api/admin/me:
+    get:
+      description: Возвращает информацию о текущем администраторе по токену
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.AdminWithRole'
+        "401":
+          description: Необходима авторизация
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить профиль администратора
+      tags:
+      - Администратор
+  /api/admins/{id}:
+    delete:
+      description: Удаляет пользователя по ID
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Удалить пользователя
+      tags:
+      - Администратор
   /api/appointment-doctor-schedule/{doctorId}:
     get:
       parameters:
@@ -202,8 +861,55 @@ paths:
       summary: Добавить новую запись к врачу
       tags:
       - Запись
+  /api/appointments-today:
+    get:
+      description: Возвращает список записей на сегодня для авторизованного врача
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.TodayAppointment'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiCookieAuth: []
+      summary: Получить записи на сегодня
+      tags:
+      - Врач
+  /api/appointments/{id}:
+    get:
+      parameters:
+      - description: ID приёма
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Appointment'
+        "400":
+          description: Некорректный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получение информации о приёме по ID
+      tags:
+      - Врач
   /api/appointments/cancel/{id}:
-    delete:
+    get:
       parameters:
       - description: ID записи
         in: path
@@ -265,6 +971,597 @@ paths:
       summary: Обновить данные записи (перенос)
       tags:
       - Запись
+  /api/clinic-overrides:
+    post:
+      consumes:
+      - application/json
+      description: Устанавливает новое расписание или выходной день для клиники на
+        указанную дату
+      parameters:
+      - description: Переопределение дня
+        in: body
+        name: override
+        required: true
+        schema:
+          $ref: '#/definitions/model.ClinicDailyOverride'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Некорректные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Добавить переопределение расписания клиники на конкретный день
+      tags:
+      - Администратор
+  /api/clinic-schedule:
+    put:
+      consumes:
+      - application/json
+      description: Заменяет расписание клиники на новое, с заданной продолжительностью
+        слота
+      parameters:
+      - description: Новое расписание клиники
+        in: body
+        name: schedule
+        required: true
+        schema:
+          $ref: '#/definitions/handlers_admin.updateClinicScheduleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Некорректные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить недельное расписание клиники
+      tags:
+      - Администратор
+  /api/completed-visits:
+    get:
+      description: Возвращает список неоплаченных посещений с материалами и услугами
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.VisitPayment'
+            type: array
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить список неоплаченных посещений
+      tags:
+      - Администратор
+  /api/completed-visits/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию об оплате посещения по ID
+      parameters:
+      - description: ID посещения
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные об оплате
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/model.VisitPaymentUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить оплату за посещение
+      tags:
+      - Администратор
+  /api/doctor-overrides:
+    post:
+      consumes:
+      - application/json
+      description: Устанавливает новое расписание или выходной день для врача на указанную
+        дату
+      parameters:
+      - description: Переопределение дня врача
+        in: body
+        name: override
+        required: true
+        schema:
+          $ref: '#/definitions/model.DoctorDailyOverride'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Некорректные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Добавить переопределение расписания врача на конкретный день
+      tags:
+      - Администратор
+  /api/doctor-schedule/{selectedDoctor}:
+    put:
+      consumes:
+      - application/json
+      description: Заменяет расписание врача на новое, с заданной продолжительностью
+        слота
+      parameters:
+      - description: ID врача
+        in: path
+        name: selectedDoctor
+        required: true
+        type: integer
+      - description: Новое расписание врача
+        in: body
+        name: schedule
+        required: true
+        schema:
+          $ref: '#/definitions/handlers_admin.updateDoctorScheduleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Некорректные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить недельное расписание врача
+      tags:
+      - Администратор
+  /api/doctor/consultation/patient-tests/{id}:
+    get:
+      parameters:
+      - description: ID документа
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Скачивание документа пациента
+      tags:
+      - Врач
+  /api/doctors/{id}:
+    delete:
+      description: Удаляет пользователя по ID
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Удалить пользователя
+      tags:
+      - Администратор
+  /api/employee-password-recovery:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Логин
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handlers_auth.recoveryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Восстановление пароля сотрудника
+      tags:
+      - Авторизация
+  /api/employee-registe:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные сотрудника
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.Employee'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Регистрация сотрудника
+      tags:
+      - Администратор
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные для авторизации
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers_auth.roleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Авторизация пользователя
+      tags:
+      - auth
+      - Авторизация
+  /api/materials:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новый материал в систему
+      parameters:
+      - description: Информация о материале
+        in: body
+        name: material
+        required: true
+        schema:
+          $ref: '#/definitions/model.Material'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверные входные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Добавить новый материал
+      tags:
+      - Администратор
+  /api/materials/{id}:
+    delete:
+      description: Удаляет материал по ID
+      parameters:
+      - description: ID материала
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверные входные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Удалить материал
+      tags:
+      - Администратор
+    put:
+      consumes:
+      - application/json
+      description: Обновляет данные материала по ID
+      parameters:
+      - description: ID материала
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Новые данные материала
+        in: body
+        name: material
+        required: true
+        schema:
+          $ref: '#/definitions/model.Material'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверные входные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить материал
+      tags:
+      - Администратор
+  /api/password-recovery:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Логин
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handlers_auth.recoveryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Восстановление пароля пациента
+      tags:
+      - Авторизация
+  /api/patient-history/{id}:
+    get:
+      parameters:
+      - description: ID пациента
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Visit'
+            type: array
+        "400":
+          description: Некорректный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получение списка посещений пациента
+      tags:
+      - Врач
+  /api/patient-notes/{id}:
+    get:
+      parameters:
+      - description: ID пациента
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.AllergiesChronics'
+            type: array
+        "400":
+          description: Некорректный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получение аллергий и хронических заболеваний пациента
+      tags:
+      - Врач
+    post:
+      parameters:
+      - description: ID пациента
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Список аллергий и хронических заболеваний
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.AllergiesChronics'
+          type: array
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Некорректный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Добавление аллергий и хронических заболеваний пациенту
+      tags:
+      - Врач
+  /api/patient/me:
+    get:
+      description: Возвращает информацию о текущем авторизованном пациенте на основе
+        cookie access_token
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PatientWithoutPassword'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiCookieAuth: []
+      summary: Получить данные пациента
+      tags:
+      - patient
   /api/patient/upcoming:
     get:
       produces:
@@ -291,6 +1588,448 @@ paths:
       summary: Получить список предстоящих записей пациента
       tags:
       - Запись
+  /api/patients:
+    get:
+      description: Возвращает всех зарегистрированных пациентов
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.PatientWithoutPassword'
+            type: array
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить список пациентов
+      tags:
+      - Администратор
+  /api/patients-login/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет логин сотрудника по ID
+      parameters:
+      - description: ID сотрудника
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Новый логин
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/handlers_admin.employeeLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить логин сотрудника
+      tags:
+      - Администратор
+  /api/patients/{id}:
+    delete:
+      description: Удаляет пользователя по ID
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Удалить пользователя
+      tags:
+      - Администратор
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию о пациенте по ID
+      parameters:
+      - description: ID пациента
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Новые данные пациента
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/model.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверные входные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить данные пациента
+      tags:
+      - Администратор
+  /api/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные пациента
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.Patient'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Регистрация пациента
+      tags:
+      - Администратор
+  /api/register-in-clinic:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные пациента
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.PatientWithoutPassword'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Регистрация пациента в клинике (без пароля)
+      tags:
+      - Администратор
+  /api/save-admin:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию об администраторе
+      parameters:
+      - description: Данные администратора
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/model.AdminForAdminList'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Некорректный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить данные администратора
+      tags:
+      - Администратор
+  /api/save-doctor:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию о докторе и его специализациях
+      parameters:
+      - description: Данные доктора
+        in: body
+        name: doctor
+        required: true
+        schema:
+          $ref: '#/definitions/model.DoctorWithSpecs'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Некорректный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Доступ запрещён
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить данные доктора
+      tags:
+      - Администратор
+  /api/schedule-admin:
+    get:
+      description: Возвращает таблицу расписания с приёмами, сгруппированную по дням
+        и временным слотам
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.AdminScheduleOverview'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить расписание клиники
+      tags:
+      - Администратор
+  /api/schedule-with-appointments:
+    get:
+      description: Возвращает таблицу расписания будущих записей для врача
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ScheduleTable'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiCookieAuth: []
+      summary: Получить будущие записи
+      tags:
+      - Врач
+  /api/services:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новую услугу в систему
+      parameters:
+      - description: Информация об услуге
+        in: body
+        name: service
+        required: true
+        schema:
+          $ref: '#/definitions/model.Service'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверные входные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Добавить новую услугу
+      tags:
+      - Администратор
+  /api/services/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет данные услуги по ID
+      parameters:
+      - description: ID услуги
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Новые данные услуги
+        in: body
+        name: service
+        required: true
+        schema:
+          $ref: '#/definitions/model.Service'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверные входные данные
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить услугу
+      tags:
+      - Администратор
+  /api/specialties:
+    get:
+      description: Возвращает все доступные специализации
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Spec'
+            type: array
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить список специализаций
+      tags:
+      - Администратор
+  /api/staff-admin:
+    get:
+      description: Возвращает список всех администраторов
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.AdminForAdminList'
+            type: array
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить список администраторов
+      tags:
+      - Администратор
+  /api/staff-doctors:
+    get:
+      description: Возвращает всех докторов с их специализациями
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.DoctorWithSpecs'
+            type: array
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить список докторов
+      tags:
+      - Администратор
   /api/statistics:
     get:
       description: 'Возвращает агрегированную информацию: общее число пациентов, визитов,
@@ -312,4 +2051,177 @@ paths:
       summary: Получить общую статистику по клинике
       tags:
       - Статистика
+  /api/unconfirmed-appointments:
+    get:
+      description: Возвращает список неподтверждённых записей на приём
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.UnconfirmedAppointment'
+            type: array
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получить неподтверждённые записи
+      tags:
+      - Администратор
+  /api/unconfirmed-appointments/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет дату, время и статус записи по ID
+      parameters:
+      - description: ID записи
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Новая информация о записи
+        in: body
+        name: appointment
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateAppointment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Неверный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Обновить запись на приём
+      tags:
+      - Администратор
+  /api/visits:
+    post:
+      parameters:
+      - description: Данные консультации
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.VisitSaveRequest'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Некорректный ввод
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Добавление консультации
+      tags:
+      - Врач
+  /auth/request-code:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Телефон
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handlers_auth.requestCode'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Запрос кода подтверждения по телефону
+      tags:
+      - auth
+      - Авторизация
+  /auth/verify-code:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Телефон и код
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handlers_auth.verifyCode'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Подтверждение кода, отправленного по телефону
+      tags:
+      - auth
+      - Авторизация
+  /doctor/me:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Doctor'
+        "401":
+          description: Необходима авторизация
+          schema:
+            $ref: '#/definitions/gin.H'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Получение профиля врача
+      tags:
+      - Врач
 swagger: "2.0"

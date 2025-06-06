@@ -7,6 +7,15 @@ import (
 	"net/http"
 )
 
+// GetTodayAppointments godoc
+// @Summary Получить записи на сегодня
+// @Description Возвращает список записей на сегодня для авторизованного врача
+// @Tags Врач
+// @Security ApiCookieAuth
+// @Success 200 {array} model.TodayAppointment
+// @Failure 401 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /api/appointments-today [get]
 func (h *DoctorHandler) GetTodayAppointments(c *gin.Context) {
 	token, err := c.Cookie("access_token")
 	if err != nil {
@@ -33,6 +42,15 @@ func (h *DoctorHandler) GetTodayAppointments(c *gin.Context) {
 	c.JSON(http.StatusOK, todays)
 }
 
+// GetUpcomingAppointments godoc
+// @Summary Получить будущие записи
+// @Description Возвращает таблицу расписания будущих записей для врача
+// @Tags Врач
+// @Security ApiCookieAuth
+// @Success 200 {object} model.ScheduleTable
+// @Failure 401 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /api/schedule-with-appointments [get]
 func (h *DoctorHandler) GetUpcomingAppointments(c *gin.Context) {
 	token, err := c.Cookie("access_token")
 	if err != nil {

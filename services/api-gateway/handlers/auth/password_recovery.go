@@ -10,6 +10,14 @@ type recoveryRequest struct {
 	Login string `json:"login"`
 }
 
+// @Summary Восстановление пароля сотрудника
+// @Accept json
+// @Produce json
+// @Tags Авторизация
+// @Param input body recoveryRequest true "Логин"
+// @Success 200 {object} gin.H
+// @Failure 400,500 {object} gin.H
+// @Router /api/employee-password-recovery [post]
 func (h *Handler) EmployeePasswordRecovery(c *gin.Context) {
 	var req recoveryRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -24,6 +32,14 @@ func (h *Handler) EmployeePasswordRecovery(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Пароль изменен!"})
 }
 
+// @Summary Восстановление пароля пациента
+// @Tags Авторизация
+// @Accept json
+// @Produce json
+// @Param input body recoveryRequest true "Логин"
+// @Success 200 {object} gin.H
+// @Failure 400,500 {object} gin.H
+// @Router /api/password-recovery [post]
 func (h *Handler) PatientPasswordRecovery(c *gin.Context) {
 	var req recoveryRequest
 	if err := c.ShouldBindJSON(&req); err != nil {

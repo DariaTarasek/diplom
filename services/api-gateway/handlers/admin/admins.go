@@ -8,6 +8,15 @@ import (
 	"net/http"
 )
 
+// GetAdmins godoc
+// @Summary Получить список администраторов
+// @Tags Администратор
+// @Description Возвращает список всех администраторов
+// @Produce json
+// @Success 200 {array} model.AdminForAdminList
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/staff-admin [get]
 func (h *Handler) GetAdmins(c *gin.Context) {
 	items, err := h.AdminClient.Client.GetAdmins(c.Request.Context(), &adminpb.EmptyRequest{})
 	if err != nil {
@@ -31,6 +40,18 @@ func (h *Handler) GetAdmins(c *gin.Context) {
 	c.JSON(http.StatusOK, admins)
 }
 
+// UpdateAdmin godoc
+// @Summary Обновить данные администратора
+// @Tags Администратор
+// @Description Обновляет информацию об администраторе
+// @Accept json
+// @Produce json
+// @Param admin body model.AdminForAdminList true "Данные администратора"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H "Некорректный ввод"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/save-admin [put]
 func (h *Handler) UpdateAdmin(c *gin.Context) {
 	//id, err := strconv.Atoi(c.Param("id"))
 	//if err != nil {

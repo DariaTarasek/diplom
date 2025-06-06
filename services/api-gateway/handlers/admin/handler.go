@@ -19,7 +19,7 @@ func NewHandler(adminClient *clients.AdminClient, authClient *clients.AuthClient
 
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.POST("/clinic-schedule", h.UpdateClinicSchedule)
-	rg.GET("/admin-data", h.GetUserRole)
+	//rg.GET("/admin-data", h.GetUserRole)
 	rg.POST("/doctor-schedule/:selectedDoctor", h.UpdateDoctorSchedule)
 	rg.POST("/clinic-overrides", h.AddClinicDailyOverride)
 	rg.POST("/doctor-overrides", h.AddDoctorDailyOverride)

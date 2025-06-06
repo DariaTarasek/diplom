@@ -10,6 +10,14 @@ import (
 	"time"
 )
 
+// @Summary Регистрация сотрудника
+// @Tags Администратор
+// @Accept json
+// @Produce json
+// @Param input body model.Employee true "Данные сотрудника"
+// @Success 201 {object} gin.H
+// @Failure 400,500 {object} gin.H
+// @Router /api/employee-registe [post]
 func (h *Handler) EmployeeRegister(c *gin.Context) {
 	var employeeReq model.Employee
 	if err := c.ShouldBindJSON(&employeeReq); err != nil {
@@ -64,6 +72,14 @@ func (h *Handler) EmployeeRegister(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"user_id": resp.UserId})
 }
 
+// @Summary Регистрация пациента
+// @Tags Администратор
+// @Accept json
+// @Produce json
+// @Param input body model.Patient true "Данные пациента"
+// @Success 201 {object} gin.H
+// @Failure 400,500 {object} gin.H
+// @Router /api/register [post]
 func (h *Handler) PatientRegister(c *gin.Context) {
 	var patientReq model.Patient
 	if err := c.ShouldBindJSON(&patientReq); err != nil {
@@ -105,6 +121,14 @@ func (h *Handler) PatientRegister(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"user_id": resp.UserId})
 }
 
+// @Summary Регистрация пациента в клинике (без пароля)
+// @Tags Администратор
+// @Accept json
+// @Produce json
+// @Param input body model.PatientWithoutPassword true "Данные пациента"
+// @Success 201 {object} gin.H
+// @Failure 400,500 {object} gin.H
+// @Router /api/register-in-clinic [post]
 func (h *Handler) PatientRegisterInClinic(c *gin.Context) {
 	var patientReq model.PatientWithoutPassword
 	if err := c.ShouldBindJSON(&patientReq); err != nil {

@@ -7,6 +7,16 @@ import (
 	"net/http"
 )
 
+// getAdminProfile godoc
+// @Summary Получить профиль администратора
+// @Tags Администратор
+// @Description Возвращает информацию о текущем администраторе по токену
+// @Produce json
+// @Success 200 {object} model.AdminWithRole
+// @Failure 401 {object} gin.H "Необходима авторизация"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/admin/me [get]
 func (h *Handler) getAdminProfile(c *gin.Context) {
 	token, err := c.Cookie("access_token")
 	if err != nil || token == "" {

@@ -9,6 +9,15 @@ import (
 	"strconv"
 )
 
+// GetPatients godoc
+// @Summary Получить список пациентов
+// @Tags Администратор
+// @Description Возвращает всех зарегистрированных пациентов
+// @Produce json
+// @Success 200 {array} model.PatientWithoutPassword
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/patients [get]
 func (h *Handler) GetPatients(c *gin.Context) {
 	items, err := h.AdminClient.Client.GetPatients(c.Request.Context(), &adminpb.EmptyRequest{})
 	if err != nil {
@@ -32,6 +41,19 @@ func (h *Handler) GetPatients(c *gin.Context) {
 	c.JSON(http.StatusOK, patients)
 }
 
+// UpdatePatient godoc
+// @Summary Обновить данные пациента
+// @Tags Администратор
+// @Description Обновляет информацию о пациенте по ID
+// @Accept json
+// @Produce json
+// @Param id path int true "ID пациента"
+// @Param patient body model.Patient true "Новые данные пациента"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H "Неверные входные данные"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/patients/{id} [put]
 func (h *Handler) UpdatePatient(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

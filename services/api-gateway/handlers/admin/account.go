@@ -7,6 +7,15 @@ import (
 	"net/http"
 )
 
+// GetScheduleGrid godoc
+// @Summary Получить расписание клиники
+// @Tags Администратор
+// @Description Возвращает таблицу расписания с приёмами, сгруппированную по дням и временным слотам
+// @Produce json
+// @Success 200 {object} model.AdminScheduleOverview
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/schedule-admin [get]
 func (h *Handler) GetScheduleGrid(c *gin.Context) {
 	gridResp, err := h.AdminClient.Client.GetClinicScheduleGrid(c.Request.Context(), &adminpb.EmptyRequest{})
 	if err != nil {

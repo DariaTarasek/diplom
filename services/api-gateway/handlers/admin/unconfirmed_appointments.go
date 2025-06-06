@@ -11,6 +11,14 @@ import (
 	"time"
 )
 
+// @Summary Получить неподтверждённые записи
+// @Tags Администратор
+// @Description Возвращает список неподтверждённых записей на приём
+// @Produce json
+// @Success 200 {array} model.UnconfirmedAppointment
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/unconfirmed-appointments [get]
 func (h *Handler) GetUnconfirmedAppointments(c *gin.Context) {
 	items, err := h.AdminClient.Client.GetUnconfirmedAppointments(c.Request.Context(), &adminpb.EmptyRequest{})
 	if err != nil {
@@ -40,6 +48,18 @@ func (h *Handler) GetUnconfirmedAppointments(c *gin.Context) {
 	c.JSON(http.StatusOK, appointments)
 }
 
+// @Summary Обновить запись на приём
+// @Tags Администратор
+// @Description Обновляет дату, время и статус записи по ID
+// @Accept json
+// @Produce json
+// @Param id path int true "ID записи"
+// @Param appointment body model.UpdateAppointment true "Новая информация о записи"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H "Неверный ввод"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/unconfirmed-appointments/{id} [put]
 func (h *Handler) UpdateAppointment(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

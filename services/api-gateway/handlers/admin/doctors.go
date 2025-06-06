@@ -8,6 +8,15 @@ import (
 	"net/http"
 )
 
+// GetSpecs godoc
+// @Summary Получить список специализаций
+// @Tags Администратор
+// @Description Возвращает все доступные специализации
+// @Produce json
+// @Success 200 {array} model.Spec
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/specialties [get]
 func (h *Handler) GetSpecs(c *gin.Context) {
 	items, err := h.AdminClient.Client.GetSpecs(c.Request.Context(), &adminpb.EmptyRequest{})
 	if err != nil {
@@ -25,6 +34,15 @@ func (h *Handler) GetSpecs(c *gin.Context) {
 	c.JSON(http.StatusOK, specs)
 }
 
+// GetDoctors godoc
+// @Summary Получить список докторов
+// @Tags Администратор
+// @Description Возвращает всех докторов с их специализациями
+// @Produce json
+// @Success 200 {array} model.DoctorWithSpecs
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/staff-doctors [get]
 func (h *Handler) GetDoctors(c *gin.Context) {
 	items, err := h.AdminClient.Client.GetDoctors(c.Request.Context(), &adminpb.EmptyRequest{})
 	if err != nil {
@@ -55,6 +73,18 @@ func (h *Handler) GetDoctors(c *gin.Context) {
 	c.JSON(http.StatusOK, doctors)
 }
 
+// UpdateDoctor godoc
+// @Summary Обновить данные доктора
+// @Tags Администратор
+// @Description Обновляет информацию о докторе и его специализациях
+// @Accept json
+// @Produce json
+// @Param doctor body model.DoctorWithSpecs true "Данные доктора"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H "Некорректный ввод"
+// @Failure 403 {object} gin.H "Доступ запрещён"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/save-doctor [put]
 func (h *Handler) UpdateDoctor(c *gin.Context) {
 	//id, err := strconv.Atoi(c.Param("id"))
 	//if err != nil {

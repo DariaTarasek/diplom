@@ -12,6 +12,16 @@ type roleResponse struct {
 	Role string `json:"role"`
 }
 
+// @Summary Авторизация пользователя
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Tags Авторизация
+// @Param input body model.RegisterRequest true "Данные для авторизации"
+// @Success 200 {object} roleResponse
+// @Failure 400 {object} gin.H
+// @Failure 401 {object} gin.H
+// @Router /api/login [post]
 func (h *Handler) authorize(c *gin.Context) {
 	var req model.RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {

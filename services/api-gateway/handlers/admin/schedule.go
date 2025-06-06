@@ -21,6 +21,18 @@ type updateDoctorScheduleRequest struct {
 	SlotDurationMinutes int                          `json:"slot_minutes"`
 }
 
+// UpdateClinicSchedule godoc
+// @Summary Обновить недельное расписание клиники
+// @Tags Администратор
+// @Description Заменяет расписание клиники на новое, с заданной продолжительностью слота
+// @Accept json
+// @Produce json
+// @Param schedule body updateClinicScheduleRequest true "Новое расписание клиники"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H "Некорректные данные"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/clinic-schedule [put]
 func (h *Handler) UpdateClinicSchedule(c *gin.Context) {
 	var reqSchedule updateClinicScheduleRequest
 	if err := c.ShouldBindJSON(&reqSchedule); err != nil {
@@ -69,6 +81,19 @@ func (h *Handler) UpdateClinicSchedule(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
+// UpdateDoctorSchedule godoc
+// @Summary Обновить недельное расписание врача
+// @Tags Администратор
+// @Description Заменяет расписание врача на новое, с заданной продолжительностью слота
+// @Accept json
+// @Produce json
+// @Param selectedDoctor path int true "ID врача"
+// @Param schedule body updateDoctorScheduleRequest true "Новое расписание врача"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H "Некорректные данные"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/doctor-schedule/{selectedDoctor} [put]
 func (h *Handler) UpdateDoctorSchedule(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("selectedDoctor"))
 	if err != nil {
@@ -124,6 +149,18 @@ func (h *Handler) UpdateDoctorSchedule(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
+// AddClinicDailyOverride godoc
+// @Summary Добавить переопределение расписания клиники на конкретный день
+// @Tags Администратор
+// @Description Устанавливает новое расписание или выходной день для клиники на указанную дату
+// @Accept json
+// @Produce json
+// @Param override body model.ClinicDailyOverride true "Переопределение дня"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H "Некорректные данные"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/clinic-overrides [post]
 func (h *Handler) AddClinicDailyOverride(c *gin.Context) {
 	var reqOverride model.ClinicDailyOverride
 	if err := c.ShouldBindJSON(&reqOverride); err != nil {
@@ -172,6 +209,18 @@ func (h *Handler) AddClinicDailyOverride(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
+// AddDoctorDailyOverride godoc
+// @Summary Добавить переопределение расписания врача на конкретный день
+// @Tags Администратор
+// @Description Устанавливает новое расписание или выходной день для врача на указанную дату
+// @Accept json
+// @Produce json
+// @Param override body model.DoctorDailyOverride true "Переопределение дня врача"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H "Некорректные данные"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H "Внутренняя ошибка сервера"
+// @Router /api/doctor-overrides [post]
 func (h *Handler) AddDoctorDailyOverride(c *gin.Context) {
 	var reqOverride model.DoctorDailyOverride
 	if err := c.ShouldBindJSON(&reqOverride); err != nil {
@@ -221,12 +270,12 @@ func (h *Handler) AddDoctorDailyOverride(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-func (h *Handler) GetUserRole(c *gin.Context) {
-	type Admin struct {
-		FirstName  string `json:"first_name"`
-		SecondName string `json:"second_name"`
-		Role       string `json:"role"`
-	}
-	MyAdmin := Admin{"Иван", "Иванов", "superadmin"}
-	c.JSON(http.StatusOK, MyAdmin)
-}
+//func (h *Handler) GetUserRole(c *gin.Context) {
+//	type Admin struct {
+//		FirstName  string `json:"first_name"`
+//		SecondName string `json:"second_name"`
+//		Role       string `json:"role"`
+//	}
+//	MyAdmin := Admin{"Иван", "Иванов", "superadmin"}
+//	c.JSON(http.StatusOK, MyAdmin)
+//}

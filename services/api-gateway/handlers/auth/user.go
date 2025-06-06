@@ -7,6 +7,15 @@ import (
 	"net/http"
 )
 
+// getPatient godoc
+// @Summary Получить данные пациента
+// @Description Возвращает информацию о текущем авторизованном пациенте на основе cookie access_token
+// @Tags patient
+// @Security ApiCookieAuth
+// @Success 200 {object} model.PatientWithoutPassword
+// @Failure 401 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /api/patient/me [get]
 func (h *Handler) getPatient(c *gin.Context) {
 	token, err := c.Cookie("access_token")
 	if err != nil {

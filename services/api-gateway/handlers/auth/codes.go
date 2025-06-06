@@ -18,6 +18,15 @@ type (
 	}
 )
 
+// @Summary Запрос кода подтверждения по телефону
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Tags Авторизация
+// @Param input body requestCode true "Телефон"
+// @Success 200 {object} gin.H
+// @Failure 400,500 {object} gin.H
+// @Router /auth/request-code [post]
 func (h *Handler) requestCode(c *gin.Context) {
 	var req requestCode
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -34,6 +43,15 @@ func (h *Handler) requestCode(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Код отправлен на указанный номер"})
 }
 
+// @Summary Подтверждение кода, отправленного по телефону
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Tags Авторизация
+// @Param input body verifyCode true "Телефон и код"
+// @Success 200 {object} gin.H
+// @Failure 400,404,500 {object} gin.H
+// @Router /auth/verify-code [post]
 func (h *Handler) verifyCode(c *gin.Context) {
 	var req verifyCode
 	if err := c.ShouldBindJSON(&req); err != nil {

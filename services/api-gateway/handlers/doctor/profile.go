@@ -7,6 +7,14 @@ import (
 	"net/http"
 )
 
+// getDoctorProfile godoc
+// @Summary Получение профиля врача
+// @Tags Врач
+// @Success 200 {object} model.Doctor
+// @Failure 401 {object} gin.H "Необходима авторизация"
+// @Failure 403 {object} gin.H "Недостаточно прав"
+// @Failure 500 {object} gin.H
+// @Router /doctor/me [get]
 func (h *DoctorHandler) getDoctorProfile(c *gin.Context) {
 	token, err := c.Cookie("access_token")
 	if err != nil || token == "" {
