@@ -179,7 +179,7 @@
                                 <strong>Врач:</strong> {{ doctors.find(d => d.user_id === selectedDoctorId)?.fullName }}
                             </li>
                             <li>
-                                <strong>Время:</strong> {{ selectedSlot }}
+                                <strong>Время:</strong> {{ selectedDate + ", " + selectedSlot }}
                             </li>
                         </ul>
                         <form @submit.prevent="submitForm">

@@ -282,6 +282,7 @@ watch(() => patient.secondName, () => {
       selectedDoctorId,
       selectedSpecialization,
       selectedDoctor,
+      selectedDate,
       selectedSlot,
       step,
       patient,

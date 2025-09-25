@@ -395,14 +395,15 @@ createApp({
             if (!this.selectedAppt) return;
 
             const payload = {
+                id: this.selectedAppt.id,
                 doctor_id: this.selectedAppt.doctor.id,
                 patient_id: this.selectedAppt.patient.id,
-                old_slot: { day: this.selectedAppt.day, time: this.selectedAppt.time },
-                new_slot: { day: newDate, time: newTime }
+                date: newDate,
+                time: newTime
             };
 
-            const res = await fetch('/api/reschedule', {
-                method: 'POST',
+            const res = await fetch('/api/appointments/transfer', {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });

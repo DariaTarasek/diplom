@@ -10,7 +10,6 @@ import (
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/patient"
 	"github.com/DariaTarasek/diplom/services/api-gateway/handlers/statistics"
 	"github.com/DariaTarasek/diplom/services/api-gateway/middleware"
-	"github.com/DariaTarasek/diplom/services/api-gateway/perm"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -79,19 +78,6 @@ func main() {
 		"password_recovery.html",
 		"doctors.html",
 		"appointment.html",
-		"admins_schedule_management.html", // СТРАНИЦА АДМИНА! ЗДЕСЬ ДЛЯ ТЕСТОВ! ПОТОМ ПЕРЕНЕСТИ!
-		"price_list.html",                 // СТРАНИЦА АДМИНА!
-		"admins_admin_list.html",          // СТРАНИЦА АДМИНА!
-		"admins_doctor_list.html",         // СТРАНИЦА АДМИНА!
-		"admins_patient_list.html",        // СТРАНИЦА АДМИНА!
-		"employee_registration.html",      // СТРАНИЦА АДМИНА!
-		"registration_in_clinic.html",     // СТРАНИЦА АДМИНА!
-		"administrator_account.html",      // СТРАНИЦА АДМИНА!
-		"analytics.html",                  // СТРАНИЦА АДМИНА!
-
-		//"doctor_account.html",       // СТРАНИЦА ВРАЧА!
-		"doctors_consultation.html", // СТРАНИЦА ВРАЧА!
-
 	}
 
 	for _, page := range htmlPages {
@@ -102,15 +88,20 @@ func main() {
 	}
 
 	adminPages := []string{
-		//"employee_registration.html",
-		//"registration_in_clinic.html",
-		//"admins_doctor_list.html",
-		//"administrator_account.html",
+		"admins_schedule_management.html", // СТРАНИЦА АДМИНА! ЗДЕСЬ ДЛЯ ТЕСТОВ! ПОТОМ ПЕРЕНЕСТИ!
+		"price_list.html",                 // СТРАНИЦА АДМИНА!
+		"admins_admin_list.html",          // СТРАНИЦА АДМИНА!
+		"admins_doctor_list.html",         // СТРАНИЦА АДМИНА!
+		"admins_patient_list.html",        // СТРАНИЦА АДМИНА!
+		"employee_registration.html",      // СТРАНИЦА АДМИНА!
+		"registration_in_clinic.html",     // СТРАНИЦА АДМИНА!
+		"administrator_account.html",      // СТРАНИЦА АДМИНА!
+		"analytics.html",                  // СТРАНИЦА АДМИНА!
 		"administrator_profile.html",
 	}
 	for _, page := range adminPages {
 		page := page // захват в замыкание
-		r.GET("/"+page, accessMiddleware(perm.PermAdminPagesView), func(c *gin.Context) {
+		r.GET("/"+page, accessMiddleware(1), func(c *gin.Context) {
 			c.File("./static/templates/" + page)
 		})
 	}
@@ -118,10 +109,11 @@ func main() {
 	doctorPages := []string{
 		"doctor_account.html",
 		"doctor_profile.html",
+		"doctors_consultation.html", // СТРАНИЦА ВРАЧА!
 	}
 	for _, page := range doctorPages {
 		page := page // захват в замыкание
-		r.GET("/"+page, accessMiddleware(perm.PermDoctorPagesView), func(c *gin.Context) {
+		r.GET("/"+page, accessMiddleware(2), func(c *gin.Context) {
 			c.File("./static/templates/" + page)
 		})
 	}
@@ -132,7 +124,7 @@ func main() {
 	}
 	for _, page := range patientPages {
 		page := page // захват в замыкание
-		r.GET("/"+page, accessMiddleware(perm.PermPatientPagesView), func(c *gin.Context) {
+		r.GET("/"+page, accessMiddleware(3), func(c *gin.Context) {
 			c.File("./static/templates/" + page)
 		})
 	}
@@ -140,22 +132,22 @@ func main() {
 	// REST API-группа
 	api := r.Group("/api")
 
-	registerHandler := auth.NewHandler(authClient)
+	registerHandler := auth.NewHandler(authClient, accessMiddleware)
 	auth.RegisterRoutes(api, registerHandler)
 
-	infoHandler := info.NewInfoHandler(storageClient)
+	infoHandler := info.NewInfoHandler(storageClient, accessMiddleware)
 	info.RegisterRoutes(api, infoHandler)
 
-	adminHandler := admin.NewHandler(adminClient, authClient)
+	adminHandler := admin.NewHandler(adminClient, authClient, accessMiddleware)
 	admin.RegisterRoutes(api, adminHandler)
 
 	patientHandler := patient.NewHandler(patientClient, accessMiddleware)
 	patient.RegisterRoutes(api, patientHandler)
 
-	doctorHandler := doctor.NewHandler(doctorClient, authClient)
+	doctorHandler := doctor.NewHandler(doctorClient, authClient, accessMiddleware)
 	doctor.RegisterRoutes(api, doctorHandler)
 
-	statisticsHandler := statistics.NewHandler(statisticsClient)
+	statisticsHandler := statistics.NewHandler(statisticsClient, accessMiddleware)
 	statistics.RegisterRoutes(api, statisticsHandler)
 
 	log.Println("Api-gateway запущен")
