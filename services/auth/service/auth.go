@@ -14,9 +14,8 @@ func (s *AuthService) UserAuth(ctx context.Context, user model.User) (string, st
 	if err != nil {
 		return "", "", fmt.Errorf("не удалось получить пользователя из базы: %w", err)
 	}
-	fmt.Println(storageUser)
 	password := deref(user.Password)
-	fmt.Println(password)
+	//fmt.Println(password)
 	if err != nil {
 		return "", "", fmt.Errorf("не удалось хешировать полученный пароль: %w", err)
 	}
