@@ -71,7 +71,7 @@
 Все миграции в БД применятся автоматически, будет предсоздан старший администратор с логином ivanov@mail.ru, паролем jGKmYkSt7Iy1
 
 ## Документация
-- Swagger-документация доступна по http://localhost:8080/swagger/index.html
+Swagger-документация доступна по http://localhost:8080/swagger/index.html
 
 ## Интерфейсы
 ### Врач
