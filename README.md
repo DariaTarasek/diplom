@@ -50,23 +50,22 @@
 ## Установка и запуск
 ### Подготовка окружения
 1. Установите PostgreSQL
-2. Установите Docker
-3. Поднимите Redis в контейнере:
-   docker run --name redis -p 6379:6379 -d redis
+2. Установите Redis
+3. Запустите Redis на порту 6379
 ### Настройка базы данных
 1. Создайте новую базу данных в PostgreSQL
-2. Измените .env файл (services/storage/.env)
+2. Измените данные в .env файле (services/storage/.env) на актуальные для вашей БД
 ### Запуск
 В корне проекта находится файл run_all.bat для последовательного запуска всех сервисов. 
-Запустите его двойным кликом или из консоли командой ./run_all \
-Также вы можете запустить сервис отдельно из консоли при помощи команды go run cmd/main.go, находясь в папке сервиса. \
+Запустите его двойным кликом или из консоли командой ./run_all <br>
+Также вы можете запустить сервис отдельно из консоли при помощи команды go run cmd/main.go, находясь в папке сервиса. <br>
 В таком случае последовательность для запуска сервисов:
 1. storage
 2. auth
 3. doctor, patient, admin, statistics - в любом порядке
 4. api-gateway
 ## После запуска
-Точка входа для пациента - http://localhost:8080/index.html, либо http://localhost:8080/auth.html \
+Точка входа для пациента - http://localhost:8080/index.html, либо http://localhost:8080/auth.html <br>
 Точка входа для сотрудника - http://localhost:8080/auth_doc.html 
 
 Все миграции в БД применятся автоматически, будет предсоздан старший администратор с логином ivanov@mail.ru, паролем jGKmYkSt7Iy1
@@ -76,28 +75,28 @@
 
 ## Интерфейсы
 ### Врач
-<h1 style="text-align:center;">Страница входа в аккаунт</h1>\<img width="711" height="383" alt="image" src="https://github.com/user-attachments/assets/9fea14d2-e46d-4022-b658-0a3147a98b4d" /> \
-<h1 style="text-align:center;">Страница проведения приема. Вкладка "Пациент"</h1>\<img width="932" height="511" alt="image" src="https://github.com/user-attachments/assets/734ef9da-c889-49ac-9aa9-83bd8f600f07" /> \
-<h1 style="text-align:center;">Страница проведения приема. Вкладка "Анамнез"</h1>\<img width="889" height="271" alt="image" src="https://github.com/user-attachments/assets/9019c014-ca3c-40d2-8ae8-235b21483949" />\
-- Страница проведения приема. Вкладка "Прием": <img width="891" height="461" alt="image" src="https://github.com/user-attachments/assets/e02b6323-700d-4b8d-af1e-705286413710" />\
-- Страница проведения приема. Модальное окно справочник МКБ: <img width="696" height="669" alt="image" src="https://github.com/user-attachments/assets/f4d810a0-a8d0-49a4-acd0-10f9bc2302f0" />\
-- Страница проведения приема. Вкладка "Материалы": <img width="883" height="460" alt="image" src="https://github.com/user-attachments/assets/28c945b1-ce3a-49fc-b15d-17874bc69314" />\
+<h4>Страница входа в аккаунт</h4><img width="711" height="383" alt="image" src="https://github.com/user-attachments/assets/9fea14d2-e46d-4022-b658-0a3147a98b4d" /><br><br>
+<h4>Страница проведения приема. Вкладка "Пациент"</h4><img width="932" height="511" alt="image" src="https://github.com/user-attachments/assets/734ef9da-c889-49ac-9aa9-83bd8f600f07" /><br><br>
+<h4>Страница проведения приема. Вкладка "Анамнез"</h4><img width="889" height="271" alt="image" src="https://github.com/user-attachments/assets/9019c014-ca3c-40d2-8ae8-235b21483949" /><br><br>
+<h4>Страница проведения приема. Вкладка "Прием"</h4><img width="891" height="461" alt="image" src="https://github.com/user-attachments/assets/e02b6323-700d-4b8d-af1e-705286413710" /><br><br>
+<h4>Страница проведения приема. Модальное окно справочник МКБ</h4><img width="696" height="669" alt="image" src="https://github.com/user-attachments/assets/f4d810a0-a8d0-49a4-acd0-10f9bc2302f0" /><br><br>
+<h4>Страница проведения приема. Вкладка "Материалы"</h4><img width="883" height="460" alt="image" src="https://github.com/user-attachments/assets/28c945b1-ce3a-49fc-b15d-17874bc69314" /><br><br>
 
 ### Пациент
-Страница входа в аккаунт: <img width="892" height="422" alt="image" src="https://github.com/user-attachments/assets/85210d0b-6e88-406f-a0b0-2bcaacdeaef5" /> \
-Страница записи на прием (1): <img width="790" height="548" alt="image" src="https://github.com/user-attachments/assets/5b6a01a6-7c12-4f0c-9d75-2e6fe76474e5" /> \
-Страница записи на прием (2): <img width="886" height="768" alt="image" src="https://github.com/user-attachments/assets/5b7b725c-2966-4dbc-8f36-1bc6f411e358" /> \
-Главная страница личного кабинета пациента, вкладка предстоящие записи: <img width="974" height="243" alt="image" src="https://github.com/user-attachments/assets/32b61a6b-1c39-44ac-bfff-7b9b9387a002" /> \
-Модальное окно управления записью: <img width="605" height="285" alt="image" src="https://github.com/user-attachments/assets/84ade064-287f-40ea-af2d-5ae16ad95d55" />\
+<h4>Страница входа в аккаунт</h4><img width="892" height="422" alt="image" src="https://github.com/user-attachments/assets/85210d0b-6e88-406f-a0b0-2bcaacdeaef5" /><br><br>
+<h4>Страница записи на прием (1)</h4><img width="790" height="548" alt="image" src="https://github.com/user-attachments/assets/5b6a01a6-7c12-4f0c-9d75-2e6fe76474e5" /><br><br>
+<h4>Страница записи на прием (2)</h4><img width="886" height="768" alt="image" src="https://github.com/user-attachments/assets/5b7b725c-2966-4dbc-8f36-1bc6f411e358" /><br><br>
+<h4>Главная страница личного кабинета пациента, вкладка предстоящие записи</h4><img width="974" height="243" alt="image" src="https://github.com/user-attachments/assets/32b61a6b-1c39-44ac-bfff-7b9b9387a002" /><br><br> 
+<h4>Модальное окно управления записью</h4><img width="605" height="285" alt="image" src="https://github.com/user-attachments/assets/84ade064-287f-40ea-af2d-5ae16ad95d55" /><br><br>
 
 ### Администратор/старший администратор
-Главная страница администратора, вкладка расписание врачей: <img width="893" height="533" alt="image" src="https://github.com/user-attachments/assets/b3f19b63-aec3-4e27-b87d-5ffa365d1bf0" />\
-Страница списка врачей: <img width="854" height="435" alt="image" src="https://github.com/user-attachments/assets/5516e731-a38b-4fd3-bc05-cc06f9d17d05" />\
-Модальное окно редактирования личных данных врача: <img width="691" height="650" alt="image" src="https://github.com/user-attachments/assets/2a207dc7-0189-4944-bd8f-fe790d01af08" />\
-Страница управления расписанием клиники, выбор постоянного расписания: <img width="850" height="526" alt="image" src="https://github.com/user-attachments/assets/392889ec-9b7a-456b-b4dd-b47bd13feaa1" />\
-Страница управления расписанием клиники, переопределение расписания на конкретную дату: <img width="919" height="391" alt="image" src="https://github.com/user-attachments/assets/b7880396-d952-4807-ae6b-520a1c49584a" />\
-Страница прейскуранта: <img width="875" height="464" alt="image" src="https://github.com/user-attachments/assets/2a802811-3afe-4bf7-a064-360f032cad90" />\
-Модальное окно добавления новой услуги: <img width="878" height="545" alt="image" src="https://github.com/user-attachments/assets/9217a249-3fe3-4602-8c1b-f97920a23a7c" />\
+<h4>Главная страница администратора, вкладка расписание врачей</h4><img width="893" height="533" alt="image" src="https://github.com/user-attachments/assets/b3f19b63-aec3-4e27-b87d-5ffa365d1bf0" /><br><br>
+<h4>Страница списка врачей</h4><img width="854" height="435" alt="image" src="https://github.com/user-attachments/assets/5516e731-a38b-4fd3-bc05-cc06f9d17d05" /><br><br>
+<h4>Модальное окно редактирования личных данных врача</h4><img width="691" height="650" alt="image" src="https://github.com/user-attachments/assets/2a207dc7-0189-4944-bd8f-fe790d01af08" /><br><br>
+<h4>Страница управления расписанием клиники, выбор постоянного расписания</h4><img width="850" height="526" alt="image" src="https://github.com/user-attachments/assets/392889ec-9b7a-456b-b4dd-b47bd13feaa1" /><br><br>
+<h4>Страница управления расписанием клиники, переопределение расписания на конкретную дату</h4><img width="919" height="391" alt="image" src="https://github.com/user-attachments/assets/b7880396-d952-4807-ae6b-520a1c49584a" /><br><br>
+<h4>Страница прейскуранта</h4><img width="875" height="464" alt="image" src="https://github.com/user-attachments/assets/2a802811-3afe-4bf7-a064-360f032cad90" /><br><br>
+<h4>Модальное окно добавления новой услуги</h4><img width="878" height="545" alt="image" src="https://github.com/user-attachments/assets/9217a249-3fe3-4602-8c1b-f97920a23a7c" /><br><br>
 
 ## Статус проекта
 Проект реализован в рамках учебной работы, находится на стадии MVP.
