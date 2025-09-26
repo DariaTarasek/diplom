@@ -73,6 +73,9 @@
 ## Документация
 Swagger-документация доступна по http://localhost:8080/swagger/index.html
 
+## Демонстрация работы системы
+Видеодемонстрация работы системы: https://github.com/user-attachments/assets/d08010a9-a562-40b8-9f4c-65cdb60bd027
+
 ## Интерфейсы
 ### Врач
 <h4>Страница входа в аккаунт</h4><img width="711" height="383" alt="image" src="https://github.com/user-attachments/assets/9fea14d2-e46d-4022-b658-0a3147a98b4d" /><br><br>
